@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.zhengdong.me","root":"/","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":null}},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+
+  <meta name="description" content="@robinlu 的 High Quality iOS Development. 内存管理中的引用计数，Ownership 的概念，以及 Autorelease 的使用，这些都快被讲烂了。 但里面提到的 implicit ownership 以前没怎么注意过: NSTimer, Delayed performance of selector, Thread, IBOutlet 另外提到的 Circ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QCon 北京 - 移动开发">
+<meta property="og:url" content="http://blog.zhengdong.me/2011/04/18/mobile-dev/index.html">
+<meta property="og:site_name" content="Extra Cookies">
+<meta property="og:description" content="@robinlu 的 High Quality iOS Development. 内存管理中的引用计数，Ownership 的概念，以及 Autorelease 的使用，这些都快被讲烂了。 但里面提到的 implicit ownership 以前没怎么注意过: NSTimer, Delayed performance of selector, Thread, IBOutlet 另外提到的 Circ">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2011-04-18T13:20:00.000Z">
+<meta property="article:modified_time" content="2020-11-28T10:52:32.790Z">
+<meta property="article:author" content="Dong Zheng">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://blog.zhengdong.me/2011/04/18/mobile-dev/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>QCon 北京 - 移动开发 | Extra Cookies</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-17531526-2"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-17531526-2');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Extra Cookies</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#robinlu-%E7%9A%84-high-quality-ios-development."><span class="nav-number">1.</span> <span class="nav-text">@robinlu 的 High Quality iOS Development.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#holly-lee-%E7%9A%84%E5%88%A9%E7%94%A8-ios-%E6%96%B0%E7%89%B9%E6%80%A7%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84-block"><span class="nav-number">2.</span> <span class="nav-text">Holly Lee 的利用 iOS 新特性进行开发中的 Block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E7%84%95%E5%A0%82%E9%AB%98%E8%80%81%E5%B8%88%E6%95%B4%E5%9C%BA%E7%9A%84%E5%AE%89%E5%8D%93%E7%90%86%E5%BF%B5%E6%B5%81%E8%AE%B2%E5%BA%A7"><span class="nav-number">3.</span> <span class="nav-text">高焕堂高老师整场的安卓理念流讲座</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#han-chao-%E7%9A%84-android-%E5%AF%B9-linux-%E5%86%85%E6%A0%B8%E7%9A%84%E6%94%B9%E9%80%A0%E5%8F%8A%E5%85%B6%E5%BD%B1%E5%93%8D"><span class="nav-number">4.</span> <span class="nav-text">Han Chao 的 Android 对 Linux 内核的改造及其影响</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dong Zheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/04/18/mobile-dev/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          QCon 北京 - 移动开发
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-04-18 21:20:00" itemprop="dateCreated datePublished" datetime="2011-04-18T21:20:00+08:00">2011-04-18</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="robinlu-的-high-quality-ios-development."><span class="citation" data-cites="robinlu">@robinlu</span> 的 High Quality iOS Development.</h2>
+<p>内存管理中的引用计数，Ownership 的概念，以及 Autorelease 的使用，这些都快被讲烂了。</p>
+<p>但里面提到的 implicit ownership 以前没怎么注意过:</p>
+<p>NSTimer, Delayed performance of selector, Thread, IBOutlet</p>
+<p>另外提到的 Circular Reference，使用引用计数来进行内存管理很容易出现环引用的场景，比如有一个父视图包含一个子视图，则 retain 子视图，然而子视图又需要知道自己的父视图是谁，则需要 retain 主视图，于是就出现了循环，这样因为相互依赖，内存始终是得不到释放的。</p>
+<p>这时就有一个弱引用 (Weak reference) 的概念，即子视图只持有父视图的指针，cocoa 里面很多都机制都采用了弱引用，比如很常见的 delegate.</p>
+<p>讲到 Clang Static Analyzer 的时候，看到竟然除了内存泄露等错误外，还能查出逻辑错误，在 if 嵌套且多的情况下极为适用。虽然有神器，还是对自己好点，毕竟写那样的挺费脑细胞的，嵌套到 2 层就得了，别再深了。</p>
+<h2 id="holly-lee-的利用-ios-新特性进行开发中的-block">Holly Lee 的利用 iOS 新特性进行开发中的 Block</h2>
+<p>一直以为是在 objc runtime 层面实现的 closure 或者 lambda，才发现原来是直接基于 C 语言增强的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> result = ^(<span class="keyword">int</span> a) &#123;<span class="keyword">return</span> a*a;&#125; (<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(^blockWithString)</span><span class="params">(<span class="keyword">char</span>*)</span></span>;</span><br><span class="line"><span class="keyword">char</span> *greeting = “hello”;</span><br><span class="line">blockWithString b = ^(<span class="keyword">char</span>* place)&#123; <span class="built_in">printf</span>(<span class="string">&quot;%s %s\n&quot;</span>, greeting, place); &#125;;</span><br><span class="line">greeting = <span class="string">&quot;goodbye&quot;</span>;</span><br><span class="line">b(<span class="string">&quot;world&quot;</span>); <span class="comment">// prints &quot;hello world\n&quot;</span></span><br><span class="line"></span><br><span class="line">__block <span class="keyword">char</span> *mutable_greeting = <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">c = ^&#123; mutable_greeting = <span class="string">&quot;goodbye&quot;</span>; &#125;;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>, mutable_greeting); <span class="comment">// -&gt; &quot;hello&quot;</span></span><br><span class="line">c();</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>, mutable_greeting); <span class="comment">// -&gt; &quot;goodbye&quot;</span></span><br></pre></td></tr></table></figure>
+<p>看起来很像是函数指针，只是把 * 换成了 ^.</p>
+<p>Block 最大的特点就是，里面的局部变量只是该变量进入 Block 时刻的快照，以后任何时刻，该变量被更改与否跟整个 Block 没有关系，天然的加锁啊。其实 Block 的动机就是来源于 GCD (Grand Central Dispatch)，这个功能是为了在同步 (Cocurrency) 下有更好的效率。据说有超过 100 个 Apple API 都已经使用了 Block。</p>
+<h2 id="高焕堂高老师整场的安卓理念流讲座">高焕堂高老师整场的安卓理念流讲座</h2>
+<p>非常精彩，举例形象，幽默，都 56 岁了还在追新，还在写代码，真是码农学习的好榜样那。</p>
+<p>高老的主张是 iOS 拼应用，Android 拼底层。因为 Android 本身是十分开放的，可以轻而易举的对底层进行更改，从而才能造就百花齐放，产品差异化化的局面。通过差异化的增值获利途径，是推动 Android 拓展和技术提升的关键环节。</p>
+<p>他说:</p>
+<ul>
+<li>Android 很烂，每一个模块都没怎么测试，但那么多模块组合起来竟然还能用；</li>
+<li>没钱就改版，改版就有钱；</li>
+<li>跨平台是乌托邦；</li>
+<li>他不看重用户体验，他举了个例子，比如嫁女儿，别人不说你女儿值得拥有，给你说用户体验真好;</li>
+<li>企业是坏女朋友，跟他好，赚不到钱，硬件是大老婆，要跟大老婆好，然后赚坏女朋友的钱。</li>
+<li>实践的不赚钱，定义接口不干活的赚钱；</li>
+</ul>
+<p>不过搞笑归搞笑，但有一点是很有道理的，就是写基类的赚钱，写 App 的不赚钱。</p>
+<p>搞硬件，然后用 C 做驱动，最后提供基类给企业，让其做 App，然后就赚大钱了，因为底层把握在自己手中。</p>
+<p>这和 Apple 的策略极为一致!</p>
+<p>他把 App 比喻成塞外，Framework API 比喻成万里长城，JNI API 比喻成北京城，HAL API 比喻成紫禁城，然后里面住着慈禧太后。每一层屏障，都是里面的人为保持自身利益所设立的，专注开发底层硬件和驱动才能成为 Android 手机大赢家。</p>
+<h2 id="han-chao-的-android-对-linux-内核的改造及其影响">Han Chao 的 Android 对 Linux 内核的改造及其影响</h2>
+<p>从 Linux 纯技术的角度来看 Android。</p>
+<p>比如为了满足硬件上不想开源的需要的硬件抽象层，巧妙的使用 <code>/dev/binder</code> 为用户层程序提供了 IPC 支持，以及采用类似方法(MISC 设备) 实现的 Logger，Ashmen, Alarm, pmem 等。</p>
+<p>最后提到争议中的电源管理，Linux 的电源管理分为两级，在 CPU idle 的时候，会给所有的设备发 suspend 消息，然后设备依次休眠，最后 CPU 停转，有任务时，CPU 先开工，然后发 resume 消息给各个设备，唤醒机器。</p>
+<p>Android 为了满足即使 CPU 有少量任务时，也可以对设备进行休眠，在 suspend 之上提供了 <code>early_suspend</code> 机制，在 resume 之上提供了 <code>late_resume</code>，这两层都是在用户空间实现的，也就代表着用户空间可以干预，传统 Linux 用户空间是不可以干预的。</p>
+<p>但这样改的代价是所有相关的驱动，都要加上这样的处理，Linux 社区不会答应的。</p>
+<p>最后总结了三句:</p>
+<ul>
+<li>Android 和 Linux 都是很纯粹的技术</li>
+<li>Android 很遵循 Linux 的理念和原则</li>
+<li>Android 不能代表 Linux 标准</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2011/04/17/agile/" rel="prev" title="QCon 北京 - Agile">
+                  <i class="fa fa-chevron-left"></i> QCon 北京 - Agile
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2011/04/21/legacy-code-and-domain-model/" rel="next" title="QCon 北京 - 遗留系统 & 领域模型">
+                  QCon 北京 - 遗留系统 & 领域模型 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2010 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dong Zheng - Powered by Hexo, NextT, GitHub</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.zhengdong.me/2011/04/18/mobile-dev/";
+    this.page.identifier = "2011/04/18/mobile-dev/";
+    this.page.title = "QCon 北京 - 移动开发";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://extracookies.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

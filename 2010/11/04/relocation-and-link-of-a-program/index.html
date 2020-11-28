@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.zhengdong.me","root":"/","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":null}},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+
+  <meta name="description" content="在做单元测试过程中，经常需要对被测程序的一些函数实现 stub，下面三个文件 123456789101112131415161718&#x2F;&#x2F; product.c#include &lt;stdio.h&gt;void lib_pro()&amp;#123;    printf(&quot;I&amp;#x27;m in lib\n&quot;);&amp;#125;&#x2F;&#x2F; user.cint main(int argc, ch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单元测试与程序的重定向和链接">
+<meta property="og:url" content="http://blog.zhengdong.me/2010/11/04/relocation-and-link-of-a-program/index.html">
+<meta property="og:site_name" content="Extra Cookies">
+<meta property="og:description" content="在做单元测试过程中，经常需要对被测程序的一些函数实现 stub，下面三个文件 123456789101112131415161718&#x2F;&#x2F; product.c#include &lt;stdio.h&gt;void lib_pro()&amp;#123;    printf(&quot;I&amp;#x27;m in lib\n&quot;);&amp;#125;&#x2F;&#x2F; user.cint main(int argc, ch">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2010-11-03T18:30:00.000Z">
+<meta property="article:modified_time" content="2020-11-28T10:52:32.783Z">
+<meta property="article:author" content="Dong Zheng">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://blog.zhengdong.me/2010/11/04/relocation-and-link-of-a-program/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>单元测试与程序的重定向和链接 | Extra Cookies</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-17531526-2"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-17531526-2');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Extra Cookies</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dong Zheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2010/11/04/relocation-and-link-of-a-program/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          单元测试与程序的重定向和链接
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2010-11-04 02:30:00" itemprop="dateCreated datePublished" datetime="2010-11-04T02:30:00+08:00">2010-11-04</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>在做单元测试过程中，经常需要对被测程序的一些函数实现 stub，下面三个文件</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// product.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lib_pro</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;I&#x27;m in lib\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// user.c</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    lib_pro();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// stub.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lib_pro</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;I am in fake lib\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>product.c 为产品代码提供 <code>lib_pro</code> 函数，user.c 为使用者，可以当作 UT 测试函数，stub.c 提供 <code>lib_pro</code> 函数的另一个定义。</p>
+<p>通常，为了使用 stub，需要在测试时将 user.c 产生的 user.o 和 stub.c 产生的 stub.o 链接在一起，这样，每当要给某一个文件加 stub 时，都需要替换链接，有没有什么办法可以自动进行这一工作，如果有 stub，就链接 stub，如果没有，就链接产品代码。</p>
+<p>当然有，</p>
+<ol type="1">
+<li><code>gcc –c product.c</code> 生成 product.o</li>
+<li><code>ar rsv product.a product.o</code> 生成 product.a</li>
+<li><code>gcc user.c product.a</code> 生成可执行文件 a.out, 执行输出 I’m in lib</li>
+</ol>
+<p>不对，没有 stub 掉呀？别急，</p>
+<p><code>gcc user.c stub.c product.a</code> 同 3，生成 a.out, 执行输出 <code>I am in fake lib</code></p>
+<p>也就是说只要将产品代码编成静态库，在链接时，将 stub.c 生成的目标 (object) 文件放在产品静态链接库前面，就可以将 stub.c 包含的所有和产品中相同函数全部 stub 掉。</p>
+<p>—————————————————————————————————</p>
+<p>一个程序要在内存中运行，除了编译之外，还需要经过链接 (link) 和装入 (load) 两个步骤，链接主要有两个工作要做：符号解析 (symbol resolution) 和 重定向 (relocation)。</p>
+<p>符号解析就是将符号引用和目标文件符号表中的符号定义对应起来。当一个模块使用了该模块没有定义过的函数和全局变量时，链接器 (linker) 就有责任到别的模块去找它们的定义，如果没有找到合适的定义或者合适的定义不唯一，则符号解析失败。</p>
+<p>如何解决符号重复定义？编译时，符号被定义成 strong 或 weak 类型，然后通过汇编写入重定向目标文件的符号表中。通常函数和已初始化全局变量为强符号 (strong symbols)，未初始化全局变量为弱符号 (weak symbol)，Unix 链接器使用如下规则 (rule) 来解决符号重复定义：</p>
+<ol type="1">
+<li>不允许重复 strong 符号定义</li>
+<li>如果同时有 strong 符号和多个 weak 符号，选择 strong 符号</li>
+<li>如果有多个 weak 符号，选择任意一个</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// foo1.c</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// bar.c</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// foo2.c</span></span><br><span class="line"><span class="keyword">int</span> x = <span class="number">15213</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// bar2.c</span></span><br><span class="line"><span class="keyword">int</span> x = <span class="number">15213</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述两份代码都违背了 rule 1，因而链接器会直接报错。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// foo3.c</span></span><br><span class="line"><span class="keyword">int</span> x = <span class="number">15213</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// bar3.c</span></span><br><span class="line"><span class="keyword">int</span> x;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    x = <span class="number">888</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而这样的代码却可以通过链接，因为满足了 rule 2.</p>
+<p>在符号解析完成之后，链接器知道了代码段 (code segment) 和数据段 (data segment) 的大小，于是开始进行重定向，即将目标文件合并并分配运行时地址给每一个符号。</p>
+<p>包括如下两个步骤：</p>
+<ol type="1">
+<li>重定向段和符号定义。在这一过程，链接器将目标文件各同类型段内容合并，例如所有 .data 段合并在一起。接着对新组合成的段分配运行时地址，在这一过程完成时，所有的指令和全局变量都会有独一的运行时地址。</li>
+<li>符号引用重定向。这一过程，链接器修改之前每一个目标文件中的符号引用，使得其指向正确的运行时地址。</li>
+</ol>
+<p>下面是文章前面的 user.c 的目标文件内容（有删减）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#objdump -dx user.o</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">SYMBOL TABLE:</span><br><span class="line">00000000 l    df *ABS*    00000000 user.c</span><br><span class="line">00000000 l    d  .text    00000000 .text</span><br><span class="line">00000000 l    d  .data    00000000 .data</span><br><span class="line">00000000 l    d  .bss    00000000 .bss</span><br><span class="line">00000000 l    d  .note.GNU-stack    00000000 .note.GNU-stack</span><br><span class="line">00000000 l    d  .comment    00000000 .comment</span><br><span class="line">00000000 g     F .text    00000014 main</span><br><span class="line">00000000         *UND*    00000000 lib_pro</span><br><span class="line">Disassembly of section .text:</span><br><span class="line"></span><br><span class="line">00000000 &lt;main&gt;:</span><br><span class="line">   0:    55                       push   %ebp</span><br><span class="line">   1:    89 e5                    mov    %esp,%ebp</span><br><span class="line">   3:    83 e4 f0                 and    $0xfffffff0,%esp</span><br><span class="line">   6:    e8 fc ff ff ff           call   7 &lt;main+0x7&gt;</span><br><span class="line">            7: R_386_PC32    lib_pro</span><br><span class="line">   b:    b8 00 00 00 00           mov    $0x0,%eax</span><br><span class="line">  10:    89 ec                    mov    %ebp,%esp</span><br><span class="line">  12:    5d                       pop    %ebp</span><br><span class="line">  13:    c3                       ret</span><br></pre></td></tr></table></figure>
+<p>第12行，可以看到 <code>lib_pro</code> 被标记为 <code>*UND*</code> (undefined)，这表示 <code>lib_pro</code> 在 user.c 中没有定义，需要在符号解析过程中链接器到别的模块去查找是否存在 <code>lib_pro</code> 的定义。</p>
+<p>当汇编器 (assembler) 产生目标文件时，它并不知道代码和数据在内存中最终的地址，更不用说引用的外部函数和全局变量的地址。因此，每当汇编器碰到一个无法判定最终地址的外部引用时，都会生成一个重定向入口项 (relocation entry) ，来告诉链接器当它合并目标文件时如何去修改引用地址，参见上面目标文件内容第 20 行。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> offset;</span><br><span class="line">    <span class="keyword">int</span> symbol:<span class="number">24</span>,</span><br><span class="line">        type:<span class="number">8</span>;</span><br><span class="line">&#125; Elf32_Rel;</span><br></pre></td></tr></table></figure>
+<p>上面是 ELF 重定向入口项的格式，offset 表示符号引用的段偏移，symbol 标识引用应该指向什么，type 告诉链接器如何修改新的引用。如 user.c 目标文件第20行，<code>offset=0x7</code>, <code>symbol=lib_pro</code>, <code>type=R_386_PC32</code> (表示地址采用32位 PC-relative 地址)。信息有了，可以进行重定向了。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">foreach section s &#123;</span><br><span class="line">    foreach relocation entry r &#123;</span><br><span class="line">        <span class="comment">/* ptr to reference to be relocated */</span></span><br><span class="line">        refptr = s + r.offset;</span><br><span class="line">        <span class="comment">/* relocate a PC-relative reference */</span></span><br><span class="line">        <span class="keyword">if</span> (r.type == R_386_PC32) &#123;</span><br><span class="line">            <span class="comment">/* ref&#x27;s run-time address */</span></span><br><span class="line">            refaddr = ADDR(s) + r.offset;</span><br><span class="line">            *refptr = (<span class="keyword">unsigned</span>) (ADDR(r.symbol) + *refptr - refaddr);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/* rrelocate an absolute reference */</span></span><br><span class="line">        <span class="keyword">if</span> (r.type == R_386_32) &#123;</span><br><span class="line">            *refptr = (<span class="keyword">unsigned</span>) (ADDR(r.symbol) + *refptr);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>上面是重定向算法的 pseudocode。</p>
+<p>让我们来看最终的可执行文件（有删减），</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#gcc user.c product.c</span><br><span class="line">#objdump -dj .text a.out</span><br><span class="line">...</span><br><span class="line">Disassembly of section .text:</span><br><span class="line">08048330 &lt;_start&gt;:</span><br><span class="line">...</span><br><span class="line">080483e4 &lt;main&gt;:</span><br><span class="line"> 80483e4:    55                       push   %ebp</span><br><span class="line"> 80483e5:    89 e5                    mov    %esp,%ebp</span><br><span class="line"> 80483e7:    83 e4 f0                 and    $0xfffffff0,%esp</span><br><span class="line"> 80483ea:    e8 09 00 00 00           call   80483f8 &lt;lib_pro&gt;</span><br><span class="line"> 80483ef:    b8 00 00 00 00           mov    $0x0,%eax</span><br><span class="line"> 80483f4:    89 ec                    mov    %ebp,%esp</span><br><span class="line"> 80483f6:    5d                       pop    %ebp</span><br><span class="line"> 80483f7:    c3                       ret</span><br><span class="line"></span><br><span class="line">080483f8 &lt;lib_pro&gt;:</span><br><span class="line"> 80483f8:    55                       push   %ebp</span><br><span class="line"> 80483f9:    89 e5                    mov    %esp,%ebp</span><br><span class="line"> 80483fb:    83 ec 18                 sub    $0x18,%esp</span><br><span class="line"> 80483fe:    c7 04 24 d0 84 04 08     movl   $0x80484d0,(%esp)</span><br><span class="line"> 8048405:    e8 0e ff ff ff           call   8048318 &lt;puts@plt&gt;</span><br><span class="line"> 804840a:    c9                       leave</span><br><span class="line"> 804840b:    c3                       ret</span><br><span class="line"> 804840c:    90                       nop</span><br><span class="line"> 804840d:    90                       nop</span><br><span class="line"> 804840e:    90                       nop</span><br><span class="line"> 804840f:    90                       nop</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>如第11行，偏移量已经变成 <code>0x9</code>，简单算一下，<code>0x80483f8 – 0x80483ef = 0x9</code>. 这样重定向之后的可执行程序就生成了。</p>
+<p>—————————————————————————————————</p>
+<p>继续最前面提出来的函数 stub 方法，现在很容易就可以看出，是在符号解析过程中巧妙实现的。</p>
+<p>链接器使用静态库解决符号引用过程是这样的：</p>
+<ol type="1">
+<li>链接器依照编译命令行顺序从左向右扫描目标文件和静态库，扫描过程中，链接器维护三个符号集合，分别为 E: 将会被合并进可执行文件的重定向目标文件集合，U: 未解决的符号引用集合，D: 已扫描过目标文件中的符号集合。</li>
+<li>对于每一个输入文件 f，
+<ul>
+<li>如果 f 是目标文件，则将 f 加入 E，并更新 U 和 D，继续下一个文件。</li>
+<li>如果 f 是静态库，链接器试图用静态库中某成员的符号定义来解决 U 中的符号引用，如果成员 m 定义的符号解决了 U 中的符号引用，则 m 被加入 E，并更新 U 和 D。继续遍历静态中其他成员，直到 U 和 D 不再变化，丢弃所有没有在 E 中包含的成员，继续下一个文件。</li>
+<li>如果 U 不为空，链接器完成了扫描，则报错。反之，链接器合并和重定向 E 中的所有目标文件，生成可执行文件。</li>
+</ul></li>
+</ol>
+<p>从上可知，如果链接时，stub.o 放在静态库前面，则先会在它中符号匹配，匹配后更新 U，之后遇到静态库，因为该符号引用已解决，则不需要再链接该库中的对应符号。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2010/10/25/emacs-lisp-basics/" rel="prev" title="Emacs lisp 基础">
+                  <i class="fa fa-chevron-left"></i> Emacs lisp 基础
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2010/11/24/stl-code-digest-creation-2/" rel="next" title="STL 源码分析-A.万物起源-2">
+                  STL 源码分析-A.万物起源-2 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2010 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dong Zheng - Powered by Hexo, NextT, GitHub</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.zhengdong.me/2010/11/04/relocation-and-link-of-a-program/";
+    this.page.identifier = "2010/11/04/relocation-and-link-of-a-program/";
+    this.page.title = "单元测试与程序的重定向和链接";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://extracookies.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

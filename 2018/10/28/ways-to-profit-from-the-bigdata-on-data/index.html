@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.zhengdong.me","root":"/","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":null}},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+
+  <meta name="description" content="上篇从数据技术的角度谈了自己对大数据变现的一些思考，这篇继续，从企业的数据资产角度入手，谈谈变现的方式。1 数据资产变现是指企业通过自身拥有的数据进行的商业化变现。我始终认为数据已经是新的生产力，企业应该把最大的资源、最全的数据，首先用于自身，让数据驱动业务发展。接下来才是去想如何做商业化变现，不能本末倒置，当然，核心业务就是数据变现的企业另说。 在线广告 从门户网站开始，在线广告模式的变现就是很">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于大数据变现的一些思考（下）">
+<meta property="og:url" content="http://blog.zhengdong.me/2018/10/28/ways-to-profit-from-the-bigdata-on-data/index.html">
+<meta property="og:site_name" content="Extra Cookies">
+<meta property="og:description" content="上篇从数据技术的角度谈了自己对大数据变现的一些思考，这篇继续，从企业的数据资产角度入手，谈谈变现的方式。1 数据资产变现是指企业通过自身拥有的数据进行的商业化变现。我始终认为数据已经是新的生产力，企业应该把最大的资源、最全的数据，首先用于自身，让数据驱动业务发展。接下来才是去想如何做商业化变现，不能本末倒置，当然，核心业务就是数据变现的企业另说。 在线广告 从门户网站开始，在线广告模式的变现就是很">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-10-28T12:30:33.000Z">
+<meta property="article:modified_time" content="2020-11-28T10:52:32.834Z">
+<meta property="article:author" content="Dong Zheng">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://blog.zhengdong.me/2018/10/28/ways-to-profit-from-the-bigdata-on-data/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>关于大数据变现的一些思考（下） | Extra Cookies</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-17531526-2"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-17531526-2');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Extra Cookies</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E7%BA%BF%E5%B9%BF%E5%91%8A"><span class="nav-number">1.</span> <span class="nav-text">在线广告</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%90%A5%E9%94%80%E4%BC%98%E5%8C%96"><span class="nav-number">2.</span> <span class="nav-text">营销优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#saas-%E7%9A%84%E5%8F%A6%E4%B8%80%E7%A7%8D%E5%87%BA%E8%B7%AF"><span class="nav-number">3.</span> <span class="nav-text">SaaS 的另一种出路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9E%84%E6%96%AD%E6%95%B0%E6%8D%AE%E7%9A%84%E9%AD%85%E5%8A%9B"><span class="nav-number">4.</span> <span class="nav-text">垄断数据的魅力</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%98%93"><span class="nav-number">5.</span> <span class="nav-text">数据交易</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%90%88%E4%BD%9C"><span class="nav-number">6.</span> <span class="nav-text">数据合作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="nav-number">7.</span> <span class="nav-text">写在最后</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dong Zheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2018/10/28/ways-to-profit-from-the-bigdata-on-data/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于大数据变现的一些思考（下）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-10-28 20:30:33" itemprop="dateCreated datePublished" datetime="2018-10-28T20:30:33+08:00">2018-10-28</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>上篇从数据技术的角度谈了自己对大数据变现的一些思考，这篇继续，从企业的数据资产角度入手，谈谈变现的方式。<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>数据资产变现是指企业通过自身拥有的数据进行的商业化变现。我始终认为数据已经是新的生产力，企业应该把最大的资源、最全的数据，首先用于自身，让数据驱动业务发展。接下来才是去想如何做商业化变现，不能本末倒置，当然，核心业务就是数据变现的企业另说。</p>
+<h2 id="在线广告">在线广告</h2>
+<p>从门户网站开始，在线广告模式的变现就是很多互联网公司收入的主要来源，现如今，全球和国内广告收入的一二名都是互联网公司。</p>
+<p>最常见有两种广告方式，一个是品牌（合约）广告，一个是效果广告。</p>
+<p>品牌广告是从传统的线下广告、电视广告发展而来的，按曝光量来计费，客户的核心诉求是在固定投入的前提下最大化对目标用户的曝光量。效果广告则是按效果计费，客户的核心诉求是以较低的转化成本达成较高的转化规模。比如我们经常看到的视频贴片、门户banner、App开屏等广告多属于品牌广告方式，而通用搜索、电商搜索、信息流等广告采用效果广告方式居多，当然也有融合的，比如信息流广告也存在一部分品牌广告。</p>
+<p>有流量就可以做广告，但品牌广告方式下，如何在满足曝光量的同时，定位到客户的目标用户，最大化利用自身流量，效果广告方式下，如何在提高客户转化效果的同时，最大化自身广告收入，都需要数据来支撑。</p>
+<p>这里引申出广告变现模式的两大前提：用户体量和清晰且有价值的目标人群。</p>
+<p>要做这个生意之前，首先是要对自己的用户体量有认识，体量太小自己做广告平台投入产出比太低。其次是要能对自己的用户有深度洞察，数据不好连自己用户的画像都做的不准，这门生意也做不好，比如明明自己的用户大多是中小学生，却接了汽车厂商的广告，自己的用户大多是中年男性，却接了麦当劳的广告。</p>
+<p>这也是为什么在线广告市场可以算是互联网大厂的自留地，既有大的用户量，又有沉淀下来精准的用户数据。那如果有精准、全面的数据，却没有流量，还有什么方式做变现？</p>
+<h2 id="营销优化">营销优化</h2>
+<p>广告营销市场的规模非常大，企业在营销方面的预算，往往比采购技术产品大很多，这也是很多厂商依仗着数据往营销优化市场去挤的原因，能帮客户提升营销效果、降低营销成本，是实打实能打动客户的，只要效果够好，议价能力会很强。</p>
+<p>前面数据技术变现部分提到过一种“羊毛出在猪身上狗来买单“的变现模式，很多就发生在数据驱动营销优化这门生意上。</p>
+<blockquote>
+<p>通过免费模式吸引客户，在服务客户的同时，沉淀客户数据并整合，最后，通过这些数据，从别的客户那里赚钱。</p>
+</blockquote>
+<p>业内有几种做法：</p>
+<p>基于自身拥有的用户及行为数据，建立用户ID和标签体系，通过输出用户画像信息，以三方 DMP 的名义接入 DSP，来获取分成，一些中小互联网企业会这么干。</p>
+<p>还有些企业直接贡献自己的数据，和广告主合作建设广告主的一方 DMP 来变现，甚至有的还会帮客户方做实施，除了贡献数据外，帮企业建立一整套定制的如站内推荐、用户画像、商业分析、营销效果评估、可视化报告等系统，不过这个更多属于数据技术变现范畴了。通常这些企业的数据质量不够好，价值不大，才愿意直接贡献出来。</p>
+<p>第三种方式，对一些比较在意数据安全，不愿意直接对外输出的企业，可以采用碰数据的形式：通过数据开放服务，广告主上传用户列表，企业在自己的 DMP 中进行匹配，输出用户所对应的标签信息，来进行数据变现。</p>
+<p>当然，这种“开放”做多了，数据等于还是出去了，所以很多企业，会把后面的用户触达也给做了，这样广告主是拿不到用户信息的，只能通过用户标签选择用户群，或是通过 lookalike 做用户放大，不少中大型互联网企业提供这类服务。</p>
+<p>这个模式能做好，自身数据的全面和准确很重要，比如碰数据的时候，能匹配到广告主给的用户的比例太小，匹配到的用户标签不准、标签的商业价值很低等，是做不出好的效果的，也做不长久。</p>
+<p>虽然大数据技术大大促进了如今营销业的发展， 但它其实是个老产业，盘子大，做的企业很多且鱼龙混杂，水挺深。</p>
+<h2 id="saas-的另一种出路">SaaS 的另一种出路</h2>
+<p>从厂商的角度看，产品通过 SaaS 的形式提供服务，能大规模部署，高效运维，也能持续迭代升级，迅速修复问题，还能防止买断式模式带来的尾款、服务费等不能收回的风险。对客户而言，在线试用、在线支付、按使用时长或资源付费等能大大降低接入和使用成本。</p>
+<p>但从数据的角度看，产品 SaaS 化还存在另一种潜力，能大大提升整个产品的价值和变现能力，那就是：<strong>通过 SaaS 服务触达上下游，沉淀全网数据，再通过数据服务来变现。</strong></p>
+<p>数据变现部分提到过数据产品免费提供服务、通过数据变现的例子：</p>
+<blockquote>
+<p>拿提供移动应用分析产品的厂商举例，一开始免费接入客户，不断提升产品的体验和能力，强化在市场上的竞争优势，接下来，通过数据榜单、行业会议、线上线下活动等市场行为不断强化客户的认知，比如覆盖多少应用、多少设备、多少行业、数据有多准多全等，最后，依仗着全网的数据，在金融、房地产、零售等行业赚钱，比如提供基于精准用户定向的跨应用营销，个人信用、收入、兴趣等的人群洞察，地理位置消费能力热图，手机品牌保有量地区分布、人群品牌偏好等服务。</p>
+</blockquote>
+<p>其实不仅是数据类产品，这也可以是其它各类 SaaS 产品的另一种出路。比如面向个人的线上免费记账产品，可以包装个性化理财服务进行数据变现；连接用户和商户的客服产品，可以包装精准用户定向的触达服务进行数据变现。</p>
+<p>当然，所有这些的前提是，得能连接上下游，得有全网或全行业的用户覆盖。</p>
+<h2 id="垄断数据的魅力">垄断数据的魅力</h2>
+<p>这里首先当提电商平台型企业都有的生意参谋类产品。购买了这个数据产品，商户除了能看到自己商品的流量、交易、财务、物流等分析报告外，还能和同品类、同行业的数据进行对比，能获取自己用户的画像数据，更好的提升服务和制定决策，能 …</p>
+<p>而这些东西，都是要付费的，往往面对的还是按功能区分的阶梯定价模式。通过对垄断数据进行产品化，进而定价售卖，是门很赚钱的生意，关键是除了所在平台外，没有谁能提供这些服务。而之所以当年能产生这个变现模式，就是因为电商平台在自身业务的经营中，数据变得越来越重要，并且通过数据产品化产生了很大价值，对外输出是顺便的事，就赚了大钱。</p>
+<p>好做的生意总是门槛高的，首先得有<strong>全面的、可信度高的、聚焦行业的垄断性数据</strong>。这种模式，大家还能想到其他厂商么？</p>
+<h2 id="数据交易">数据交易</h2>
+<p>数据交易，主要是技术投入少、水平不高或商业化能力受限，但有大量数据（全网或覆盖单个行业）的企业，常采用的数据变现方式。表现出来的就是一锤子买卖和白菜价。</p>
+<p>当然，有些“垄断”数据的企业，拿国内运营商举个例子，可能会通过差异化的数据包来解决一锤子买卖的问题，如对特定地区用户群体的出行轨迹、主流 App 的使用频次分布等数据单独售卖，也会寻求和其他企业通过数据层面的合作去变现，至于做了什么效果如何，就不知道了。反正经常经历或听说某些运营商劫持用户流量投广告赚钱，真是没出息。</p>
+<p>其实对于运营商而言，抓着全网的数据，理应能做垄断数据的生意，也许是因为隐私保护政策的原因做不起来吧，但我想更大的原因在于前面一节我提到过的：</p>
+<blockquote>
+<p>而之所以当年能产生这个变现模式，就是因为电商平台在自身业务的经营中，数据变得越来越重要，并且通过数据产品化产生了很大价值 。。。</p>
+</blockquote>
+<p>数据交易之外，数据报告也是一种变现方式。拥有的数据企业可以通过自己做，或和行业咨询公司合作，由专业人士对数据加以分析、挖掘、<del>美化</del>，形成特定领域的行业分析、市场研究、销售状况等咨询报告面向社会销售加以变现，效果如何很大程度取决于出品方的市场口碑和公信力。</p>
+<h2 id="数据合作">数据合作</h2>
+<p>企业或多或少都拥有数据，一个企业的数据可能会对其他企业的业务发展有用，也可能觉得其他企业的某些数据对自己的业务会有帮助，这个时候，数据合作就成为一个诉求，也是数据作为一种资产，必然会面临的。</p>
+<p>数据合作，首先要保护企业的数据知识产权，保护用户和企业的隐私，其次，需要能融合、匹配多个企业的数据，否则合作也就失去了价值。</p>
+<p>业内有种合作模式，通过中立第三方实体作为数据合作平台，当然，这个第三方需要由法律协议来约束，也要接受审计。</p>
+<p>首先企业双方将数据上传至第三方实体，上传过程中关键数据字段可以进行脱敏。接下来彼此的研发人员就可以通过数据合作平台提供的工具来进行数据、算法等的开发。开发人员查询、调试过程的数据都是经过限制条数、动态采样以及脱敏的，合作平台会从技术层面来保证安全。当基于企业需求的算法模型开发完成上线后，才会真正运行在平台的全量数据上，最终企业双方都获取满足自身需求的数据产出物，而双方的明细数据在整个合作过程都是彼此保密的。</p>
+<p>这种合作模式下，保险公司可以和车载系统服务商进行数据合作，通过对用户的行车数据进行分析，通过算法模型做到千人千面的差异化车险定价；信用借贷公司可以和电商企业进行数据合作，实现差异化授信额度的制定和风险控制。</p>
+<p>数据合作模式要跑通，需要具备公信力的第三方，合作平台也要能从技术上保证彼此明细数据的不可见，还要提供便捷的开发套件供数据开发，算法调试使用，有一定的技术门槛。最后，数据合作模式下，如何进行定价也是一个问题，毕竟在最终验证业务价值前，企业双方对彼此数据价值的认知可能是不一致的。</p>
+<h2 id="写在最后">写在最后</h2>
+<p>数据资产变现部分写到的几种方式，是目前比较多在用的，也或多或少验证可行。数据资产变现从大的角度来说还有很多，比如在医疗领域给医学发展带来很多可能，助力金融等行业的变革，推动人机对话，自动驾驶，智能家居等技术的从无到有到大规模普及等等。</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>本文仅代表个人观点。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/10/27/ways-to-profit-from-the-bigdata-on-tech/" rel="prev" title="关于大数据变现的一些思考（上）">
+                  <i class="fa fa-chevron-left"></i> 关于大数据变现的一些思考（上）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/01/07/speaking-of-a-data-team/" rel="next" title="从一个数据团队的说起">
+                  从一个数据团队的说起 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2010 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dong Zheng - Powered by Hexo, NextT, GitHub</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.zhengdong.me/2018/10/28/ways-to-profit-from-the-bigdata-on-data/";
+    this.page.identifier = "2018/10/28/ways-to-profit-from-the-bigdata-on-data/";
+    this.page.title = "关于大数据变现的一些思考（下）";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://extracookies.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

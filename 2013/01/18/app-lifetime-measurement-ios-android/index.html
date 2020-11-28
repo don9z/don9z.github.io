@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.zhengdong.me","root":"/","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":null}},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+
+  <meta name="description" content="I was working on a mobile app analytics system recent months, how well the system works relies on the app usage data captured on the users&#39; devices. This post is about technically how I did it in both">
+<meta property="og:type" content="article">
+<meta property="og:title" content="App Lifetime Measurement on iOS &amp; Android">
+<meta property="og:url" content="http://blog.zhengdong.me/2013/01/18/app-lifetime-measurement-ios-android/index.html">
+<meta property="og:site_name" content="Extra Cookies">
+<meta property="og:description" content="I was working on a mobile app analytics system recent months, how well the system works relies on the app usage data captured on the users&#39; devices. This post is about technically how I did it in both">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2013-01-18T15:57:00.000Z">
+<meta property="article:modified_time" content="2020-11-28T10:52:32.816Z">
+<meta property="article:author" content="Dong Zheng">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://blog.zhengdong.me/2013/01/18/app-lifetime-measurement-ios-android/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>App Lifetime Measurement on iOS & Android | Extra Cookies</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-17531526-2"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-17531526-2');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Extra Cookies</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#making-thread"><span class="nav-number">1.</span> <span class="nav-text">Making Thread</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#binding-system-event"><span class="nav-number">2.</span> <span class="nav-text">Binding System Event</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sending-data"><span class="nav-number">3.</span> <span class="nav-text">Sending Data</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#process"><span class="nav-number">3.1.</span> <span class="nav-text">Process</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transfer"><span class="nav-number">3.2.</span> <span class="nav-text">Transfer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#user-identification"><span class="nav-number">3.3.</span> <span class="nav-text">User Identification</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dong Zheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2013/01/18/app-lifetime-measurement-ios-android/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          App Lifetime Measurement on iOS & Android
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2013-01-18 23:57:00" itemprop="dateCreated datePublished" datetime="2013-01-18T23:57:00+08:00">2013-01-18</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>I was working on a mobile app analytics system recent months, how well the system works relies on the app usage data captured on the users' devices.</p>
+<p>This post is about technically how I did it in both iOS and Android operating systems.</p>
+<h2 id="making-thread">Making Thread</h2>
+<p>When a user opens an app, an open session event needs to be captured, when a user tap the home button, app transitions to the background, the session needs to be marked as closed, when a user view an important page, or click a fancy button, counters need to be increased. Those needs must be handled in background threads since I don't want my app UI freezing by some time-consuming "needs".</p>
+<p>In iOS, <a target="_blank" rel="noopener" href="https://developer.apple.com/library/mac/#documentation/Performance/Reference/GCD_libdispatch_Ref/Reference/reference.html">Grand Central Dispatch (GCD)</a> is amazing, create a serial dispatch queue, and a background thread is alive.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_queue_t</span> dispatchQueue =</span><br><span class="line">       dispatch_queue_create(<span class="string">&quot;com.company.app&quot;</span>, DISPATCH_QUEUE_SERIAL);</span><br></pre></td></tr></table></figure>
+<p>Every time a user activity need to be tracked, a task is added to this queue as follows, and all tasks will be executed sequentially.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)open</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">dispatch_async</span>(<span class="keyword">self</span>.dispatchQueue, ^&#123;</span><br><span class="line">        <span class="comment">// task to mark session as open</span></span><br><span class="line">        [<span class="keyword">self</span> openSession];</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Android is not cool, I chose to use <a target="_blank" rel="noopener" href="http://developer.android.com/reference/android/os/Handler.html">Handler</a>.</p>
+<p>A <code>Handler</code> allows you to send and process <code>Message</code> and <code>Runnable</code> objects associated with a thread's <code>MessageQueue</code>.</p>
+<p>In the first place, design a handler class <code>SessionHandler</code> inherits <code>Handler</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SessionHandler</span> <span class="keyword">extends</span> <span class="title">Handler</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MESSAGE_OPEN = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MESSAGE_CLOSE = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SessionHandler</span><span class="params">(<span class="keyword">final</span> Context context, Looper looper)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(looper);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(<span class="keyword">final</span> Message msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.handleMessage(msg);</span><br><span class="line">        <span class="keyword">switch</span> (msg.what) &#123;</span><br><span class="line">            <span class="keyword">case</span> MESSAGE_OPEN:</span><br><span class="line">                <span class="keyword">this</span>.open();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> MESSAGE_CLOSE:</span><br><span class="line">                <span class="keyword">this</span>.close();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                Log.i(SessionHandler.class.getName(), <span class="string">&quot;Can&#x27;t handle this message&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>Then, create a <code>HandlerThread</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">private static final HandlerThread sessionHandlerThread &#x3D;</span><br><span class="line">        makeHandlerThread(SessionHandler.class.getSimpleName());</span><br><span class="line"></span><br><span class="line">static HandlerThread makeHandlerThread(final String name) &#123;</span><br><span class="line">    final HandlerThread thread &#x3D; new HandlerThread(name,</span><br><span class="line">            android.os.Process.THREAD_PRIORITY_BACKGROUND);</span><br><span class="line">    thread.start();</span><br><span class="line">    return thread;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Third, create a <code>Handler</code> instance using that handler thread.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Handler sessionHandler =</span><br><span class="line">    new SessionHandler(context, sessionHandlerThread.getLooper());</span><br></pre></td></tr></table></figure>
+<p>Finally, every time we need to track something, just send a message to the <code>Handler</code> instance.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sessionHandler.handleMessage(</span><br><span class="line">    sessionHandler.obtainMessage(SessionHandler.MESSAGE_CLOSE));</span><br></pre></td></tr></table></figure>
+<h2 id="binding-system-event">Binding System Event</h2>
+<p>If these tracking methods are provided as an SDK, app developers may not want to add those tracking methods one by one in their code base. So, the interfaces of this kind of SDK should be minimum. There are things can be done automatically.</p>
+<p>As in iOS, we could bind method calls to system events, for example, when app transitions to background or foreground.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSNotificationCenter</span> *center = [<span class="built_in">NSNotificationCenter</span> defaultCenter];</span><br><span class="line">[center addObserverForName:<span class="built_in">UIApplicationDidEnterBackgroundNotification</span></span><br><span class="line">                    object:<span class="literal">nil</span></span><br><span class="line">                     queue:[<span class="built_in">NSOperationQueue</span> mainQueue]</span><br><span class="line">                usingBlock:^(<span class="built_in">NSNotification</span> *notification) &#123;</span><br><span class="line">                    [<span class="keyword">self</span> close];</span><br><span class="line">                &#125;];</span><br><span class="line">[center addObserverForName:<span class="built_in">UIApplicationWillEnterForegroundNotification</span></span><br><span class="line">                    object:<span class="literal">nil</span></span><br><span class="line">                     queue:[<span class="built_in">NSOperationQueue</span> mainQueue]</span><br><span class="line">                usingBlock:^(<span class="built_in">NSNotification</span> *notification) &#123;</span><br><span class="line">                    [<span class="keyword">self</span> resume];</span><br><span class="line">                &#125;];</span><br></pre></td></tr></table></figure>
+<p>I added below code to main method in SDK, app developers only need to call this main method in their code base, believe me, they will love your SDK.</p>
+<p>In Android, sadly, I couldn't find anything similar. It does provide system event bindings in <a target="_blank" rel="noopener" href="http://developer.android.com/reference/android/app/Application.html">Application</a>, but only <code>onCreate</code> and <code>onTerminate</code>, useless for my needs. So I gave up, and looked for alternatives in <a target="_blank" rel="noopener" href="http://developer.android.com/reference/android/app/Activity.html">Activity</a>, maybe <a target="_blank" rel="noopener" href="http://developer.android.com/reference/android/app/Application.ActivityLifecycleCallbacks.html">Application.ActivityLifecycleCallbacks</a> could be helpful, but API level (14) is too high for me.</p>
+<h2 id="sending-data">Sending Data</h2>
+<h3 id="process">Process</h3>
+<p>The data captured are on the users' devices, they should be transferred to server for analysis.</p>
+<p>Although the data is anonymous, it's about users' behavior, encryption is needed to keep it safe during transfer.</p>
+<p>The target devices often connect to cellular network, it's much expensive than WiFi, compression is needed to keep the data size as small as possible.</p>
+<p>For encryption, I implemented two ways, <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a> and <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/RSA">RSA</a>, RSA is more secure, but AES is easy to implement and use. Below are AES implementation in iOS and Android.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="built_in">NSData</span> *)encryptAES128Data:(<span class="built_in">NSData</span> *)data withKey:(<span class="built_in">NSData</span> *)key</span><br><span class="line">&#123;</span><br><span class="line">    Byte *keyByte = (Byte *)[key bytes];</span><br><span class="line">    <span class="keyword">if</span>( [key length] != kCCKeySizeAES128)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Byte *valueByte = (Byte *)[data bytes];</span><br><span class="line">    <span class="keyword">int</span> valueLength = [data length];</span><br><span class="line">    <span class="keyword">int</span> bufferSize = valueLength + kCCBlockSizeAES128;</span><br><span class="line">    <span class="keyword">void</span> *buffer = malloc(bufferSize);</span><br><span class="line">    size_t numBytesEncrypted = <span class="number">0</span>;</span><br><span class="line">    CCCryptorStatus cryptStatus = CCCrypt(kCCEncrypt, kCCAlgorithmAES128,</span><br><span class="line">                                          kCCOptionPKCS7Padding | kCCOptionECBMode,</span><br><span class="line">                                          keyByte, kCCKeySizeAES128,</span><br><span class="line">                                          <span class="literal">NULL</span>,</span><br><span class="line">                                          valueByte, valueLength,</span><br><span class="line">                                          buffer, bufferSize,</span><br><span class="line">                                          &amp;numBytesEncrypted);</span><br><span class="line">    <span class="keyword">if</span> (cryptStatus == kCCSuccess) &#123;</span><br><span class="line">        <span class="keyword">return</span> [<span class="built_in">NSData</span> dataWithBytesNoCopy:buffer length:numBytesEncrypted];</span><br><span class="line">    &#125;</span><br><span class="line">    free(buffer);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The Java way is more elegant.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> String AES128_ECB_KEY = <span class="string">&quot;ampassword&quot;</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">byte</span>[] encryptData(<span class="keyword">byte</span>[] data) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        SecretKeySpec secretKey =</span><br><span class="line">                <span class="keyword">new</span> SecretKeySpec(AES128_ECB_KEY.getBytes(), <span class="string">&quot;AES&quot;</span>);</span><br><span class="line">        Cipher cipher = Cipher.getInstance(<span class="string">&quot;AES/ECB/PKCS7Padding&quot;</span>);</span><br><span class="line">        cipher.init(Cipher.ENCRYPT_MODE, secretKey);</span><br><span class="line">        <span class="keyword">return</span> cipher.doFinal(data);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>For compression, gzip is enough.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">- (NSData *)gzipDeflateData:(NSData *)data</span><br><span class="line">&#123;</span><br><span class="line">	if ([data length] &#x3D;&#x3D; 0) return data;</span><br><span class="line">	z_stream strm;</span><br><span class="line">	strm.zalloc &#x3D; Z_NULL;</span><br><span class="line">	strm.zfree &#x3D; Z_NULL;</span><br><span class="line">	strm.opaque &#x3D; Z_NULL;</span><br><span class="line">	strm.total_out &#x3D; 0;</span><br><span class="line">	strm.next_in&#x3D;(Bytef *)[data bytes];</span><br><span class="line">	strm.avail_in &#x3D; [data length];</span><br><span class="line"></span><br><span class="line">	if (deflateInit2(&amp;strm, Z_DEFAULT_COMPRESSION, Z_DEFLATED, (15+16), 8, Z_DEFAULT_STRATEGY) !&#x3D; Z_OK) return nil;</span><br><span class="line">	NSMutableData *compressed &#x3D; [NSMutableData dataWithLength:16384];  &#x2F;&#x2F; 16K chunks for expansion</span><br><span class="line">	do &#123;</span><br><span class="line">		if (strm.total_out &gt;&#x3D; [compressed length])</span><br><span class="line">			[compressed increaseLengthBy: 16384];</span><br><span class="line">		strm.next_out &#x3D; [compressed mutableBytes] + strm.total_out;</span><br><span class="line">		strm.avail_out &#x3D; [compressed length] - strm.total_out;</span><br><span class="line">		deflate(&amp;strm, Z_FINISH);</span><br><span class="line">	&#125; while (strm.avail_out &#x3D;&#x3D; 0);</span><br><span class="line">	deflateEnd(&amp;strm);</span><br><span class="line">	[compressed setLength: strm.total_out];</span><br><span class="line">	return [NSData dataWithData:compressed];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Still, I like the Java way.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">byte</span>[] gzipDeflatedData(String jsonStr) &#123;</span><br><span class="line">    GZIPOutputStream gzipOutputStream = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">byte</span>[] data = jsonStr.getBytes(<span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">        <span class="keyword">final</span> ByteArrayOutputStream byteArrayOutputStream =</span><br><span class="line">                <span class="keyword">new</span> ByteArrayOutputStream(data.length);</span><br><span class="line">        gzipOutputStream = <span class="keyword">new</span> GZIPOutputStream(byteArrayOutputStream);</span><br><span class="line">        gzipOutputStream.write(data);</span><br><span class="line">        gzipOutputStream.finish();</span><br><span class="line">        gzipOutputStream.flush();</span><br><span class="line">        <span class="keyword">return</span> byteArrayOutputStream.toByteArray();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> UnsupportedEncodingException e) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> IOException e) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != gzipOutputStream) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                gzipOutputStream.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> Exception e) &#123;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="transfer">Transfer</h3>
+<p>In iOS, I wrapped <code>sendSynchronousRequest</code> of <a target="_blank" rel="noopener" href="http://developer.apple.com/library/mac/#documentation/Cocoa/Reference/Foundation/Classes/NSURLConnection_Class/Reference/Reference.html">NSURLConnection</a> to a dispatch queue.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">NSMutableURLRequest *request &#x3D;</span><br><span class="line">    [NSMutableURLRequest requestWithURL:serverUrl</span><br><span class="line">                            cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60.0];</span><br><span class="line">[request setHTTPMethod:@&quot;POST&quot;];</span><br><span class="line">[request setValue:@&quot;application&#x2F;x-gzip&quot; forHTTPHeaderField:@&quot;Content-Type&quot;];</span><br><span class="line">[request setValue:@&quot;gzip&quot; forHTTPHeaderField:@&quot;Content-Encoding&quot;];</span><br><span class="line">[request setValue:[NSString stringWithFormat:@&quot;%d&quot;, [jsonData length]] forHTTPHeaderField:@&quot;Content-Length&quot;];</span><br><span class="line">[request setHTTPBody:dataEncrypted];</span><br><span class="line"></span><br><span class="line">dispatch_group_async(self.dispatchGroup, self.anotherDispatchQueue, ^&#123;</span><br><span class="line">    NSURLResponse *response &#x3D; nil;</span><br><span class="line">    NSError *responseError &#x3D; nil;</span><br><span class="line">    NSData *responseData &#x3D; [NSURLConnection sendSynchronousRequest:request returningResponse:&amp;response error:&amp;responseError];</span><br><span class="line">    NSInteger responseStatusCode &#x3D; [(NSHTTPURLResponse *)response statusCode];</span><br><span class="line">    if (responseError) &#123;</span><br><span class="line">        &#x2F;&#x2F; handle failure</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        if (responseStatusCode &#x3D;&#x3D; 200) &#123;</span><br><span class="line">            &#x2F;&#x2F; do things</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            &#x2F;&#x2F; handler failure</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>Why I use dispatch group is because I don't want the uploading task block the tracking tasks, so the task is dispatched to another queue, in many circumstances, we have to wait all the tasks in tracking thread and uploading thread are finished, then do somethings.</p>
+<p>For example, if I want to send all the data captured every time app transitions to background, five seconds is not enough sometimes, app will crash and it's a bad user experience. We can add a long-running task by using <a target="_blank" rel="noopener" href="http://developer.apple.com/library/ios/#DOCUMENTATION/UIKit/Reference/UIApplication_Class/Reference/Reference.html">beginBackgroundTaskWithExpirationHandler</a>, when all the tasks in this dispatch group are finished, notify the system our long-running task is finished.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">[center addObserverForName:<span class="built_in">UIApplicationDidEnterBackgroundNotification</span></span><br><span class="line">                    object:<span class="literal">nil</span></span><br><span class="line">                     queue:[<span class="built_in">NSOperationQueue</span> mainQueue]</span><br><span class="line">                usingBlock:^(<span class="built_in">NSNotification</span> *notification) &#123;</span><br><span class="line">        <span class="built_in">UIApplication</span> *application = [<span class="built_in">UIApplication</span> sharedApplication];</span><br><span class="line">        __block <span class="built_in">UIBackgroundTaskIdentifier</span> taskId = [application beginBackgroundTaskWithExpirationHandler:^&#123;</span><br><span class="line">                Dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">                        <span class="comment">// If task is overtime, end it</span></span><br><span class="line">                        <span class="keyword">if</span> (taskId != <span class="built_in">UIBackgroundTaskInvalid</span>) &#123;</span><br><span class="line">                            <span class="comment">// Failed to finish background task, cleanup</span></span><br><span class="line">                            [application endBackgroundTask:taskId];</span><br><span class="line">                            taskId = <span class="built_in">UIBackgroundTaskInvalid</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">            &#125;];</span><br><span class="line"></span><br><span class="line">        [<span class="keyword">self</span> close];</span><br><span class="line">        [<span class="keyword">self</span> upload];</span><br><span class="line"></span><br><span class="line">        dispatch_group_notify(<span class="keyword">self</span>.dispatchGroup, dispatch_get_main_queue(), ^&#123;</span><br><span class="line">                <span class="comment">// Finished executing background task</span></span><br><span class="line">                <span class="keyword">if</span> (taskId != <span class="built_in">UIBackgroundTaskInvalid</span>) &#123;</span><br><span class="line">                    [application endBackgroundTask:taskId];</span><br><span class="line">                    taskId = <span class="built_in">UIBackgroundTaskInvalid</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
+<p>In Android, as I did before, create another handler <code>UploadHandler</code> in <code>SessionHandler</code> for the uploading tasks, <code>HttpClient</code> can be used to send the data to server via HTTP.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> HttpClient httpClient = <span class="keyword">new</span> DefaultHttpClient();</span><br><span class="line"><span class="keyword">final</span> HttpPost httpPost = <span class="keyword">new</span> HttpPost(url);</span><br><span class="line">httpPost.addHeader(<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;application/x-gzip&quot;</span>);</span><br><span class="line">httpPost.addHeader(<span class="string">&quot;Content-Encoding&quot;</span>, <span class="string">&quot;gzip&quot;</span>);</span><br><span class="line">httpPost.setEntity(<span class="keyword">new</span> ByteArrayEntity(dataEncrypted));</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> HttpResponse response = httpClient.execute(httpPost);</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> statusCode = response.getStatusLine().getStatusCode();</span><br><span class="line">    <span class="keyword">if</span> (statusCode == <span class="number">200</span>) &#123;</span><br><span class="line">        <span class="comment">// do things</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// handle failure</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    Log.w(TAG, <span class="string">&quot;Error occured during data sending, abort reason: &quot;</span> +</span><br><span class="line">            e.getMessage());</span><br><span class="line">    <span class="comment">// handle failure</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="user-identification">User Identification</h3>
+<p>Each iOS device has a Unique Device Identifier (UDID), it could be used to identify the app user, but <a target="_blank" rel="noopener" href="http://techcrunch.com/2012/03/24/apple-udids/">Apple Has Started Rejecting Apps That Access UDIDs</a>.</p>
+<p>In iOS 6, Apple provides <a target="_blank" rel="noopener" href="http://developer.apple.com/library/ios/#documentation/AdSupport/Reference/ASIdentifierManager_Ref/ASIdentifierManager.html">ADID</a>, we could use it to identify people, but app user can switch it off if they don't want to be tracked.</p>
+<p>I use <a target="_blank" rel="noopener" href="https://github.com/ylechelle/OpenUDID">OpenUDID</a> and ADID to identify app user, what OpenUDID does is generating a <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Universally_unique_identifier">UUID</a> and caching it for later look up.</p>
+<p>In Android, it has IMEI, ANDROID_ID, and mac address, none of them is reliable, so I hash those three with device model use <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Secure_Hash_Algorithm">SHA</a> to identify the app user.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Android UUID known to be duplicated across many devices due to manufacturer bugs</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String INVALID_ANDROID_ID = <span class="string">&quot;9774d56d682e549c&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getUDID</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    String imei = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">if</span> (context.getPackageManager().checkPermission(Manifest.permission.READ_PHONE_STATE,</span><br><span class="line">            context.getPackageName()) == PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">        TelephonyManager tm = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);</span><br><span class="line">        imei = tm.getDeviceId();</span><br><span class="line">    &#125;</span><br><span class="line">    String androidId = Settings.Secure.getString(context.getContentResolver(),</span><br><span class="line">            android.provider.Settings.Secure.ANDROID_ID);</span><br><span class="line">    <span class="keyword">if</span> (androidId == <span class="keyword">null</span> || androidId.toLowerCase().equals(INVALID_ANDROID_ID)) &#123;</span><br><span class="line">        androidId = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    String macAddr = (getMacAddr(context) == <span class="keyword">null</span>) ? <span class="string">&quot;&quot;</span> : getMacAddr(context);</span><br><span class="line">    <span class="keyword">return</span> SHA(imei + androidId + macAddr + Build.MODEL);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getMacAddr</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    String macAddr = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">if</span> (context.getPackageManager().checkPermission(Manifest.permission.ACCESS_WIFI_STATE,</span><br><span class="line">            context.getPackageName()) == PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">        <span class="keyword">final</span> WifiManager manager = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);</span><br><span class="line">        <span class="keyword">final</span> WifiInfo info = manager.getConnectionInfo();</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != info) &#123;</span><br><span class="line">            macAddr = info.getMacAddress();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// no permission</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> macAddr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> String <span class="title">SHA</span><span class="params">(<span class="keyword">final</span> String toConvert)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> MessageDigest md = MessageDigest.getInstance(<span class="string">&quot;SHA&quot;</span>);</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">byte</span>[] digest = md.digest(toConvert.getBytes(<span class="string">&quot;UTF-8&quot;</span>));</span><br><span class="line">        <span class="keyword">final</span> BigInteger hashedNumber = <span class="keyword">new</span> BigInteger(<span class="number">1</span>, digest);</span><br><span class="line">        <span class="keyword">return</span> hashedNumber.toString(<span class="number">16</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> NoSuchAlgorithmException e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> UnsupportedEncodingException e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2013/01/16/sharing-my-gtd-notes/" rel="prev" title="Sharing My GTD Notes">
+                  <i class="fa fa-chevron-left"></i> Sharing My GTD Notes
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2013/01/22/hangzhou-in-snow/" rel="next" title="Hangzhou, in snow">
+                  Hangzhou, in snow <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2010 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dong Zheng - Powered by Hexo, NextT, GitHub</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.zhengdong.me/2013/01/18/app-lifetime-measurement-ios-android/";
+    this.page.identifier = "2013/01/18/app-lifetime-measurement-ios-android/";
+    this.page.title = "App Lifetime Measurement on iOS & Android";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://extracookies.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

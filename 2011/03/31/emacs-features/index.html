@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.zhengdong.me","root":"/","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":null}},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+
+  <meta name="description" content="align-regexp 相必大家都用过 C-M-\，一般都能满足需要，可是有时候需要按一行中的某些字符对齐，比如一些变态的语言或者编程规范规定赋值语句需要按 &quot;&#x3D;&quot; 对齐，那怎么办? align-regexp 使用起来只需要选中需要对齐的 region，然后执行，输入需要匹配的正则表达式即可。 比如如下代码: 123int var &#x3D; 2;int variable_is_kinda_long &#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Emacs 不流行但很拉风的 feature">
+<meta property="og:url" content="http://blog.zhengdong.me/2011/03/31/emacs-features/index.html">
+<meta property="og:site_name" content="Extra Cookies">
+<meta property="og:description" content="align-regexp 相必大家都用过 C-M-\，一般都能满足需要，可是有时候需要按一行中的某些字符对齐，比如一些变态的语言或者编程规范规定赋值语句需要按 &quot;&#x3D;&quot; 对齐，那怎么办? align-regexp 使用起来只需要选中需要对齐的 region，然后执行，输入需要匹配的正则表达式即可。 比如如下代码: 123int var &#x3D; 2;int variable_is_kinda_long &#x3D;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2011-03-31T09:38:00.000Z">
+<meta property="article:modified_time" content="2020-11-28T10:52:32.789Z">
+<meta property="article:author" content="Dong Zheng">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://blog.zhengdong.me/2011/03/31/emacs-features/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Emacs 不流行但很拉风的 feature | Extra Cookies</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-17531526-2"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-17531526-2');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Extra Cookies</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#align-regexp"><span class="nav-number">1.</span> <span class="nav-text">align-regexp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#occur"><span class="nav-number">2.</span> <span class="nav-text">occur</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#anything"><span class="nav-number">3.</span> <span class="nav-text">anything</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tramp"><span class="nav-number">4.</span> <span class="nav-text">tramp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#re-builder"><span class="nav-number">5.</span> <span class="nav-text">re-builder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ractangle"><span class="nav-number">6.</span> <span class="nav-text">ractangle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#auto-rever-tail-mode"><span class="nav-number">7.</span> <span class="nav-text">auto-rever-tail-mode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wdired-change-to-wdired-mode"><span class="nav-number">8.</span> <span class="nav-text">wdired-change-to-wdired-mode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexl-mode"><span class="nav-number">9.</span> <span class="nav-text">hexl-mode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multi-occur-in-matching-buffers"><span class="nav-number">10.</span> <span class="nav-text">multi-occur-in-matching-buffers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#c-u-c-spacebar"><span class="nav-number">11.</span> <span class="nav-text">C-u C-spacebar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apropos"><span class="nav-number">12.</span> <span class="nav-text">apropos</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#follow-mode"><span class="nav-number">13.</span> <span class="nav-text">follow-mode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%90%8E"><span class="nav-number">14.</span> <span class="nav-text">最后</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dong Zheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/03/31/emacs-features/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Emacs 不流行但很拉风的 feature
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-03-31 17:38:00" itemprop="dateCreated datePublished" datetime="2011-03-31T17:38:00+08:00">2011-03-31</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="align-regexp">align-regexp</h2>
+<p>相必大家都用过 <code>C-M-\</code>，一般都能满足需要，可是有时候需要按一行中的某些字符对齐，比如一些变态的语言或者编程规范规定赋值语句需要按 "=" 对齐，那怎么办?</p>
+<p>align-regexp 使用起来只需要选中需要对齐的 region，然后执行，输入需要匹配的正则表达式即可。</p>
+<p>比如如下代码:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> var = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">int</span> variable_is_kinda_long = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">int</span> var_is_less_long = <span class="number">4</span>;</span><br></pre></td></tr></table></figure>
+<p>需要按 = 对齐，选中执行 <code>M-x align-regexp</code>, 然后 regexp 填 =，结果如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int var                    &#x3D; 2;</span><br><span class="line">int variable_is_kinda_long &#x3D; 3;</span><br><span class="line">int var_is_less_long       &#x3D; 4;</span><br></pre></td></tr></table></figure>
+<h2 id="occur">occur</h2>
+<p>输出 buffer 中符合正则表达式的所有行，在查找替换时，或者需要重构代码时，事先用 occur 来验证下构造的正则表达式的效果，可以避免一时自信或者冲动毁了先前的工作.</p>
+<h2 id="anything">anything</h2>
+<p>用过 Mac 的 quicksilver，或者 Linux 上的 gnome go 的同学，也许会觉得简直是神器，自称操作系统 Emacs 岂能自甘落后，anything 绝对值得拥有。</p>
+<p><code>M-x anything</code>, 会出现 anything buffer，其中显示当前目录下所有文件，当前打开的所有 buffer 以及最近打开的文件，只需要挑着敲文件名包含的少数字母，文件会被选中，然后直接 tab，buffer 会显示所有操作，输入操作名称，当然是少数字母，执行即可，也可以使用 <code>C-n C-p</code> 来选择。</p>
+<p>我使用的是 anything-config，anything-startup 会让 <code>C-x f</code> 变得很乱很难用，不如 ido-mode 好用。</p>
+<h2 id="tramp">tramp</h2>
+<p>远程文件编辑的利器，<code>C-x f username@user.com:filepath</code>, 流畅俨如本地文件，该工具其实很流行，但还有一个功能很少被人使用，但却可以解决烦恼。</p>
+<p>有多少次你编辑了文件，悲催的发现是只读文件，不能保存，你又不想退出 emacs，只能 <code>sudo vim</code>，然后用非常别扭的方式编辑文件。但有了 tramp，只需要 <code>C-x f /sudo::/etc/passw</code>，烦恼木有了。</p>
+<p>刚在 Emacs 中输入上面那个远程文件的链接时，竟然也触发启动了 tramp 连接，然后网络连不上于是 Emacs 僵死了，只得 force quit 了下，看来不死之身有时候也会出问题的。</p>
+<h2 id="re-builder">re-builder</h2>
+<p>实时高亮显示当前 buffer 可以匹配所输入正则表达式的字串，非常适合查找替换前做检查。功能跟 occur 差不多，只是 occur 另开一个 buffer 用来显示匹配的行，re-builder 直接显示在当前 buffer。</p>
+<h2 id="ractangle">ractangle</h2>
+<p>如下矩阵:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1234</span><br><span class="line">2345</span><br><span class="line">3456</span><br></pre></td></tr></table></figure>
+<p>假如我们需要剪切左上 2x2 矩阵，从1排1列，<code>C-space</code> 选中，挪动光标到2排2列，<code>C-x r k</code>, 然后 <code>C-x r y</code> 复制，结果如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; After cut</span><br><span class="line">34</span><br><span class="line">45</span><br><span class="line">3456</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Copy</span><br><span class="line">12</span><br><span class="line">23</span><br></pre></td></tr></table></figure>
+<p><code>C-x r o</code> 插入空格到选中矩阵，<code>C-x r c</code> 用空格替换所选中矩阵，<code>C-x r d</code> 删除所选矩阵，如下三操作区别 (左上2x2矩阵):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; C-x r o</span><br><span class="line">  1234</span><br><span class="line">  2345</span><br><span class="line">3456</span><br><span class="line">&#x2F;&#x2F; C-x r c</span><br><span class="line">  34</span><br><span class="line">  45</span><br><span class="line">3456</span><br><span class="line">&#x2F;&#x2F; C-x r d</span><br><span class="line">34</span><br><span class="line">45</span><br><span class="line">3456</span><br></pre></td></tr></table></figure>
+<p><code>C-x r t</code> 用输入字符串替换所选矩阵每行, 下图结果用 xy 替换左上 2x2 矩阵。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xy34</span><br><span class="line">xy45</span><br><span class="line">3456</span><br></pre></td></tr></table></figure>
+<h2 id="auto-rever-tail-mode">auto-rever-tail-mode</h2>
+<p>我们多少次在 terminal 中 tail -f sys.log 来关注 log 的最新输出, 使用这个命令 Emacs 便自动完成该工作。</p>
+<h2 id="wdired-change-to-wdired-mode">wdired-change-to-wdired-mode</h2>
+<p>在 dired-mode 使用该 mode，就可以像文件那样对 dired-mode buffer 进行编辑，可以用 regex-replace，rectangle 命令，批量更改文件名等。</p>
+<h2 id="hexl-mode">hexl-mode</h2>
+<p>查看编辑非文本文件利器。</p>
+<h2 id="multi-occur-in-matching-buffers">multi-occur-in-matching-buffers</h2>
+<p>可以对所有打开的 buffer 进行 regex search。</p>
+<h2 id="c-u-c-spacebar">C-u C-spacebar</h2>
+<p>Emacs 记录了所有光标移动的历史，使用这个命令，可以依次回到前一个位置，在阅读代码时非常有用。</p>
+<h2 id="apropos">apropos</h2>
+<p>搜索包含某关键字或者匹配某正则表达式的 Emacs 命令，利用这个可以发现更多给力的 feature。</p>
+<h2 id="follow-mode">follow-mode</h2>
+<p>现在流行的是宽屏，宽度不是问题，因此 Emacs <code>C-x 3</code> 用的很多，但很多长的文档，要翻好多页，小拇指真疼。</p>
+<p>竖分屏后执行 follow-mode 后，所有 buffer 显示同一文件的不同部分，可视范围翻倍，甚至数倍，这要看你的屏幕有多宽了。</p>
+<h2 id="最后">最后</h2>
+<p>题目中说的非流行是依据我在发现这些 feature 的偶然程度来定的，也许里面有的可能地球人都知道或者都再用，比如我觉得的，应该大家都会用的，或者一开始就被人推荐使用的，我就没列在上面，它们是:</p>
+<p>org-mode (org2blog), cscope, ido-mode, auto-complete, cedet, magit, yasnippet, ecb …</p>
+<p>这里有个<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/60367/the-single-most-useful-emacs-feature">调查</a>，Emacs 中最有用的 feature，大家可以参与下，另外本文中的很多 command 是我看到这个 polls 之后才觉得很强大。</p>
+<p>最后，不能忘了很强大很强大的三个命令，分别用来查询某 key binding，某 function (command)，某variable 是干啥用的:</p>
+<p><code>c-h k</code>, <code>c-h f</code>, <code>c-h v</code></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2011/03/26/taiziwan/" rel="prev" title="太子湾">
+                  <i class="fa fa-chevron-left"></i> 太子湾
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2011/04/17/agile/" rel="next" title="QCon 北京 - Agile">
+                  QCon 北京 - Agile <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2010 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dong Zheng - Powered by Hexo, NextT, GitHub</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.zhengdong.me/2011/03/31/emacs-features/";
+    this.page.identifier = "2011/03/31/emacs-features/";
+    this.page.title = "Emacs 不流行但很拉风的 feature";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://extracookies.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>
