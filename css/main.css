@@ -2862,3 +2862,6 @@ code {
   margin: 0px 4px;
   font-size: 0.8em;
 }
+.collection-title {
+  display: none;
+}
