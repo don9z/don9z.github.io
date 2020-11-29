@@ -201,6 +201,9 @@
         <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i>RSS</a>
       </span>
   </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
 
 
 
@@ -236,7 +239,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2016/08/08/readings-in-database-systems-interactive-analytics/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2018/10/27/ways-to-profit-from-the-bigdata-on-tech/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -250,7 +253,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2016/08/08/readings-in-database-systems-interactive-analytics/" class="post-title-link" itemprop="url">Readings in Database Systems - Interactive Analytics</a>
+            <a href="/2018/10/27/ways-to-profit-from-the-bigdata-on-tech/" class="post-title-link" itemprop="url">关于大数据变现的一些思考（上）</a>
         </h2>
 
         <div class="post-meta-container">
@@ -261,7 +264,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2016-08-08 12:04:11" itemprop="dateCreated datePublished" datetime="2016-08-08T12:04:11+08:00">2016-08-08</time>
+      <time title="Created: 2018-10-27 20:55:57" itemprop="dateCreated datePublished" datetime="2018-10-27T20:55:57+08:00">2018-10-27</time>
     </span>
 
   
@@ -274,85 +277,69 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>最近在看 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Michael_Stonebraker">Stonebraker</a> 的 <a target="_blank" rel="noopener" href="http://www.redbook.io">“Readings in Database Systems”</a>, 发觉开拓了很多思路。</p>
-<p>这么多年自己一直在从事大数据方面的工作，但除了翻过数据挖掘算法和分布式系统设计方面的论文外，完全没想过去翻翻数据库相关的论文看。现在想想，其实大数据和数据库两者很多需求和场景是一致的，要解决的问题，没准学术界很多年前就已经有方案了。</p>
-<p>这篇文章主要是 "Interactive Analytics" 相关部分。</p>
-<h2 id="what-is-interactive-analytics">What is Interactive Analytics</h2>
-<p>假如你是一家电商公司的分析师，如果有 100 万用户原始交易数据打印出来摆在你面前，让你去分析这些数据的意义，你会怎么做？</p>
-<p>如果这十万条数据给我，我估计是看不出什么东西出来。而且我相信每个人，也是如此，因为人的认知是有 bug 的，比如不能直接处理大量原始数据。</p>
-<p>那该怎么办？</p>
-<p>我们需要把数据通过一些方式做提炼，变成小的结果集，或者以可视化的形式展现出来。用过 <code>SQL</code> 的人也许会想到 <code>Group by</code> 语句，是的，往往通过 <code>Group by</code> 做 aggregation 后的数据，会好理解很多。</p>
-<p><strong>大数据不只是数据量超大，更在于能从大量数据里面发现价值。</strong></p>
-<p>而 "Interactive Analytics" 指的就是这个过程，但加了个前提：这个过程必须能在较短的时间内完成，哪怕甚至来不及遍历所有需要的原始数据。</p>
-<p>当数据量超大的时候，这个前提对每个数据系统都是一个很大的挑战。</p>
-<h2 id="ideas">Ideas</h2>
-<p>那怎么让一个查询请求的执行过程比直接遍历所有依赖的数据还快呢？</p>
-<p>结论，显而易见，只能不去遍历所有的依赖数据，能有这样的方案，那问题也就迎刃而解了。</p>
-<p>目前靠谱的方案有两种：</p>
+          <p>年初（2018）接受 DTalk 社区访谈 ，对“大多数企业怎样把大数据落地变现？”这个问题，我当时是这么回答的：</p>
+<blockquote>
+<p>我理解的大数据落地变现有两大模式，一种是基于大数据技术，另一种是基于已有的数据资产。大体有如下几种方式：</p>
 <ol type="1">
-<li><code>Precomputing</code>，如果预先把查询请求依赖的相关数据都做了一定的 “提炼”，便可大大减少查询需要去遍历的数据。</li>
-<li><code>Sampling</code>，可以对数据进行取样，每次查询请求都只遍历取样后的数据，这样遍历数据也可以大大减少。</li>
+<li>输出平台型技术能力，通过给企业建设大数据平台来变现；</li>
+<li>输出大数据处理技术和应用产品，比如把企业内部的BI、应用/用户分析、营销监测、数仓应用等产品进行商业化输出或者通过数据建模咨询和实施来变现。</li>
+<li>基于数据的闭环服务变现，如营销方向的广告精准推送、金融领域的风控服务等。</li>
+<li>咨询类的数据报告，针对不同领域提供对客户有价值的分析及数据报告等。</li>
+<li>数据交易。</li>
 </ol>
-<p>“Red Book” 给出了四篇参考文献，<a href="#ref1">1</a>，<a href="#ref2">2</a>是关于 <code>Precomputing</code> 的，<a href="#ref3">3</a>，<a href="#ref4">4</a>是关于 <code>Sampling</code> 的。</p>
-<h2 id="precomputing">Precomputing</h2>
-<h3 id="data-cube">Data Cube</h3>
-<p>还是以之前的交易数据举例，假如我们只关注零部件（Part）、供应商（Supplier）和客户（Customer）三个维度，关注的指标是总销售额，那么我们预先可以分别把每个不同部件 p、供应商 s、客户 c 的销售额总和统计出来，以 <code>(p, s, c)</code> 形式存起来，如果有相关查询请求，直接返回结果就可以了。</p>
-<p>这就是一个三维 Data Cube 的建立和使用，每一个 cell 代表一种部件、供应商、客户组合 <code>(p, s, c)</code>，对应的 value 就是这个组合的销售额总计。</p>
-<h3 id="build-data-cube">Build Data Cube</h3>
-<p>当然，实际情况下，分析任务关注的维度肯定不仅是三个，可能是多个不同的维度组合。</p>
-<p>对 data cube 的建立有如下三种方式：</p>
-<ol type="1">
-<li>预先计算出所有组合的 data cube，之后所有的请求就可以得到最快的响应，但会带来很大的预计算和数据存储压力。（如果有 K 的维度，需要执行 <span class="math display">\[2^k\]</span> 个 Group by 语句来做预计算。）</li>
-<li>不做任何预计算，每个请求都直接从原始数据进行提取，这种方式没有额外的数据存储压力，但数据量大的情况下请求执行耗时会非常长。</li>
-<li>预先计算一些维度组合的 data cube，这个是 <a href="#ref1">1</a> 采取的方式，这种方式目标是做到请求执行耗时、预计算耗时和存储的平衡，但选择哪些维度组合做预计算是关键，选择错了，可能还不如采用上面两种方式。</li>
+</blockquote>
+<p>最近，在数据技术变现和数据资产变现这两个方向，我又深入梳理了自己的认识，并将我的思考写了出来，这篇是数据技术变现部分。<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<h2 id="从-bi-产品开始">从 BI 产品开始</h2>
+<p>BI 产品在大数据这个概念出来之前，已经是蛮成熟的品类。简单说来，就是能连接和有效整合企业内部各个数据源的数据，通过强大灵活的分析能力，以丰富的可视化形式来展现数据，帮助企业进行业务经营决策。</p>
+<p>之前的主流厂商主要是国外的大型企业服务公司，产品往往会比较重，也会和自身的其他产品，如 OLAP 工具、CRM 等产品整合，整体使用门槛高，且需要不小的团队来维护。后来，很多新兴企业用敏捷 BI 这个品类，大大降低了产品的接入成本和使用难度，价格也大幅度低于以前，市场份额越来越大。因为产品比较通用，并且内部业务都会有需求，这也成为一些互联网企业数据技术团队内外输出数据产品的第一站。</p>
+<p>下面几种商业模式使用的比较多：</p>
+<p>第一种是 SaaS 模式，这个模式很轻，可以以较低的成本服务大量客户，所以收费比较低，一般按年和账号数来计费。但因为要连接企业的数据，尤其大企业，往往不能接受这个模式，不过公有云厂商提供这个服务反倒有很大优势， 因为企业用户的数据已经在云上。</p>
+<p>接下来是私有化模式，产品部署到企业自己的环境中，说到底就是卖软件，硬件是客户的。有两种收费模式，买断制和订阅制。从现在软件售卖的市场看，订阅制是趋势。买断制起始价格高，但要生意持续，往往需要周期性憋大招升级大版本让客户升级，再次售卖。而订阅制价格相对低一些，对企业来说，因为按年持续有收入，业务会更健康，也不用花力气做大版本创收，持续改进产品就好，另外，还能大大减少维护多个遗留版本带来的研发投入。</p>
+<p>最后一种是项目制，不仅仅是卖软件产品，而是解决企业客户的问题，比如报表体系建设、业务数据门户等，除了涉及通用产品外，还可能会有数据 ETL、数仓建模、报表实施等交付工作。</p>
+<p>BI 产品商业化，虽然属于通过数据技术变现，但 BI 产品和业务离得很近，客户选择时，往往考虑业务多于技术，如何解决不同行业客户多样的问题，还能坚守产品的通用性，不陷入企业定制开发的漩涡；如何在价格透明甚至低价格战的竞争格局中去占领市场份额，去盈利，会是比较重要需要解决的问题。</p>
+<h2 id="数据基础设施">数据基础设施</h2>
+<p>数据基础设施，一开始是从解决业务问题的 OLTP 数据库开始，随着数据越来越被重视，数据仓库的概念被提了出来。传统的数据库厂商在 OLTP 产品之外，投入很多资源在 OLAP 产品的研发、推广上，同时，市场出现了不少 MPP 厂商，也占据了一席之地。然后大数据时代来了，随着大数据的概念、实践从互联网公司走向各个行业，大数据平台这个品类开始逐步替代传统数据库、MPP 厂商们。</p>
+<p>大数据平台通常提供如下能力：</p>
+<ul>
+<li>数据集成 提供数据采集、传输/同步能力，能将各个环节、数据源的数据同步到大数据平台，统一存储。</li>
+<li>开发平台 提供统一的开发环境，满足开发人员进行数据任务的开发、测试及运维等工作。</li>
+<li>任务调度 提供任务托管和调度能力、并通过计算引擎完成任务的执行，大数据栈的很多技术会包含在这里。</li>
+<li>数据管理 提供元数据管理、存储和成本管理、数据质量管理等能力。</li>
+</ul>
+<p>现在机器学习的概念很火，很多大数据平台也提供了机器学习方面的开发、建模、计算等支持。</p>
+<p>公有云厂商和企业服务厂商采用了两种不同的商业模式：</p>
+<p>第一种是 EMR 服务，公有云厂商大多都会提供，也是云里比较赚钱的业务。这个模式下，用户不需要去操心如何去选型、准备机器、搭建部署整个大数据平台，直接使用厂商提供的 EMR 集群，按需创建即可，计算结束可以很方便的释放，带来成本的降低。这个模式有很大的前提，就是企业的数据已经在云上，即通过公有云的基础设施服务来带大数据基础设施服务的售卖。</p>
+<p>第二种是私有化部署模式，目前市面上的主流厂商大多都支持这个模式，包括很多公有云服务厂商，面对的客户主要是中大型企业。从竞争来看，国内外厂商很多，竞争比较激烈，不过这种模式一两家厂商很难做到垄断，而且不同厂商对市场、目标客户也或多或少有不同的定位，还在前赴后继的进入。</p>
+<p>现在也有一些厂商在垂直领域，比如数据集成、数据仓库等方面提供服务，但能看到，很多做着做着，平台的一些能力都会逐渐加上来，变成大数据全栈服务提供商。这引申出来第一个问题，就是厂商同质化严重，因为基础组件大多基于开源，大家都是站在巨人的肩膀上。</p>
+<p>另外，私有化模式的采购周期往往很长，因为涉及比较大的采购费用，厂商在平台功能、服务能力、性能指标、客户案例等方面，会面对客户很多挑战。</p>
+<p>还有就是 lock in 的问题，大型的交付往往会对客户形成一定的 lock in，即一旦企业客户的业务在平台跑起来，换厂商的迁移成本非常高，所以，通过对既有客户的服务，挖掘客户更多需求，赚更多收入，是非常重要的。对客户而言，也会在意这个问题，这个时候，自研或基于开源的选择会对客户产生影响，基于开源，即使厂商提供不了服务，客户自己也能比较容易招人，继续维护，不像自研的，离了厂商什么都做不了，会成为一种有竞争优势的销售说辞。</p>
+<p>第三种是解决方案模式，可以是技术咨询、也可以是工具+技术咨询、工具+项目实施、或是综合的行业解决方案，比如金融、政务、工业等的大数据解决方案。这块后面还会提到。</p>
+<h2 id="数据应用产品">数据应用产品</h2>
+<p>还在 web 主导的互联网时代，专注流量分析的 web analytics 产品已经很多，往往还是免费模式。移动互联网起来之后，市场上出现不少移动应用分析产品，以开发者工具的定位免费提供服务，很快发展了起来，除此之外，还有营销和广告监测、用户行为分析、A/B 测试、用户画像等解决特定领域问题的数据产品。</p>
+<p>数据应用产品是指以标准产品的形式，利用数据，去解决客户垂直领域或特定场景下的问题。比如用户行为分析产品，就将数据采集、传输、计算、展现等工作打包起来，作为黑盒，客户不再需要关心技术细节，接入后，只需要看数据做决策就好。</p>
+<p>这些产品大多是通过 SaaS 模式来提供服务，有以下几种变现方式：</p>
+<p>第一种是免费模式，通过咨询服务变现。早先很多做移动分析的 SaaS 厂商，会提供基于客户数据的数据挖掘、用户画像等付费服务。</p>
+<p>第二种是直接收费模式。一般按照数据量或账号数收费，还有按照功能集合进行分层定价。当然，这个模式的厂商也在寻求咨询服务方面的收入，比如搭配着产品，去做时下很火的增长黑客培训，或是直接帮助客户做业务增长的咨询和落地服务。</p>
+<p>最后是“羊毛出在猪身上狗来买单“模式。通过免费模式吸引客户，在服务客户的同时，沉淀客户数据并整合，最后，通过这些数据，从别的客户那里赚钱。拿提供移动应用分析产品的厂商举例，一开始免费接入客户，不断提升产品的体验和能力，强化在市场上的竞争优势，接下来，通过数据榜单、行业会议、线上线下活动等市场行为不断强化客户的认知，比如覆盖多少应用、多少设备、多少行业、数据有多准多全等，最后，依仗着全网的数据，在金融、房地产、零售等行业赚钱，比如提供基于精准用户定向的跨应用营销，个人信用、收入、兴趣等的人群洞察，地理位置消费能力热图，手机品牌保有量地区分布、人群品牌偏好等服务。</p>
+<p>数据应用产品的商业化过程会碰到些问题，一个是数据安全问题，很多客户尤其是大的企业不愿意数据在云上，导致这些产品的客户群往往是初创或中小企业，进入大企业很难。一些厂商会提供客户侧私有化部署的支持来吸引大企业，和前面提到的 BI 产品私有化模式一样，也会碰到部署实施、售后服务、客户定制需求等问题。</p>
+<p>另一个问题是采购 vs. 自研的矛盾。拿用户行为分析产品举例，初创企业一开始还着立于验证商业模式，采用第三方云服务阻力不大，但随着业务的增长，尤其当数据被重视起来后，需要去建设自己企业的数据体系，第三方服务经常会被企业自研的产品所取代。放眼看过去，几乎每一个中大型互联网企业，都有自研的数据埋点、流量分析、用户分析、营销分析等产品，一些大企业内部还不止一套，可见自研的吸引有多大。</p>
+<h2 id="大数据解决方案">大数据解决方案</h2>
+<p>在 BI 产品部分，提到过项目制的模式，BI 产品在大数据概念流行前已经很成熟，很多企业已经被教育的认为合作模式就应该是这个样子的。所以很多时候，会在产品的基础上，根据客户的需求，把业务咨询、数据体系建设、数仓建模、报表实施等工作也做掉，以项目的方式交付给客户。</p>
+<p>对于很多企业客户而言，尤其是传统行业的客户，采购厂商的数据产品是为了解决问题，它不希望面对一个个产品或是产品功能集合来选择，而是会看有没有同行业的企业在用，是怎么用的，对企业面临的需求有没有成熟的解决方案等。</p>
+<p>业务咨询和数据运营指导、数据体系建设和数仓建模、定制化数据产品等企业服务，是很多解决方案提供商做了很久的生意。随着大数据、AI 的流行，企业的需求也越来越多，比如推荐系统、机器学习算法模型、用户画像体系等的建设。以上种种需求，是很多大数据平台通过解决方案在企业落地的切入点。</p>
+<p>时下有两个大的概念：</p>
+<p>一是企业的数据中台建设，主要是互联网企业在推，用互联网企业建设自己全域数据中台的理念、经验，去帮助企业建设自己的数据中台。二是行业的大数据解决方案，比如智慧城市、政务大数据、工业大数据、金融大数据等。这两块可以打包进去很多东西，能大大提高整个项目的报价，以及有比较大的持续合作的可能，客户价值更高。</p>
+<p>做解决方案类项目实施虽然能提高客单价，但很重，而且这个行业一直是企业服务巨头的自留地（有些项目厂商驻场在一家银行能做十多年持续赚客户钱）。大数据技术的发展给了互联网厂商进入这个市场的机会，从技术积累到品牌形象都有竞争优势，不输传统企业服务厂商。当然，互联网公司深深的 to C 基因，一开始内心往往是排斥的，要给每个客户做，还要理解客户业务，完全不能 scale 呀。但慢慢大家会认识到， 在大数据企业服务市场，做标杆大客，沉淀解决方案，然后行业内复制也是一种有效的增长模式。</p>
+<p>是不是做大数据解决方案就只是为了提高客单价，从单个客户赚更多钱？</p>
+<p>我认为不全是，从客户角度上来看，大数据解决方案是面对需求的，比卖产品 feature 更能吸引客户签单。从厂商角度看，<strong>解决方案能打破客户采购的对标价格体系，通过创造差异化来提高议价能力。</strong>在成熟行业做标品生意，竞品之间的价格基本上是透明的，企业客户在采购过程中的议价能力非常强，也容易碰到一些低端厂商挑起的价格战。但解决方案模式，每家提供的服务、价格都是不一样的。</p>
+<p>最后，大数据解决方案这个商业模式要做好，会碰到非常多的问题。比如如何积累团队的业务咨询能力和行业知识，如何处理人力大幅增加带来的薪酬和管理成本问题，如何建立高效且有能力的项目实施交付团队，是否需要合作伙伴一起做落地以及如何选择，如何解决合作伙伴间配合的问题，如何维护客户关系，如何控制整体成本，如何从项目中沉淀可复制的解决方案，而不是做一个算一个沦为外包服务商，如何保证核心产品的通用性，防止大客户的定制需求拖死产品研发团队等等坑都是要趟过的。</p>
+<p>不是每个企业都适合做这个事，要深入分析自己企业的能力、发展方向，不能看到别人这么做自己想都不想也这么做。</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>本文仅代表个人观点。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-<p>前面的例子，要全部预计算出部件、供应商和客户三个维度的 data cube，需要如下 8 个组合：</p>
-<ol type="1">
-<li>psc (part, supplier, customer) (6M: 6 million rows)</li>
-<li>pc (part, customer) (6M)</li>
-<li>ps (part, supplier) (0.8M)</li>
-<li>sc (supplier, customer) (6M)</li>
-<li>p (part) (0.2M)</li>
-<li>s (supplier) (0.01M)</li>
-<li>c (customer) (0.1M)</li>
-<li>none (1)</li>
-</ol>
-<p>（组合后面的数字代表该组合所有结果数据的行数）</p>
-<p>可以发现，其实如果 <code>psc</code> 的数据有了，<code>pc</code> 可以通过按 <code>supplier</code> 维度汇聚 <code>psc</code> 的数据得到，<code>p</code> 可以通过按 <code>cutomer</code> 维度汇聚 <code>pc</code> 的数据得到，其他依次类推。</p>
-<p><code>pc</code> 组合和 <code>psc</code> 组合都有 6 百万行记录，也就是对 <code>pc</code> 和 <code>psc</code> 两个维度组合进行查询都要遍历这么多行记录，那么如果不预计算 <code>pc</code>，而在用户请求 <code>pc</code> 维度时直接通过对 <code>psc</code> 维度进行汇聚，遍历的数据行数是一致的，如果以数据行数作为衡量指标，预计算 <code>pc</code> 便是毫无必要的。</p>
-<h3 id="the-lattice-framework">The Lattice Framework</h3>
-<p><a href="#ref1">1</a> 中提出了一个 Lattice 模型，如下图所示：</p>
-<p><a><img src="/images/2016/the-lattice-framework.png" width="560"></a></p>
-<p>每个节点表示一个 data cube 组合，下方的节点可以通过上方节点汇聚得到。</p>
-<p>左边是上面例子的 lattice 模型，右边是模型之间的合并过程。</p>
-<p>通过这样的结构，可以将维度组合选择转化为一个最优选择的问题：</p>
-<p><em>在限制节点个数的情况下，最小化每个节点预计算的平均耗时。</em></p>
-<p><a href="#ref1">1</a> 中首先提出了个 cost model 来评估通过依赖节点计算自身 data cube 的 cost，然后提出了个 greedy algorithm 通过计算平均最少 cost 来进行预计算维度选择，算法的细节和证明大家可以细读该<a target="_blank" rel="noopener" href="http://web.eecs.umich.edu/~jag/eecs584/papers/implementing_data_cube.pdf">论文</a>。</p>
-<p><a href="#ref2">2</a> 中给出了一种基于内存的 data cube 计算方法，有兴趣可以<a target="_blank" rel="noopener" href="http://pages.cs.wisc.edu/~nil/764/DADS/38_zhao97arraybased.pdf">下载阅读</a>。</p>
-<h2 id="sampling">Sampling</h2>
-<p>Data Cube 模式，不论如何优化，都是需要离线任务去预先构建大量的 Cube 集，在需要的维度很多、或者数据延迟要求很低的场景下，不能很好的满足要求。</p>
-<p>Sampling 方式是在降低准确性的前提下，减少遍历的数据量，达到快速响应查询请求的目的。</p>
-<p><a href="#ref4">4</a> 中通过对用户的查询请求进行统计，评估出经常用的查询列集合，预先进行 Sample 创建。</p>
-<h3 id="sample-creation">Sample Creation</h3>
-<p>如何进行 Sample 创建，我在看论文的时候，直接想到的是将数据记录打乱，随机分布在若干个 partition 里面，当有请求过来的时候，直接选择一个或多个 partition 进行查询即可。</p>
-<p><a href="#ref4">4</a> 中提到了这样做（<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)#Sampling_from_a_uniform_distribution">uniform sampling</a>）的问题：</p>
-<p><em>如果只是全局的对数据做统计，效果比较好，但如果有 filter 或者 group by 操作，这种方式往往得不到好的效果。</em></p>
-<p>举个例子，比如我要按城市来统计销售额的分布，如果是采用我想的那种分布方式的话，一些交易量很少的城市，可能在 sample 里完全消失了，这样的分布统计，其实是错的。</p>
-<p><a href="#ref4">4</a> 中提出了 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Stratified_sampling">Stratified Sampling</a> 方式来解决这个问题。</p>
-<p>基本思想就是首先对维度列进行统计，将相同列值的行作为一个 group，然后分别进行 sampling，论文中详细介绍了 sampling 的方法和每个 group sampling size 的设定。</p>
-<h3 id="sample-selection">Sample Selection</h3>
-<p>在如何选择 Sample 的问题上，<a href="#ref4">4</a> 提出了 ELP（Error Latency Profile）模型，通过用户设定的准确率和耗时要求，进行 sample 选择。</p>
-<p>当然，这是个非常复杂的过程。<a href="#ref4">4</a> 中详细讲了如何去评估各个 Sample 的耗时和准确率，怎么样在生成执行计划的过程中考虑用户的准确率和耗时的要求。有兴趣大家可以<a target="_blank" rel="noopener" href="https://sameeragarwal.github.io/blinkdb_eurosys13.pdf">详细阅读</a>。</p>
-<p><a href="#ref3">3</a> 通过提出的如随机数据访问、在线排序、ripple join 等算法，在已有的关系型数据库，实现了一套支持 online sampling 的原型系统，有兴趣可以<a target="_blank" rel="noopener" href="https://www.semanticscholar.org/paper/Informix-under-CONTROL-Online-Query-Processing-Hellerstein-Avnur/367845b3e2f4dd6e36d7725a579575f8855d9737/pdf">详细阅读</a>。</p>
-<h2 id="summary">Summary</h2>
-<p>Data Cube 方案，在数据的准确度方面是毋须质疑优于 Sampling 方案的，工程界的 <a target="_blank" rel="noopener" href="http://kylin.apache.org">Apache Kylin</a> 就是如此的方式。而 Sampling 方式目前的应用还比较少，对于很多用户而言，Sampling 的方案即使是 99% 的准确度，还是无法接受的，哪怕其实已经满足了他的需求。</p>
-<p>但我倒比较看好 Sampling 方式，因为 Data Cube 的整个机制对数据变化和实时方面有很大的限制，随着内存越来越廉价，以及越来越好的列存储方案，数据进行实时交互分析变得越来越可行，比如 <a target="_blank" rel="noopener" href="http://impala.io">Impala</a> 和 <a target="_blank" rel="noopener" href="https://prestodb.io">Presto</a>，在大数据量的情况下，性能都很好，不大的集群都可以做到秒级响应对亿级数据量的查询。</p>
-<p>当然，资源不可能是无限的，也不可能每个查询请求都能有资源保证快速遍历海量数据，所以，通过对准确率方面的牺牲，达到查询耗时的降低，其实是一种比较经济的方案 (Presto 是有类似 <a href="#ref4">4</a> 中提到的 Sampling 方案）。</p>
-<p>Reference</p>
-<p><a name="ref1">[1] Venky Harinarayan, Anand Rajaraman, Jeffrey D. Ullman. Implementing Data Cubes Efficiently. SIGMOD, 1996.</a></p>
-<p><a name="ref2">[2] Yihong Zhao, Prasad M. Deshpande, Jeffrey F. Naughton. An Array-Based Algorithm for Simultaneous Multidimensional Aggregates. SIGMOD, 1997.</a></p>
-<p><a name="ref3">[3] Joseph M. Hellerstein, Ron Avnur, Vijayshankar Raman. Informix under CONTROL: Online Query Processing. Data Mining and Knowledge Discovery, 4(4), 2000, 281-314.</a></p>
-<p><a name="ref4">[4] Sameer Agarwal, Barzan Mozafari, Aurojit Panda, Henry Milner, Samuel Madden, Ion Stoica. BlinkDB: Queries with Bounded Errors and Bounded Response Times on Very Large Data. EuroSys, 2013.</a></p>
+</section>
 
       
     </div>
@@ -379,7 +366,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2014/06/20/a-bug-in-a-java-servlet/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2018/04/04/questions-on-data-collection-and-data-platform/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -393,7 +380,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2014/06/20/a-bug-in-a-java-servlet/" class="post-title-link" itemprop="url">A Bug in a Java Servlet</a>
+            <a href="/2018/04/04/questions-on-data-collection-and-data-platform/" class="post-title-link" itemprop="url">关于数据采集和用户行为分析平台的一些问题</a>
         </h2>
 
         <div class="post-meta-container">
@@ -404,7 +391,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2014-06-20 11:47:33" itemprop="dateCreated datePublished" datetime="2014-06-20T11:47:33+08:00">2014-06-20</time>
+      <time title="Created: 2018-04-04 20:48:27" itemprop="dateCreated datePublished" datetime="2018-04-04T20:48:27+08:00">2018-04-04</time>
     </span>
 
   
@@ -417,212 +404,88 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>We have a legacy system, which is a web service, receives HTTP POST from clients, parses the data, then stores them in a file.</p>
-<p>The function of the system is simple, and people already done functional and performance test, it's stable. As time drifted away, the system was <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Copy_and_paste_programming">copy and paste</a> to some projects by only changing the data parsing logic.</p>
-<p>I had a similar requirement recently, then I delved into the legacy code to check if it works in order to not <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Reinventing_the_wheel">reinventing the wheel</a>.</p>
-<h2 id="wtf">WTF</h2>
-<p>At first, I noticed below code in a <code>HttpServlet</code> class, it allocates more than 1M memory for each HTTP POST request.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> MAX_CONTENT_LENGTH = <span class="number">1024</span> * <span class="number">1024</span>;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> BUFFER_SIZE = <span class="number">4096</span>;</span><br><span class="line"></span><br><span class="line">   ...</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span></span></span><br><span class="line"><span class="function">		<span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">       ...</span><br><span class="line"></span><br><span class="line">       <span class="keyword">int</span> requestContentBufSize = request.getContentLength() + MAX_CONTENT_LENGTH;</span><br><span class="line">       ByteBuffer requestContentBuf = ByteBuffer.allocate(requestContentBufSize);</span><br><span class="line">       <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[BUFFER_SIZE];</span><br><span class="line">       requestInputStream = <span class="keyword">new</span> DataInputStream(request.getInputStream());</span><br><span class="line">       <span class="keyword">int</span> readBytes = <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">int</span> totalReadBytes = <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">while</span> ((readBytes = requestInputStream.read(buffer)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">           requestContentBuf.put(buffer);</span><br><span class="line">    	totalReadBytes = totalReadBytes + readBytes;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">byte</span>[] requestContent = Arrays.copyOf(requestContentBuf.array(), totalReadBytes);</span><br><span class="line"></span><br><span class="line">       ...</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>It's insane, I believe the memory should be the same as each HTTP POST body size. Then I changed the code.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> requestContentBufSize = request.getContentLength();</span><br></pre></td></tr></table></figure>
-<p>Deployed the service and sent one HTTP POST request to it.</p>
-<p><code>curl -d 'Hello, World' http://my.server.com:9000/log</code></p>
-<p>An <code>Exception</code> occurred.</p>
-<h2 id="the-bufferoverflowexception">The BufferOverflowException</h2>
-<p>After reducing the memory allocated for <code>ByteBuffer</code>, it overflows.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">java.nio.BufferOverflowException</span><br><span class="line">	at java.nio.HeapByteBuffer.put(HeapByteBuffer.java:183)</span><br><span class="line">	at java.nio.ByteBuffer.put(ByteBuffer.java:830)</span><br><span class="line">	at com.myproject.servlet.LogServer.doPost(LogServer.java:99)</span><br><span class="line">	at javax.servlet.http.HttpServlet.service(HttpServlet.java:643)</span><br><span class="line">	at javax.servlet.http.HttpServlet.service(HttpServlet.java:723)</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</span><br><span class="line">	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)</span><br><span class="line">	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:191)</span><br><span class="line">	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)</span><br><span class="line">	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:103)</span><br><span class="line">	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109)</span><br><span class="line">	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:293)</span><br><span class="line">	at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:861)</span><br><span class="line">	at org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:606)</span><br><span class="line">	at org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:489)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:701)</span><br></pre></td></tr></table></figure>
-<p>I thought I'd better dig into how does the servlet do to make <code>ByteBuffer</code> get its data?</p>
+          <p>最近要参加一个关于数据埋点和分析的线上讨论，这两天总结了对一些问题的思考。</p>
+<h2 id="为什么企业需要一套完善的用户行为埋点和分析平台">为什么企业需要一套完善的用户行为埋点和分析平台？</h2>
+<p>一个互联网产品从萌芽到发展壮大，离不开对用户行为的深度洞察。</p>
+<p>产品初创期间，需要分析天使用户的行为来改进产品，甚至从用户行为中得到新的思路或发现来调整产品方向；产品 growth 过程，通过对用户行为的多角度（多维）分析、对用户群体的划分以及相应行为特征的分析和比较，来指导产品设计、运营活动，并对市场渠道效果进行评估。</p>
+<p>配合上 A/B 试验平台，可以加速产品的迭代，更快得到用户的真实反馈。同时，这些数据沉淀下来，对业务的数据仓库建设、数据智能应用等方面也能起到促进作用，比如做实时推荐，需要能更快获得用户尽可能多且明细的行为数据；做用户分类、意愿预测等机器学习业务，需要清洗过的规范化、结构化的数据做 training。</p>
+<p>要能做用户行为的分析，就需要有一套用户行为数据采集、传输、处理、分析的基础设施，而埋点和分析平台就是在做这件事。业界大多产品都是通过嵌入到多个终端的 SDK 来采集用户行为数据，而后续的传输、处理等过程对需求方是透明的，这样可以以很低的成本，把数据的采集、清洗、沉淀工作做掉，为企业节省成本，提升数据驱动的效率。</p>
+<p>在分析平台上，用户的行为定义会通过特定 <code>Event</code> 来标识，比如 "buttonClick", "playMusic" 等。通常这些事件，是开发人员通过调用 SDK 提供的 API 来设置的，除了确定事件的名称外，还可以加入分析需要的自定义参数和取值，这个过程就是“埋点”工作。当然，还有一些工具/产品支持可视化埋点，这种方式不需要开发介入埋点，SDK 会自动去采集用户在各个终端上的行为。</p>
+<h2 id="代码埋点可视化埋点和无埋点有哪些区别在使用过程中该如何选择">代码埋点、可视化埋点和无埋点有哪些区别，在使用过程中该如何选择？</h2>
+<p>分析平台通常会提供各端的数据采集 SDK，代码埋点是产品开发者通过调用这些 SDK 提供的一些 API 来记录用户行为的方式，及俗称的“埋点”或者“打点”。</p>
+<p>如 <code>trackEvent("buttonClick")</code></p>
+<p>可视化埋点是指开发人员除集成采集 SDK 外，不需要额外去写埋点代码，而是由业务人员通过访问分析平台的 <code>圈选</code> 功能来“圈”出需要对用户行为进行捕捉的控件，并给出事件命名。圈选完毕后，这些配置会同步到各个用户的终端上，由采集 SDK 按照圈选的配置自动进行用户行为数据的采集和发送。</p>
+<p>无埋点是指开发人员集成采集 SDK 后，SDK 便直接开始捕捉和监测用户在应用里的所有行为，并全部发送到分析平台，不需要开发人员添加额外代码。在分析时，业务人员通过分析平台的圈选功能来选出自己关注的用户行为，并给出事件命名。之后便可以对特定用户行为（事件）进行多维分析了。</p>
+<p>可视化埋点和无埋点比较像，都不需要开发人员手工加代码，也都需要业务人员进行所关注的用户行为的圈选。两者最大的不同是在用户终端的表现上，可视化埋点只采集业务人员关注的用户行为数据，而无埋点是会采集所有用户的行为数据，通常情况下数据量后者比前者大很多。</p>
+<p>也正是由于无埋点默认采集所有用户行为数据，它能够做到事件的<code>回溯</code>分析，即在业务人员新定义（圈选）事件后，就能去分析这个事件在前面一两个月的数据情况，这也是可视化、代码埋点支持不了的。但带来的问题就是采集所有数据对应用的侵入会有些大，也会增大用户端采集的数据量。当然，可以通过一些策略，比如 Wi-Fi 下才发缓解这些问题。</p>
+<p>无埋点和可视化埋点很大一个缺陷在于它们都是通过采集 SDK 去监测应用上控件的触发事件（用户对控件的操作），当产品 UI 在版本升级过程发生变动，或者产品做了大的改版，一些行为的“埋点”会发生丢失。如控件ID发生变化，而圈选的配置没变，导致数据采集不到；或者和业务的实际需要发生不一致的变动，比如圈选控件的作用发生了变化，但圈选配置没改；这些问题会导致对产品某些方面的分析出现差错，往往查起来还比较麻烦，在技术上完全解决也比较困难。</p>
+<p>另外，可视化埋点和无埋点都针对的是客户端数据采集，一些用户行为数据在客户端是采集不到的，或者客户端采集的精准度不够，比如支付，因为支付成功的判断绝大多数场景都是在服务端做的，所以在客户端做支付行为的埋点，误差很大，这个时候就需要在服务端进行埋点。</p>
+<p>我的建议是，在产品初期，产品形态还不太稳定、分析的复杂度还比较低的阶段，采用无埋点或者可视化埋点，更快去做埋点，否则频繁的产品改动，会让开发人员大量时间花在琐碎的埋点代码维护上面。产品进入稳定期后，尽量采用代码埋点方式，可以保证事件模型是稳定的，便于长期的数据监控、分析和数据沉淀。</p>
+<h2 id="如何进行数据埋点方案及规范的定义以及后续怎么进行维护和管理">如何进行数据埋点方案及规范的定义，以及后续怎么进行维护和管理？</h2>
+<p>一个互联网产品业务数据驱动的 workflow 往往是这样的：</p>
 <ol type="1">
-<li>It creates a small buffer occupied <code>BUFFER_SIZE</code> (4096) bytes.</li>
-<li>It iterates the HTTP request input stream, to put the data into the small buffer.</li>
-<li>It puts the small buffer to <code>ByteBuffer</code> and loop back to <code>1</code>.</li>
+<li>定义产品的阶段性目标；</li>
+<li>规划和定义指标，包括产品、运营、市场的各项目标；</li>
+<li>产品、运营等业务人员确定数据埋点需求；</li>
+<li>开发人员进行埋点以及数据的上报等开发工作；</li>
+<li>数据开发人员进行数据的清洗、宽表建设、指标计算等工作；</li>
+<li>业务人员分析数据、发现产品问题或潜在机会；</li>
+<li>继续下一阶段的产品、运营、市场等的改进工作。</li>
 </ol>
-<p>Well, in the last loop, the data read from the HTTP request input stream might smaller than the <code>BUFFER_SIZE</code>, but the servlet still puts <code>BUFFER_SIZE</code> bytes to <code>ByteBuffer</code>.</p>
-<p>Then, to fix the <code>ExceptionBufferOverflowException</code>, I increased the capacity of previous <code>ByteBuffer</code> by <code>BUFFER_SIZE</code>.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> requestContentBufSize = request.getContentLength() + BUFFER_SIZE;</span><br></pre></td></tr></table></figure>
-<p>Deployed again, and</p>
-<p><code>curl -d 'Hello, World' http://my.server.com:9000/log</code></p>
-<p>The bug was fixed.</p>
-<p>Did I?</p>
-<h2 id="the-servletinputstream">The ServletInputStream</h2>
-<p>When client posts huge data, what could happen?</p>
-<p>I created a String which is 7516 bytes, and sent to server.</p>
-<p><code>curl -d 'very very long string' http://my.server.com:9000/log</code></p>
-<p>Sometimes, the <code>java.nio.BufferOverflowException</code> occurred, and sometimes it didn't.</p>
-<p>What went wrong?</p>
-<p>To find the root cause, I added some logs to trace the <code>ByteBuffer</code>.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> requestContentBufSize = request.getContentLength() + BUFFER_SIZE;</span><br><span class="line">  ByteBuffer requestContentBuf = ByteBuffer.allocate(requestContentBufSize);</span><br><span class="line">  <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[BUFFER_SIZE];</span><br><span class="line">  requestInputStream = <span class="keyword">new</span> DataInputStream(request.getInputStream());</span><br><span class="line">  <span class="keyword">int</span> readBytes = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">int</span> totalReadBytes = <span class="number">0</span>;</span><br><span class="line">  log.debug(<span class="string">&quot;1: ByteBuffer position: &quot;</span> + requestContentBuf.position() +</span><br><span class="line">          <span class="string">&quot;, buffer capacity: &quot;</span> + requestContentBuf.capacity() +</span><br><span class="line">          <span class="string">&quot;, buffer remaining: &quot;</span> + requestContentBuf.remaining());</span><br><span class="line">  <span class="keyword">while</span> ((readBytes = requestInputStream.read(buffer)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">requestContentBuf.put(buffer);</span><br><span class="line">totalReadBytes = totalReadBytes + readBytes;</span><br><span class="line">      log.debug(<span class="string">&quot;2. Bytes read: &quot;</span> + readBytes);</span><br><span class="line">      log.debug(<span class="string">&quot;1: ByteBuffer position: &quot;</span> + requestContentBuf.position() +</span><br><span class="line">              <span class="string">&quot;, buffer capacity: &quot;</span> + requestContentBuf.capacity() +</span><br><span class="line">              <span class="string">&quot;, buffer remaining: &quot;</span> + requestContentBuf.remaining());</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<p>The log printed when no exception,</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- 1: ByteBuffer position: 0, buffer capacity: 11612, buffer remaining: 11612</span><br><span class="line">- 2. Bytes read: 4096</span><br><span class="line">- 1: ByteBuffer position: 4096, buffer capacity: 11612, buffer remaining: 7516</span><br><span class="line">- 2. Bytes read: 3420</span><br><span class="line">- 1: ByteBuffer position: 8192, buffer capacity: 11612, buffer remaining: 3420</span><br></pre></td></tr></table></figure>
-<p>The log printed when exception occurred,</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- 1: ByteBuffer position: 0, buffer capacity: 11612, buffer remaining: 11612</span><br><span class="line">- 2. Bytes read: 1356</span><br><span class="line">- 1: ByteBuffer position: 4096, buffer capacity: 11612, buffer remaining: 7516</span><br><span class="line">- 2. Bytes read: 1356</span><br><span class="line">- 1: ByteBuffer position: 8192, buffer capacity: 11612, buffer remaining: 3420</span><br></pre></td></tr></table></figure>
-<p>Now, it is easy to find out the root cause is in these lines of code.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> ((readBytes = requestInputStream.read(buffer)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    requestContentBuf.put(buffer);</span><br></pre></td></tr></table></figure>
-<p>The <code>read</code> method call won't put data to the <code>buffer</code> fully which was specified as 4096 bytes even when the input stream still has data.</p>
-<p>And to fix it, just specify the offset and length of the small <code>buffer</code>.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> ((readBytes = requestInputStream.read(buffer)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    requestContentBuf.put(buffer, <span class="number">0</span>, readBytes);</span><br></pre></td></tr></table></figure>
-<p>I had increased the capacity of the <code>ByteBuffer</code> by <code>BUFFER_SIZE</code>, this change should also be reverted.</p>
-<p>Now, the bug is fixed, and this is network programming.</p>
-<h2 id="questions">Questions</h2>
-<p>"The system works a long time, and it shouldn't have this problem or we knew it long ago"</p>
-<blockquote>
-<p>This is because the client seldom posts data more than 4096 bytes to server.</p>
-</blockquote>
-<p>"I have read the Javadoc of <code>DataInputStream</code>, the <code>read</code> method will put data fully to the specified buffer"</p>
-<blockquote>
-<p>It didn't, please read it again.</p>
-</blockquote>
-<p>"I have tested the <code>read</code> method of <code>DataInputStream</code> on a file, it reads fully 4096 bytes in every iteration"</p>
-<blockquote>
-<p>This is a web service, deploy it to a server and test.</p>
-</blockquote>
-<p>"I have tested it on my local machine as a web service, and it reads fully 4096 bytes in every iteration"</p>
-<blockquote>
-<p>This is a web service, it should be in a network.</p>
-</blockquote>
-<h2 id="at-last">At Last</h2>
-<p>When a potential bug was reported, we do tests to make it happen again and find the root cause.</p>
-<p>We do not stop listening and just look for reasons to reject it.</p>
-<p>When we find a bug, we do help others to make it reappear to collect information.</p>
-<p>We do not sit there and just blame on others for their mistakes.</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2014/06/16/tdd-on-swift/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Zheng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Extra Cookies">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2014/06/16/tdd-on-swift/" class="post-title-link" itemprop="url">TDD on Swift</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2014-06-16 00:26:26" itemprop="dateCreated datePublished" datetime="2014-06-16T00:26:26+08:00">2014-06-16</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Long long ago, I wrote a post about <a href="/2011/01/16/tdd-using-objective-c">how to do TDD using Objective-C</a>, since <a target="_blank" rel="noopener" href="http://www.apple.com/apple-events/june-2014/">Apple WWDC 2014</a>, <a target="_blank" rel="noopener" href="https://developer.apple.com/swift/">Swift</a> is really eye-catching, I think I should write a new one to follow the trend.</p>
-<p><a target="_blank" rel="noopener" href="https://developer.apple.com/library/ios/documentation/ToolsLanguages/Conceptual/Xcode_Overview/UnitTestYourApp/UnitTestYourApp.html">XCTest</a> is used as the unit test framework, and Xcode 6 is needed.</p>
-<h2 id="tdd-work-flow">TDD Work-flow</h2>
-<ol type="1">
-<li>Add a test for a user case or a user story</li>
-<li>Run all tests and see if the new one fails</li>
-<li>Write some code that causes the test to pass</li>
-<li>Run tests, change production code until all test cases pass</li>
-<li>Refactor the production code</li>
-<li>Refactor the test code</li>
-<li>Return to 1, and repeat</li>
-</ol>
-<p>The <code>5</code> and <code>6</code> are optional, do them only if needed, but be sure that DO NOT do them at the same time. That is, when you refactor production code, you can't change the test code, until all the test cases are passed, then you are confident that your production code refactoring is perfect, then, you can refactor the test code, and this time, you can't change the production code.</p>
-<h2 id="a-simple-example">A Simple Example</h2>
-<p>We are about to implement a super simple bank account management tool.</p>
-<h3 id="create-a-project">Create a Project</h3>
-<p>Use Xcode to create a project <code>BankAccount</code> (iOS Single View Application)</p>
-<p><img src="/images/2014/tddswift1.png" width="500"></p>
-<h3 id="add-a-test-case">Add a Test Case</h3>
-<p>Create a Swift file named <code>SavingAccountTest</code>, and choose <code>BankAccountTests</code> as target.</p>
-<p><img src="/images/2014/tddswift2.png" width="500"></p>
-<p>"People can deposit money to a saving account", it's our first user story.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"><span class="keyword">import</span> XCTest</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccountTest</span>: <span class="title">XCTestCase</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">testDeposit</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">var</span> account = <span class="type">SavingAccount</span>()</span><br><span class="line">        account.deposit(<span class="number">100</span>)</span><br><span class="line">        <span class="type">XCTAssertEqual</span>(<span class="number">100</span>, account.balance)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="run-all-tests">Run All Tests</h3>
-<p>Run all the unit tests, it fails as we expected.</p>
-<p><img src="/images/2014/tddswift3.png" width="500"></p>
-<h3 id="write-code-to-pass-the-test">Write Code to Pass the Test</h3>
-<p>Create a Swift file named <code>SavingAccount</code>, and choose both <code>BankAccount</code> and <code>BankAccountTests</code> as targets.</p>
-<p>Make it simple, just to pass the test.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccount</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> balance:<span class="type">Int</span> = <span class="number">100</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">deposit</span><span class="params">(money:Int)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="run-all-tests-1">Run All Tests</h3>
-<p>It passes.</p>
-<p><img src="/images/2014/tddswift4.png" width="500"></p>
-<h3 id="next-user-story">Next User Story?</h3>
-<p>"People could withdraw some money"</p>
-<p>Let's change the <code>testDeposit</code> test case.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"><span class="keyword">import</span> XCTest</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccountTest</span>: <span class="title">XCTestCase</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">testDepositAndWithdraw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">var</span> account = <span class="type">SavingAccount</span>()</span><br><span class="line">        account.deposit(<span class="number">100</span>)</span><br><span class="line">        account.withdraw(<span class="number">50</span>)</span><br><span class="line">        <span class="type">XCTAssertEqual</span>(<span class="number">50</span>, account.balance)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Also, add an empty <code>withdraw</code> method to <code>SavingAccount</code> to satisfy the compiler. Do not add any other code until we see it fails.</p>
-<h3 id="run-all-tests-2">Run All Tests</h3>
-<p>The test fails, because the account balance was not updated after people withdrew some money.</p>
-<p><img src="/images/2014/tddswift5.png" width="500"></p>
-<h3 id="write-code-to-support-withdraw">Write Code to Support Withdraw</h3>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccount</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> balance:<span class="type">Int</span> = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">deposit</span><span class="params">(money:Int)</span></span> &#123;</span><br><span class="line">        balance += money</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">withdraw</span><span class="params">(money:Int)</span></span> &#123;</span><br><span class="line">        balance -= money</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="run-all-tests-3">Run All Tests</h3>
-<p>All the user stories are satisfied.</p>
-<p><img src="/images/2014/tddswift6.png" width="500"></p>
-<h3 id="any-other-new-user-story">Any Other New User Story?</h3>
-<p>"People can't withdraw money beyond their account balance"</p>
-<p>We add a new test case <code>testNegativeBalanceIsNotFine</code></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testNegativeBalanceIsNotFine</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> account = <span class="type">SavingAccount</span>()</span><br><span class="line">    account.deposit(<span class="number">50</span>)</span><br><span class="line">    account.withdraw(<span class="number">100</span>)</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="run-all-tests-4">Run All Tests</h3>
-<p>It fails, we have to fix it.</p>
-<p><img src="/images/2014/tddswift7.png" width="500"></p>
-<h3 id="write-code">Write Code</h3>
-<p>Change the <code>withdraw</code> method, set account balance to 0 if it is less than 0.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">withdraw</span><span class="params">(money:Int)</span></span> &#123;</span><br><span class="line">    balance -= money</span><br><span class="line">    <span class="keyword">if</span> balance &lt; <span class="number">0</span> &#123;</span><br><span class="line">        balance = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="run-all-tests-5">Run All Tests</h3>
-<p>All right, all the test cases are succeeded.</p>
-<p><img src="/images/2014/tddswift8.png" width="500"></p>
-<h3 id="refactoring">Refactoring</h3>
-<p>Until now, we haven't do any refactoring on our code base.</p>
-<p>I think the production code is fine, so we skip the step 5, and refactor the test code.</p>
-<p>We can see that both test cases create an instance of <code>SavingAccount</code>, the duplicated code can be removed by using only one <code>SavingAccount</code> instance.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccountTest</span>: <span class="title">XCTestCase</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> account = <span class="type">SavingAccount</span>()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">testDepositAndWithdraw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        account.deposit(<span class="number">100</span>)</span><br><span class="line">        account.withdraw(<span class="number">50</span>)</span><br><span class="line">        <span class="type">XCTAssertEqual</span>(<span class="number">50</span>, account.balance)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">testNegativeBalanceIsNotFine</span><span class="params">()</span></span> &#123;</span><br><span class="line">        account.deposit(<span class="number">50</span>)</span><br><span class="line">        account.withdraw(<span class="number">100</span>)</span><br><span class="line">        <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Don't forget to run all the tests, make sure it is succeeded.</p>
-<h3 id="why-no-setup-and-teardown">Why no setup and tearDown</h3>
-<p>People coming from <code>objc</code> may doubt that why the <code>account</code> instance is not put into <code>setUp</code> method, the way we use might cause different test cases sharing one instance variable, as we know, test cases should be independent with each other.</p>
-<p>Yes, I had this doubt, too. So I did a test, by adding a "account balance should be 0" check before each test cases.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testDepositAndWithdraw</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">    account.deposit(<span class="number">100</span>)</span><br><span class="line">    account.withdraw(<span class="number">50</span>)</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">50</span>, account.balance)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testNegativeBalanceIsNotFine</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">    account.deposit(<span class="number">50</span>)</span><br><span class="line">    account.withdraw(<span class="number">100</span>)</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>The result shows that the <code>XCTest</code> framework avoids instance variable sharing between test cases by instantiating a brand new <code>XCTestCase</code> object for each test case. That is, it instantiated two <code>SavingAccountTest</code> objects as our tests run.</p>
-<h2 id="to-tdd-haters">To TDD Haters</h2>
-<p>If you hate TDD, and may think this blog post is garbage.</p>
-<p>Sorry for that, you can remove your browser history of this address, if it makes you feel better.</p>
-<p>Also, I strongly recommend you to watch the "TDD dead" <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=z9quxZsLcfo">discussions</a> by <a target="_blank" rel="noopener" href="http://martinfowler.com">Martin Fowler</a>, <a target="_blank" rel="noopener" href="http://www.threeriversinstitute.org/Kent%20Beck.htm">Kent Beck</a> and <a target="_blank" rel="noopener" href="http://david.heinemeierhansson.com">David Heinemeier Hansson</a>.</p>
+<p>用户行为分析平台的目标就是将其中 4-6 阶段的工作变得简单和自动化，把开发人员解放出来去做更多对业务有价值的工作。而 1-3 部分的工作，看起来不复杂，基于业务现状去定义指标，排出埋点需求，和开发人员确认好就完成了。</p>
+<p>但这块从实践上来看，很多企业或者业务都做的不够好。比如定义的事件数量迅速膨胀，一段时间后，团队可能大部分人都不知道某些埋点是做什么的，开发人员也不好删掉，就一直存在着，可能早已失去了业务价值；或者业务人员定义了埋点需求，但开发人员埋点做错了，彼此都没发现，导致分析过程出现错误解读；又或者上线了才发现埋点的参数或者位置不对，但又必须得等到下一次发版本才能解决。</p>
+<p>这块有几件事情可以做：</p>
+<ul>
+<li>指标管理系统，用来维护指标依赖的数据表、字段以及计算方式，来统一开发、分析和解读过程的口径。</li>
+<li>埋点管理系统，用来管理埋点的元数据，包括事件 <code>Event</code> 的命名、自定义字段含义和特定取值等规范定义，埋点在产品端的位置或触发场景，埋点工作流等，作为业务人员、开发者、分析师沟通的桥梁和基准。</li>
+<li>埋点测试和校验系统，提供 debug 工具方便开发人员快速进行埋点调试，以及使用事件定义的规范要求，在线上对埋点数据进行校验，尽早发现不符合规范的数据，提高埋点工作的效率和准确性。</li>
+</ul>
+<h2 id="如何做好埋点工作和研发的协调和落地">如何做好埋点工作和研发的协调和落地？</h2>
+<p>在实践中，很多开发人员不太愿意做“埋点”的工作，觉得很琐碎，而且随着产品的发展，包袱有时候会越来越大，维护的工作量不小。</p>
+<p>要让埋点工作在研发比较好的落地，最能提升的地方还是在于如何简化开发人员的工作，包括开发成本和沟通成本。</p>
+<p>采集 SDK 应该尽量简化 API，能自动做的就不要让开发人员来做，比如应用生命周期的检测、PageView 的采集、甚至对一些企业内部组件化框架的支持，尽可能减少开发人员接入分析平台需要添加的代码量。</p>
+<p>有完善的埋点管理系统，这样研发端可以依据进行开发，减少“口口相传”带来的低效和返工，也能统一口径和进度流程。</p>
+<p>有高效易用的埋点测试、校验系统，开发人员可以快速进行埋点 debug，提高开发效率，也能让业务方尽早介入需求校验，而不是等应用真正发布后才去校验，去发现问题。</p>
+<p>当然，最好能和开发人员持续分享数据是如何促进业务的发展，让大家明白这些工作的价值，才能更重视，更认真对待这部份工作。</p>
+<h2 id="埋点数据采集与企业数据资产建设怎样更好的合作">埋点数据采集与企业数据资产建设怎样更好的合作？</h2>
+<p>用户行为分析平台在建设时，数据端会包含如下能力：</p>
+<ul>
+<li>数据接入，要支持客户端、Web、服务端等多终端的数据采集，如 iOS、Android、微信小程序等，以及各种数据源甚至三方服务的数据适配。</li>
+<li>数据传输，在用户规模和数据规模增长过程中，要能保证数据传输服务的高可用、以及采集数据在传输过程的及时性。</li>
+<li>数据建模/存储，要能实时的进行数据清洗、建模和存储落地。</li>
+</ul>
+<p>这些能力，在互联网业务的数据资产建设过程中，尤其是用户、流量、产品相关领域，能起到基础设施的作用。规范的数据采集，加上高效的传输、建模能力，是企业业务数据资产有效建设的前提。</p>
+<p>建模后的数据，可以作为数据仓库底层（ODS 层）的宽表，和企业的其他业务数据整合，共同完善企业的数据资产建设。</p>
+<p>另一方面，这些用户端的结构化数据，加上实时建模和开放的能力，和机器学习算法结合起来，无论是个性化推荐，还是精准营销，又或是银行、电商的风控，都可以发挥很大威力，为企业的智能驱动业务做好数据积累，扫清障碍。</p>
+<p>企业在数据建设的过程中的产出，也可以扩充以 PaaS 提供服务的用户行为分析平台的能力，让企业在平台上可以做更多的事情，如 CRM、推送、实时推荐等。</p>
+<p>拿 DMP （用户画像）建设举个例子，</p>
+<p>企业在建设自己的 DMP 库的过程中，常常会从常规的人口属性等准静态类标签，以及像消费能力等从自身业务积累或三方合作得到的通用类标签入手。这些标签往往是泛业务的，针对具体业务而言，很多时候会需要用户画像标签更贴近业务，比如电商业务场景下的母婴用户、电子产品发烧友、化妆品品牌喜好用户等。这些标签和用户的发掘，需要对用户的行为进行深度分析来获取，这个工作便可以借助用户行为分析平台的能力，如基于用户行为模式和用户业务属性对用户进行分群分析和比较，来发现和挖掘有价值的用户标签。</p>
+<p>另一方面，用户画像的数据，也可以和分析平台进行整合和集成，提升平台各分析模型对不同用户群的洞见能力，让分析和指标的比较更有针对性，提升数据对业务的促进能力。</p>
+<h2 id="埋点及分析平台和-ab-试验平台如何更好的互相促进">埋点及分析平台和 A/B 试验平台如何更好的互相促进？</h2>
+<p>A/B 测试产品是通过提供专业高效的试验平台，帮助产品进行产品决策的验证和分析。常规使用流程如下：</p>
+<p>接入 SDK -&gt; 创建试验版本 -&gt; 设置变量、以及优化指标 -&gt; 调节试验流量 -&gt; 运行试验 -&gt; 实时监控数据进行效果评估 -&gt; 正式发布</p>
+<p>试验平台和分析平台的 SDK 在很多功能上是重合的，在 SDK 实现上可以整合，减少业务应用接入太多 SDK 的负担。</p>
+<p>在数据采集、建模、分析层面，分析平台可以做为 A/B 试验平台后端数据的承载，优化指标的效果评估就能覆盖用户的全量行为，无需业务及开发人员维护多个工具带来的重复埋点定义和开发工作。另外，在分析平台积累的很多分析模型和指标，在 A/B 试验平台直接可以选取使用，无需在试验平台再进行设置，除减少业务人员工作外，还能保证统计口径的一致。</p>
+<p>反过来，A/B 试验平台的一些对比试验，以及特定灰度发布的用户群，也能整合到分析平台，通过分群分析能力，将这些群体应用到各个分析模型进行针对性的分析，甚至试验结束后，也能持续对这些用户进行追踪和分析，更好的洞察用户。</p>
+<h2 id="如何打通产品多端的埋点数据">如何打通产品多端的埋点数据？</h2>
+<p>目前大多数用户行为分析产品都会通过 SDK 支持 iOS、Android、Web 三个端的数据采集，还有些产品覆盖的更广，支持 PC、微信小程序、服务端、甚至直接基于 HTTP API 进行数据采集。</p>
+<p>在分析如何打通多端用户数据前，我想先谈下单个终端的用户标识问题，毕竟，如果单个端的用户标识都不稳定，那多端用户数据打通也就失去了意义。</p>
+<p>现在的分析产品在一般情况下，移动端会通过 SDK 生成唯一 ID 来标识用户/设备。移动化发展早期，很多采集工具用过 mac address、IDFA、android_id、IMEI 等从移动操作系统可以获取的设备软硬件信息来标识设备，但随着操作系统的发展，很多信息获取接口要么被封禁，要么已经失去了精准性。反倒是一开始就通过自己生成的 ID 来标识用户的工具，受到的影响不大，基本保持了用户/设备标识的稳定。</p>
+<p>但这种方式有个问题，在用户卸载、重装或者刷机后，ID 信息会丢失，导致生成新的用户/设备 ID。这个问题，可以通过 ID Mapping 技术来解决：</p>
+<p>分析平台对每个用户生成一个虚拟 ID，对同一个用户的多个设备和帐号进行映射，并绑定起来。</p>
+<ul>
+<li>可以通过操作系统提供的一些稳定性稍差，但短时间还比较稳定的指标，如 iOS 的 IDFA，来做 mapping。</li>
+<li>借助分析产品的应用覆盖率，如用户是应用 A 和 B 的用户，卸载并重新安装 B 应用后，可以通过应用 A 的 ID 修复应用 B 的。</li>
+<li>通过引入产品用户帐号体系，来做绑定，这种方式稳定性最强，但非登录匿名用户的问题不好解决。</li>
+<li>通过 IP、Wi-Fi 信息、机器型号、甚至地理位置进行 mapping，这种方式需要用户授权更多数据获取权限，虽然是近似匹配，但当信息足够多且发散（信息熵足够大）时，也可以起到统一标识的作用。</li>
+</ul>
+<p>通过这个虚拟 ID 实质上就打通了产品的多端数据。实践中，ID Mapping 体系的建设工作量不小，Mapping 后用户标识如果需要发生调整，在基于事件的分析产品上需要对老数据进行重写，比较复杂。所以对于一些强帐号体系的产品，可以退化到只用用户帐号来做关联，只有非登录匿名用户才用设备 ID 来标识，这往往是性价比比较高的方案。</p>
+<p>再引申下，在多端数据打通问题的讨论中，经常会提到用户来源归因的问题。</p>
+<p>比如，产品做推广，使用了百度 SEM、广点通、应用市场等渠道，想知道各个渠道有多少用户激活了，以及后续使用情况如何。</p>
+<p>为了解决这个问题，支持营销效果评估的分析平台会要求产品在平台上生成推广链接进行投放。用户在点击链接时，会从分析平台的域下做跳转再到目标页，这样就可以借助浏览器的 cookie 机制进行匹配，来对用户来源进行归因，但这种方式在移动端上面的表现不太好（iOS 已经取消了 SFSafariViewController 多应用共享 cookie 的支持）。除此之外，也可以采用 ID Mapping 提到的近似匹配技术，很多厂商声称的设备指纹技术大多也是这种，不太准，但定性分析是可以的。</p>
+<p>一些做移动业务比较多的推广渠道，支持设备 ID 的回传功能来方便产品归因问题的解决。产品方在投放链接的时候，遵照特定格式即可。</p>
+<p>如 <code>https://xxx.com/aaaafD?idfa=__IDFA__&amp;imei=__IMEI__</code></p>
+<p>渠道在用户点击广告链接后，会把设备 ID 如 IDFA 或 IMEI 加到链接的内容里面，用户激活后便可以通过相应 ID 匹配来归因。</p>
 
       
     </div>
@@ -644,7 +507,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 

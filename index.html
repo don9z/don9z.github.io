@@ -201,6 +201,9 @@
         <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i>RSS</a>
       </span>
   </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
 
 
 
@@ -409,114 +412,10 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2019/01/07/speaking-of-a-data-team/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Zheng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Extra Cookies">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/01/07/speaking-of-a-data-team/" class="post-title-link" itemprop="url">从一个数据团队的说起</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2019-01-07 21:42:33" itemprop="dateCreated datePublished" datetime="2019-01-07T21:42:33+08:00">2019-01-07</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>大数据时代，在有庞大自有数据的企业，作为一个承担数据体系建设责任的数据团队要从哪些事情开始做起？</p>
-<p>一开始，数据的需求很多都是企业的领导者要快速了解公司的业务情况，比如销售、财务、研发环节的一些统计指标。</p>
-<p>于是数据团队开始熟悉企业的各种数据，把各种不同数据源的数据汇集到大数据技术栈：把业务数据库的数据同步出来，把在线系统的日志收集起来，把用户在产品各端的行为记录采集起来。接着，基于大数据技术栈，针对性做数据清洗、数据统计，然后将数据展现出来给领导者。</p>
-<p>几个几十个指标这么做问题不大，但数据需求很快膨胀了起来，指标需求增长到好几百，数据团队开始疲于奔命响应业务方繁杂多变的需求。每个指标都要从原始数据算起，重复工作很多，加上都是独立做计算，同类指标口径歧义的问题也越来越严重。同时，快速增长的计算任务，带来任务产出稳定性、及时性的大幅下降。数据团队同时面临开发人力的不足、数据产出的不稳定以及业务方的频繁不满。</p>
-<p>团队思考再三，为了解决困境，决定从以下两件事情做起。</p>
-<p>第一是建立数据研发的系统，解决任务开发、调度、运维、质量保障方面的问题，把数据开发和数据产出管起来。</p>
-<p>第二是建立企业的数据仓库，通过对企业业务和数据的调研、梳理，将企业各个业务领域的数据规整起来。通过定义一系列设计规范，完成数仓模型的设计，接着，基于数仓模型实施数据开发。</p>
-<p><strong>数据仓库建设，是一个企业数据体系建设过程中很关键的一项工作，也是工作量巨大的一项工作。</strong></p>
-<p>数据仓库建设过程中，产生的标准规范、表结构、任务依赖、存储计算资源、业务用途等信息，需要统一管理起来，如通过数据地图，让数据可见，而不是在一行行代码一个个计算任务里；通过血缘追溯，管控数据的依赖关系，数据的质量保障和问题跟踪能有据可依；数据还可以被从企业数据资产的角度来看待，来盘点。</p>
-<p>有了数据仓库，有了不断丰满的业务指标体系，数据团队的工作变得规范、高效起来，团队也步入正轨。这个时候，新的问题出现了，企业业务高层领导者开始质疑：数据团队这么多人，做了这么久，怎么没看到什么产出，没看到对业务有什么实在价值？就做做数据报表需要这么多人？</p>
-<p><strong>数据团队的价值在哪里，是整个团队面临的又一个大问题。</strong></p>
-<p>团队开始思考，如何让数据产生价值。有几个想法大家越来越确定，</p>
-<p>数据要产生价值，不是收集尽可能多的数据然后躺在那里，也不是开发尽可能多的指标然后展示在那里，而是要被用起来，被“活”用起来。</p>
-<p>我们不能假定用户都会知道数据的好处，而是要降低用户使用数据的门槛，让用户知道怎么用数据、怎么用好数据，知道数据的价值。</p>
-<p>一个个数据报告是静态的，但分析的理念和框架是动态的，是可行动的，通过提炼分析框架进行数据泛化形成数据产品，如 “AARRR” 模型的用户分析产品，如针对大促的全流程电商运营分析产品，才能让数据被真正用起来。</p>
-<p>于是团队开始基于业务现状、目标来研发数据分析产品。在过程中，积累了不少心得：</p>
-<ul>
-<li>数据产品要聚焦业务场景</li>
-<li>数据产品也要重视用户体验</li>
-<li>数据产品要打通分析、行动，形成闭环</li>
-</ul>
-<p>有了数据产品，用户可以以很低的门槛使用数据，用数据做决策。接下来，数据团队面临的挑战又是什么呢？</p>
-<p>挖掘数据价值，让数据不仅能通过分析框架来指导业务，还可以直接赋能业务，让基于数据洞察做业务创新变得可能。</p>
-<p>团队通过用户画像做精准营销，做千人千面，通过基于行为的用户分类做用户促活、做流失用户挽回，通过销量预测做商品补货、做商品调拨 ……</p>
-<p><strong>从数据分析到数据洞察，从业务描述、业务诊断到业务预测、决策支持。</strong></p>
-<p>最后，总结下数据团队都做了哪些事情：</p>
-<ul>
-<li>数据采集和集成</li>
-<li>数仓规划和建模开发</li>
-<li>数据治理和数据资产管理</li>
-<li>数据产品和服务</li>
-<li>数据挖掘和算法赋能</li>
-</ul>
-<hr />
-<p>时下，很多大数据厂商不管是提供基础设施的，还是提供 PaaS 平台的，又或是提供数据应用的，都喜欢说自己是大数据整体解决方案提供商。回看这个数据团队所做的事情，这些厂商要做到什么程度才能称之为整体解决方案？才能从工具层面解放这个数据团队，让其聚焦到业务上，做产出最大的事情？</p>
-<p>最基础的是覆盖技术栈广、性能高、且稳定的数据基础设施，满足数据离线/实时计算、存储、查询等需求。</p>
-<p>然后是完备的数据开发工具支持，高效解决数据集成、数据开发、任务依赖管理等工作，以及完善的离线/实时任务监控、运维工具。</p>
-<p>第三，配合数据开发工具，要能形成整合统一的元数据中心，解决数据治理问题，如数据的全链路血缘追溯、数据质量的监控保障等。另外，针对数据仓库建设，要从工具和标准规范层面打通数仓规划、模型设计、开发、测试等流程，降低数仓建设门槛。最后，能提供数据管理的门户，让从业务视角去管理企业的数据资产变得可能。</p>
-<p>第四是通用和场景化的数据分析产品及服务，如可视化BI产品、应用/用户分析产品、营销监测产品、A/B试验产品、数据查询服务、用户画像存储和查询服务等，让数据团队不用花费大量时间去造轮子。</p>
-<p>第五是机器学习算法建模、调试等工具支持，降低算法模型开发的上手难度，驱动数据团队基于数据智能的业务创新实践。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 

@@ -201,6 +201,9 @@
         <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i>RSS</a>
       </span>
   </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
 
 
 
@@ -236,7 +239,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2012/11/22/coding-system-in-shell-command/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2013/07/12/using-ios-android-libraries-cocos2dx/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -250,7 +253,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2012/11/22/coding-system-in-shell-command/" class="post-title-link" itemprop="url">Coding Systems in `shell-command`</a>
+            <a href="/2013/07/12/using-ios-android-libraries-cocos2dx/" class="post-title-link" itemprop="url">Using iOS and Android Libraries in Cocos2D-X</a>
         </h2>
 
         <div class="post-meta-container">
@@ -261,7 +264,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2012-11-22 12:40:00" itemprop="dateCreated datePublished" datetime="2012-11-22T12:40:00+08:00">2012-11-22</time>
+      <time title="Created: 2013-07-12 18:21:00" itemprop="dateCreated datePublished" datetime="2013-07-12T18:21:00+08:00">2013-07-12</time>
     </span>
 
   
@@ -274,44 +277,56 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="problem">Problem</h2>
-<p>The day before yesterday, I looked into the Markdown menu of Emacs and saw "Preview" and "Export" commands while I was editing one markdown document, then, I just clicked, and opened the exported HTML file, but found out that almost all my contents were emptied, that document were written in Chinese.</p>
-<p>I had another separate Emacs instance running on a terminal, I do the same thing there, the non-ASCII characters were well outputted.</p>
-<h2 id="solution">Solution</h2>
-<p>Before, I always used <code>markdown</code> directly by <code>shell-command</code>, and it worked well. I doubt there might be something wrong in the encoding functions of <code>markdown-mode</code>. Then I checked.</p>
-<p>Below is the <code>markdown</code> function definition in <code>markdown-mode</code>.</p>
-<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">defun</span> markdown (<span class="name">&amp;optional</span> output-buffer-name)</span><br><span class="line">  <span class="string">&quot;Run &#x27;markdown&#x27; on current buffer and insert output in buffer given by</span></span><br><span class="line"><span class="string">&#x27;output-buffer-name&#x27; (defaults to `markdown-output-buffer-name&#x27;).  Return the</span></span><br><span class="line"><span class="string">OUTPUT-BUFFER used.&quot;</span></span><br><span class="line">  (<span class="name">interactive</span>)</span><br><span class="line">  (<span class="name">save-window-excursion</span></span><br><span class="line">    (<span class="name"><span class="builtin-name">let</span></span> ((<span class="name">begin-region</span>)</span><br><span class="line">          (<span class="name">end-region</span>))</span><br><span class="line">      (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">and</span></span> (<span class="name">boundp</span> <span class="symbol">&#x27;transient-mark-mode</span>) transient-mark-mode mark-active)</span><br><span class="line">          (<span class="name">setq</span> begin-region (<span class="name">region-beginning</span>)</span><br><span class="line">                end-region (<span class="name">region-end</span>))</span><br><span class="line">        (<span class="name">setq</span> begin-region (<span class="name">point-min</span>)</span><br><span class="line">              end-region (<span class="name">point-max</span>)))</span><br><span class="line"></span><br><span class="line">      (<span class="name"><span class="builtin-name">unless</span></span> output-buffer-name</span><br><span class="line">        (<span class="name">setq</span> output-buffer-name markdown-output-buffer-name))</span><br><span class="line"></span><br><span class="line">      (<span class="name"><span class="builtin-name">cond</span></span></span><br><span class="line">       <span class="comment">;; Handle case when `markdown-command&#x27; does not read from stdin</span></span><br><span class="line">       (<span class="name">markdown-command-needs-filename</span></span><br><span class="line">        (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">not</span></span> buffer-file-name)</span><br><span class="line">            (<span class="name">error</span> <span class="string">&quot;Must be visiting a file&quot;</span>)</span><br><span class="line">          (<span class="name">shell-command</span> (<span class="name">concat</span> markdown-command <span class="string">&quot; &quot;</span></span><br><span class="line">                                 (<span class="name">shell-quote-argument</span> buffer-file-name))</span><br><span class="line">                         output-buffer-name)))</span><br><span class="line">       <span class="comment">;; Pass region to `markdown-command&#x27; via stdin</span></span><br><span class="line">       (<span class="name">t</span></span><br><span class="line">        (<span class="name">shell-command-on-region</span> begin-region end-region markdown-command</span><br><span class="line">                                 output-buffer-name))))</span><br><span class="line">    output-buffer-name))</span><br></pre></td></tr></table></figure>
-<p>The <code>cond</code> expression has two branches, the first one executes <code>markdown</code> using <code>shell-mode</code> directly on the file of current buffer, the second one instead uses <code>shell-command-on-region</code> on a region marked in current buffer.</p>
-<p>If <code>markdown-mode</code> was written by me, I would always use the <code>shell-command-on-region</code>, because able to preview part of a markdown document is definitely a good user experience. I was right, the <code>markdown-command-needs-filename</code> is set as <code>nil</code> by default.</p>
-<p>I wanted to fix my encoding problem, so, I set it to <code>t</code>, and then "preview" again, non-ASCII characters showed up in exported HTML.</p>
-<p>But I didn't want to stop there, since it's a workaround, workaround smells.</p>
-<p>There might be some differences on encoding between <code>shell-command</code> and <code>shell-command-on-region</code> which caused this issue.</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">To specify a coding system for converting non-ASCII characters</span><br><span class="line">in the shell command output, use C-x RET c before this command.</span><br><span class="line"></span><br><span class="line">Noninteractive callers can specify coding systems by binding</span><br><span class="line">`coding-system-for-read&#x27; and `coding-system-for-write&#x27;.</span><br></pre></td></tr></table></figure>
-<p>Stepped into <code>shell-command</code> function, I saw above comments. Then tracing into <code>coding-system-for-read</code>,</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">coding-system-for-read is a variable defined in `C source code&#x27;.</span><br><span class="line">Its value is nil</span><br><span class="line"></span><br><span class="line">Documentation:</span><br><span class="line">Specify the coding system for read operations.</span><br><span class="line">It is useful to bind this variable with `let&#x27;, but do not set it globally.</span><br><span class="line">If the value is a coding system, it is used for decoding on read operation.</span><br><span class="line">If not, an appropriate element is used from one of the coding system alists.</span><br><span class="line">There are three such tables: `file-coding-system-alist&#x27;,</span><br><span class="line">`process-coding-system-alist&#x27;, and `network-coding-system-alist&#x27;.</span><br></pre></td></tr></table></figure>
-<p>It looks for <a target="_blank" rel="noopener" href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Coding-Systems.html">coding system</a> from <code>file-coding-system-alist</code> at first, below are mine.</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Value: ((&quot;\\.dz\\&#x27;&quot; no-conversion . no-conversion)</span><br><span class="line"> ...</span><br><span class="line">(<span class="string">&quot;\\.elc\\&#x27;&quot;</span> . utf-8-emacs)</span><br><span class="line">(<span class="string">&quot;\\.utf\\(-8\\)?\\&#x27;&quot;</span> . utf-8)</span><br><span class="line">(<span class="string">&quot;\\.xml\\&#x27;&quot;</span> . xml-find-file-coding-system)</span><br><span class="line"> ...</span><br><span class="line">(&quot;&quot; undecided))</span><br></pre></td></tr></table></figure>
-<p>All my documents are <code>uft-8</code> encoded, so, the output of <code>shell-command</code> are encoded as <code>uft-8</code> format, too.</p>
-<p><code>shell-command-on-region</code> is different, below are the comments of it.</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">To specify a coding system for converting non-ASCII characters</span><br><span class="line">in the input and output to the shell command, use C-x RET c</span><br><span class="line">before this command.  By default, the input (from the current buffer)</span><br><span class="line">is encoded using coding-system specified by `process-coding-system-alist&#x27;,</span><br><span class="line">falling back to `default-process-coding-system&#x27; if no match for COMMAND</span><br><span class="line">is found in `process-coding-system-alist&#x27;.</span><br></pre></td></tr></table></figure>
-<p>Instead, it uses <code>process-coding-system-alist</code> as encoding options, in my machine, it's <code>nil</code>. So, it searches encoding options in <code>default-process-coding-system</code>.</p>
-<p>In my machine the value of <code>default-process-coding-system</code> is</p>
-<p><code>(undecided-unix . iso-latin-1-unix)</code></p>
-<p>but in the terminal Emacs instance, it's <code>(utf-8 . utf-8)</code>, that's why I get right output there.</p>
-<p>Added below line to my dot emacs, problem was solved.</p>
-<p><code>(setq default-process-coding-system '(utf-8 . utf-8))</code></p>
-<p>Or,</p>
-<p><code>(set-language-environment "UTF-8")</code></p>
-<p>I discussed this problem with <a target="_blank" rel="noopener" href="http://xahlee.org">Xah Lee</a>, he mentioned <code>default-process-coding-system</code> in his environment is <code>utf-8</code>, probably because he set <code>set-language-environment</code> to <code>utf-8</code>, and I did a test, it worked. I prefer this setting, because it looks like environmentally global. :)</p>
-<h2 id="complaint">Complaint</h2>
-<p>Emacs supports nearly all encoding formats, there are dozens of (default) coding systems of different modes need to be set.</p>
-<p>Imagine a package relies on one built-in function, and this function looks for coding system from some built-in variables, but a user may even do not know these variables exist, it will be hard for him to find what happened when he get a messy output.</p>
-<p>As an amazing good editor or an operating system :), supports all kinds of encoding formats is needed, but to be a modern editor, people don't need to know what's under the hood every time he's about to configure something.</p>
-<p>We could move this responsibility to <a target="_blank" rel="noopener" href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Packages.html"><em>Packages</em></a> that people use (some people call them plugins or extensions).</p>
-<p>For example, we can set the output coding system to be the same as the input before executing some built-in functions which support different kinds of coding systems.</p>
-<p>We can provide options for people to set coding system in the package they use, not to figure out what's under the hood.</p>
-<p>Even, we can just restrict the coding system in <code>utf-8</code>, leave nothing to worry about by people who uses the package.</p>
-<p>I think all these are called as <strong>ABSTRACTION</strong>.</p>
+          <p>Been working on some libs on both iOS and Android platforms for a long time, recently needed to support <a target="_blank" rel="noopener" href="http://www.cocos2d-x.org">Cocos2d-x</a> framework, I have no interest to write a whole new lib based on C++, nightmare for maintenance, So I worked on to integrate both libs to Cocos2d-x framework.</p>
+<h2 id="ios">iOS</h2>
+<p>Imagine my lib name is <code>libHumbleAssistant.a</code>, with a header file <code>HumbleAssistant.h</code>.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">HumbleAssistant</span> : <span class="title">NSObject</span></span></span><br><span class="line">+ (<span class="keyword">void</span>)doSomething:(<span class="built_in">NSString</span> *)order;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>Lucky me, Objective C belongs to C family, which could integrate with C and C++ seamlessly.</p>
+<p>At first, create a <code>.h</code> header file as the real interface for C++ code, and name it as <code>humble_assistant_cpp.h</code>.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HumbleAssistantCpp</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">do_something</span><span class="params">(<span class="keyword">char</span> *order)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Then, create its source <code>humble_assistant_cpp.mm</code>, <code>.mm</code> stands for <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Objective-C#Objective-C.2B.2B">Objective-C++</a>, in which, people can hybrid programming with Objective C and C++.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">&quot;HumbleAssistant.h&quot;</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">&quot;humble_assistant_cpp.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> HumbleAssistantCpp::do_something(<span class="keyword">char</span> *order) &#123;</span><br><span class="line">    [HumbleAssistant doSomething:[<span class="built_in">NSString</span> stringWithUTF8String:order]];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Now, the file structures looks like this</p>
+<pre><code>-mylibs
+  -ios
+    - HumbleAssistant.h
+    - libHumbleAssistant.a
+    - humble_assistant_cpp.h
+    - humble_assistant_cpp.mm</code></pre>
+<p>In a Cocos2d-x project, add those files, and include the <code>humble_assistant_cpp.h</code> to any C++ code that is about to ask the humble assistant a favor. It's that simple.</p>
+<h2 id="android">Android</h2>
+<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Java_Native_Interface">JNI</a> is used to bind Cocos2d-x and Android Java interfaces.</p>
+<p>In order to call a method in a <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/JAR_(file_format)">jar</a> lib from C++, JNI code must be written.</p>
+<p>Imagine my android lib is <code>humbleAssistant.jar</code>, and has an interface as below.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.my.libs;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HumbleAssistant</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">(String order)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>To expose this method to C++, first, create a header file <code>humble_assistant_jni.h</code>.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">extern</span> <span class="keyword">void</span> <span class="title">j_do_something</span><span class="params">(<span class="keyword">char</span> *order)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Then, its implementation <code>humble_assistant_jni.cpp</code>, a little complicated due to the JNI's obscure grammar.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;platform/android/jni/JniHelper.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;humble_assistant_jni.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// java Class location</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>  CLASS_NAME <span class="meta-string">&quot;com/my/libs/HumbleAssistant&quot;</span></span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">j_do_something</span><span class="params">(<span class="keyword">char</span> *order)</span> </span>&#123;</span><br><span class="line">        cocos2d::JniMethodInfo methodInfo;</span><br><span class="line">        <span class="keyword">if</span> (cocos2d::JniHelper::getStaticMethodInfo(methodInfo, CLASS_NAME,</span><br><span class="line">                                      <span class="string">&quot;doSomething&quot;</span>, <span class="string">&quot;(Ljava/lang/String;)V&quot;</span>)) &#123;</span><br><span class="line">            jstring j_order = methodInfo.env-&gt;NewStringUTF(order);</span><br><span class="line">            methodInfo.env-&gt;CallStaticVoidMethod(methodInfo.classID,</span><br><span class="line">                                                 methodInfo.methodID,</span><br><span class="line">                                                 j_order);</span><br><span class="line">            methodInfo.env-&gt;DeleteLocalRef(j_order);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Cocos2d-x is a cross platform framework, our libs need to be that too, only one single interface is needed.</p>
+<p>In iOS, a <code>humble_assistant_cpp.h</code> is created, which is the universal header file for both platforms. And <code>humble_assistant_cpp.mm</code> is the source file.</p>
+<p>So, in Android, we have to make a new source file <code>humble_assistant_cpp.cpp</code>.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;humble_assistant_cpp.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;humble_assistant_jni.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HumbleAssistant::do_something</span><span class="params">(<span class="keyword">char</span> *order)</span> </span>&#123;</span><br><span class="line">    j_do_something(order);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Now, the file structures looks like this</p>
+<pre><code>-mylibs
+  -ios
+    - HumbleAssistant.h
+    - libHumbleAssistant.a
+    - humble_assistant_cpp.h
+    - humble_assistant_cpp.mm
+  -android
+    - humble_assistant_jni.h
+    - humble_assistant_jni.cpp
+    - humble_assistant_cpp.cpp</code></pre>
+<p>But it's not finished.</p>
+<p>We have to change the makefile in "proj.android/jni/android.mk" to add source files and the header file.</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Add source files</span></span><br><span class="line">LOCAL_SRC_FILES := ... \</span><br><span class="line">                   ../../sdk/android/humble_assistant_jni.cpp \</span><br><span class="line">                   ../../sdk/android/humble_assistant_cpp.cpp</span><br><span class="line"></span><br><span class="line"><span class="comment"># Include header file</span></span><br><span class="line">LOCAL_C_INCLUDES := ... <span class="variable">$(LOCAL_PATH)</span>/../../mylibs/ios</span><br></pre></td></tr></table></figure>
+<p>And also, put the jar lib into "proj.android/libs" folder.</p>
+<p>It's done. Looks much more complicated than iOS way, and could be even worse.</p>
+<p>If the <code>doSomething</code> interface needs a <code>HashMap</code> parameter, JNI code will be full of stupid code.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">j_do_something</span><span class="params">(<span class="keyword">char</span> *order, <span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="keyword">char</span>*, <span class="keyword">char</span>*&gt; attributes)</span> </span>&#123;</span><br><span class="line">    cocos2d::JniMethodInfo methodInfo;</span><br><span class="line">    <span class="keyword">if</span> (cocos2d::JniHelper::getStaticMethodInfo(methodInfo, CLASS_NAME,</span><br><span class="line">                                                <span class="string">&quot;doSomething&quot;</span>, <span class="string">&quot;(Ljava/lang/String;Ljava/util/Map;)V&quot;</span>)) &#123;</span><br><span class="line">        jobject jattributes = <span class="number">0</span>;</span><br><span class="line">        jclass hashMapClass = methodInfo.env-&gt;FindClass(<span class="string">&quot;java/util/HashMap&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (hashMapClass) &#123;</span><br><span class="line">            jsize mapSize = attributes.size();</span><br><span class="line">            jmethodID init = methodInfo.env-&gt;GetMethodID(hashMapClass, <span class="string">&quot;&lt;init&gt;&quot;</span>, <span class="string">&quot;(I)V&quot;</span>);</span><br><span class="line">            jobject hashMap = methodInfo.env-&gt;NewObject(hashMapClass, init, mapSize);</span><br><span class="line">            jmethodID putMethod = methodInfo.env-&gt;GetMethodID(hashMapClass, <span class="string">&quot;put&quot;</span>,</span><br><span class="line">                                                              <span class="string">&quot;(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="keyword">char</span>*, <span class="keyword">char</span>*&gt;::const_iterator it = attributes.begin();</span><br><span class="line">                 it != attributes.end(); ++it) &#123;</span><br><span class="line">                jstring key = methodInfo.env-&gt;NewStringUTF(it-&gt;first);</span><br><span class="line">                jstring value = methodInfo.env-&gt;NewStringUTF(it-&gt;second);</span><br><span class="line">                methodInfo.env-&gt;CallObjectMethod(hashMap, putMethod, key, value);</span><br><span class="line">                methodInfo.env-&gt;DeleteLocalRef(value);</span><br><span class="line">                methodInfo.env-&gt;DeleteLocalRef(key);</span><br><span class="line">            &#125;</span><br><span class="line">            jattributes = hashMap;</span><br><span class="line">            methodInfo.env-&gt;DeleteLocalRef(hashMapClass);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        jstring jorder = methodInfo.env-&gt;NewStringUTF(order);</span><br><span class="line">        methodInfo.env-&gt;CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID,</span><br><span class="line">                                             jorder, jattributes);</span><br><span class="line">        <span class="keyword">if</span> (jattributes)</span><br><span class="line">            methodInfo.env-&gt;DeleteLocalRef(jattributes);</span><br><span class="line">        methodInfo.env-&gt;DeleteLocalRef(jorder);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Feel lucky again that my lib only exposes static methods, with simple parameters.</p>
+<p>Maybe that's why I don't like cross platform frameworks, and Android.</p>
 
       
     </div>
@@ -338,7 +353,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2012/10/30/talk-about-web-analytics-metrics/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2013/06/15/xitang/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -352,7 +367,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2012/10/30/talk-about-web-analytics-metrics/" class="post-title-link" itemprop="url">Talk about Web Analytics: Metrics</a>
+            <a href="/2013/06/15/xitang/" class="post-title-link" itemprop="url">Xitang</a>
         </h2>
 
         <div class="post-meta-container">
@@ -363,7 +378,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2012-10-30 12:43:00" itemprop="dateCreated datePublished" datetime="2012-10-30T12:43:00+08:00">2012-10-30</time>
+      <time title="Created: 2013-06-15 21:39:00" itemprop="dateCreated datePublished" datetime="2013-06-15T21:39:00+08:00">2013-06-15</time>
     </span>
 
   
@@ -376,122 +391,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>Before I learned "Web Analytics", I was stupid at this area.</p>
-<p>For example, I only knew and obsessed with "PageView", I got angry for Google not putting "pageviews" as the default selected metric in "Google Analytics", instead, it uses "visits".</p>
-<h2 id="let-them-go">Let Them Go</h2>
-<blockquote>
-<p>A page view (PV) or page impression is a request to load a single HTML file (web page) of an Internet site. (<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Pageviews">Wikipedia</a>)</p>
-</blockquote>
-<p>Yes, from the early days of web, we all obsessed about "page views", it is a calculation of how many times a page is viewed, so, more "page views" means more "famous" your site is, or more opportunity for someone to click your ads.</p>
-<p>But now it's Web 2.0, we have AJAX, Flash, online videos, which are all traffic but not web pages, in them, "page views" lost it's significance, and we often aggregated metrics during analysis, for example, "visits" can be aggregated into "new visits" and "returning visits" to help the site analysis, but aggregating "page views" is useless.</p>
-<blockquote>
-<p>Exit rate essentially represents the percentage of visitors to a site who actively click away to a different site from a specific page. <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Exit_rate">Wikipedia</a></p>
-</blockquote>
-<p>This metric shows the leakage from a website, "Why do people leave from this page?" "We should fix this page to prevent people leaving".</p>
-<p>But wait, everyone who came to your website has to leave, they might browse around and leave from an arbitrary page, or they might sign up or buy something then leave from the same page.</p>
-<p>Obviously, those are not all failure, if you use "exit rate" to determine whether the page is "good" or "bad", you might hold a wrong key. But "exit analysis" actually is important, don't worry, "bounce rate" is our guy, we'll talk it later.</p>
-<h2 id="let-them-in">Let Them In</h2>
-<p>Google's right, "Visits" is that important, "Visits" and "Visitors" can be found prominently in nearly all web analytics tools.</p>
-<p>"Visits" reports the fact that someone came to your website and spent some time browsing before leaving, it's real, from it you can get how many people comes to your website.</p>
-<p>"<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Unique_visitors">Unique Visitors</a>" is approximately the number of people visiting a website, it will be daily unique visitors, weekly unique visitors, monthly unique visitors, or any arbitrary time period.</p>
-<p>Both of them shows the popularity of a website was, also, they can be aggregated according to cities, languages, browsers or even screen resolutions, they're powerful, and most important, actionable.</p>
-<p>The next fundamental metric is time, "Time on Site" measures the time visitors spent on the website during a visit and "Time on Page" measures the time visitors spent on an individual page.</p>
-<p>"Visits" are just counters, but "Time" provides more details, once you understand exactly how time is spent, you can make more informed decisions.</p>
-<p>Now not only you know how many times people visited, but also the time they spent. What's next?</p>
-<p>Have you forgotten the "exit analysis"?</p>
-<blockquote>
-<p>Bounce Rate represents the percentage of visitors who enter the site and "bounce" (leave the site) rather than continue viewing other pages within the same site. <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Bounce_rate">Wikipedia</a></p>
-</blockquote>
-<p>If you got a rate of 86%, it meant 86% of people who came to your site refused to give it a pathetic click. Almost all websites no matter what kind of business they are running want people to stay, so, "bounce rate" is highly actionable, if it's high, well, your site stink, you'd better fix. If it's low, you may have a chance to be successful. But keep reading.</p>
-<p>You also can aggregate "bounce rate" to your top landing page, then which page not doing there job can be identified. Also, it can be used to measure the keyword quality from search engine, if it's 99%, the keyword you are optimizing might be inappropriate, or the landing page really sucks. Fix ASAP.</p>
-<p>PS, "bounce rate" is not suitable for blog analysis, since blogs often has high rate, because people often read one post and leave, but this is not a failure, it's the way we read blog posts. We have other ways to analyze blogs below.</p>
-<h2 id="let-them-rule">Let Them Rule</h2>
-<p>There are also other metrics, and you can also make segments by aggregating metrics, then the figures and numbers are increasingly large, you might fall in "analysis for analysis", it's a waste of time. Keep your goals in mind, choose less than 5 dominate metrics and read the meanings.</p>
-<blockquote>
-<p>Conversion Rate is the ratio of visitors who convert casual content views or website visits into desired actions based on subtle or direct requests from marketers, advertisers, and content creators. <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Conversion_rate">Wikipedia</a></p>
-</blockquote>
-<p>"Conversion Rate" is defined as outcomes divided by unique visitors. What's the outcomes?</p>
-<p>It's the goal of your website, if your business is social media, you might want people to sign-up, if you runs a commercial website, you might like people buying your stuff.</p>
-<p>Maybe you are a blogger, what's your outcomes?</p>
-<p>People read your posts, people read your other posts. You can set two goals.</p>
-<ol type="1">
-<li><p>"'Time on Page' greater than 2 minutes", which shows the times people actually read your post,</p></li>
-<li><p>"People click your 'Archives' link" to discover other posts of yours.</p></li>
-</ol>
-<p>Those are the outcomes.</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2012/10/09/porting-code/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Zheng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Extra Cookies">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2012/10/09/porting-code/" class="post-title-link" itemprop="url">Porting Code</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2012-10-09 17:20:00" itemprop="dateCreated datePublished" datetime="2012-10-09T17:20:00+08:00">2012-10-09</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Deleting my unused Google data, accidentally saw one post I wrote in early 2010 on blogger, it still interests me, so, copy and paste here.</p>
-<blockquote>
-<p>Code refactoring is like living in your own house, you need to clean up the garbage.</p>
-<p>Porting code is like living in others' house, you know it's messy, but can't decide which are garbage to abandon, which are useful things to keep.</p>
-<p>After a period, you have your stuff which are easy for you to decide whether to abandon, and few old legacy stuff are abandoned since no use.</p>
-<p>But suddenly, you find out you can't differentiate which are your stuff, which are the legacy stuff.</p>
-<p>You may say, well, forget the mess, it's not mine, I'm not sure it's useless or not, but, the truth is, it's yours.</p>
-<p>Some day, you can't stand the messy house, you buy a new one.</p>
-</blockquote>
+          <p><a><img src="/images/2013/xitang1.jpg" width="280"></a> <a><img src="/images/2013/xitang2.jpg" width="280"></a> <a><img src="/images/2013/xitang3.jpg" width="226"></a> <a><img src="/images/2013/xitang4.jpg" width="334"></a> <a><img src="/images/2013/xitang5.jpg" width="560"></a> <a><img src="/images/2013/xitang6.jpg" width="280"></a> <a><img src="/images/2013/xitang7.jpg" width="280"></a></p>
+<p>-- Taken on June 13 ~ 14, 2013 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157634136179541">flickr</a>)</p>
 
       
     </div>
@@ -513,7 +414,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 

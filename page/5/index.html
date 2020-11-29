@@ -201,6 +201,9 @@
         <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i>RSS</a>
       </span>
   </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
 
 
 
@@ -236,7 +239,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2014/02/20/the-hadoop-2-dot-x-introduction-to-yarn/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2014/06/16/tdd-on-swift/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -250,7 +253,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2014/02/20/the-hadoop-2-dot-x-introduction-to-yarn/" class="post-title-link" itemprop="url">The Hadoop 2.x - Introduction to YARN</a>
+            <a href="/2014/06/16/tdd-on-swift/" class="post-title-link" itemprop="url">TDD on Swift</a>
         </h2>
 
         <div class="post-meta-container">
@@ -261,7 +264,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2014-02-20 23:00:00" itemprop="dateCreated datePublished" datetime="2014-02-20T23:00:00+08:00">2014-02-20</time>
+      <time title="Created: 2014-06-16 00:26:26" itemprop="dateCreated datePublished" datetime="2014-06-16T00:26:26+08:00">2014-06-16</time>
     </span>
 
   
@@ -274,40 +277,80 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="the-old-mapreduce">The Old MapReduce</h2>
-<p>The Hadoop 0.x MapReduce system composed of JobTracker and TaskTrackers.</p>
-<p><img src="/images/2014/introtoyarn-jt.png" width="560"></p>
-<p>The JobTracker is responsible for resource management, tracking resource usage and job life-cycle management, e.g. scheduling job tasks, tracking progress, providing fault-tolerance for tasks.</p>
-<p>The TaskTracker is the per-node slave for JobTracker, takes orders from the JobTracker to launch or tear-down tasks, and provides task status information to the JobTracker periodically.</p>
-<p>For those years, we are benefited from the MapReduce framework, it's the most successful programming model in the big data world.</p>
-<p>But MapReduce is not everything, we need to do graph processing, or real-time stream processing, since Hadoop is essentially batch oriented, we have to look for other systems to do those work.</p>
-<p>And the hadoop community made a huge change.</p>
-<h2 id="the-hadoop-yarn">The Hadoop YARN</h2>
-<p>The fundamental idea of YARN is to split up the two major responsibilities of the JobTracker i.e. resource management and job scheduling/monitoring, into separate daemons: a global ResourceManager (RM) and per-application ApplicationMaster (AM).</p>
-<p><img src="/images/2014/introtoyarn-rm.png" width="560"></p>
-<p>The ResourceManager is responsible for allocating resources to the running applications.</p>
-<p>The NodeManager is a per-machine slave, works on launching the application's containers, monitoring the resource usage, and reporting them to the ResourceManager.</p>
-<p>The ApplicationMaster is a per-application framework, which runs as a normal container, responsible for negotiating appropriate resource containers from ResourceManager, tracking their status and monitoring for progress.</p>
-<p>Click <a target="_blank" rel="noopener" href="http://hortonworks.com/blog/apache-hadoop-yarn-background-and-an-overview/">here</a> to read the details about Hadoop YARN.</p>
-<h2 id="the-hadoop-distribution">The Hadoop Distribution</h2>
-<p>My intention is to read the source code of hadoop, so I prefer to build a hadoop distribution from the source code.</p>
-<p>First, git clone from <a target="_blank" rel="noopener" href="https://github.com/apache/hadoop-common">github</a> or <a target="_blank" rel="noopener" href="http://git.apache.org/hadoop-common.git/">apache</a>.</p>
-<p>Second, checkout the branch-2.2.0 branch, which is quite stable.</p>
-<p>Third, apply below patch,</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">diff --git a&#x2F;hadoop-common-project&#x2F;hadoop-auth&#x2F;pom.xml b&#x2F;hadoop-common-project&#x2F;hadoop-auth&#x2F;pom.xml</span><br><span class="line">index 8819941..70ff207 100644</span><br><span class="line">--- a&#x2F;hadoop-common-project&#x2F;hadoop-auth&#x2F;pom.xml</span><br><span class="line">+++ b&#x2F;hadoop-common-project&#x2F;hadoop-auth&#x2F;pom.xml</span><br><span class="line">@@ -55,6 +55,11 @@</span><br><span class="line">     &lt;&#x2F;dependency&gt;</span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">       &lt;groupId&gt;org.mortbay.jetty&lt;&#x2F;groupId&gt;</span><br><span class="line">+      &lt;artifactId&gt;jetty-util&lt;&#x2F;artifactId&gt;</span><br><span class="line">+      &lt;scope&gt;test&lt;&#x2F;scope&gt;</span><br><span class="line">+    &lt;&#x2F;dependency&gt;</span><br><span class="line">+    &lt;dependency&gt;</span><br><span class="line">+      &lt;groupId&gt;org.mortbay.jetty&lt;&#x2F;groupId&gt;</span><br><span class="line">       &lt;artifactId&gt;jetty&lt;&#x2F;artifactId&gt;</span><br><span class="line">       &lt;scope&gt;test&lt;&#x2F;scope&gt;</span><br><span class="line">     &lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
-<p>Fourth, type and run.</p>
-<p><code>mvn package -Pdist -DskipTests -Dtar</code></p>
-<h2 id="the-installation-guide">The Installation Guide</h2>
-<p><a target="_blank" rel="noopener" href="http://www.alexjf.net/blog/distributed-systems/hadoop-yarn-installation-definitive-guide">This</a> is a great guide to install Hadoop 2.2.0.</p>
-<p>I did a single installation, after configuring everything, hdfs can be setup and daemons are started by below scripts.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ /bin/hdfs namenode -format</span><br><span class="line">$ sbin/hadoop-daemon.sh start namenode</span><br><span class="line">$ sbin/hadoop-daemon.sh start datanode</span><br><span class="line">$ sbin/yarn-daemon.sh start resourcemanager</span><br><span class="line">$ sbin/yarn-daemon.sh start nodemanager</span><br></pre></td></tr></table></figure>
-<p>Then, run <code>date -u</code> commands on two containers.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bin/hadoop jar share/hadoop/yarn/hadoop-yarn-applications-distributedshell-2.2.0.jar org.apache.hadoop.yarn.applications.distributedshell.Client -jar share/hadoop/yarn/hadoop-yarn-applications-distributedshell-2.2.0.jar -shell_command <span class="string">&#x27;date&#x27;</span> -shell_args <span class="string">&quot;-u&quot;</span> -num_containers 2</span><br></pre></td></tr></table></figure>
-<p>The logs are printed:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">14/02/20 22:50:59 INFO distributedshell.Client: Initializing Client</span><br><span class="line">14/02/20 22:50:59 INFO distributedshell.Client: Running Client</span><br><span class="line">14/02/20 22:50:59 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032</span><br><span class="line">14/02/20 22:50:59 INFO distributedshell.Client: Got Cluster metric info from ASM, numNodeManagers=1</span><br><span class="line">14/02/20 22:50:59 INFO distributedshell.Client: Got Cluster node info from ASM</span><br><span class="line">14/02/20 22:50:59 INFO distributedshell.Client: Got node report from ASM <span class="keyword">for</span>, nodeId=192.168.0.102:52786, nodeAddress192.168.0.102:8042, nodeRackName/default-rack, nodeNumContainers0</span><br><span class="line">14/02/20 22:50:59 INFO distributedshell.Client: Queue info, queueName=default, queueCurrentCapacity=0.0, queueMaxCapacity=1.0, queueApplicationCount=0, queueChildQueueCount=0</span><br><span class="line">14/02/20 22:50:59 INFO distributedshell.Client: User ACL Info <span class="keyword">for</span> Queue, queueName=root, userAcl=SUBMIT_APPLICATIONS</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">14/02/20 22:50:59 INFO distributedshell.Client: Max mem capabililty of resources <span class="keyword">in</span> this cluster 2048</span><br><span class="line">14/02/20 22:50:59 INFO distributedshell.Client: Copy App Master jar from <span class="built_in">local</span> filesystem and add to <span class="built_in">local</span> environment</span><br><span class="line">14/02/20 22:51:00 INFO distributedshell.Client: Set the environment <span class="keyword">for</span> the application master</span><br><span class="line">14/02/20 22:51:00 INFO distributedshell.Client: Setting up app master <span class="built_in">command</span></span><br><span class="line">14/02/20 22:51:00 INFO distributedshell.Client: Completed setting up app master <span class="built_in">command</span> <span class="variable">$JAVA_HOME</span>/bin/java -Xmx10m org.apache.hadoop.yarn.applications.distributedshell.ApplicationMaster --container_memory 10 --num_containers 2 --priority 0 --shell_command date --shell_args -u 1&gt;&lt;LOG_DIR&gt;/AppMaster.stdout 2&gt;&lt;LOG_DIR&gt;/AppMaster.stderr</span><br><span class="line">14/02/20 22:51:00 INFO distributedshell.Client: Submitting application to ASM</span><br><span class="line">14/02/20 22:51:00 INFO impl.YarnClientImpl: Submitted application application_1392907840296_0001 to ResourceManager at /0.0.0.0:8032</span><br><span class="line">14/02/20 22:51:01 INFO distributedshell.Client: Got application report from ASM <span class="keyword">for</span>, appId=1, clientToAMToken=null, appDiagnostics=, appMasterHost=N/A, appQueue=default, appMasterRpcPort=0, appStartTime=1392907860335, yarnAppState=ACCEPTED, distributedFinalState=UNDEFINED, appTrackingUrl=192.168.0.102:8088/proxy/application_1392907840296_0001/, appUser=chris</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">14/02/20 22:51:08 INFO distributedshell.Client: Application has completed successfully. Breaking monitoring loop</span><br><span class="line">14/02/20 22:51:08 INFO distributedshell.Client: Application completed successfully</span><br></pre></td></tr></table></figure>
-<p>And the results are:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ cat logs/userlogs/application_1392907840296_0001/*/stdout</span><br><span class="line">Thu Feb 20 14:51:05 UTC 2014</span><br><span class="line">Thu Feb 20 14:51:06 UTC 2014</span><br></pre></td></tr></table></figure>
-<p>That's my first YARN job running!</p>
+          <p>Long long ago, I wrote a post about <a href="/2011/01/16/tdd-using-objective-c">how to do TDD using Objective-C</a>, since <a target="_blank" rel="noopener" href="http://www.apple.com/apple-events/june-2014/">Apple WWDC 2014</a>, <a target="_blank" rel="noopener" href="https://developer.apple.com/swift/">Swift</a> is really eye-catching, I think I should write a new one to follow the trend.</p>
+<p><a target="_blank" rel="noopener" href="https://developer.apple.com/library/ios/documentation/ToolsLanguages/Conceptual/Xcode_Overview/UnitTestYourApp/UnitTestYourApp.html">XCTest</a> is used as the unit test framework, and Xcode 6 is needed.</p>
+<h2 id="tdd-work-flow">TDD Work-flow</h2>
+<ol type="1">
+<li>Add a test for a user case or a user story</li>
+<li>Run all tests and see if the new one fails</li>
+<li>Write some code that causes the test to pass</li>
+<li>Run tests, change production code until all test cases pass</li>
+<li>Refactor the production code</li>
+<li>Refactor the test code</li>
+<li>Return to 1, and repeat</li>
+</ol>
+<p>The <code>5</code> and <code>6</code> are optional, do them only if needed, but be sure that DO NOT do them at the same time. That is, when you refactor production code, you can't change the test code, until all the test cases are passed, then you are confident that your production code refactoring is perfect, then, you can refactor the test code, and this time, you can't change the production code.</p>
+<h2 id="a-simple-example">A Simple Example</h2>
+<p>We are about to implement a super simple bank account management tool.</p>
+<h3 id="create-a-project">Create a Project</h3>
+<p>Use Xcode to create a project <code>BankAccount</code> (iOS Single View Application)</p>
+<p><img src="/images/2014/tddswift1.png" width="500"></p>
+<h3 id="add-a-test-case">Add a Test Case</h3>
+<p>Create a Swift file named <code>SavingAccountTest</code>, and choose <code>BankAccountTests</code> as target.</p>
+<p><img src="/images/2014/tddswift2.png" width="500"></p>
+<p>"People can deposit money to a saving account", it's our first user story.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"><span class="keyword">import</span> XCTest</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccountTest</span>: <span class="title">XCTestCase</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">testDeposit</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">var</span> account = <span class="type">SavingAccount</span>()</span><br><span class="line">        account.deposit(<span class="number">100</span>)</span><br><span class="line">        <span class="type">XCTAssertEqual</span>(<span class="number">100</span>, account.balance)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="run-all-tests">Run All Tests</h3>
+<p>Run all the unit tests, it fails as we expected.</p>
+<p><img src="/images/2014/tddswift3.png" width="500"></p>
+<h3 id="write-code-to-pass-the-test">Write Code to Pass the Test</h3>
+<p>Create a Swift file named <code>SavingAccount</code>, and choose both <code>BankAccount</code> and <code>BankAccountTests</code> as targets.</p>
+<p>Make it simple, just to pass the test.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccount</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> balance:<span class="type">Int</span> = <span class="number">100</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">deposit</span><span class="params">(money:Int)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="run-all-tests-1">Run All Tests</h3>
+<p>It passes.</p>
+<p><img src="/images/2014/tddswift4.png" width="500"></p>
+<h3 id="next-user-story">Next User Story?</h3>
+<p>"People could withdraw some money"</p>
+<p>Let's change the <code>testDeposit</code> test case.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"><span class="keyword">import</span> XCTest</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccountTest</span>: <span class="title">XCTestCase</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">testDepositAndWithdraw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">var</span> account = <span class="type">SavingAccount</span>()</span><br><span class="line">        account.deposit(<span class="number">100</span>)</span><br><span class="line">        account.withdraw(<span class="number">50</span>)</span><br><span class="line">        <span class="type">XCTAssertEqual</span>(<span class="number">50</span>, account.balance)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Also, add an empty <code>withdraw</code> method to <code>SavingAccount</code> to satisfy the compiler. Do not add any other code until we see it fails.</p>
+<h3 id="run-all-tests-2">Run All Tests</h3>
+<p>The test fails, because the account balance was not updated after people withdrew some money.</p>
+<p><img src="/images/2014/tddswift5.png" width="500"></p>
+<h3 id="write-code-to-support-withdraw">Write Code to Support Withdraw</h3>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccount</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> balance:<span class="type">Int</span> = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">deposit</span><span class="params">(money:Int)</span></span> &#123;</span><br><span class="line">        balance += money</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">withdraw</span><span class="params">(money:Int)</span></span> &#123;</span><br><span class="line">        balance -= money</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="run-all-tests-3">Run All Tests</h3>
+<p>All the user stories are satisfied.</p>
+<p><img src="/images/2014/tddswift6.png" width="500"></p>
+<h3 id="any-other-new-user-story">Any Other New User Story?</h3>
+<p>"People can't withdraw money beyond their account balance"</p>
+<p>We add a new test case <code>testNegativeBalanceIsNotFine</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testNegativeBalanceIsNotFine</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> account = <span class="type">SavingAccount</span>()</span><br><span class="line">    account.deposit(<span class="number">50</span>)</span><br><span class="line">    account.withdraw(<span class="number">100</span>)</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="run-all-tests-4">Run All Tests</h3>
+<p>It fails, we have to fix it.</p>
+<p><img src="/images/2014/tddswift7.png" width="500"></p>
+<h3 id="write-code">Write Code</h3>
+<p>Change the <code>withdraw</code> method, set account balance to 0 if it is less than 0.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">withdraw</span><span class="params">(money:Int)</span></span> &#123;</span><br><span class="line">    balance -= money</span><br><span class="line">    <span class="keyword">if</span> balance &lt; <span class="number">0</span> &#123;</span><br><span class="line">        balance = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="run-all-tests-5">Run All Tests</h3>
+<p>All right, all the test cases are succeeded.</p>
+<p><img src="/images/2014/tddswift8.png" width="500"></p>
+<h3 id="refactoring">Refactoring</h3>
+<p>Until now, we haven't do any refactoring on our code base.</p>
+<p>I think the production code is fine, so we skip the step 5, and refactor the test code.</p>
+<p>We can see that both test cases create an instance of <code>SavingAccount</code>, the duplicated code can be removed by using only one <code>SavingAccount</code> instance.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccountTest</span>: <span class="title">XCTestCase</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> account = <span class="type">SavingAccount</span>()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">testDepositAndWithdraw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        account.deposit(<span class="number">100</span>)</span><br><span class="line">        account.withdraw(<span class="number">50</span>)</span><br><span class="line">        <span class="type">XCTAssertEqual</span>(<span class="number">50</span>, account.balance)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">testNegativeBalanceIsNotFine</span><span class="params">()</span></span> &#123;</span><br><span class="line">        account.deposit(<span class="number">50</span>)</span><br><span class="line">        account.withdraw(<span class="number">100</span>)</span><br><span class="line">        <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Don't forget to run all the tests, make sure it is succeeded.</p>
+<h3 id="why-no-setup-and-teardown">Why no setup and tearDown</h3>
+<p>People coming from <code>objc</code> may doubt that why the <code>account</code> instance is not put into <code>setUp</code> method, the way we use might cause different test cases sharing one instance variable, as we know, test cases should be independent with each other.</p>
+<p>Yes, I had this doubt, too. So I did a test, by adding a "account balance should be 0" check before each test cases.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testDepositAndWithdraw</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">    account.deposit(<span class="number">100</span>)</span><br><span class="line">    account.withdraw(<span class="number">50</span>)</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">50</span>, account.balance)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testNegativeBalanceIsNotFine</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">    account.deposit(<span class="number">50</span>)</span><br><span class="line">    account.withdraw(<span class="number">100</span>)</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The result shows that the <code>XCTest</code> framework avoids instance variable sharing between test cases by instantiating a brand new <code>XCTestCase</code> object for each test case. That is, it instantiated two <code>SavingAccountTest</code> objects as our tests run.</p>
+<h2 id="to-tdd-haters">To TDD Haters</h2>
+<p>If you hate TDD, and may think this blog post is garbage.</p>
+<p>Sorry for that, you can remove your browser history of this address, if it makes you feel better.</p>
+<p>Also, I strongly recommend you to watch the "TDD dead" <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=z9quxZsLcfo">discussions</a> by <a target="_blank" rel="noopener" href="http://martinfowler.com">Martin Fowler</a>, <a target="_blank" rel="noopener" href="http://www.threeriversinstitute.org/Kent%20Beck.htm">Kent Beck</a> and <a target="_blank" rel="noopener" href="http://david.heinemeierhansson.com">David Heinemeier Hansson</a>.</p>
 
       
     </div>
@@ -334,7 +377,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2013/11/30/colorful-season/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2014/04/24/niubei-mountain/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -348,7 +391,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2013/11/30/colorful-season/" class="post-title-link" itemprop="url">Colorful Season</a>
+            <a href="/2014/04/24/niubei-mountain/" class="post-title-link" itemprop="url">Niubei Mountain</a>
         </h2>
 
         <div class="post-meta-container">
@@ -359,7 +402,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2013-11-30 21:11:00" itemprop="dateCreated datePublished" datetime="2013-11-30T21:11:00+08:00">2013-11-30</time>
+      <time title="Created: 2014-04-24 15:08:00" itemprop="dateCreated datePublished" datetime="2014-04-24T15:08:00+08:00">2014-04-24</time>
     </span>
 
   
@@ -372,209 +415,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p><a><img src="/images/2013/colorfulseason1.jpg" width="560"></a> <a><img src="/images/2013/colorfulseason2.jpg" width="560"></a> <a><img src="/images/2013/colorfulseason3.jpg" width="560"></a> <a><img src="/images/2013/colorfulseason4.jpg" width="560"></a> <a><img src="/images/2013/colorfulseason5.jpg" width="280"></a> <a><img src="/images/2013/colorfulseason6.jpg" width="280"></a></p>
-<p>-- Taken on November 30, 2013 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157638207745344">flickr</a>)</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2013/11/15/an-approach-for-user-behavior-clustering/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Zheng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Extra Cookies">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2013/11/15/an-approach-for-user-behavior-clustering/" class="post-title-link" itemprop="url">An Approach for User Behavior Clustering</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2013-11-15 16:42:00" itemprop="dateCreated datePublished" datetime="2013-11-15T16:42:00+08:00">2013-11-15</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="story">Story</h2>
-<p>We, programmers built Apps for people to use, sometimes, we could benefit from our users, too.</p>
-<p>We could collect anonymous data from users by recording their behaviors on using our App, then analyzing those data, we could find the most favorable features of our App for us to plan for future development, we could uncover some hidden needs of users for us to add new features or create new Apps, we could cluster the users and use different marketing strategy on each users group, etc.</p>
-<p>This post will be an example of how I do user clustering.</p>
-<p>Imagine I have a music player app, which has 2 millions users.</p>
-<p>All data in my hand is how many times a user <code>played</code>, <code>downloaded</code>, <code>purchased</code>, and <code>shared</code> the songs as well as his <code>active days</code> (If a user opens the app one day, then the active days increment by one) as follows.</p>
-<table>
-<tr>
-<th>
-User id
-</th>
-<th>
-Downloaded
-</th>
-<th>
-Played
-</th>
-<th>
-Purchased
-</th>
-<th>
-Shared
-</th>
-<th>
-Active days
-</th>
-</tr>
-<tr>
-<td>
-100035
-</td>
-<td>
-7
-</td>
-<td>
-53
-</td>
-<td>
-0
-</td>
-<td>
-0
-</td>
-<td>
-4
-</td>
-</tr>
-<tr>
-<td>
-150079
-</td>
-<td>
-45
-</td>
-<td>
-312
-</td>
-<td>
-3
-</td>
-<td>
-8
-</td>
-<td>
-63
-</td>
-</tr>
-<tr>
-<td>
-...
-</td>
-<td>
-...
-</td>
-<td>
-...
-</td>
-<td>
-...
-</td>
-<td>
-...
-</td>
-<td>
-...
-</td>
-</tr>
-<tr>
-<td>
-199972
-</td>
-<td>
-114
-</td>
-<td>
-2425
-</td>
-<td>
-82
-</td>
-<td>
-25
-</td>
-<td>
-205
-</td>
-</tr>
-</table>
-<h2 id="k-means-algorithms">k-means Algorithms</h2>
-<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/K-means_clustering">k-means</a> clustering aims to partition <code>n</code> observations into <code>k</code> clusters and each cluster is represented by its cluster center.</p>
-<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Euclidean_distance">Euclidean distance</a> can be used to represent the distance of each point.</p>
-<p>Given cluster centers, we can simply assign each point to its nearest center. Similarly, if we know the assignment of points to clusters, we can compute the centers by their <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Mean">means</a>.</p>
-<p>This introduces a <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Chicken_or_the_egg">chicken-and-egg problem</a>.</p>
-<p>The general computer science answer to chicken-and-egg problems is iteration. We will start with a guess of the cluster centers, for example, randomly choose <code>k</code> points as cluster centers. Based on that guess, we will assign each data point to its closest center. Then we can recompute the cluster centers on these new assignments.</p>
-<p>Repeat above process until clusters stop moving.</p>
-<p>If you want to know more, please <a target="_blank" rel="noopener" href="http://www.cs.uvm.edu/~xwu/kdd/Slides/Kmeans-ICDM06.pdf">click</a>.</p>
-<h2 id="solution">Solution</h2>
-<h3 id="identify-the-features">Identify the features</h3>
-<p>From the data, there are five columns, "played", "downloaded", "purchased", "shared", and "active days".</p>
-<p>The first four are user behaviors, and we believe all are important, so those four will be our features.</p>
-<h3 id="normalize-the-data">Normalize the data</h3>
-<p>But the data is not "balanced", some values are hundreds of times bigger than the others. Luckily, we have "active days", simply divide each feature value by its "active days", then the values are "balanced".</p>
-<h3 id="clustering">Clustering</h3>
-<p>We will use <a target="_blank" rel="noopener" href="http://www.scipy.org">scipy</a>, believe me, it's a great tool.</p>
-<p>First, import the packages and load the data.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> scipy.cluster <span class="keyword">import</span> vq</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">data = np.loadtxt(<span class="string">&#x27;user_normalized_log&#x27;</span>, delimiter=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># The first column is userId, better ignore it</span></span><br><span class="line">subject = data[:,<span class="number">1</span>:]</span><br></pre></td></tr></table></figure>
-<p>Then trying <code>k = 4</code>,</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">centers, dist = vq.kmeans(subject, <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
-<p>and get the centers of each cluster.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">array([[<span class="number">5.42879071e+00</span>, <span class="number">1.37091994e+00</span>, <span class="number">1.04975836e-01</span>, <span class="number">6.75508656e-02</span>],</span><br><span class="line">       [<span class="number">6.73032088e+01</span>, <span class="number">6.70227684e+00</span>, <span class="number">4.90761870e-01</span>, <span class="number">3.36144445e-01</span>],</span><br><span class="line">       [<span class="number">1.86167614e+01</span>, <span class="number">2.40616831e+00</span>, <span class="number">2.02231194e-01</span>, <span class="number">2.60513990e-01</span>],</span><br><span class="line">       [<span class="number">1.97979796e-01</span>, <span class="number">1.78638818e-01</span>, <span class="number">4.22213041e-02</span>, <span class="number">5.21060364e-02</span>]]</span><br><span class="line"></span><br><span class="line">=</span><br><span class="line"></span><br><span class="line">array([[<span class="number">5.42879071</span>, <span class="number">1.37091994</span>, <span class="number">0.104975836</span>, <span class="number">0.0675508656</span>],</span><br><span class="line">       [<span class="number">67.3032088</span>, <span class="number">6.70227684</span>, <span class="number">0.49076187</span>, <span class="number">0.336144445</span>],</span><br><span class="line">       [<span class="number">18.6167614</span>, <span class="number">2.40616831</span>, <span class="number">0.202231194</span>, <span class="number">0.26051399</span>],</span><br><span class="line">       [<span class="number">0.197979796</span>, <span class="number">0.178638818</span>, <span class="number">0.0422213041</span>, <span class="number">0.0521060364</span>]])</span><br></pre></td></tr></table></figure>
-<p>Below code will assign the code(cluster) to each subjects(observations).</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">code, distance = vq.vq(subject,centers)</span><br><span class="line">a = subject[code == <span class="number">0</span>]</span><br><span class="line">b = subject[code == <span class="number">1</span>]</span><br><span class="line">c = subject[code == <span class="number">2</span>]</span><br><span class="line">d = subject[code == <span class="number">3</span>]</span><br></pre></td></tr></table></figure>
-<p>And calculates each cluster size.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">In [266]: a.shape, b.shape, c.shape, d.shape</span><br><span class="line">Out[266]: ((393926, 8), (28301, 8), (208115, 8), (1855756, 8))</span><br></pre></td></tr></table></figure>
-<p>Then I cried, look at the biggest cluster, the fourth one, the number of songs played, downloaded, purchased, and shared per active day by users are all nearly 0.</p>
-<p>The final truth is although I have 2 million users, nearly all are zombie users.</p>
-<p>(Disclaimer, the data mentioned in this post is faked)</p>
+          <p><a><img src="/images/2014/niubeimountain1.jpg" width="560"></a> <a><img src="/images/2014/niubeimountain2.jpg" width="280"></a> <a><img src="/images/2014/niubeimountain3.jpg" width="280"></a> <a><img src="/images/2014/niubeimountain4.jpg" width="560"></a></p>
+<p>-- Taken on April 12, 2014 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157644027815816">flickr</a>)</p>
 
       
     </div>
@@ -596,7 +438,7 @@ Active days
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 

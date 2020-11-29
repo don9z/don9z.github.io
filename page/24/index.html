@@ -201,6 +201,9 @@
         <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i>RSS</a>
       </span>
   </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
 
 
 
@@ -236,7 +239,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2010/07/27/linux-memory-management-addressing-2/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/10/11/change/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -250,7 +253,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2010/07/27/linux-memory-management-addressing-2/" class="post-title-link" itemprop="url">Linux 内存管理-A.寻址-2</a>
+            <a href="/2011/10/11/change/" class="post-title-link" itemprop="url">Change</a>
         </h2>
 
         <div class="post-meta-container">
@@ -261,7 +264,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2010-07-27 23:18:00" itemprop="dateCreated datePublished" datetime="2010-07-27T23:18:00+08:00">2010-07-27</time>
+      <time title="Created: 2011-10-11 10:48:00" itemprop="dateCreated datePublished" datetime="2011-10-11T10:48:00+08:00">2011-10-11</time>
     </span>
 
   
@@ -274,36 +277,20 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="paging">Paging</h2>
-<p>Paging unit 用来将 linear address 转换为 physical address，为了高效，linear address 按照一定的长度被分为若干组，称为 pages，并且，内存也被分为各个定长的 page frame (physical pages)，page 和 page frame 的长度是一样的，前者表示一块数据，它可以储存在 page frame 或者硬盘中。</p>
-<p>在 paging unit 开始工作之前，kernel 先初始化 page tables，这是一个用来映射 linear address 到 physical address 的表。</p>
-<p>Linear address 由三部分组成：</p>
-<ul>
-<li>Directory，10 bits</li>
-<li>Table，10 bits</li>
-<li>Offset，12 bits</li>
-</ul>
-<p>地址的转换过程如下，首先从 <code>cr3</code> 寄存器中拿到 page directory 的物理地址，再从 page directory 第 Directory 个表项中得到 table 的物理地址，再在 page table 的第 Table 个表项中得到 page frame 的物理地址，取第 Offset 个表项值，即得到 physical address。</p>
-<p>Page directory 和 page table 采用相同的数据结构，表项包含如下 flag。</p>
-<ul>
-<li>Present，1 则该 page 或者 page table 位于内存，反之则在硬盘中</li>
-<li>Accessed，当对该 page frame 进行访问（地址转换）时置 1</li>
-<li>Dirty，如果对该 page frame 进行写操作时置 1，只适用于 page table 表项</li>
-<li>Read/Write，访问权限，0 则该 page table 或者 page 只读</li>
-<li>User/Supervisor，优先级，0 则只能被 kernel mode 的进程访问</li>
-<li>PCD，表示是否在访问 page frame 时使用 cache，linux 缺省使用(=0)</li>
-<li>PWT，表示写数据到 page frame 时，cache 机制采用 write-back (=0) 还是 write-through (=1)，Linux 使用前者 (write-back 表示只有当 cache 表项需要被更新时，改动才写回内存，write-throught 表示每一次写操作都同时作用在内存和 cache 中)</li>
-<li>Page Size，如果为 1，则相应表项对应 4MB page frame，只适用于 page directory</li>
-</ul>
-<p>上述最后一项 page size flag 用来实现 extended paging，即不使用 page table，page directory 直接对应 4MB page frame，也就是说 directory 10bits，offset 22bits。</p>
-<p>众所周知，CPU 的速度远非 RAM 所能比拼的，系统采用 cache 来平衡两者速度不均衡的问题，基于局部性原则 (locality principle)：临近正在被访问数据的数据很有可能接下来被访问。</p>
-<p>硬件方面，在 intel 架构中，使用 line unit 来实现低速 DRAM 和高速 SRAM 之间的 caches。cache 被划分为若干 lines，内存和 cache 中的 line 一一对应被称为 direct map，即 line 在内存中的位置必须和 cache 中的位置一致，反之则是 fully associative，即内存中 line 可以储存在 cache 的任意位置，n-way associative，表示内存中的某一 line 在 cache 中有N个位置可以储存。</p>
-<p>这样，当系统对某一 linear address 进行取址时，因为 paging unit 和内存之间插入了 cache unit，每一次取址时，将先通过 cache controller 查找，如果 cache hit，则完成取址，如果 cache miss，则继续使用 paging unit 进行取址。当然，cache 不光用于 paging 过程，关于 cache，后面会有博文详细叙述。</p>
-<p>除了 cache 之外，系统还采用 translation lookaside buffers (TLB) 来加速 linear address 的转换，每当某一 physical address 被计算出来时，将其存入 TLB 中，从而使得下一次相同 linear address 的地址转换会有相当快的速度。</p>
-<p>前面所讲的 paging unit 采用的是两层模型，即 page directory –&gt;page table-&gt;offset，Linux 采用三层模型，将 page directory 分为两层：page global directory (10 bits)， page middle directory (10 bits)。如果是 64 位机，则 page 10 bits， offset 13 bits，即只使用地址前 43 位。如为 32 位机，则跟两层模型一样，page middle directory 设为 0 bit。</p>
-<p>在 Linear address 中，<code>0x00000000</code> 到 <code>PAGE_OFFSET</code> 用于 user mode 或者 kernel mode, <code>PAGE_OFFSET</code> 到 <code>0xffffffff</code> 只用于 kernel mode。</p>
-<p>在 physical address 中，kernel 的指令和数据都位于一组 reserved page frames 中，首地址位于 <code>0x00100000</code>，该组常驻内存，不能被动态 swap out。</p>
-<p>下一篇，page frame management…</p>
+          <p>今天失业在家。</p>
+<p>第一次换工作，考虑了很久。也许是因为没有经验，或者说自己决断力不足，纠结了不少时间。</p>
+<p>兴趣对我来说很重要，我平时看的，学的，做的跟工作完全不相关，我早该离开的，但是离不开的是那里的工作氛围，真的挺好，像研究生时的实验室。</p>
+<p>我试图换岗位，做 Coach，遇到了一群可爱的 co-worker，但很多时候很多事情总是事与愿违。</p>
+<p>死去的乔布斯说过 connecting the dots，我新工作，是因为我研究生时候做的项目的经历来的。所以虽然我放弃了这三年来的工作经验和积累，但谁知道说不准未来什么时候就突然有用了。</p>
+<p>所以我不贬低自己的经历，哪怕做的不快乐，但价值总是有的。</p>
+<p>比如，没有这些不快乐，也许我就去了18摸，做先进的老古董系统，其实只是边边角角的维护工作，因为钱多。</p>
+<p>比如，没有当 Coach，我就不会去上次的 Qcon Beijing，也就没有被互联网的现状震撼，技术的层出不穷，才使得我决定下一个工作肯定是互联网行业的。</p>
+<p>。。。</p>
+<p>明天就去新单位上班，肯定有惊喜，也会有失望，但选择是自己的，自己就要承担。</p>
+<p>就像上个月，我的位子变成了本是两人坐的，被改造成三人的狭小中间位置，</p>
+<p>一同事开玩笑说：这是不是你的第一份工作？（意思是第一份工作就遇到这样的 cost saving）</p>
+<p>我回答：自己选择的，怪不得别人。（虽然我觉得这个决策对于非创业公司来讲是反人类的）</p>
+<p><em>End</em></p>
 
       
     </div>
@@ -330,7 +317,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2010/07/20/linux-memory-management-addressing-1/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/09/18/wuyishan/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -344,7 +331,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2010/07/20/linux-memory-management-addressing-1/" class="post-title-link" itemprop="url">Linux 内存管理-A.寻址-1</a>
+            <a href="/2011/09/18/wuyishan/" class="post-title-link" itemprop="url">武夷山</a>
         </h2>
 
         <div class="post-meta-container">
@@ -355,7 +342,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2010-07-20 00:32:00" itemprop="dateCreated datePublished" datetime="2010-07-20T00:32:00+08:00">2010-07-20</time>
+      <time title="Created: 2011-09-18 22:43:00" itemprop="dateCreated datePublished" datetime="2011-09-18T22:43:00+08:00">2011-09-18</time>
     </span>
 
   
@@ -368,57 +355,13 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>这一个系列将会详细的介绍 Linux kernel 内存管理机制。</p>
-<p>使用特定内存地址就可以访问某一块内存单元，为了实现有效的寻址，操作系统将一系列繁琐的操作隐藏了起来，内存地址按照不同的抽象层次分为如下三种：</p>
-<ol type="1">
-<li>Logical address: 标识运算符或者程序指令的地址，由段号 (segment selector) 和偏移量 (offset) 组成。</li>
-<li>Linear address: 32位的无符号整型数，可以用来表示最大4GB地址空间。</li>
-<li>Physical address：内存物理单元的地址。</li>
-</ol>
-<p>CPU 控制单元通过 Segmentation Unit 将 Logical address 转换为 Linear address，而后，再通过 paging unit 将 linear address 转换为 physical address，至此，特定地址的访问行为完成。</p>
-<h2 id="segmentation-unit">Segmentation Unit</h2>
-<p>Logical address 由两部分组成，用来标识段的 segment selector (16 bits) 和用来表示偏移量的 offset (32 bits)。为了更快的读取 segment selector，处理器提供了六种段寄存器来存储 segment selector，<code>cs</code> (code segment), <code>ss</code> (stack segment), <code>ds</code> (data segment), 以及另外三种可以表示任意段的寄存器。</p>
-<p>为了表示段的特征，引入 segment descriptor (8 bits)，存储在 GDT (Global Descriptor Table) 或者 LDT (Local Descriptor Table) 中，一般情况下，整个系统只有一个 GDT，其地址在 gdtr 寄存器中，每一个进程有自己对应的 LDT，存于 <code>ldtr</code> 寄存器中。</p>
-<p>Segment descriptor 组成部分如下：</p>
-<ul>
-<li>Base (32 bits), 保存段首字节的 linear address；</li>
-<li>G (1 bit), 0 则段大小以 bytes 为单位，反之以 4096 bytes 为单位；</li>
-<li>Limit (20 bits), 标识段的长度；</li>
-<li>S (1 bit), 0 则该段储存 kernel 数据结构，反之为一般指令或数据段；</li>
-<li>Type (4 bits), 表示段类型以及相应的访问权限，四种类型将在下面详述；</li>
-<li>DPL (2 bits), descriptor privilege level，用来表示可以访问该段的最低 CPU 优先级 (privilege)，0 最高，只有 kernel mode 的进程才可以访问，3最低，任何 CPL 值都可以访问；</li>
-<li>Segment-Present (1 bit), 表示该段是否在内存中，Linux 中，段常驻内存，因而不会被 swap out 到硬盘，所以为1；</li>
-<li>D (段包含代码) / B (段包含数据) (1 bit), 0 则 offset 使用 32 bits 地址长度，反之 16 bits；</li>
-<li>reserved bit, 0；</li>
-<li>AVL (1 bit), Linux 不用。</li>
-</ul>
-<p>Segment 常见的四种类型如下：</p>
-<ol type="1">
-<li>Code Segment Descriptor: 对应指令段 (code segment)，S=1，GDT/LDT皆可；</li>
-<li>Data Segment Descriptor: 对应数据段 (data segment)， S=1，包含 stack segment，GDT/LDT皆可；</li>
-<li>Task State Segment Descriptor: 对应任务状态段 (task state segment)，用来存储寄存器的内容，只能处于 GDT，S=0，Type=9/11；</li>
-<li>Local Descriptor Table Descriptor，对应包含 LDT 的 segment，同3，只能处于 GDT，S=0，Type=2。</li>
-</ol>
-<p>前面提到过，logical address 由 segment selector 和 offset 组成，segment selector包含3个部分：</p>
-<ul>
-<li>index (13 bits), GDT 或者 LDT index；</li>
-<li>TI (Table Indicator) (1 bit), TI=0, 则该 segment descriptor 在 GDT 中，TI=1，LDT中；</li>
-<li>RPL (Request Privilege Level) (2 bits), 当 segment selector 存入 <code>cs</code> 寄存器时 CPU 的权限级别。</li>
-</ul>
-<p>通常情况下，为了得到一个 segment descriptor，</p>
-<ol type="1">
-<li>查看 TI，判断 segment descriptor 存储于哪一个表中，GDT (gdtr) 或者 LDT (ldtr)；</li>
-<li>根据 index 计算基于表首地址的偏移量，index * 8，然后再跟 <code>gdtr</code> 或者 <code>ldtr</code> 所存储地址相加，得到 segment descriptor 地址；</li>
-<li>segment descriptor Base 部分保存该段首字节的 linear address，再加上 logical address 后半部分 offset，就可得 linear address。</li>
-</ol>
-<p>为了提升向 linear address 转换的速度，处理器又额外提供了个寄存器，该寄存器不可被程序改写，专门用来存储 8 位 segment descriptor 每当 segment selector 存入寄存器时。这样，就不需要再访问 GDT 或者 LDT，而只需要直接读取寄存器，直到该寄存器中内容改变。</p>
-<p>Linux 中所有的进程使用相同的 logical address，因而段的总数不会太大，GDT 就可以存储所有的 segment descriptor (包括 LDT)。出于以下两个原因，Linux 较少的使用 segmentation 而更多的使用了 paging 机制来寻址：</p>
-<ol type="1">
-<li>当所有的进程使用相同的 segment 寄存器时，内存管理较为简单，即所有进程共享 linear addresses；</li>
-<li>Linux 设计的目标包括可移植性，一些 RISC 处理器不能很好的支持 segmentation。</li>
-</ol>
-<p>Linux 使用的段类型包括 kernel code segment, kernel data segment, user code segment, user data segment, task state segment, local descriptor table segment，各个 segment descriptor 的 Base 值是一样的。对于各个进程而言，GDT 包含了两种不同的 segment descriptor，TSS 和 LDT。LDT 通常是被各个进程共享的，并且当进程需要时，可以使用系统调用来创建自己的 LDT，但是 kernel 没有真正的使用 local descriptor table。</p>
-<p>下一篇，paging…</p>
+          <p>七月中旬 outing 去了武夷山，本来的休闲游，却被我们搞成了暴走三日行，其实旅游本是探索，如果跟着导游，或者只按景点安排来，那或许少了很多乐趣。</p>
+<p>就譬如说在贴这篇 Blog 的过程中，我经历了洗手间门被反锁事件，拿卡片开了十几分钟，无果，但同样的锁，隔壁房间开了好多次，早已练就 10 秒内开门绝技，无奈我只得叫开锁公司。</p>
+<p>回想起两年前，同样是晚上，去洗澡，锁坏了，出不去，在洗手间足足呆了三个多小时，期间洗了 4 次澡，坐马桶上发呆，对窗外发呆，以至于对面楼很多房间都拉了窗帘。室友回来才帮我叫开锁公司，开门换锁，就是今天开不了的这只。</p>
+<p>这就叫做生活的花絮，</p>
+<p>那种我也许可以讲很多年的故事。</p>
+<p><a><img src="/images/2011/wuyimountain1.jpg" width="560"></a> <a><img src="/images/2011/wuyimountain2.jpg" width="280"></a> <a><img src="/images/2011/wuyimountain3.jpg" width="280"></a> <a><img src="/images/2011/wuyimountain4.jpg" width="560"></a> <a><img src="/images/2011/wuyimountain5.jpg" width="560"></a> <a><img src="/images/2011/wuyimountain6.jpg" width="280"></a> <a><img src="/images/2011/wuyimountain7.jpg" width="280"></a> <a><img src="/images/2011/wuyimountain8.jpg" width="560"></a> <a><img src="/images/2011/wuyimountain9.jpg" width="560"></a> <a><img src="/images/2011/wuyimountain10.jpg" width="280"></a> <a><img src="/images/2011/wuyimountain11.jpg" width="280"></a> <a><img src="/images/2011/wuyimountain12.jpg" width="560"></a></p>
+<p>-- Taken on July 16-18, 2011 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157633652996788">flickr</a>)</p>
 
       
     </div>
@@ -440,7 +383,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/23/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span>
+    <a class="extend prev" rel="prev" href="/page/23/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/25/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 

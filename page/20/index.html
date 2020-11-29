@@ -201,6 +201,9 @@
         <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i>RSS</a>
       </span>
   </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
 
 
 
@@ -236,7 +239,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/03/26/taiziwan/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2012/02/21/maojiabu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -250,7 +253,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2011/03/26/taiziwan/" class="post-title-link" itemprop="url">太子湾</a>
+            <a href="/2012/02/21/maojiabu/" class="post-title-link" itemprop="url">茅家埠</a>
         </h2>
 
         <div class="post-meta-container">
@@ -261,7 +264,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2011-03-26 21:19:00" itemprop="dateCreated datePublished" datetime="2011-03-26T21:19:00+08:00">2011-03-26</time>
+      <time title="Created: 2012-02-21 20:30:00" itemprop="dateCreated datePublished" datetime="2012-02-21T20:30:00+08:00">2012-02-21</time>
     </span>
 
   
@@ -274,8 +277,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p><a><img src="/images/2011/taiziwan1.jpg" width="560"></a> <a><img src="/images/2011/taiziwan2.jpg" width="560"></a> <a><img src="/images/2011/taiziwan3.jpg" width="560"></a> <a><img src="/images/2011/taiziwan4.jpg" width="560"></a> <a><img src="/images/2011/taiziwan5.jpg" width="560"></a></p>
-<p>-- Taken on March 26, 2011 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157633612673569">flickr</a>)</p>
+          <p><a><img src="/images/2011/maojiabu1.jpg" width="560"></a> <a><img src="/images/2011/maojiabu2.jpg" width="280"></a> <a><img src="/images/2011/maojiabu3.jpg" width="280"></a> <a><img src="/images/2011/maojiabu4.jpg" width="560"></a></p>
+<p>-- Taken on November 27, 2011 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157633620906465">flickr</a>)</p>
 
       
     </div>
@@ -302,7 +305,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/03/14/objective-c-and-cocoa-engineering-practices/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2012/02/12/start-blogging-with-octopress/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -316,7 +319,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2011/03/14/objective-c-and-cocoa-engineering-practices/" class="post-title-link" itemprop="url">Objective-C 和 Cocoa 工程实践</a>
+            <a href="/2012/02/12/start-blogging-with-octopress/" class="post-title-link" itemprop="url">Start Blogging With Octopress</a>
         </h2>
 
         <div class="post-meta-container">
@@ -327,7 +330,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2011-03-14 21:41:00" itemprop="dateCreated datePublished" datetime="2011-03-14T21:41:00+08:00">2011-03-14</time>
+      <time title="Created: 2012-02-12 17:23:00" itemprop="dateCreated datePublished" datetime="2012-02-12T17:23:00+08:00">2012-02-12</time>
     </span>
 
   
@@ -340,100 +343,33 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p><a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/155964/what-are-best-practices-that-you-use-when-writing-objective-c-and-cocoa">StackOverflow</a> 上有人问除了 <a target="_blank" rel="noopener" href="http://developer.apple.com/library/mac/#documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGIntro/XHIGIntro.htm">HIG</a> 外使用 Objective-C 以及 Cocoa 还有什么好的工程实践，果然是抛砖引玉，很多好的 practices 和 tips 一一跃然纸上，摘抄一些:</p>
-<p>1&gt; 使用 properties，不用 "_" 前缀。</p>
-<p>2&gt; 把 private 方法的定义移到 .m 文件，如下:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">&quot;MyClass.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MyClass</span> ()</span></span><br><span class="line">- (<span class="keyword">void</span>) someMethod</span><br><span class="line">- (<span class="keyword">void</span>) someOtherMethod</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MyClass</span></span></span><br></pre></td></tr></table></figure>
-<p>Objective-C 的方法没有像 Java 那样的 private 或者 public 属性，如果需要设置方法为 private，一般采用 category 来对方法进行隐藏。</p>
-<p>如果外界根本就不关心私有方法，那何必要放在 .h 里呢。</p>
-<p>3&gt; 把 dealloc 方法移到 .m 文件的最前面，<span class="citation" data-cites="synthesize">@synthesize</span> 下面。这样到底什么该 dealloc 一目了然。</p>
-<p>4&gt; 不用使用 double 类型，iPhone 原生不支持任何 double 精度的计算。</p>
-<p>5&gt; 不用多线程时将 properties 设置为 nonatomic，synthesize 缺省是 atomic 的，运行时会添加semaphore 代码来进行线程互斥，nonatomic 效率上会好点。</p>
-<p>6&gt; SQLite 处理大数据集非常快，但瓶颈往往出现在磁盘 I/O，不要频繁的 commit 小数据，使用 BEGIN; 和 COMMIT; 来组装 transaction，确保大块的进行数据写入。</p>
-<p>如果查询操作非常耗时，SQL 可能会阻塞 GUI，最好使用单独来处理 SQL 操作。</p>
-<p>7&gt; 出于历史原因，Outlet 的内存管理很差，最好声明 outlets 为 properties:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MyClass</span> :<span class="title">NSObject</span> </span>&#123;</span><br><span class="line">    <span class="built_in">NSTextField</span> *textField;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">retain</span>) <span class="keyword">IBOutlet</span> <span class="built_in">NSTextField</span> *textField;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<p>8&gt; 不要使用 id m_something 这样的命名来表明其为成员变量，用 something 或者 _something 替代。</p>
-<p>9&gt; 不要使用 -getSomething 还命名 getter，cocoa 惯例为 -something； 不要使用 -something 来命名 setter，cocoa 惯例为 -setSomething。</p>
-<p>10&gt; 命名中使用 CamelCase，不用下划线，类名称首字母大写，变量和方法首字母小写。</p>
-<p>11&gt; 使用 LLVM/Clang 做静态检查。</p>
-<p>12&gt; 不要使用未知 string 作为格式化 string，如下:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *aString = <span class="comment">// get a string from somewhere;</span></span><br><span class="line"><span class="built_in">NSLog</span>(aString);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;aString: %@&quot;</span>, aString)；</span><br></pre></td></tr></table></figure>
-<p>aString 有可能包含一些被认为是格式化的字符，这样传入 NSLog 可能会导致错误输出，crash 或者安全问题。应该像最后一行那样，直接输入格式化 string。</p>
-<p>13&gt; 不要使用 autorelease，使用 cocoa 命名惯例来标记需要调用者释放的资源。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (MyClass *)convenienceMethod &#123;</span><br><span class="line">    MyClass *instance = [[[<span class="keyword">self</span> alloc] init] autorelease];</span><br><span class="line">    <span class="comment">// configure instance</span></span><br><span class="line">    <span class="keyword">return</span> instance;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// instead</span></span><br><span class="line">- (MyClass *)newInstance &#123;</span><br><span class="line">    MyClass *instance = [[<span class="keyword">self</span> alloc] init];</span><br><span class="line">    <span class="comment">// configure instance</span></span><br><span class="line">    <span class="keyword">return</span> instance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>14&gt; dealloc 中不要忘了重置 delegate:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">self</span>.someObject.delegate = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">self</span>.someObject = <span class="literal">NULL</span>;</span><br><span class="line">    [<span class="keyword">super</span> dealloc];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>15&gt; 单元测试。</p>
-<p>16&gt; 不要像 Java/C#/C++… 那样来写 Objective-C。</p>
-<p>17&gt; 不要无节制的使用 category，这样在 port 过程中你会得到好处。</p>
-<p>详细列表请<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/155964/what-are-best-practices-that-you-use-when-writing-objective-c-and-cocoa">点击</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/02/23/lingfeng-tanmei/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Zheng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Extra Cookies">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2011/02/23/lingfeng-tanmei/" class="post-title-link" itemprop="url">灵峰探梅</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2011-02-23 21:19:00" itemprop="dateCreated datePublished" datetime="2011-02-23T21:19:00+08:00">2011-02-23</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><a><img src="/images/2011/lingfengtanmei1.jpg" width="560"></a> <a><img src="/images/2011/lingfengtanmei2.jpg" width="560"></a> <a><img src="/images/2011/lingfengtanmei3.jpg" width="560"></a> <a><img src="/images/2011/lingfengtanmei4.jpg" width="560"></a> <a><img src="/images/2011/lingfengtanmei5.jpg" width="280"></a> <a><img src="/images/2011/lingfengtanmei6.jpg" width="280"></a></p>
-<p>-- Taken on February 20, 2011 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157633649120716">flickr</a>)</p>
+          <h2 id="old-days">Old days</h2>
+<p>All files of <a target="_blank" rel="noopener" href="http://wordpress.org">Wordpress</a> were in server side, whenever I want to make changes, I had to <code>ssh</code> to my remote machine.</p>
+<p>I use a <a target="_blank" rel="noopener" href="http://www.linode.com">Linode VPS</a> shared by some friends, sometimes, tragedies like "failed to start-up after reboot", "system needs to be re-installed" happened. I didn't want to lose any file, so, I relied on <a target="_blank" rel="noopener" href="http://git-scm.com">git</a>, after changes were made directly on server, <code>git pull</code> on my Macbook Pro would get all things backed up locally.</p>
+<p>To write posts, I used Wordpress editor at first, but it sucked, I like leaving one blank line between every paragraph, it couldn't.</p>
+<p>I tried <code>org-mode</code> by using "org2blog" package, since I use <a target="_blank" rel="noopener" href="http://www.gnu.org/software/emacs/">Emacs</a> a lot, it was an amazing writing experience. But when my blog post became long, and with lots of code snippets, problem occurred, Emacs ate up all CPU resources making system hung during <code>org2blog-post-buffer</code> occasionally.</p>
+<p>Then I tried MarsEdit, it's really fantastic, but it's kinda expensive.</p>
+<p>At last, I decided to write blog posts using HTML, every problems were solved immediately. I can edit in Wordpress, Emacs, even one Wordpress app on iPhone.</p>
+<p>While I was using <code>org-mode</code>, I kept all blog posts locally, but HTML is unreadable by human, so, I no longer kept blog posts, just left them in server.</p>
+<p>Furthermore, I couldn't use <code>flyspell-mode</code> to check spells in Emacs, it got confused by HTML tags.</p>
+<p>In server, all blog posts were contained in MySql database, Every time I submitted one blog post, I dumped it and saved in my <a target="_blank" rel="noopener" href="https://www.dropbox.com/">Dropbox</a>.</p>
+<p>I felt uncomfortable using Wordpress, all I wanted is to write one or two articles a month, I bought a host, setup one database, edited configure files to connect to it, updated and installed plugin of Wordpress by hand, it's overkill.</p>
+<h2 id="octopress">Octopress</h2>
+<p>I am learning ruby recently, when I looked for some stuffs, <code>Octopress</code> appears a lot, I was curious, and did some research. It's definitely what I want!</p>
+<ul>
+<li>Markdown is simple and readable</li>
+<li>All changes are made locally</li>
+<li>Track changes by Git</li>
+<li>No database at all</li>
+<li>Simple and small</li>
+<li>Hack in Ruby</li>
+<li>I like <code>rsync</code></li>
+<li>...</li>
+</ul>
+<p>You can search it on <a target="_blank" rel="noopener" href="http://www.google.com/search?client=safari&amp;rls=en&amp;q=octopress&amp;ie=UTF-8&amp;oe=UTF-8">Google</a>, there are couples of blogs, like <a target="_blank" rel="noopener" href="http://aijazansari.com/2011/12/12/switching-to-octopress/">this</a> and <a target="_blank" rel="noopener" href="http://blog.pixelingene.com/2011/09/switching-to-the-octopress-blogging-engine/">that</a></p>
+<p>I tried to convert all previous blog posts in Wordpress to Octopress, but failed, since most of them are written in Chinese. But luckily, I was lazy, there are not a huge number of blog posts, so, I think I can rewrite them using Markdown, to learn Markdown, and to drop some blog posts I believe is not useful at all.</p>
+<p>About theme, yes, most sites adopt Octopress are using the default theme, I am not uncomfortable with it, but the font size is too big, I think I need to make a change later.</p>
+<p>Now I have one git branch named <code>mergeold</code>, all moving work happens there. And in master branch, I can continue update new blog posts. Is it magic?</p>
 
       
     </div>
@@ -455,7 +391,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/19/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/21/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/19/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/21/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 

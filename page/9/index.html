@@ -201,6 +201,9 @@
         <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i>RSS</a>
       </span>
   </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
 
 
 
@@ -236,7 +239,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2013/01/16/sharing-my-gtd-notes/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2013/09/13/using-ios-android-libraries-unity3d/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -250,7 +253,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2013/01/16/sharing-my-gtd-notes/" class="post-title-link" itemprop="url">Sharing My GTD Notes</a>
+            <a href="/2013/09/13/using-ios-android-libraries-unity3d/" class="post-title-link" itemprop="url">Using iOS and Android Libraries in Unity3d</a>
         </h2>
 
         <div class="post-meta-container">
@@ -261,7 +264,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2013-01-16 22:09:00" itemprop="dateCreated datePublished" datetime="2013-01-16T22:09:00+08:00">2013-01-16</time>
+      <time title="Created: 2013-09-13 15:50:00" itemprop="dateCreated datePublished" datetime="2013-09-13T15:50:00+08:00">2013-09-13</time>
     </span>
 
   
@@ -274,194 +277,74 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>Last week, I read the old book <a target="_blank" rel="noopener" href="http://www.amazon.com/Getting-Things-Done-Stress-Free-Productivity/dp/0142000280">Get Things Done</a> again, it did make me think. I read it first two years ago, at that time, I didn't feel the benefits since I could manage all stuff in my mind. But now, I can't, I do forget things, I do procrastinate things. During my reread, I kept asking me, why I just missed this treasure, so silly I was.</p>
-<p>Below are my reading notes.</p>
-<table style="width:15%;">
-<colgroup>
-<col style="width: 15%" />
-</colgroup>
-<tbody>
-<tr class="odd">
-<td><strong>Stuff</strong>: anything you have allowed into your psychological or physical world that doesn’t belong where it is, but for which you haven’t yet determined the desired outcome and the next action step.</td>
-</tr>
-<tr class="even">
-<td>We need to transform all the “stuff” we’re trying to organize into <strong>actionable</strong> stuff we need to do.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Five-stage methods</strong>:</p>
+          <p>I have written about <a href="/2013/07/12/using-ios-android-libraries-cocos2dx/">how to use iOS and Android Libraries in Cocos2d-x</a>, in mobile game industry, there is another cross platform framework named <a target="_blank" rel="noopener" href="http://unity3d.com">unity3d</a>, which is more elegant, powerful, and, super expensive!</p>
+<p>This post will show how to enable the App using unity3d framework to use native libraries of iOS and Android.</p>
+<h2 id="unity3d-plugin-mechanism">Unity3d Plugin Mechanism</h2>
+<p>Unity3d supports plugins well, compared with <a target="_blank" rel="noopener" href="http://www.cocos2d-x.org">Cocos2D-X</a>.</p>
+<p>In order to use a plugin in unity3d, two things have to be done.</p>
 <ul>
-<li><strong>Collect</strong> things that command our attention</li>
-<li><strong>Process</strong> what they mean and what to do about them</li>
-<li><strong>Organize</strong> the results</li>
-<li><strong>Review</strong> as options for what we choose to</li>
-<li><strong>Do</strong></li>
+<li>Write functions in a C-based language and compile them into a library</li>
+<li>Create a C# script which calls functions in the library</li>
 </ul>
-<hr />
-<p><strong>Collect</strong></p>
-<p><strong>In Box</strong> requirements:</p>
-<ul>
-<li>Every <strong>open loop</strong> must be in your collection system and <strong>out of your mind</strong></li>
-<li>You must have as <strong>few</strong> collection buckets as you can get by with</li>
-<li>You must <strong>empty</strong> their <strong>regularly</strong></li>
-</ul>
-<hr />
-<p><strong>Process - Organize</strong></p>
-<p>Process guidelines:</p>
-<ul>
-<li>Process the <strong>top</strong> item first</li>
-<li>Process <strong>one</strong> item at a time</li>
-<li>Never put anything <strong>back</strong> into "In Box"</li>
-</ul>
-<p><img src="/images/2013/gtdnotes.jpg" width="450"></p>
-<hr />
-<p><strong>Review</strong></p>
-<p>Review your lists as <strong>often</strong> as you need to, to get them <strong>off your mind</strong>.</p>
-<p><strong>Review Flow</strong>: Calendar - Next Actions - Projects - Waiting for - Someday/Maybe</p>
-<p><strong>Weekly Review</strong>:</p>
-<ul>
-<li>Gather and process all your "stuff"</li>
-<li>Review your system</li>
-<li>Update your lists</li>
-<li>Get clean, clear, current, and complete</li>
-</ul>
-<hr />
-<p><strong>Do</strong></p>
-<p>Model for <strong>choosing</strong> actions:</p>
-<ul>
-<li>Context (I prefer Context over Project)</li>
-<li>Time available</li>
-<li>Energy available</li>
-<li>Priority</li>
-</ul>
-<p>Model for <strong>evaluating</strong> daily work</p>
-<ul>
-<li>Doing <strong>predefined</strong> work</li>
-<li>Doing work as it <strong>shows up</strong></li>
-<li><strong>Defining</strong> your work</li>
-</ul>
-<p>Model for <strong>reviewing</strong> your own work</p>
-<ul>
-<li>Life</li>
-<li>Three-to five-year vision</li>
-<li>One-to two-year goals</li>
-<li>Areas of responsibility</li>
-<li>Current projects</li>
-<li>Current actions</li>
-</ul>
-<hr />
-<p><strong>Project Planning</strong></p>
-<p><strong>Planning Steps</strong>:</p>
-<ul>
-<li>Defining <strong>purpose</strong> and <strong>principles</strong></li>
-<li><strong>Outcome</strong> visioning</li>
-<li><strong>Brainstorming</strong></li>
-<li><strong>Organizing</strong></li>
-<li>Identifying <strong>next actions</strong></li>
-</ul>
-<p>If you’re waiting to have a good idea before you have any ideas, you won’t have many ideas.</p>
-<p>Benefits of asking "<strong>why</strong>?":</p>
-<ul>
-<li>It defines success</li>
-<li>It creates decision-making criteria</li>
-<li>It aligns resources</li>
-<li>It motivates</li>
-<li>It clarifies focus</li>
-<li>It expands options</li>
-</ul>
-<p>Developing a <strong>vision</strong>:</p>
-<ul>
-<li>View the project from beyond the completion date</li>
-<li>Envision "wild success"</li>
-<li>Capture features, aspects, qualities you imagine in place</li>
-</ul>
-<p><strong>Brainstorming</strong> Keys:</p>
-<ul>
-<li>Don't judge, challenge, evaluate, or criticize</li>
-<li>Go for quantity, not quality</li>
-<li>Put analysis and organization in the background</li>
-</ul>
-<p><strong>Organizing</strong> steps:</p>
-<ul>
-<li>Identify the significance pieces</li>
-<li>Sort by (one or more): components, sequences, priorities, details to the required degree</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2012/12/19/latex-math-in-octopress/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Zheng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Extra Cookies">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2012/12/19/latex-math-in-octopress/" class="post-title-link" itemprop="url">LaTeX Math in Octopress</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2012-12-19 21:57:00" itemprop="dateCreated datePublished" datetime="2012-12-19T21:57:00+08:00">2012-12-19</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>I just can't believe displaying <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/LaTeX">LaTeX</a> math formula in Octopress could be this easy.</p>
+<p>Seems similar to the <a href="/2013/07/12/using-ios-android-libraries-cocos2dx/">cocos2d-x way</a>, but unity3d organizes things well, by which, plugin can be distributed as a package file, in App, simply import the package file, and, it's all.</p>
+<p>To create an iOS and Android plugin, five steps have to be followed.</p>
 <ol type="1">
-<li>Add <code>gem 'kramdown'</code> to "GemFile", then run <code>bundle install</code>.</li>
-<li>Edit "_config.yml", replace <code>markdown: rdiscount</code> to <code>markdown: kramdown</code>, <a target="_blank" rel="noopener" href="http://kramdown.rubyforge.org">kramdown</a> is a fast, pure-Ruby Markdown-superset converter.</li>
-<li>Open "source/_includes/custom/head.html", and add below scripts to use <a target="_blank" rel="noopener" href="http://www.mathjax.org">MathJax</a>, a decent js display engine for mathematics.</li>
+<li>Create a new unity3d project</li>
+<li>Make a folder "Plugins" in "Assets" folder, then, make "iOS" and "Android" folders in "Plugins" folder</li>
+<li>Put iOS <code>.a</code> and Android <code>.jar</code> lib files to their folders respectively</li>
+<li>Write the C wrapper code to expose the native APIs to C#</li>
+<li>Click the "Assets - Export Package" menu to export the plugin as a unity3d package</li>
 </ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- MathJax --&gt;</span><br><span class="line">&lt;script type=<span class="string">&quot;text/x-mathjax-config&quot;</span>&gt;</span><br><span class="line">  MathJax.Hub.Config(&#123;</span><br><span class="line">    tex2jax: &#123;</span><br><span class="line">      inlineMath: [ [<span class="string">&#x27;$&#x27;</span>,<span class="string">&#x27;$&#x27;</span>], [<span class="string">&quot;\\(&quot;</span>,<span class="string">&quot;\\)&quot;</span>] ],</span><br><span class="line">      processEscapes: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type=<span class="string">&quot;text/x-mathjax-config&quot;</span>&gt;</span><br><span class="line">    MathJax.Hub.Config(&#123;</span><br><span class="line">      tex2jax: &#123;</span><br><span class="line">        skipTags: [<span class="string">&#x27;script&#x27;</span>, <span class="string">&#x27;noscript&#x27;</span>, <span class="string">&#x27;style&#x27;</span>, <span class="string">&#x27;textarea&#x27;</span>, <span class="string">&#x27;pre&#x27;</span>, <span class="string">&#x27;code&#x27;</span>]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type=<span class="string">&quot;text/x-mathjax-config&quot;</span>&gt;</span><br><span class="line">    MathJax.Hub.Queue(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> all = MathJax.Hub.getAllJax(), i;</span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>; i &lt; all.length; i += <span class="number">1</span>) &#123;</span><br><span class="line">            all[i].SourceElement().parentNode.className += <span class="string">&#x27; has-jax&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type=<span class="string">&quot;text/javascript&quot;</span></span><br><span class="line">   src=<span class="string">&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;</span>&gt;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>Now, let's enjoy the beauty of <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Normal_distribution">Gaussian Distribution</a></p>
-<p><span class="math display">\[
-f(x;\mu,\sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}
-\]</span></p>
-<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/File:Normal_Distribution_PDF.svg"><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Normal_Distribution_PDF.svg/500px-Normal_Distribution_PDF.svg.png" width="560"></a></p>
+<p>At last the file structure will be similar to this.</p>
+<pre><code>Assets
+└── Plugins
+    ├── Android
+    │   ├── AndroidManifest.xml
+    │   └── humbleAssistant.jar
+    ├── HumbleAssistant.cs
+    └── iOS
+        ├── HumbleAssistant.h
+        ├── HumbleAssistantWrapper.h
+        ├── HumbleAssistantWrapper.m
+        └── libHumbleAssistant.a</code></pre>
+<h2 id="ios">iOS</h2>
+<p>I have an iOS lib named <code>libHumbleAssistant.a</code>, and its header file <code>HumbleAssistant.h</code>.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">HumbleAssistant</span> : <span class="title">NSObject</span></span></span><br><span class="line">+ (<span class="keyword">void</span>)doSomething:(<span class="built_in">NSString</span> *)order;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>In order to expose <code>doSomething:</code> interface to C#, a C wrapper need to be implemented. We know, lovely Objc integrates with C very well.</p>
+<p>At first, create an empty header file "HumbleAssistantWrapper.h"</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">HumbleAssistantWrapper</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>Then its implementation,</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">&quot;HumbleAssistant.h&quot;</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">&quot;HumbleAssistantWrapper.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> humble_assistant_do_something(<span class="keyword">char</span> *order) &#123;</span><br><span class="line">    [HumbleAssistant doSomething:[<span class="built_in">NSString</span> stringWithUTF8String:order]];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Now, the C function is exposed, then, how to call C functions in C# scripts?</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Runtime.InteropServices;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HumbleAssistant</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> UNITY_IPHONE</span></span><br><span class="line">    [<span class="meta">DllImport(<span class="meta-string">&quot;__Internal&quot;</span>)</span>]</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">extern</span> <span class="keyword">void</span> <span class="title">humble_assistant_do_something</span> (<span class="params"><span class="built_in">string</span> order</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span> (<span class="params"><span class="built_in">string</span> order</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">    	humble_assistant_do_something(order);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Macro <code>UNITY_IPHONE</code> means those code only take effect in iOS system, <code>[DllImport("__Internal")]</code> means to statically link the C wrapper code.</p>
+<p>Then, make the <code>doSomething</code> method, which is the real interface that can be used by other C# scripts.</p>
+<h2 id="android">Android</h2>
+<p>My android lib is <code>humbleAssistant.jar</code>, and has an interface as follows.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.my.libs;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HumbleAssistant</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">(String order)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In unity3d, C# can interact with java APIs by <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Java_Native_Interface">JNI</a> directly.</p>
+<p>No C wrapper is needed, just add <code>elif UNITY_ANDROID</code> (those code only take effect in Android system), and begin to write the real code.</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Runtime.InteropServices;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HumbleAssistant</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> UNITY_IPHONE</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> UNITY_ANDROID</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span> (<span class="params"><span class="built_in">string</span> order</span>)</span></span><br><span class="line"><span class="function"></span> &#123;</span><br><span class="line">     AndroidJavaClass mHumbleAssistantClass = <span class="keyword">new</span> AndroidJavaClass(<span class="string">&quot;com.my.libs.HumbleAssistant&quot;</span>);</span><br><span class="line">     mHumbleAssistantClass.CallStatic(<span class="string">&quot;doSomething&quot;</span>, order);</span><br><span class="line"> &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>My lib API is a static method, I need to create an instance of <code>AndroidJavaClass</code> initialized with my class name "com.my.libs.HumbleAssistant" , then call the <code>CallStatic</code> method of this instance to finish the JNI invocation.</p>
+<p>If some APIs need android <code>Activity</code> object as parameter, following code can get the Activity instance.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AndroidJavaClass unityPlayer &#x3D; new AndroidJavaClass (&quot;com.unity3d.player.UnityPlayer&quot;);</span><br><span class="line">AndroidJavaObject mCurrentActivity &#x3D; unityPlayer.GetStatic&lt;AndroidJavaObject&gt; (&quot;currentActivity&quot;);</span><br></pre></td></tr></table></figure>
+<h2 id="extra-labor">Extra Labor</h2>
+<p><strong>If my iOS lib depend on some other libs or frameworks, what can I do?</strong></p>
+<p>In a unity3d project, export to iOS will generate a Xcode project, then you can add your dependencies there.</p>
+<p><strong>If my Android lib need to declare some permissions to Android system, what can I do?</strong></p>
+<p>Not like iOS, export to Android generate the <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/APK_(file_format)">APK</a> file directly, but "AndroidManifest.xml" can be put into "Assets/Plugins/Android/" folder to solve this problem.</p>
+<p>For example, I declare <code>READ_PHONE_STATE</code>, <code>INTERNET</code>, and other permissions as follows.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;manifest</span><br><span class="line">    xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;</span><br><span class="line">    package&#x3D;&quot;com.unity3d.player&quot;</span><br><span class="line">	android:installLocation&#x3D;&quot;preferExternal&quot;</span><br><span class="line">    android:versionCode&#x3D;&quot;1&quot;</span><br><span class="line">    android:versionName&#x3D;&quot;1.0&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;uses-permission android:name&#x3D;&quot;android.permission.READ_PHONE_STATE&quot;&#x2F;&gt;</span><br><span class="line">    &lt;uses-permission android:name&#x3D;&quot;android.permission.ACCESS_WIFI_STATE&quot;&#x2F;&gt;</span><br><span class="line">    &lt;uses-permission android:name&#x3D;&quot;android.permission.ACCESS_NETWORK_STATE&quot;&#x2F;&gt;</span><br><span class="line">    &lt;uses-permission android:name&#x3D;&quot;android.permission.INTERNET&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;supports-screens</span><br><span class="line">        android:smallScreens&#x3D;&quot;true&quot;</span><br><span class="line">        android:normalScreens&#x3D;&quot;true&quot;</span><br><span class="line">        android:largeScreens&#x3D;&quot;true&quot;</span><br><span class="line">        android:xlargeScreens&#x3D;&quot;true&quot;</span><br><span class="line">        android:anyDensity&#x3D;&quot;true&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;application</span><br><span class="line">		android:icon&#x3D;&quot;@drawable&#x2F;app_icon&quot;</span><br><span class="line">        android:label&#x3D;&quot;@string&#x2F;app_name&quot;</span><br><span class="line">        android:debuggable&#x3D;&quot;true&quot;&gt;</span><br><span class="line">        &lt;activity android:name&#x3D;&quot;com.unity3d.player.UnityPlayerProxyActivity&quot;</span><br><span class="line">                  android:label&#x3D;&quot;@string&#x2F;app_name&quot;</span><br><span class="line">                  android:configChanges&#x3D;&quot;fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen&quot;&gt;</span><br><span class="line">            &lt;intent-filter&gt;</span><br><span class="line">                &lt;action android:name&#x3D;&quot;android.intent.action.MAIN&quot; &#x2F;&gt;</span><br><span class="line">                &lt;category android:name&#x3D;&quot;android.intent.category.LAUNCHER&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;intent-filter&gt;</span><br><span class="line">        &lt;&#x2F;activity&gt;</span><br><span class="line">        &lt;activity android:name&#x3D;&quot;com.unity3d.player.UnityPlayerActivity&quot;</span><br><span class="line">                  android:label&#x3D;&quot;@string&#x2F;app_name&quot;</span><br><span class="line">                  android:configChanges&#x3D;&quot;fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen&quot;&gt;</span><br><span class="line">        &lt;&#x2F;activity&gt;</span><br><span class="line">        &lt;activity android:name&#x3D;&quot;com.unity3d.player.UnityPlayerNativeActivity&quot;</span><br><span class="line">                  android:label&#x3D;&quot;@string&#x2F;app_name&quot;</span><br><span class="line">                  android:configChanges&#x3D;&quot;fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen&quot;&gt;</span><br><span class="line">            &lt;meta-data android:name&#x3D;&quot;android.app.lib_name&quot; android:value&#x3D;&quot;unity&quot; &#x2F;&gt;</span><br><span class="line">            &lt;meta-data android:name&#x3D;&quot;unityplayer.ForwardNativeEventsToDalvik&quot; android:value&#x3D;&quot;false&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;activity&gt;</span><br><span class="line">        &lt;activity android:name&#x3D;&quot;com.unity3d.player.VideoPlayer&quot;</span><br><span class="line">                  android:label&#x3D;&quot;@string&#x2F;app_name&quot;</span><br><span class="line">                  android:configChanges&#x3D;&quot;fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen&quot;&gt;</span><br><span class="line">        &lt;&#x2F;activity&gt;</span><br><span class="line">    &lt;&#x2F;application&gt;</span><br><span class="line">&lt;&#x2F;manifest&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>How am I supposed to do if my iOS objc interface need a NSDictionary object as one parameter?</strong></p>
+<p>Although in <code>.m</code> file, Objc and C code can be written together, but C wrapper is about to provide a pure C interface, Objc object can't be used directly in method parameters.</p>
+<p>Following are what I have done to solve this.</p>
+<p>First, in the C wrapper, use a <code>const char *</code> as input, then parse the string to recreate the <code>NSDictionary</code> instance.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> humble_assistant_doComplicatedThing(<span class="keyword">const</span> <span class="keyword">char</span> *attributes) &#123;</span><br><span class="line">    <span class="built_in">NSString</span> *attris = [<span class="built_in">NSString</span> stringWithUTF8String:attributes];</span><br><span class="line">    <span class="built_in">NSArray</span> *attributesArray = [attris componentsSeparatedByString:<span class="string">@&quot;\n&quot;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">NSMutableDictionary</span> *oAttributes = [[<span class="built_in">NSMutableDictionary</span> alloc] init];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; [attributesArray count]; i++) &#123;</span><br><span class="line">        <span class="built_in">NSString</span> *keyValuePair = [attributesArray objectAtIndex:i];</span><br><span class="line">        <span class="built_in">NSRange</span> range = [keyValuePair rangeOfString:<span class="string">@&quot;=&quot;</span>];</span><br><span class="line">        <span class="keyword">if</span> (range.location != <span class="built_in">NSNotFound</span>) &#123;</span><br><span class="line">            <span class="built_in">NSString</span> *key = [keyValuePair substringToIndex:range.location];</span><br><span class="line">            <span class="built_in">NSString</span> *value = [keyValuePair substringFromIndex:range.location+<span class="number">1</span>];</span><br><span class="line">            [oAttributes setObject:value forKey:key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [HumbleAssistant doComplicatedThing:oAttributes];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In the "HumbleAssistant.cs" script file, we should convert C# <code>Dictionary</code> to <code>const char *</code>.</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doComplicatedThing</span> (<span class="params">Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; attributes</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> attributesString = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">foreach</span>(KeyValuePair&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; kvp <span class="keyword">in</span> attributes)</span><br><span class="line">    &#123;</span><br><span class="line">        attributesString += kvp.Key + <span class="string">&quot;=&quot;</span> + kvp.Value + <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    humble_assistant_doComplicatedThing(attributesString);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>How am I supposed to do if my Android jar interface need a Map object as a parameter?</strong></p>
+<p>Java Map object can be generated in C# code by JNI.</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doComplcatedThing</span> (<span class="params">Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; attributes</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">using</span>(AndroidJavaObject obj_HashMap = <span class="keyword">new</span> AndroidJavaObject(<span class="string">&quot;java.util.HashMap&quot;</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        System.IntPtr method_Put = AndroidJNIHelper.GetMethodID(obj_HashMap.GetRawClass(), <span class="string">&quot;put&quot;</span>,</span><br><span class="line">            <span class="string">&quot;(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">object</span>[] args = <span class="keyword">new</span> <span class="built_in">object</span>[<span class="number">2</span>];</span><br><span class="line">        <span class="keyword">foreach</span>(KeyValuePair&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; kvp <span class="keyword">in</span> attributes)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span>(AndroidJavaObject k = <span class="keyword">new</span> AndroidJavaObject(<span class="string">&quot;java.lang.String&quot;</span>, kvp.Key))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">using</span>(AndroidJavaObject v = <span class="keyword">new</span> AndroidJavaObject(<span class="string">&quot;java.lang.String&quot;</span>, kvp.Value))</span><br><span class="line">                &#123;</span><br><span class="line">                    args[<span class="number">0</span>] = k;</span><br><span class="line">                    args[<span class="number">1</span>] = v;</span><br><span class="line">                    AndroidJNI.CallObjectMethod(obj_HashMap.GetRawObject(),</span><br><span class="line">                        method_Put, AndroidJNIHelper.CreateJNIArgArray(args));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mHumbleAssistantClass.CallStatic(<span class="string">&quot;doComplicatedThing&quot;</span>, obj_HashMap);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -488,7 +371,7 @@ f(x;\mu,\sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{x-\mu}
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2012/11/25/the-autumn/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2013/07/18/a-look-under-the-hood-of-objc-msgsend/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -502,7 +385,7 @@ f(x;\mu,\sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{x-\mu}
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2012/11/25/the-autumn/" class="post-title-link" itemprop="url">The Autumn</a>
+            <a href="/2013/07/18/a-look-under-the-hood-of-objc-msgsend/" class="post-title-link" itemprop="url">A Look Under the Hood of objc_msgSend()</a>
         </h2>
 
         <div class="post-meta-container">
@@ -513,7 +396,7 @@ f(x;\mu,\sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{x-\mu}
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2012-11-25 22:47:00" itemprop="dateCreated datePublished" datetime="2012-11-25T22:47:00+08:00">2012-11-25</time>
+      <time title="Created: 2013-07-18 19:47:00" itemprop="dateCreated datePublished" datetime="2013-07-18T19:47:00+08:00">2013-07-18</time>
     </span>
 
   
@@ -526,8 +409,52 @@ f(x;\mu,\sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{x-\mu}
     
     
     <div class="post-body" itemprop="articleBody">
-          <p><a><img src="/images/2012/theautumn1.jpg" width="560"></a> <a><img src="/images/2012/theautumn2.jpg" width="280"></a> <a><img src="/images/2012/theautumn3.jpg" width="280"></a> <a><img src="/images/2012/theautumn4.jpg" width="560"></a> <a><img src="/images/2012/theautumn5.jpg" width="280"></a> <a><img src="/images/2012/theautumn6.jpg" width="280"></a> <a><img src="/images/2012/theautumn7.jpg" width="560"></a></p>
-<p>-- Taken on November 24, 2012 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157633601645817">flickr</a>)</p>
+          <p>When I began to learn Objective C, I often heard of people talking about "sending message", I was curious, come on, it's just calling a method.</p>
+<p>Then I recalled that I had that same feelings when functions become to methods as I began to touch C++.</p>
+<p>To support polymorphism, C++ object model has a <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Virtual_method_table">vtable</a> inside every object which stores instance methods addresses, by which, C++ has a little dynamic characteristic.</p>
+<p>But those dynamic are settled after compiling to machine code, unlike ruby or python, which has a <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Virtual_machine">virtual machine</a> to dynamically interpreter the behaviors of a program, you might know, the <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Duck_typing">duck typing</a>.</p>
+<p>Like C++, Objective C is also compiled to machine code, it supports polymiorphism, but also, to another level, it supports duck typing, you can send messages to any objects even the <code>nil</code>.</p>
+<p>What does it do to make it possible?</p>
+<h2 id="a-simple-program">A Simple Program</h2>
+<p>Let's do some tests by first creating a simple program.</p>
+<p><code>Example.h</code></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Example</span>: <span class="title">NSObject</span></span></span><br><span class="line">- (<span class="keyword">void</span>)doSomething: (<span class="keyword">int</span>)index;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p><code>Example.m</code></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">&quot;Example.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Example</span></span></span><br><span class="line">- (<span class="keyword">void</span>)doSomething: (<span class="keyword">int</span>)index</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> main (<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[]) &#123;</span><br><span class="line">    Example *p;</span><br><span class="line">    [p doSomething:<span class="number">10</span>];</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>A class <code>Example</code> is created, then a message is sent to its instance <code>p</code>.</p>
+<h2 id="original-shape">Original Shape</h2>
+<p>Producing assembly by <code>clang -S Example.m</code> -&gt; <code>Example.s</code>.</p>
+<p>The result is a little complicated. Generally speaking, it does three things.</p>
+<p>First, setup necessary information, then make a call to <code>_objc_msgSend</code> and store the return value to a local variable.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Ltmp9:</span><br><span class="line">	.cfi_def_cfa_register %rbp</span><br><span class="line">	subq	$32, %rsp</span><br><span class="line">	movl	$0, %eax</span><br><span class="line">	movl	$10, %edx</span><br><span class="line">	movl	$0, -4(%rbp)</span><br><span class="line">	movl	%edi, -8(%rbp)</span><br><span class="line">	movq	%rsi, -16(%rbp)</span><br><span class="line">	movq	-24(%rbp), %rsi</span><br><span class="line">	movq	L_OBJC_SELECTOR_REFERENCES_(%rip), %rcx</span><br><span class="line">	movq	%rsi, %rdi</span><br><span class="line">	movq	%rcx, %rsi</span><br><span class="line">	movl	%eax, -28(%rbp)         ## 4-byte Spill</span><br><span class="line">	callq	_objc_msgSend</span><br><span class="line">	movl	-28(%rbp), %eax         ## 4-byte Reload</span><br><span class="line">	addq	$32, %rsp</span><br><span class="line">	popq	%rbp</span><br><span class="line">	ret</span><br><span class="line">	.cfi_endproc</span><br></pre></td></tr></table></figure>
+<p>Then we could jump to objc runtime <a target="_blank" rel="noopener" href="http://www.opensource.apple.com/source/objc4/objc4-532.2/">source code</a> to see what happens down the rabbit hole.</p>
+<h2 id="the-runtime">The Runtime</h2>
+<p><code>objc_msgSend</code> is called during every message sending, which might happen millions of times only by booting the Mac OS X system, obviously, it needs to be fine tuned, no surprise, it is written in assembly.</p>
+<p>Although those are assembly, they're fairly readable by the good naming conventions and explainable comments.</p>
+<p><code>runtime/Messengers.subproj/objc-msg-x86_64.s</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ENTRY	_objc_msgSend</span><br><span class="line">DW_START _objc_msgSend</span><br><span class="line"></span><br><span class="line">NilTest	NORMAL</span><br><span class="line"></span><br><span class="line">GetIsaFast NORMAL		&#x2F;&#x2F; r11 &#x3D; self-&gt;isa</span><br><span class="line">CacheLookup NORMAL, _objc_msgSend  &#x2F;&#x2F; r11&#x3D;method, eq set (nonstret fwd)</span><br><span class="line">jmp	*method_imp(%r11)	&#x2F;&#x2F; goto *imp</span><br><span class="line"></span><br><span class="line">NilTestSupport	NORMAL</span><br><span class="line"></span><br><span class="line">GetIsaSupport	NORMAL</span><br></pre></td></tr></table></figure>
+<p>First, executes <code>NilTest</code> macro, to check whether the message sending target is nil, if nil, then returns nil, that's why we could send messages to a nil object.</p>
+<p>Then, uses <code>GetIsaFast</code> to get the <code>isa</code> address.</p>
+<p>Every objc object has a member named <code>isa</code>, it's the blueprint of an object, which has all objc runtime needs to inspect an object and see what its class is and then seeing if it responds to some messages.</p>
+<p>Finally, by <code>CacheLookup</code>, objc runtime searches for the selector responsible for the message in a class method cache, and invokes the selector to finish the work.</p>
+<p>Since objc is a object oriented language, some objects may inheritant hundreds of methods, but only some are frequently called, it's not efficient to look up all the selectors every time a message is needed to be sent.</p>
+<p>If objc runtime failed to find the selector for a message, it jumps to handle the cache miss.</p>
+<p>Then <code>MethodTableLookup</code> will take the responsibility to look up for the selector from the target <code>isa</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">LCacheMiss:</span><br><span class="line">	DW_MISS _objc_msgSend</span><br><span class="line">	GetIsa	NORMAL			&#x2F;&#x2F; r11 &#x3D; self-&gt;isa</span><br><span class="line">	MethodTableLookup %a1, %a2, _objc_msgSend	&#x2F;&#x2F; r11 &#x3D; IMP</span><br><span class="line">	cmp	%r11, %r11		&#x2F;&#x2F; set eq (nonstret) for forwarding</span><br><span class="line">	jmp	*%r11			&#x2F;&#x2F; goto *imp</span><br><span class="line"></span><br><span class="line">	DW_END 		_objc_msgSend, 1, 1</span><br><span class="line">	END_ENTRY	_objc_msgSend</span><br></pre></td></tr></table></figure>
+<p>The <code>MethodTableLookup</code> simply transfers the responsibility.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.macro MethodTableLookup</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">	call	__class_lookupMethodAndLoadCache3</span><br><span class="line">    ...</span><br><span class="line">.endmacro</span><br></pre></td></tr></table></figure>
+<p>Again, responsibility is transferred to <code>lookUpMethod</code>, pay attention to the parameters assignments.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// runtime/objc-class.mm</span></span><br><span class="line"><span class="comment">/***********************************************************************</span></span><br><span class="line"><span class="comment">* _class_lookupMethodAndLoadCache.</span></span><br><span class="line"><span class="comment">* Method lookup for dispatchers ONLY. OTHER CODE SHOULD USE lookUpMethod().</span></span><br><span class="line"><span class="comment">* This lookup avoids optimistic cache scan because the dispatcher</span></span><br><span class="line"><span class="comment">* already tried that.</span></span><br><span class="line"><span class="comment">**********************************************************************/</span></span><br><span class="line">IMP _class_lookupMethodAndLoadCache3(id obj, SEL sel, Class cls)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> lookUpMethod(cls, sel, YES<span class="comment">/*initialize*/</span>, NO<span class="comment">/*cache*/</span>, obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Finally, lookup is done, and cache is refilled.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// runtime/objc-class.mm</span></span><br><span class="line"><span class="comment">/***********************************************************************</span></span><br><span class="line"><span class="comment">* lookUpMethod.</span></span><br><span class="line"><span class="comment">* The standard method lookup.</span></span><br><span class="line"><span class="comment">* initialize==NO tries to avoid +initialize (but sometimes fails)</span></span><br><span class="line"><span class="comment">* cache==NO skips optimistic unlocked lookup (but uses cache elsewhere)</span></span><br><span class="line"><span class="comment">* Most callers should use initialize==YES and cache==YES.</span></span><br><span class="line"><span class="comment">* inst is an instance of cls or a subclass thereof, or nil if none is known.</span></span><br><span class="line"><span class="comment">*   If cls is an un-initialized metaclass then a non-nil inst is faster.</span></span><br><span class="line"><span class="comment">* May return _objc_msgForward_internal. IMPs destined for external use</span></span><br><span class="line"><span class="comment">*   must be converted to _objc_msgForward or _objc_msgForward_stret.</span></span><br><span class="line"><span class="comment">**********************************************************************/</span></span><br><span class="line"><span class="function">IMP <span class="title">lookUpMethod</span><span class="params">(Class cls, SEL sel, BOOL initialize, BOOL cache, id inst)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<p>If you want to step deeper, objc runtime source can be downloaded at this <a target="_blank" rel="noopener" href="http://www.opensource.apple.com/release/mac-os-x-1083/">place</a>.</p>
+<hr />
+<p>At last, where do I find the objc runtime in the Mac OS X system?</p>
+<p><code>/usr/lib/libobjc.A.dylib</code></p>
+<p>Why am I so sure?</p>
+<p>Since I lost my mind, wanted to remove the runtime to see what will happen.</p>
+<p>First, Terminal stopped working, then Apps became irresponsible, no new App could be opened, and even can't reboot the whole system ...</p>
+<p>Now I deeply know how important the objc runtime is in Mac OS X, and thank it, boot to recovery has a terminal to use, I was lucky.</p>
 
       
     </div>
@@ -549,7 +476,7 @@ f(x;\mu,\sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{x-\mu}
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -637,50 +564,6 @@ f(x;\mu,\sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{x-\mu}
   
 
   
-      <script>
-  if (typeof MathJax === 'undefined') {
-    window.MathJax = {
-      tex: {
-        inlineMath: {'[+]': [['$', '$']]},
-        tags: 'ams'
-      },
-      options: {
-        renderActions: {
-          findScript: [10, doc => {
-            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-              const display = !!node.type.match(/; *mode=display/);
-              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-              const text = document.createTextNode('');
-              node.parentNode.replaceChild(text, node);
-              math.start = {node: text, delim: '', n: 0};
-              math.end = {node: text, delim: '', n: 0};
-              doc.math.push(math);
-            });
-          }, '', false],
-          insertedScript: [200, () => {
-            document.querySelectorAll('mjx-container').forEach(node => {
-              const target = node.parentNode;
-              if (target.nodeName.toLowerCase() === 'li') {
-                target.parentNode.classList.add('has-jax');
-              }
-            });
-          }, '', false]
-        }
-      }
-    };
-    const script = document.createElement('script');
-    script.src = '//cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
-    script.defer = true;
-    document.head.appendChild(script);
-  } else {
-    MathJax.startup.document.state(0);
-    MathJax.typesetClear();
-    MathJax.texReset();
-    MathJax.typeset();
-  }
-</script>
-
-    
 
   
 
