@@ -14,7 +14,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Serif:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
@@ -108,6 +108,9 @@
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -128,6 +131,20 @@
 
 
 
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
 
 
 
@@ -164,16 +181,14 @@
   <p class="site-author-name" itemprop="name">Dong Zheng</p>
   <div class="site-description" itemprop="description"></div>
 </div>
-<div class="site-state-wrap site-overview-item animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives">
-          <span class="site-state-item-count">71</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-  </nav>
-</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="http://zhengdong.me/" title="About → http:&#x2F;&#x2F;zhengdong.me" rel="noopener" target="_blank"><i class="fa fa-user fa-fw"></i>About</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
 
 
 
@@ -209,7 +224,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2014/06/16/tdd-on-swift/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2013/01/16/sharing-my-gtd-notes/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -223,7 +238,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2014/06/16/tdd-on-swift/" class="post-title-link" itemprop="url">TDD on Swift</a>
+            <a href="/2013/01/16/sharing-my-gtd-notes/" class="post-title-link" itemprop="url">Sharing My GTD Notes</a>
         </h2>
 
         <div class="post-meta-container">
@@ -234,7 +249,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2014-06-16 00:26:26" itemprop="dateCreated datePublished" datetime="2014-06-16T00:26:26+08:00">2014-06-16</time>
+      <time title="Created: 2013-01-16 22:09:00" itemprop="dateCreated datePublished" datetime="2013-01-16T22:09:00+08:00">2013-01-16</time>
     </span>
 
   
@@ -247,80 +262,260 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>Long long ago, I wrote a post about <a href="/2011/01/16/tdd-using-objective-c">how to do TDD using Objective-C</a>, since <a target="_blank" rel="noopener" href="http://www.apple.com/apple-events/june-2014/">Apple WWDC 2014</a>, <a target="_blank" rel="noopener" href="https://developer.apple.com/swift/">Swift</a> is really eye-catching, I think I should write a new one to follow the trend.</p>
-<p><a target="_blank" rel="noopener" href="https://developer.apple.com/library/ios/documentation/ToolsLanguages/Conceptual/Xcode_Overview/UnitTestYourApp/UnitTestYourApp.html">XCTest</a> is used as the unit test framework, and Xcode 6 is needed.</p>
-<h2 id="tdd-work-flow">TDD Work-flow</h2>
+          <p>Last week, I read the old book <a target="_blank" rel="noopener" href="http://www.amazon.com/Getting-Things-Done-Stress-Free-Productivity/dp/0142000280">Get Things Done</a> again, it did make me think. I read it first two years ago, at that time, I didn't feel the benefits since I could manage all stuff in my mind. But now, I can't, I do forget things, I do procrastinate things. During my reread, I kept asking me, why I just missed this treasure, so silly I was.</p>
+<p>Below are my reading notes.</p>
+<table style="width:15%;">
+<colgroup>
+<col style="width: 15%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Stuff</strong>: anything you have allowed into your psychological or physical world that doesn’t belong where it is, but for which you haven’t yet determined the desired outcome and the next action step.</td>
+</tr>
+<tr class="even">
+<td>We need to transform all the “stuff” we’re trying to organize into <strong>actionable</strong> stuff we need to do.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Five-stage methods</strong>:</p>
+<ul>
+<li><strong>Collect</strong> things that command our attention</li>
+<li><strong>Process</strong> what they mean and what to do about them</li>
+<li><strong>Organize</strong> the results</li>
+<li><strong>Review</strong> as options for what we choose to</li>
+<li><strong>Do</strong></li>
+</ul>
+<hr />
+<p><strong>Collect</strong></p>
+<p><strong>In Box</strong> requirements:</p>
+<ul>
+<li>Every <strong>open loop</strong> must be in your collection system and <strong>out of your mind</strong></li>
+<li>You must have as <strong>few</strong> collection buckets as you can get by with</li>
+<li>You must <strong>empty</strong> their <strong>regularly</strong></li>
+</ul>
+<hr />
+<p><strong>Process - Organize</strong></p>
+<p>Process guidelines:</p>
+<ul>
+<li>Process the <strong>top</strong> item first</li>
+<li>Process <strong>one</strong> item at a time</li>
+<li>Never put anything <strong>back</strong> into "In Box"</li>
+</ul>
+<p><img src="/images/2013/gtdnotes.jpg" width="450"></p>
+<hr />
+<p><strong>Review</strong></p>
+<p>Review your lists as <strong>often</strong> as you need to, to get them <strong>off your mind</strong>.</p>
+<p><strong>Review Flow</strong>: Calendar - Next Actions - Projects - Waiting for - Someday/Maybe</p>
+<p><strong>Weekly Review</strong>:</p>
+<ul>
+<li>Gather and process all your "stuff"</li>
+<li>Review your system</li>
+<li>Update your lists</li>
+<li>Get clean, clear, current, and complete</li>
+</ul>
+<hr />
+<p><strong>Do</strong></p>
+<p>Model for <strong>choosing</strong> actions:</p>
+<ul>
+<li>Context (I prefer Context over Project)</li>
+<li>Time available</li>
+<li>Energy available</li>
+<li>Priority</li>
+</ul>
+<p>Model for <strong>evaluating</strong> daily work</p>
+<ul>
+<li>Doing <strong>predefined</strong> work</li>
+<li>Doing work as it <strong>shows up</strong></li>
+<li><strong>Defining</strong> your work</li>
+</ul>
+<p>Model for <strong>reviewing</strong> your own work</p>
+<ul>
+<li>Life</li>
+<li>Three-to five-year vision</li>
+<li>One-to two-year goals</li>
+<li>Areas of responsibility</li>
+<li>Current projects</li>
+<li>Current actions</li>
+</ul>
+<hr />
+<p><strong>Project Planning</strong></p>
+<p><strong>Planning Steps</strong>:</p>
+<ul>
+<li>Defining <strong>purpose</strong> and <strong>principles</strong></li>
+<li><strong>Outcome</strong> visioning</li>
+<li><strong>Brainstorming</strong></li>
+<li><strong>Organizing</strong></li>
+<li>Identifying <strong>next actions</strong></li>
+</ul>
+<p>If you’re waiting to have a good idea before you have any ideas, you won’t have many ideas.</p>
+<p>Benefits of asking "<strong>why</strong>?":</p>
+<ul>
+<li>It defines success</li>
+<li>It creates decision-making criteria</li>
+<li>It aligns resources</li>
+<li>It motivates</li>
+<li>It clarifies focus</li>
+<li>It expands options</li>
+</ul>
+<p>Developing a <strong>vision</strong>:</p>
+<ul>
+<li>View the project from beyond the completion date</li>
+<li>Envision "wild success"</li>
+<li>Capture features, aspects, qualities you imagine in place</li>
+</ul>
+<p><strong>Brainstorming</strong> Keys:</p>
+<ul>
+<li>Don't judge, challenge, evaluate, or criticize</li>
+<li>Go for quantity, not quality</li>
+<li>Put analysis and organization in the background</li>
+</ul>
+<p><strong>Organizing</strong> steps:</p>
+<ul>
+<li>Identify the significance pieces</li>
+<li>Sort by (one or more): components, sequences, priorities, details to the required degree</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2012/12/19/latex-math-in-octopress/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/12/19/latex-math-in-octopress/" class="post-title-link" itemprop="url">LaTeX Math in Octopress</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2012-12-19 21:57:00" itemprop="dateCreated datePublished" datetime="2012-12-19T21:57:00+08:00">2012-12-19</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>I just can't believe displaying <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/LaTeX">LaTeX</a> math formula in Octopress could be this easy.</p>
 <ol type="1">
-<li>Add a test for a user case or a user story</li>
-<li>Run all tests and see if the new one fails</li>
-<li>Write some code that causes the test to pass</li>
-<li>Run tests, change production code until all test cases pass</li>
-<li>Refactor the production code</li>
-<li>Refactor the test code</li>
-<li>Return to 1, and repeat</li>
+<li>Add <code>gem 'kramdown'</code> to "GemFile", then run <code>bundle install</code>.</li>
+<li>Edit "_config.yml", replace <code>markdown: rdiscount</code> to <code>markdown: kramdown</code>, <a target="_blank" rel="noopener" href="http://kramdown.rubyforge.org">kramdown</a> is a fast, pure-Ruby Markdown-superset converter.</li>
+<li>Open "source/_includes/custom/head.html", and add below scripts to use <a target="_blank" rel="noopener" href="http://www.mathjax.org">MathJax</a>, a decent js display engine for mathematics.</li>
 </ol>
-<p>The <code>5</code> and <code>6</code> are optional, do them only if needed, but be sure that DO NOT do them at the same time. That is, when you refactor production code, you can't change the test code, until all the test cases are passed, then you are confident that your production code refactoring is perfect, then, you can refactor the test code, and this time, you can't change the production code.</p>
-<h2 id="a-simple-example">A Simple Example</h2>
-<p>We are about to implement a super simple bank account management tool.</p>
-<h3 id="create-a-project">Create a Project</h3>
-<p>Use Xcode to create a project <code>BankAccount</code> (iOS Single View Application)</p>
-<p><img src="/images/2014/tddswift1.png" width="500"></p>
-<h3 id="add-a-test-case">Add a Test Case</h3>
-<p>Create a Swift file named <code>SavingAccountTest</code>, and choose <code>BankAccountTests</code> as target.</p>
-<p><img src="/images/2014/tddswift2.png" width="500"></p>
-<p>"People can deposit money to a saving account", it's our first user story.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"><span class="keyword">import</span> XCTest</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccountTest</span>: <span class="title">XCTestCase</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">testDeposit</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">var</span> account = <span class="type">SavingAccount</span>()</span><br><span class="line">        account.deposit(<span class="number">100</span>)</span><br><span class="line">        <span class="type">XCTAssertEqual</span>(<span class="number">100</span>, account.balance)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="run-all-tests">Run All Tests</h3>
-<p>Run all the unit tests, it fails as we expected.</p>
-<p><img src="/images/2014/tddswift3.png" width="500"></p>
-<h3 id="write-code-to-pass-the-test">Write Code to Pass the Test</h3>
-<p>Create a Swift file named <code>SavingAccount</code>, and choose both <code>BankAccount</code> and <code>BankAccountTests</code> as targets.</p>
-<p>Make it simple, just to pass the test.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccount</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> balance:<span class="type">Int</span> = <span class="number">100</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">deposit</span><span class="params">(money:Int)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="run-all-tests-1">Run All Tests</h3>
-<p>It passes.</p>
-<p><img src="/images/2014/tddswift4.png" width="500"></p>
-<h3 id="next-user-story">Next User Story?</h3>
-<p>"People could withdraw some money"</p>
-<p>Let's change the <code>testDeposit</code> test case.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"><span class="keyword">import</span> XCTest</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccountTest</span>: <span class="title">XCTestCase</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">testDepositAndWithdraw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">var</span> account = <span class="type">SavingAccount</span>()</span><br><span class="line">        account.deposit(<span class="number">100</span>)</span><br><span class="line">        account.withdraw(<span class="number">50</span>)</span><br><span class="line">        <span class="type">XCTAssertEqual</span>(<span class="number">50</span>, account.balance)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Also, add an empty <code>withdraw</code> method to <code>SavingAccount</code> to satisfy the compiler. Do not add any other code until we see it fails.</p>
-<h3 id="run-all-tests-2">Run All Tests</h3>
-<p>The test fails, because the account balance was not updated after people withdrew some money.</p>
-<p><img src="/images/2014/tddswift5.png" width="500"></p>
-<h3 id="write-code-to-support-withdraw">Write Code to Support Withdraw</h3>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccount</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> balance:<span class="type">Int</span> = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">deposit</span><span class="params">(money:Int)</span></span> &#123;</span><br><span class="line">        balance += money</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">withdraw</span><span class="params">(money:Int)</span></span> &#123;</span><br><span class="line">        balance -= money</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="run-all-tests-3">Run All Tests</h3>
-<p>All the user stories are satisfied.</p>
-<p><img src="/images/2014/tddswift6.png" width="500"></p>
-<h3 id="any-other-new-user-story">Any Other New User Story?</h3>
-<p>"People can't withdraw money beyond their account balance"</p>
-<p>We add a new test case <code>testNegativeBalanceIsNotFine</code></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testNegativeBalanceIsNotFine</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> account = <span class="type">SavingAccount</span>()</span><br><span class="line">    account.deposit(<span class="number">50</span>)</span><br><span class="line">    account.withdraw(<span class="number">100</span>)</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="run-all-tests-4">Run All Tests</h3>
-<p>It fails, we have to fix it.</p>
-<p><img src="/images/2014/tddswift7.png" width="500"></p>
-<h3 id="write-code">Write Code</h3>
-<p>Change the <code>withdraw</code> method, set account balance to 0 if it is less than 0.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">withdraw</span><span class="params">(money:Int)</span></span> &#123;</span><br><span class="line">    balance -= money</span><br><span class="line">    <span class="keyword">if</span> balance &lt; <span class="number">0</span> &#123;</span><br><span class="line">        balance = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="run-all-tests-5">Run All Tests</h3>
-<p>All right, all the test cases are succeeded.</p>
-<p><img src="/images/2014/tddswift8.png" width="500"></p>
-<h3 id="refactoring">Refactoring</h3>
-<p>Until now, we haven't do any refactoring on our code base.</p>
-<p>I think the production code is fine, so we skip the step 5, and refactor the test code.</p>
-<p>We can see that both test cases create an instance of <code>SavingAccount</code>, the duplicated code can be removed by using only one <code>SavingAccount</code> instance.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccountTest</span>: <span class="title">XCTestCase</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> account = <span class="type">SavingAccount</span>()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">testDepositAndWithdraw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        account.deposit(<span class="number">100</span>)</span><br><span class="line">        account.withdraw(<span class="number">50</span>)</span><br><span class="line">        <span class="type">XCTAssertEqual</span>(<span class="number">50</span>, account.balance)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">testNegativeBalanceIsNotFine</span><span class="params">()</span></span> &#123;</span><br><span class="line">        account.deposit(<span class="number">50</span>)</span><br><span class="line">        account.withdraw(<span class="number">100</span>)</span><br><span class="line">        <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Don't forget to run all the tests, make sure it is succeeded.</p>
-<h3 id="why-no-setup-and-teardown">Why no setup and tearDown</h3>
-<p>People coming from <code>objc</code> may doubt that why the <code>account</code> instance is not put into <code>setUp</code> method, the way we use might cause different test cases sharing one instance variable, as we know, test cases should be independent with each other.</p>
-<p>Yes, I had this doubt, too. So I did a test, by adding a "account balance should be 0" check before each test cases.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testDepositAndWithdraw</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">    account.deposit(<span class="number">100</span>)</span><br><span class="line">    account.withdraw(<span class="number">50</span>)</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">50</span>, account.balance)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testNegativeBalanceIsNotFine</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">    account.deposit(<span class="number">50</span>)</span><br><span class="line">    account.withdraw(<span class="number">100</span>)</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>The result shows that the <code>XCTest</code> framework avoids instance variable sharing between test cases by instantiating a brand new <code>XCTestCase</code> object for each test case. That is, it instantiated two <code>SavingAccountTest</code> objects as our tests run.</p>
-<h2 id="to-tdd-haters">To TDD Haters</h2>
-<p>If you hate TDD, and may think this blog post is garbage.</p>
-<p>Sorry for that, you can remove your browser history of this address, if it makes you feel better.</p>
-<p>Also, I strongly recommend you to watch the "TDD dead" <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=z9quxZsLcfo">discussions</a> by <a target="_blank" rel="noopener" href="http://martinfowler.com">Martin Fowler</a>, <a target="_blank" rel="noopener" href="http://www.threeriversinstitute.org/Kent%20Beck.htm">Kent Beck</a> and <a target="_blank" rel="noopener" href="http://david.heinemeierhansson.com">David Heinemeier Hansson</a>.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- MathJax --&gt;</span><br><span class="line">&lt;script type=<span class="string">&quot;text/x-mathjax-config&quot;</span>&gt;</span><br><span class="line">  MathJax.Hub.Config(&#123;</span><br><span class="line">    tex2jax: &#123;</span><br><span class="line">      inlineMath: [ [<span class="string">&#x27;$&#x27;</span>,<span class="string">&#x27;$&#x27;</span>], [<span class="string">&quot;\\(&quot;</span>,<span class="string">&quot;\\)&quot;</span>] ],</span><br><span class="line">      processEscapes: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type=<span class="string">&quot;text/x-mathjax-config&quot;</span>&gt;</span><br><span class="line">    MathJax.Hub.Config(&#123;</span><br><span class="line">      tex2jax: &#123;</span><br><span class="line">        skipTags: [<span class="string">&#x27;script&#x27;</span>, <span class="string">&#x27;noscript&#x27;</span>, <span class="string">&#x27;style&#x27;</span>, <span class="string">&#x27;textarea&#x27;</span>, <span class="string">&#x27;pre&#x27;</span>, <span class="string">&#x27;code&#x27;</span>]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type=<span class="string">&quot;text/x-mathjax-config&quot;</span>&gt;</span><br><span class="line">    MathJax.Hub.Queue(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> all = MathJax.Hub.getAllJax(), i;</span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>; i &lt; all.length; i += <span class="number">1</span>) &#123;</span><br><span class="line">            all[i].SourceElement().parentNode.className += <span class="string">&#x27; has-jax&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type=<span class="string">&quot;text/javascript&quot;</span></span><br><span class="line">   src=<span class="string">&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;</span>&gt;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>Now, let's enjoy the beauty of <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Normal_distribution">Gaussian Distribution</a></p>
+<p><span class="math display">\[
+f(x;\mu,\sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}
+\]</span></p>
+<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/File:Normal_Distribution_PDF.svg"><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Normal_Distribution_PDF.svg/500px-Normal_Distribution_PDF.svg.png" width="560"></a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2012/11/25/the-autumn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/11/25/the-autumn/" class="post-title-link" itemprop="url">The Autumn</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2012-11-25 22:47:00" itemprop="dateCreated datePublished" datetime="2012-11-25T22:47:00+08:00">2012-11-25</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><a><img src="/images/2012/theautumn1.jpg" width="560"></a> <a><img src="/images/2012/theautumn2.jpg" width="280"></a> <a><img src="/images/2012/theautumn3.jpg" width="280"></a> <a><img src="/images/2012/theautumn4.jpg" width="560"></a> <a><img src="/images/2012/theautumn5.jpg" width="280"></a> <a><img src="/images/2012/theautumn6.jpg" width="280"></a> <a><img src="/images/2012/theautumn7.jpg" width="560"></a></p>
+<p>-- Taken on November 24, 2012 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157633601645817">flickr</a>)</p>
 
       
     </div>
@@ -342,7 +537,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -385,10 +580,12 @@
   &copy; 2010 – 
   <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Dong Zheng - Powered by Hexo, NextT, GitHub</span>
+  <span class="author" itemprop="copyrightHolder">Dong Zheng</span>
 </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
 
     </div>
   </footer>
@@ -428,6 +625,50 @@
   
 
   
+      <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = '//cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

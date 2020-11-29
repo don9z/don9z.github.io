@@ -14,7 +14,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Serif:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
@@ -108,6 +108,9 @@
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -128,6 +131,20 @@
 
 
 
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
 
 
 
@@ -164,16 +181,14 @@
   <p class="site-author-name" itemprop="name">Dong Zheng</p>
   <div class="site-description" itemprop="description"></div>
 </div>
-<div class="site-state-wrap site-overview-item animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives">
-          <span class="site-state-item-count">71</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-  </nav>
-</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="http://zhengdong.me/" title="About → http:&#x2F;&#x2F;zhengdong.me" rel="noopener" target="_blank"><i class="fa fa-user fa-fw"></i>About</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
 
 
 
@@ -209,7 +224,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2013/10/28/an-arithmetic-issue-in-hive-sql/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/10/20/install-hadoop-with-kerberos-in-ubuntu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -223,7 +238,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2013/10/28/an-arithmetic-issue-in-hive-sql/" class="post-title-link" itemprop="url">An Arithmetic Issue in Hive SQL</a>
+            <a href="/2011/10/20/install-hadoop-with-kerberos-in-ubuntu/" class="post-title-link" itemprop="url">Ubuntu 安装 Hadoop 和 Kerberos</a>
         </h2>
 
         <div class="post-meta-container">
@@ -234,7 +249,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2013-10-28 15:49:00" itemprop="dateCreated datePublished" datetime="2013-10-28T15:49:00+08:00">2013-10-28</time>
+      <time title="Created: 2011-10-20 21:59:00" itemprop="dateCreated datePublished" datetime="2011-10-20T21:59:00+08:00">2011-10-20</time>
     </span>
 
   
@@ -247,46 +262,265 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>Last week, a requirement came to me, that we needed to know how often some kind of actions users did in one of our products.</p>
-<p>It's temporal, I didn't want to write a mapreduce program, instead, I figured out an hive SQL which is a little complicated (joins 3 tables and a long where clause).</p>
-<p>It worked. I got the results, we knew how many times people did one kind of actions on their 1st day, 1st week, 2nd week and 3rd week.</p>
-<p>But in the 4th week, I got 0!</p>
-<p>It's weird.</p>
-<p>Then I counted the 5th week, a dramatic smaller number compared with the 3rd week.</p>
-<p>I could get an conclusion, that nearly all people comes to our product, at their 4th week, they left.</p>
-<p>It's unbelievable.</p>
-<p>I asked a colleague of mine do those statistics by python again, the results of the first 3 weeks were the same, but the 4th and 5th week, his were much bigger than mine.</p>
-<p>There might be something wrong with my hive SQL.</p>
-<p>Am I using too many <code>join</code>s?</p>
-<p>Am I mistakenly put <code>where</code> clause out of <code>join on</code> condition?</p>
-<p>...</p>
-<p>Those questions plagued me for days, but none of them is true.</p>
-<p>Below <code>where</code> clause is what I used to extract the data in the 4th week.</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">where action.occurtime &lt; user.persistedtime + 24*60*60*1000*21 and action.occurtime &lt; user.persistedtime + 24*60*60*1000*28</span><br></pre></td></tr></table></figure>
-<p>I noticed that my <code>persistedtime</code> column type is string, maybe string to int auto conversion went wrong during comparison. But if it went wrong, why only affected the 4th week. It's unreasonable.</p>
-<p>I made a test, created a test table, and changed the column type to bigint, same result.</p>
-<p>What changed in the whole SQL is the arithmetic operation,</p>
-<p><code>24*60*60*1000*7/14/21/28</code></p>
-<p>Int overflow?</p>
-<p>No! hive is not that stupid.</p>
-<p>The biggest int32 is <code>2147483647</code>, and <code>60*60*24*1000*28</code> equals to <code>2419200000</code>, if int overflows, the <code>where</code> clause will be "less than a smaller number and greater than a bigger number", which is ZERO for any data!</p>
-<p>I put <code>2419200000</code> to <code>where</code> clause to replace <code>60*60*24*1000*28</code>, and, I got the right result.</p>
-<p><strong>The multiplication operation converts its result to int32, the addition operation is not affected.</strong></p>
-<p>We aren't gonna stop, are we?</p>
-<p>Dig deeper.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hive-0.10.0/src/ql/src/java/org/apache/hadoop/hive/ql/udf/UDFOPMultiply.java</span></span><br><span class="line">**</span><br><span class="line">* UDFOPMultiply.</span><br><span class="line">*</span><br><span class="line">*/</span><br><span class="line">Description(name = <span class="string">&quot;*&quot;</span>, value = <span class="string">&quot;a _FUNC_ b - Multiplies a by b&quot;</span>)</span><br><span class="line">ublic <span class="class"><span class="keyword">class</span> <span class="title">UDFOPMultiply</span> <span class="keyword">extends</span> <span class="title">UDFBaseNumericOp</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="title">UDFOPMultiply</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> ...</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> IntWritable <span class="title">evaluate</span><span class="params">(IntWritable a, IntWritable b)</span> </span>&#123;</span><br><span class="line">   <span class="comment">// LOG.info(&quot;Get input &quot; + a.getClass() + &quot;:&quot; + a + &quot; &quot; + b.getClass() + &quot;:&quot;</span></span><br><span class="line">   <span class="comment">// + b);</span></span><br><span class="line">   <span class="keyword">if</span> ((a == <span class="keyword">null</span>) || (b == <span class="keyword">null</span>)) &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   intWritable.set((a.get() * b.get()));</span><br><span class="line">   <span class="keyword">return</span> intWritable;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> LongWritable <span class="title">evaluate</span><span class="params">(LongWritable a, LongWritable b)</span> </span>&#123;</span><br><span class="line">   <span class="comment">// LOG.info(&quot;Get input &quot; + a.getClass() + &quot;:&quot; + a + &quot; &quot; + b.getClass() + &quot;:&quot;</span></span><br><span class="line">   <span class="comment">// + b);</span></span><br><span class="line">   <span class="keyword">if</span> ((a == <span class="keyword">null</span>) || (b == <span class="keyword">null</span>)) &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   longWritable.set(a.get() * b.get());</span><br><span class="line">   <span class="keyword">return</span> longWritable;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> ...</span><br></pre></td></tr></table></figure>
-<p>From above code, we can see that hive multiplication operator (*) simply converts its result to the same type of its operands. In our case, (int, int) -&gt; (int).</p>
-<p>How to tell hive the number we typed in is a long type, I made a guess, <code>l</code>, failed, then tried <code>L</code>, bingo!</p>
-<p>So if you want to use multiplication operator (*) in hive SQL, better to add <code>L</code> to one of the operands if the result might be bigger than the maximum value of int32.</p>
-<p>Why the addition operator does not have that problem?</p>
-<p>Because in our case the left operand is already bigint.</p>
-<p>At last, should I blame Hive?</p>
-<p>Absolutely not! Because I didn't <a target="_blank" rel="noopener" href="https://cwiki.apache.org/confluence/display/Hive/Tutorial#Tutorial-BuiltInOperatorsandFunctions">RTFM</a> :(</p>
-<blockquote>
-<p>A * B</p>
-<p>all number types</p>
-<p>Gives the result of multiplying A and B. The type of the result is the same as the common parent(in the type hierarchy) of the types of the operands. Note that if the multiplication causing overflow, you will have to cast one of the operators to a type higher in the type hierarchy.</p>
-</blockquote>
+          <p>花了两天多时间，终于让 Hadoop 可以安安稳稳的跑几个 MapReduce 的程序了，安装的过程很折腾，但我觉得应该用不着花这么长时间的。</p>
+<p>很久以前就深知 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/RTFM">RTFM</a> 的重要性，但很多时候第一反应仍然是去 Google，而不是去官网找 Documentation，诚然，有些东西的文档的确很烂，但其实 Google 出来的 Blog 转载来转载去也就那么几份，很多里面都存在问题，毕竟需求是不一样的，态度也是不一样的。</p>
+<p>这篇文章内容大部分参照自官方文档，并且包含若干我的配置错误，以及解决方法。</p>
+<p>这个安装过程适用于配置 <strong>Kerberos V5 1.8.4</strong> to <strong>Cloudera CDH3</strong> on <strong>Ubuntu 11.04</strong></p>
+<h2 id="安装-jdk-6">安装 JDK 6</h2>
+<h3 id="添加源到-ubuntu-source-list">1. 添加源到 ubuntu source list</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo add-apt-repository <span class="string">&quot;deb http://archive.canonical.com/ natty partner&quot;</span></span><br></pre></td></tr></table></figure>
+<p>natty 是ubuntu 11.04 的 codename，可以使用 “lsb_release -c” 查看 ubuntu 对应版本的 codename，如不是 natty，请更改。</p>
+<p>最新的 ubuntu 11.10，好像已经不提供第三方 JDK 了，只有 openjdk 可用了。</p>
+<h3 id="安装">2. 安装</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install sun-java6-jdk</span><br></pre></td></tr></table></figure>
+<p>如果还装过其他 JDK 的话，需要将该 jdk 设成默认:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo update-java-alternatives -s java-6-sun</span><br></pre></td></tr></table></figure>
+<h2 id="安装-cloudera-cdh-3">安装 Cloudera CDH 3</h2>
+<p>我是单机使用的，所以选择安装 <strong>Pseudo-Distributed Mode</strong></p>
+<p>参考文档：<a target="_blank" rel="noopener" href="https://ccp.cloudera.com/display/CDHDOC/CDH3+Installation#CDH3Installation-DebianPackage">Cloudera CDH3 Installation</a> 中 Installing CDH3 on Ubuntu Systems 一节。</p>
+<p>因为 CDH3 ubuntu 最新的支持包是 10.10 Maveric，所以我选用的是这个包，目前没有发现有其他问题。</p>
+<p>在添加 ubuntu 源后，进行如下操作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apt-cache search hadoop</span><br></pre></td></tr></table></figure>
+<p>有输出则代表源添加成功，不要按照文档里面安装 hadoop-0.20</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install hadoop-0.20</span><br></pre></td></tr></table></figure>
+<p>而是应该安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install hadoop-0.20-conf-pseudo</span><br></pre></td></tr></table></figure>
+<p>见 Cloudera 文档 <a target="_blank" rel="noopener" href="https://ccp.cloudera.com/display/CDHDOC/CDH3+Deployment+in+Pseudo-Distributed+Mode">CDH3 Deployment in Pseudo-Distributed Mode</a></p>
+<p>这个 Hadoop 伪分布式配置是 5 个 daemons 跑在一个 node 上，分别是 namenode, jobtracker, secondarynamenode, datanode, trasktracker.</p>
+<p>启动所有 node:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">for</span> x <span class="keyword">in</span> /etc/init.d/hadoop-*; <span class="keyword">do</span> sudo <span class="variable">$x</span> start; <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p>运行如下命令来检验 Hadoop 是否启动成功</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hadoop fs -ls /</span><br></pre></td></tr></table></figure>
+<p>上述命令会打印出 hdfs 根目录信息，如果成功，那就可以开始 MapReduce 吧，可以跑下面几个例子：</p>
+<h4 id="pi">Pi</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hadoop jar /usr/lib/hadoop/hadoop-*-examples.jar pi 2 100000</span><br></pre></td></tr></table></figure>
+<h4 id="grep">Grep</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ hadoop fs -mkdir input</span><br><span class="line">$ hadoop fs -put /etc/hadoop-0.20/conf/*.xml input</span><br><span class="line">$ hadoop-0.20 fs -ls input</span><br><span class="line">$ hadoop-0.20 jar /usr/lib/hadoop-0.20/hadoop-*-examples.jar grep input output <span class="string">&#x27;dfs[a-z.]+&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>如果例子都没有问题，那么停止所有 node，准备安装 Kerberos</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">for</span> x <span class="keyword">in</span> /etc/init.d/hadoop-* ; <span class="keyword">do</span> sudo <span class="variable">$x</span> stop ; <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<h2 id="安装-kerberos">安装 Kerberos</h2>
+<p>Kerberos 是什么我就不在这里累赘了，请猛点 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Kerberos_(protocol)">Kerberos</a></p>
+<h3 id="安装-1">1. 安装</h3>
+<p>下载 Kerberos V5 1.8.4 <a target="_blank" rel="noopener" href="http://web.mit.edu/kerberos/dist/index.html#krb5-1.8">下载地址</a></p>
+<p>安装很传统，解压，cd 到 src，接着 <code>./configure; make; sudo make install</code> 就 OK 了。</p>
+<h3 id="添加配置文件">2. 添加配置文件</h3>
+<p>/etc 下面创建 krb5.conf 文件，内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">[kdc]</span><br><span class="line">profile &#x3D; &#x2F;usr&#x2F;local&#x2F;var&#x2F;krb5kdc&#x2F;kdc.conf</span><br><span class="line"></span><br><span class="line">[logging]</span><br><span class="line">default&#x3D; FILE:&#x2F;var&#x2F;log&#x2F;krb5libs.log</span><br><span class="line">kdc &#x3D; FILE:&#x2F;var&#x2F;log&#x2F;krb5kdc.log</span><br><span class="line">admin_server &#x3D; FILE:&#x2F;var&#x2F;log&#x2F;kadmind.log</span><br><span class="line"></span><br><span class="line">default_tgs_enctypes &#x3D; des3-hmac-sha1</span><br><span class="line">default_tkt_enctypes &#x3D; des3-hmac-sha1</span><br><span class="line">permitted_enctypes &#x3D; des3-hmac-sha1</span><br><span class="line"></span><br><span class="line">[libdefaults]</span><br><span class="line">default_realm &#x3D; LOCAL.DOMAIN</span><br><span class="line">forwardable &#x3D; yes</span><br><span class="line">ccache_type &#x3D; 4</span><br><span class="line">proxiable &#x3D; true</span><br><span class="line">renew_lifetime &#x3D; 1d</span><br><span class="line">clockskew &#x3D; 1000000000</span><br><span class="line">#dns_lookup_kdc &#x3D; true</span><br><span class="line">#dns_lookup_realm &#x3D; true</span><br><span class="line"></span><br><span class="line">[realms]</span><br><span class="line">LOCAL.DOMAIN &#x3D; &#123;</span><br><span class="line">kdc &#x3D; localhost</span><br><span class="line">admin_server &#x3D; localhost</span><br><span class="line">default_domain &#x3D; localhost</span><br><span class="line">&#125;</span><br><span class="line">[domain_realm]</span><br><span class="line">.local.domain &#x3D; LOCAL.DOMAIN</span><br><span class="line">local.domain &#x3D; LOCAL.DOMAIN</span><br><span class="line"></span><br><span class="line">[login]</span><br><span class="line">krb4_convert &#x3D; true</span><br><span class="line">krb4_get_tickets &#x3D; false</span><br></pre></td></tr></table></figure>
+<p><strong>[realms] 设置 KDC 相关服务的地址，因为是单机，所以用的是 localhost</strong></p>
+<p>（如果是配集群的话，只有 kdc 需要配 [kdc] 里面的内容，其他 node 包括 client 都需要有这个文件，并且添加除了 [kdc] 以外的内容在这个里面。后面的其他配置文件，非 kdc 不需要。另外如果在 client 里面设置 kdc 地址采用的是 IP 地址，那么需要在 hosts 设置 “hostname IP”，否则很有可能出现这样的错误 log: “Not attempting to re-login since the last re-login was attempted less than 600 seconds before.”，这是因为解析到了错误的 hostname，导致 principal instance 错误，kdc 认证时不能识别而出错。）</p>
+<p>接着创建 <strong>kdc.conf</strong> 文件到 <strong>/usr/local/var/krb5kdc</strong> 目录下， 就是 krb5.conf 里面 profile 的路径，内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[kdcdefaults]</span><br><span class="line">v4_mode &#x3D; nopreauth</span><br><span class="line">kdc_ports &#x3D; 750,88</span><br><span class="line">kdc_tcp_ports &#x3D; 88</span><br><span class="line"></span><br><span class="line">[realms]</span><br><span class="line">LOCAL.DOMAIN &#x3D; &#123;</span><br><span class="line">acl_file &#x3D; &#x2F;usr&#x2F;local&#x2F;var&#x2F;krb5kdc&#x2F;kadm5.acl</span><br><span class="line">dict_file &#x3D; &#x2F;usr&#x2F;share&#x2F;dict&#x2F;words</span><br><span class="line">admin_keytab &#x3D; &#x2F;usr&#x2F;local&#x2F;var&#x2F;krb5kdc&#x2F;kadm5.keytab</span><br><span class="line">kdc_ports &#x3D; 750,88</span><br><span class="line">max_life &#x3D; 7d 0h 0m 0s</span><br><span class="line">max_renewable_life &#x3D; 1d 0h 0m 0s</span><br><span class="line">master_key_type &#x3D; des3-hmac-sha1</span><br><span class="line">supported_enctypes &#x3D; des3-hmac-sha1:normal des-cbc-crc:normal des:normal des:v4 des:norealm des:onlyrealm</span><br><span class="line">default_principal_flags &#x3D; +preauth</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后创建 <strong>kadm5.acl</strong> 文件到同一目录，见上面 acl_file 路径，内容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*&#x2F;admin@LOCAL.DOMAIN  *</span><br></pre></td></tr></table></figure>
+<h3 id="创建-kerberos-数据库">3. 创建 Kerberos 数据库</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ /usr/<span class="built_in">local</span>/sbin/kdb5_util create -r LOCAL.DOMAIN -s</span><br></pre></td></tr></table></figure>
+<p>生成 <strong>kadmin/admin</strong> <strong>kadmin/changepw</strong> 两个用户的 <strong>keytab</strong> 文件到 <strong>krb5kdc</strong> 目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo kadmin.local</span><br><span class="line">kadmin.local: ktadd -k /usr/<span class="built_in">local</span>/var/krb5kdc/kadm5.keytab kadmin/admin kadmin/changepw</span><br><span class="line">kadmin.local: quit</span><br></pre></td></tr></table></figure>
+<p>运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo /usr/<span class="built_in">local</span>/sbin/krb5kdc</span><br><span class="line">$ sudo /usr/<span class="built_in">local</span>/sbin/kadmind</span><br></pre></td></tr></table></figure>
+<p><strong>Kerberos 就正常工作了</strong></p>
+<p>可以运行 kadmin 或者 kadmin.local 进行测试 （运行 kadmin.local 需要 sudo）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kadmin</span><br><span class="line">kadmin:  listprincs</span><br></pre></td></tr></table></figure>
+<p>会显示所有 principals</p>
+<h3 id="hadoop-kerberos-安全认证配置">4. Hadoop Kerberos 安全认证配置</h3>
+<p>参考文档 <a target="_blank" rel="noopener" href="https://ccp.cloudera.com/display/CDHDOC/Configuring+Hadoop+Security+in+CDH3#ConfiguringHadoopSecurityinCDH3-InstallCDH3">Configuring Hadoop Security in CDH3</a></p>
+<p>可以跳过前面步骤，直接从 Step 4 开始。不过提醒下，一定要装这个包（必须和 hadoop 版本一致），要不后面会报一些奇奇怪怪的错误，这个地方浪费了我不少时间。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install hadoop-0.20-sbin</span><br></pre></td></tr></table></figure>
+<p>Cloudera CDH3 默认会建立两个用户 hdfs 和 mapred，而网上的摘抄转载大多是建一个 hadoop 用户，然后创建 hadoop principal 以及创建 keytab，那 datanode 和 nodenode 启动时都会因为 Kerberos 验证不过而失败，因为 Hadoop 是使用的 hdfs 用户来启动的，而 keytab 里面的用户是 hadoop。</p>
+<p>有些还说要往 <code>hadoop_env.sh</code> 里面添加 HADOOP_DATANODE_USER=hadoop 的，这样会因为连写 log 的权限都没有而导致 datanode 启动失败的，因为其用户是 hdfs。</p>
+<p>上面两个错误都让我花了不少时间去定位。</p>
+<p><strong>强烈建议按照 Step 4 的方式来生成 hdfs, mapred 的 principal 以及 keytab 权限设置</strong>，生成 keytab 方法可以采用这个</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> kadmin.local</span><br><span class="line">kadmin.local: ktadd -k hdfs.keytab hdfs/ubuntu host/ubuntu</span><br></pre></td></tr></table></figure>
+<p><strong>参考 Step 6, 7 配置 Hadoop 的 core-site.xml 和 hdfs-site.xml</strong></p>
+<p>配置完成之后启动所有 node</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">for</span> x <span class="keyword">in</span> /etc/init.d/hadoop-*; <span class="keyword">do</span> sudo <span class="variable">$x</span> start; <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p>查看 namenode 和 datanode 的 log，如果有下述 log ，就代表 Hadoop 已经在使用 Kerberos 验证了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdfs&#x2F;ubuntu@LOCAL.DOMAIN using keytab file &#x2F;etc&#x2F;hadoop&#x2F;conf&#x2F;hdfs.keytab</span><br></pre></td></tr></table></figure>
+<p>可以验证下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hadoop fs -ls</span><br></pre></td></tr></table></figure>
+<p>如果你是 jdk 6 update 26，那么恭喜你，你很可能碰见下面错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> any Kerberos tgt)]</span><br><span class="line">provided (Mechanism level: Failed to find any Kerberos tgt)]</span><br></pre></td></tr></table></figure>
+<p>这个是已知 <a target="_blank" rel="noopener" href="http://krbdev.mit.edu/rt/NoAuth/krb5-1.8/bugs-1.8.4.html">bug</a></p>
+<p>Workaround 是在 kinit 成功之后，执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ kinit -R</span><br></pre></td></tr></table></figure>
+<p>运行之后就可以访问 hdfs 了。我当时死活成功不了，然后找了另一台机器同样设置做了一遍，workaround 是可以的。折腾了好久，最后把 Kerberos 数据库删掉，重新创建了一个，然后重新添加所有 principals 后，就好了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ /usr/<span class="built_in">local</span>/sbin/kdb5_util destroy -r LOCAL.DOMAIN -f</span><br></pre></td></tr></table></figure>
+<p>HDFS 可以正常访问了，接下来按照 <strong>Step 12 的方式来配置 MapReduce</strong></p>
+<p>注意在 mapred-site.xml 添加配置时，Guide 里面只是关于 Kerberos 的，还需要添加 mapred.local.dir 路径，必须和同目录下 taskcontroller.cfg 里面的设置一致。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mapred.local.dir&#x3D;&#x2F;tmp&#x2F;mapred-tmp</span><br></pre></td></tr></table></figure>
+<p><strong>taskcontroller.cfg 必须设置，如果不设置，tasktrackernode 压根就不会启动的</strong></p>
+<p>hadoop.log.dir 就填 hadoop 的 logs 目录 /usr/lib/hadoop/logs</p>
+<p>mapred.local.dir 填一个本地目录就可以，<strong>但必须是把上面这段配置添加到 mapred-site.xml 里面后重启 node</strong>，否则 tasktracker.xml 会报文件不存在或不能读写而启动失败的。</p>
+<p>做完 Step 12，重启所有 node，启动成功后，运行前面的 PI 例子，成功就代表 MapReduce 也木有问题了。</p>
+<p>Mission Complete!</p>
+<p>Have Fun!</p>
+<hr />
+<p>在上面的这些都成功之后，又遇到了几个错误</p>
+<h4 id="secondarynamenode-做-checkpoint-时认证出错">1. Secondarynamenode 做 checkpoint 时认证出错</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">che&#x2F;hdfs&#x2F;dfs&#x2F;namesecondary from failed checkpoint.</span><br><span class="line"></span><br><span class="line">ticket for: host&#x2F;localhost</span><br></pre></td></tr></table></figure>
+<p>我 hdfs-site.xml 里面明明配的都是 host/ubuntu。</p>
+<p>hdfs-site.xml 里面默认的是 <code>host/_HOST</code> 这类格式的 principal 设置，我之前没有改，启动 node 时，datanode 是 <code>host/ubuntu</code>，namenode 成了 <code>host/localhost</code>, 所有我怀疑是这个 _HOST 宏展开的问题，试着加了好几个配置，都不行，最后没办法了，只得添加了 <code>host/localhost</code> 到 hdfs.keytab，算是 <strong>workaround</strong> 吧，我觉得正式环境应该不会有这样的问题，所以不想折腾了。</p>
+<h4 id="secondarynamenode-做-checkpoint-时-fetch-image-出错">2. Secondarynamenode 做 checkpoint 时 fetch image 出错</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;cache&#x2F;hdfs&#x2F;dfs&#x2F;namesecondary from failed checkpoint.</span><br><span class="line"></span><br><span class="line">header is not provided by the namenode when trying to fetch https:&#x2F;&#x2F;localhost:50470&#x2F;getimage?getimage&#x3D;1</span><br></pre></td></tr></table></figure>
+<p>在加了 Kerberos 后，Hadoop 做 checkpoint 的时候走的是 <strong>Kerberized SSL</strong>，所以需要在 krb5.conf 里面的 [libdefaults] 里面添加 <strong>allow_weak_crypto</strong> 设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[libdefaults]</span><br><span class="line"> ...</span><br><span class="line"> allow_weak_crypto&#x3D;true</span><br><span class="line"> ...</span><br></pre></td></tr></table></figure>
+<p>这个问题折腾了俩小时，添加了很多配置在 hdfs-site.xml 里面，都不行。</p>
+<p>最后还是找到了答案，但吃惊的是依然来自一直在用的这个文档 <a target="_blank" rel="noopener" href="https://ccp.cloudera.com/display/CDHDOC/Configuring+Hadoop+Security+in+CDH3#ConfiguringHadoopSecurityinCDH3-InstallCDH3">Configuring Hadoop Security in CDH3</a> Step 11 给出的链接</p>
+<p><a target="_blank" rel="noopener" href="https://ccp.cloudera.com/display/CDHDOC/Appendix+D+-+Enabling+Debugging+Output+for+the+Sun+Kerberos+Classes">Appendix D – Enabling Debugging Output for the Sun Kerberos Classes</a></p>
+<h4 id="执行-hadoop-fsck-出错">3. 执行 hadoop fsck 出错</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hadoop fsck /</span><br><span class="line">Exception <span class="keyword">in</span> thread <span class="string">&quot;main&quot;</span> java.io.IOException: session keys with des3-cbc-hmac-sha1-kd encryption <span class="built_in">type</span> are not supported <span class="keyword">for</span> TLS Kerberos cipher suites</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>解决了 2，这个问题也木有了。</p>
+<p>真是不细看文档会死人的。。。</p>
+<p>在此，感谢 Cloudera，是个靠谱的公司。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/10/11/change/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/10/11/change/" class="post-title-link" itemprop="url">Change</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-10-11 10:48:00" itemprop="dateCreated datePublished" datetime="2011-10-11T10:48:00+08:00">2011-10-11</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>今天失业在家。</p>
+<p>第一次换工作，考虑了很久。也许是因为没有经验，或者说自己决断力不足，纠结了不少时间。</p>
+<p>兴趣对我来说很重要，我平时看的，学的，做的跟工作完全不相关，我早该离开的，但是离不开的是那里的工作氛围，真的挺好，像研究生时的实验室。</p>
+<p>我试图换岗位，做 Coach，遇到了一群可爱的 co-worker，但很多时候很多事情总是事与愿违。</p>
+<p>死去的乔布斯说过 connecting the dots，我新工作，是因为我研究生时候做的项目的经历来的。所以虽然我放弃了这三年来的工作经验和积累，但谁知道说不准未来什么时候就突然有用了。</p>
+<p>所以我不贬低自己的经历，哪怕做的不快乐，但价值总是有的。</p>
+<p>比如，没有这些不快乐，也许我就去了18摸，做先进的老古董系统，其实只是边边角角的维护工作，因为钱多。</p>
+<p>比如，没有当 Coach，我就不会去上次的 Qcon Beijing，也就没有被互联网的现状震撼，技术的层出不穷，才使得我决定下一个工作肯定是互联网行业的。</p>
+<p>。。。</p>
+<p>明天就去新单位上班，肯定有惊喜，也会有失望，但选择是自己的，自己就要承担。</p>
+<p>就像上个月，我的位子变成了本是两人坐的，被改造成三人的狭小中间位置，</p>
+<p>一同事开玩笑说：这是不是你的第一份工作？（意思是第一份工作就遇到这样的 cost saving）</p>
+<p>我回答：自己选择的，怪不得别人。（虽然我觉得这个决策对于非创业公司来讲是反人类的）</p>
+<p><em>End</em></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/09/18/wuyishan/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/09/18/wuyishan/" class="post-title-link" itemprop="url">武夷山</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-09-18 22:43:00" itemprop="dateCreated datePublished" datetime="2011-09-18T22:43:00+08:00">2011-09-18</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>七月中旬 outing 去了武夷山，本来的休闲游，却被我们搞成了暴走三日行，其实旅游本是探索，如果跟着导游，或者只按景点安排来，那或许少了很多乐趣。</p>
+<p>就譬如说在贴这篇 Blog 的过程中，我经历了洗手间门被反锁事件，拿卡片开了十几分钟，无果，但同样的锁，隔壁房间开了好多次，早已练就 10 秒内开门绝技，无奈我只得叫开锁公司。</p>
+<p>回想起两年前，同样是晚上，去洗澡，锁坏了，出不去，在洗手间足足呆了三个多小时，期间洗了 4 次澡，坐马桶上发呆，对窗外发呆，以至于对面楼很多房间都拉了窗帘。室友回来才帮我叫开锁公司，开门换锁，就是今天开不了的这只。</p>
+<p>这就叫做生活的花絮，</p>
+<p>那种我也许可以讲很多年的故事。</p>
+<p><a><img src="/images/2011/wuyimountain1.jpg" width="560"></a> <a><img src="/images/2011/wuyimountain2.jpg" width="280"></a> <a><img src="/images/2011/wuyimountain3.jpg" width="280"></a> <a><img src="/images/2011/wuyimountain4.jpg" width="560"></a> <a><img src="/images/2011/wuyimountain5.jpg" width="560"></a> <a><img src="/images/2011/wuyimountain6.jpg" width="280"></a> <a><img src="/images/2011/wuyimountain7.jpg" width="280"></a> <a><img src="/images/2011/wuyimountain8.jpg" width="560"></a> <a><img src="/images/2011/wuyimountain9.jpg" width="560"></a> <a><img src="/images/2011/wuyimountain10.jpg" width="280"></a> <a><img src="/images/2011/wuyimountain11.jpg" width="280"></a> <a><img src="/images/2011/wuyimountain12.jpg" width="560"></a></p>
+<p>-- Taken on July 16-18, 2011 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157633652996788">flickr</a>)</p>
 
       
     </div>
@@ -308,7 +542,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/15/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><a class="extend next" rel="next" href="/page/17/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/15/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/17/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -351,10 +585,12 @@
   &copy; 2010 – 
   <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Dong Zheng - Powered by Hexo, NextT, GitHub</span>
+  <span class="author" itemprop="copyrightHolder">Dong Zheng</span>
 </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
 
     </div>
   </footer>

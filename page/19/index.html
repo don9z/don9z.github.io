@@ -14,7 +14,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Serif:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
@@ -108,6 +108,9 @@
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -128,6 +131,20 @@
 
 
 
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
 
 
 
@@ -164,16 +181,14 @@
   <p class="site-author-name" itemprop="name">Dong Zheng</p>
   <div class="site-description" itemprop="description"></div>
 </div>
-<div class="site-state-wrap site-overview-item animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives">
-          <span class="site-state-item-count">71</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-  </nav>
-</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="http://zhengdong.me/" title="About → http:&#x2F;&#x2F;zhengdong.me" rel="noopener" target="_blank"><i class="fa fa-user fa-fw"></i>About</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
 
 
 
@@ -209,7 +224,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2013/07/12/using-ios-android-libraries-cocos2dx/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/04/18/mobile-dev/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -223,7 +238,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2013/07/12/using-ios-android-libraries-cocos2dx/" class="post-title-link" itemprop="url">Using iOS and Android Libraries in Cocos2D-X</a>
+            <a href="/2011/04/18/mobile-dev/" class="post-title-link" itemprop="url">QCon 北京 - 移动开发</a>
         </h2>
 
         <div class="post-meta-container">
@@ -234,7 +249,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2013-07-12 18:21:00" itemprop="dateCreated datePublished" datetime="2013-07-12T18:21:00+08:00">2013-07-12</time>
+      <time title="Created: 2011-04-18 21:20:00" itemprop="dateCreated datePublished" datetime="2011-04-18T21:20:00+08:00">2011-04-18</time>
     </span>
 
   
@@ -247,56 +262,265 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>Been working on some libs on both iOS and Android platforms for a long time, recently needed to support <a target="_blank" rel="noopener" href="http://www.cocos2d-x.org">Cocos2d-x</a> framework, I have no interest to write a whole new lib based on C++, nightmare for maintenance, So I worked on to integrate both libs to Cocos2d-x framework.</p>
-<h2 id="ios">iOS</h2>
-<p>Imagine my lib name is <code>libHumbleAssistant.a</code>, with a header file <code>HumbleAssistant.h</code>.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">HumbleAssistant</span> : <span class="title">NSObject</span></span></span><br><span class="line">+ (<span class="keyword">void</span>)doSomething:(<span class="built_in">NSString</span> *)order;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<p>Lucky me, Objective C belongs to C family, which could integrate with C and C++ seamlessly.</p>
-<p>At first, create a <code>.h</code> header file as the real interface for C++ code, and name it as <code>humble_assistant_cpp.h</code>.</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HumbleAssistantCpp</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">do_something</span><span class="params">(<span class="keyword">char</span> *order)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>Then, create its source <code>humble_assistant_cpp.mm</code>, <code>.mm</code> stands for <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Objective-C#Objective-C.2B.2B">Objective-C++</a>, in which, people can hybrid programming with Objective C and C++.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">&quot;HumbleAssistant.h&quot;</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">&quot;humble_assistant_cpp.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> HumbleAssistantCpp::do_something(<span class="keyword">char</span> *order) &#123;</span><br><span class="line">    [HumbleAssistant doSomething:[<span class="built_in">NSString</span> stringWithUTF8String:order]];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Now, the file structures looks like this</p>
-<pre><code>-mylibs
-  -ios
-    - HumbleAssistant.h
-    - libHumbleAssistant.a
-    - humble_assistant_cpp.h
-    - humble_assistant_cpp.mm</code></pre>
-<p>In a Cocos2d-x project, add those files, and include the <code>humble_assistant_cpp.h</code> to any C++ code that is about to ask the humble assistant a favor. It's that simple.</p>
-<h2 id="android">Android</h2>
-<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Java_Native_Interface">JNI</a> is used to bind Cocos2d-x and Android Java interfaces.</p>
-<p>In order to call a method in a <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/JAR_(file_format)">jar</a> lib from C++, JNI code must be written.</p>
-<p>Imagine my android lib is <code>humbleAssistant.jar</code>, and has an interface as below.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.my.libs;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HumbleAssistant</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">(String order)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>To expose this method to C++, first, create a header file <code>humble_assistant_jni.h</code>.</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">extern</span> <span class="keyword">void</span> <span class="title">j_do_something</span><span class="params">(<span class="keyword">char</span> *order)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Then, its implementation <code>humble_assistant_jni.cpp</code>, a little complicated due to the JNI's obscure grammar.</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;platform/android/jni/JniHelper.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;humble_assistant_jni.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// java Class location</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>  CLASS_NAME <span class="meta-string">&quot;com/my/libs/HumbleAssistant&quot;</span></span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">j_do_something</span><span class="params">(<span class="keyword">char</span> *order)</span> </span>&#123;</span><br><span class="line">        cocos2d::JniMethodInfo methodInfo;</span><br><span class="line">        <span class="keyword">if</span> (cocos2d::JniHelper::getStaticMethodInfo(methodInfo, CLASS_NAME,</span><br><span class="line">                                      <span class="string">&quot;doSomething&quot;</span>, <span class="string">&quot;(Ljava/lang/String;)V&quot;</span>)) &#123;</span><br><span class="line">            jstring j_order = methodInfo.env-&gt;NewStringUTF(order);</span><br><span class="line">            methodInfo.env-&gt;CallStaticVoidMethod(methodInfo.classID,</span><br><span class="line">                                                 methodInfo.methodID,</span><br><span class="line">                                                 j_order);</span><br><span class="line">            methodInfo.env-&gt;DeleteLocalRef(j_order);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Cocos2d-x is a cross platform framework, our libs need to be that too, only one single interface is needed.</p>
-<p>In iOS, a <code>humble_assistant_cpp.h</code> is created, which is the universal header file for both platforms. And <code>humble_assistant_cpp.mm</code> is the source file.</p>
-<p>So, in Android, we have to make a new source file <code>humble_assistant_cpp.cpp</code>.</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;humble_assistant_cpp.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;humble_assistant_jni.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HumbleAssistant::do_something</span><span class="params">(<span class="keyword">char</span> *order)</span> </span>&#123;</span><br><span class="line">    j_do_something(order);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Now, the file structures looks like this</p>
-<pre><code>-mylibs
-  -ios
-    - HumbleAssistant.h
-    - libHumbleAssistant.a
-    - humble_assistant_cpp.h
-    - humble_assistant_cpp.mm
-  -android
-    - humble_assistant_jni.h
-    - humble_assistant_jni.cpp
-    - humble_assistant_cpp.cpp</code></pre>
-<p>But it's not finished.</p>
-<p>We have to change the makefile in "proj.android/jni/android.mk" to add source files and the header file.</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Add source files</span></span><br><span class="line">LOCAL_SRC_FILES := ... \</span><br><span class="line">                   ../../sdk/android/humble_assistant_jni.cpp \</span><br><span class="line">                   ../../sdk/android/humble_assistant_cpp.cpp</span><br><span class="line"></span><br><span class="line"><span class="comment"># Include header file</span></span><br><span class="line">LOCAL_C_INCLUDES := ... <span class="variable">$(LOCAL_PATH)</span>/../../mylibs/ios</span><br></pre></td></tr></table></figure>
-<p>And also, put the jar lib into "proj.android/libs" folder.</p>
-<p>It's done. Looks much more complicated than iOS way, and could be even worse.</p>
-<p>If the <code>doSomething</code> interface needs a <code>HashMap</code> parameter, JNI code will be full of stupid code.</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">j_do_something</span><span class="params">(<span class="keyword">char</span> *order, <span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="keyword">char</span>*, <span class="keyword">char</span>*&gt; attributes)</span> </span>&#123;</span><br><span class="line">    cocos2d::JniMethodInfo methodInfo;</span><br><span class="line">    <span class="keyword">if</span> (cocos2d::JniHelper::getStaticMethodInfo(methodInfo, CLASS_NAME,</span><br><span class="line">                                                <span class="string">&quot;doSomething&quot;</span>, <span class="string">&quot;(Ljava/lang/String;Ljava/util/Map;)V&quot;</span>)) &#123;</span><br><span class="line">        jobject jattributes = <span class="number">0</span>;</span><br><span class="line">        jclass hashMapClass = methodInfo.env-&gt;FindClass(<span class="string">&quot;java/util/HashMap&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (hashMapClass) &#123;</span><br><span class="line">            jsize mapSize = attributes.size();</span><br><span class="line">            jmethodID init = methodInfo.env-&gt;GetMethodID(hashMapClass, <span class="string">&quot;&lt;init&gt;&quot;</span>, <span class="string">&quot;(I)V&quot;</span>);</span><br><span class="line">            jobject hashMap = methodInfo.env-&gt;NewObject(hashMapClass, init, mapSize);</span><br><span class="line">            jmethodID putMethod = methodInfo.env-&gt;GetMethodID(hashMapClass, <span class="string">&quot;put&quot;</span>,</span><br><span class="line">                                                              <span class="string">&quot;(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="keyword">char</span>*, <span class="keyword">char</span>*&gt;::const_iterator it = attributes.begin();</span><br><span class="line">                 it != attributes.end(); ++it) &#123;</span><br><span class="line">                jstring key = methodInfo.env-&gt;NewStringUTF(it-&gt;first);</span><br><span class="line">                jstring value = methodInfo.env-&gt;NewStringUTF(it-&gt;second);</span><br><span class="line">                methodInfo.env-&gt;CallObjectMethod(hashMap, putMethod, key, value);</span><br><span class="line">                methodInfo.env-&gt;DeleteLocalRef(value);</span><br><span class="line">                methodInfo.env-&gt;DeleteLocalRef(key);</span><br><span class="line">            &#125;</span><br><span class="line">            jattributes = hashMap;</span><br><span class="line">            methodInfo.env-&gt;DeleteLocalRef(hashMapClass);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        jstring jorder = methodInfo.env-&gt;NewStringUTF(order);</span><br><span class="line">        methodInfo.env-&gt;CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID,</span><br><span class="line">                                             jorder, jattributes);</span><br><span class="line">        <span class="keyword">if</span> (jattributes)</span><br><span class="line">            methodInfo.env-&gt;DeleteLocalRef(jattributes);</span><br><span class="line">        methodInfo.env-&gt;DeleteLocalRef(jorder);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Feel lucky again that my lib only exposes static methods, with simple parameters.</p>
-<p>Maybe that's why I don't like cross platform frameworks, and Android.</p>
+          <h2 id="robinlu-的-high-quality-ios-development."><span class="citation" data-cites="robinlu">@robinlu</span> 的 High Quality iOS Development.</h2>
+<p>内存管理中的引用计数，Ownership 的概念，以及 Autorelease 的使用，这些都快被讲烂了。</p>
+<p>但里面提到的 implicit ownership 以前没怎么注意过:</p>
+<p>NSTimer, Delayed performance of selector, Thread, IBOutlet</p>
+<p>另外提到的 Circular Reference，使用引用计数来进行内存管理很容易出现环引用的场景，比如有一个父视图包含一个子视图，则 retain 子视图，然而子视图又需要知道自己的父视图是谁，则需要 retain 主视图，于是就出现了循环，这样因为相互依赖，内存始终是得不到释放的。</p>
+<p>这时就有一个弱引用 (Weak reference) 的概念，即子视图只持有父视图的指针，cocoa 里面很多都机制都采用了弱引用，比如很常见的 delegate.</p>
+<p>讲到 Clang Static Analyzer 的时候，看到竟然除了内存泄露等错误外，还能查出逻辑错误，在 if 嵌套且多的情况下极为适用。虽然有神器，还是对自己好点，毕竟写那样的挺费脑细胞的，嵌套到 2 层就得了，别再深了。</p>
+<h2 id="holly-lee-的利用-ios-新特性进行开发中的-block">Holly Lee 的利用 iOS 新特性进行开发中的 Block</h2>
+<p>一直以为是在 objc runtime 层面实现的 closure 或者 lambda，才发现原来是直接基于 C 语言增强的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> result = ^(<span class="keyword">int</span> a) &#123;<span class="keyword">return</span> a*a;&#125; (<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(^blockWithString)</span><span class="params">(<span class="keyword">char</span>*)</span></span>;</span><br><span class="line"><span class="keyword">char</span> *greeting = “hello”;</span><br><span class="line">blockWithString b = ^(<span class="keyword">char</span>* place)&#123; <span class="built_in">printf</span>(<span class="string">&quot;%s %s\n&quot;</span>, greeting, place); &#125;;</span><br><span class="line">greeting = <span class="string">&quot;goodbye&quot;</span>;</span><br><span class="line">b(<span class="string">&quot;world&quot;</span>); <span class="comment">// prints &quot;hello world\n&quot;</span></span><br><span class="line"></span><br><span class="line">__block <span class="keyword">char</span> *mutable_greeting = <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">c = ^&#123; mutable_greeting = <span class="string">&quot;goodbye&quot;</span>; &#125;;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>, mutable_greeting); <span class="comment">// -&gt; &quot;hello&quot;</span></span><br><span class="line">c();</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>, mutable_greeting); <span class="comment">// -&gt; &quot;goodbye&quot;</span></span><br></pre></td></tr></table></figure>
+<p>看起来很像是函数指针，只是把 * 换成了 ^.</p>
+<p>Block 最大的特点就是，里面的局部变量只是该变量进入 Block 时刻的快照，以后任何时刻，该变量被更改与否跟整个 Block 没有关系，天然的加锁啊。其实 Block 的动机就是来源于 GCD (Grand Central Dispatch)，这个功能是为了在同步 (Cocurrency) 下有更好的效率。据说有超过 100 个 Apple API 都已经使用了 Block。</p>
+<h2 id="高焕堂高老师整场的安卓理念流讲座">高焕堂高老师整场的安卓理念流讲座</h2>
+<p>非常精彩，举例形象，幽默，都 56 岁了还在追新，还在写代码，真是码农学习的好榜样那。</p>
+<p>高老的主张是 iOS 拼应用，Android 拼底层。因为 Android 本身是十分开放的，可以轻而易举的对底层进行更改，从而才能造就百花齐放，产品差异化化的局面。通过差异化的增值获利途径，是推动 Android 拓展和技术提升的关键环节。</p>
+<p>他说:</p>
+<ul>
+<li>Android 很烂，每一个模块都没怎么测试，但那么多模块组合起来竟然还能用；</li>
+<li>没钱就改版，改版就有钱；</li>
+<li>跨平台是乌托邦；</li>
+<li>他不看重用户体验，他举了个例子，比如嫁女儿，别人不说你女儿值得拥有，给你说用户体验真好;</li>
+<li>企业是坏女朋友，跟他好，赚不到钱，硬件是大老婆，要跟大老婆好，然后赚坏女朋友的钱。</li>
+<li>实践的不赚钱，定义接口不干活的赚钱；</li>
+</ul>
+<p>不过搞笑归搞笑，但有一点是很有道理的，就是写基类的赚钱，写 App 的不赚钱。</p>
+<p>搞硬件，然后用 C 做驱动，最后提供基类给企业，让其做 App，然后就赚大钱了，因为底层把握在自己手中。</p>
+<p>这和 Apple 的策略极为一致!</p>
+<p>他把 App 比喻成塞外，Framework API 比喻成万里长城，JNI API 比喻成北京城，HAL API 比喻成紫禁城，然后里面住着慈禧太后。每一层屏障，都是里面的人为保持自身利益所设立的，专注开发底层硬件和驱动才能成为 Android 手机大赢家。</p>
+<h2 id="han-chao-的-android-对-linux-内核的改造及其影响">Han Chao 的 Android 对 Linux 内核的改造及其影响</h2>
+<p>从 Linux 纯技术的角度来看 Android。</p>
+<p>比如为了满足硬件上不想开源的需要的硬件抽象层，巧妙的使用 <code>/dev/binder</code> 为用户层程序提供了 IPC 支持，以及采用类似方法(MISC 设备) 实现的 Logger，Ashmen, Alarm, pmem 等。</p>
+<p>最后提到争议中的电源管理，Linux 的电源管理分为两级，在 CPU idle 的时候，会给所有的设备发 suspend 消息，然后设备依次休眠，最后 CPU 停转，有任务时，CPU 先开工，然后发 resume 消息给各个设备，唤醒机器。</p>
+<p>Android 为了满足即使 CPU 有少量任务时，也可以对设备进行休眠，在 suspend 之上提供了 <code>early_suspend</code> 机制，在 resume 之上提供了 <code>late_resume</code>，这两层都是在用户空间实现的，也就代表着用户空间可以干预，传统 Linux 用户空间是不可以干预的。</p>
+<p>但这样改的代价是所有相关的驱动，都要加上这样的处理，Linux 社区不会答应的。</p>
+<p>最后总结了三句:</p>
+<ul>
+<li>Android 和 Linux 都是很纯粹的技术</li>
+<li>Android 很遵循 Linux 的理念和原则</li>
+<li>Android 不能代表 Linux 标准</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/04/17/agile/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/04/17/agile/" class="post-title-link" itemprop="url">QCon 北京 - Agile</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-04-17 22:30:00" itemprop="dateCreated datePublished" datetime="2011-04-17T22:30:00+08:00">2011-04-17</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>上周末在北京参加了 QCon 会议，是自己第一次参加，学到了很多东西，大大开拓了眼界，一直忙没来的及总结，这篇以及后面的几篇都是对这次会议上自己感兴趣的东西的总结，在这里分享一下。</p>
+<h2 id="上海贝尔的敏捷转型之旅">上海贝尔的敏捷转型之旅</h2>
+<p>讲了 5 个转型故事，可能因为我也是处于相似的环境下，听得好累 :-)</p>
+<ul>
+<li>自上而下改革，领导更替，组织调整，意见分歧，传言惑众;</li>
+<li>高速中换轮胎，"黑暗"力量卷土重来，"敏捷不搞了";</li>
+<li>大师一席话胜读 10 年书，大师的话真的这么重要吗? 答案是的确重要；</li>
+<li>祝福的人少，挑刺的人多，自以为是的咨询师…</li>
+</ul>
+<p>整个 session 最让我印象深刻的是，说中间换了个领导，然后让人觉得敏捷好像不搞了，然后自己怎么怎么跟领导谈，让领导支持，甚至是公司有的团队使用了 agile，却不让他写到案例中，要悄悄搞。</p>
+<p>还有就是都到"黑暗"力量这份上了，的确让人感觉到一种，正如他说的那样，艰难前行，痛并快乐着。</p>
+<h2 id="腾讯的把敏捷当作产品来运营却让人有耳目一新的感觉">腾讯的把敏捷当作产品来运营却让人有耳目一新的感觉</h2>
+<p>它采用了自下而上的方法，把敏捷分成了 5 个 Feature</p>
+<ul>
+<li>基础平台</li>
+<li>Training 服务</li>
+<li>案例和最佳实践</li>
+<li>Coaching</li>
+<li>专制大 PM (每个 Feature 包含很多小特性)</li>
+</ul>
+<p>然后根据团队需求和所处阶段，定制敏捷产品包，把单个团队，多个团队，公司级的结合，以及服务和引导作为敏捷的总体策略。</p>
+<p>整个 session 中并没有出现强加字眼，有的团队如果暂时不接受，可以的，也可以接受初级 Feature 的敏捷产品包，循序渐进。</p>
+<p>我的感觉，关键是人，如果企业文化让人不守旧，善于接受新事物，什么都好说。</p>
+<p>如果大家都不承认自己是搞软件的，甚至一旦遇到技术难题，都会拿这个当做借口，觉得不懂应该的。那哪怕再自上而下，也只是看上去很美。</p>
+<p>也许最好的办法是把这些人改造了，就像减肥那样，节食减肥药效果明显，但不持久，坚持锻炼，再针对性的控制饮食，很慢，但会很持久。</p>
+<p>那天晚上 Open Space 时阿里一哥们问道，你们公司是不是搞得很好呀，也许我也有"总是觉得别人家月亮更圆"的毛病。</p>
+<p>今天晚上吃饭的时候一家通信公司工作的师姐甚至说你们搞得那是欧美式的，我们是中国特色的… Hope so.</p>
+<h2 id="david-hussman-的-big-agility">David Hussman 的 Big Agility</h2>
+<p>这个视频是 David Hussman 在他的 keynote 里面提到的:</p>
+<iframe title="YouTube video player" width="640" height="390" src="http://www.youtube.com/embed/ne6tB2KiZuk" frameborder="0" allowfullscreen>
+</iframe>
+<p>视频里面的这个音乐家通过动作的变化，一步一步，循序渐进，带动一群事先并没有排练过的观众一起进行合唱，那个音乐家说，不管在什么地方，最后观众都能完成。</p>
+<p>David Hussman 将这个称为 Groove:</p>
+<blockquote>
+<p>Groove is that quality that moves the song forward.</p>
+</blockquote>
+<blockquote>
+<p>"When a song has a good groove, it invites us into a sonic world that we don't want to leave"。</p>
+</blockquote>
+<p>他只是把 agile 当做 tools，而不是一个 religion，他听，问，多于说，不能硬塞给别人不知道不懂的东西，而是教大家用已有的，已懂的知识来使用敏捷这个工具，慢慢地让大家找到自己的 Groove。</p>
+<p>多听多问，甚至他还仿照欧姆定律发明了个 Dude’s Law: V = W/H (Value = Why/How).</p>
+<p>可见，提问越多，价值越大，说教越多，价值越小。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/03/31/emacs-features/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/03/31/emacs-features/" class="post-title-link" itemprop="url">Emacs 不流行但很拉风的 feature</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-03-31 17:38:00" itemprop="dateCreated datePublished" datetime="2011-03-31T17:38:00+08:00">2011-03-31</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="align-regexp">align-regexp</h2>
+<p>相必大家都用过 <code>C-M-\</code>，一般都能满足需要，可是有时候需要按一行中的某些字符对齐，比如一些变态的语言或者编程规范规定赋值语句需要按 "=" 对齐，那怎么办?</p>
+<p>align-regexp 使用起来只需要选中需要对齐的 region，然后执行，输入需要匹配的正则表达式即可。</p>
+<p>比如如下代码:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> var = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">int</span> variable_is_kinda_long = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">int</span> var_is_less_long = <span class="number">4</span>;</span><br></pre></td></tr></table></figure>
+<p>需要按 = 对齐，选中执行 <code>M-x align-regexp</code>, 然后 regexp 填 =，结果如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int var                    &#x3D; 2;</span><br><span class="line">int variable_is_kinda_long &#x3D; 3;</span><br><span class="line">int var_is_less_long       &#x3D; 4;</span><br></pre></td></tr></table></figure>
+<h2 id="occur">occur</h2>
+<p>输出 buffer 中符合正则表达式的所有行，在查找替换时，或者需要重构代码时，事先用 occur 来验证下构造的正则表达式的效果，可以避免一时自信或者冲动毁了先前的工作.</p>
+<h2 id="anything">anything</h2>
+<p>用过 Mac 的 quicksilver，或者 Linux 上的 gnome go 的同学，也许会觉得简直是神器，自称操作系统 Emacs 岂能自甘落后，anything 绝对值得拥有。</p>
+<p><code>M-x anything</code>, 会出现 anything buffer，其中显示当前目录下所有文件，当前打开的所有 buffer 以及最近打开的文件，只需要挑着敲文件名包含的少数字母，文件会被选中，然后直接 tab，buffer 会显示所有操作，输入操作名称，当然是少数字母，执行即可，也可以使用 <code>C-n C-p</code> 来选择。</p>
+<p>我使用的是 anything-config，anything-startup 会让 <code>C-x f</code> 变得很乱很难用，不如 ido-mode 好用。</p>
+<h2 id="tramp">tramp</h2>
+<p>远程文件编辑的利器，<code>C-x f username@user.com:filepath</code>, 流畅俨如本地文件，该工具其实很流行，但还有一个功能很少被人使用，但却可以解决烦恼。</p>
+<p>有多少次你编辑了文件，悲催的发现是只读文件，不能保存，你又不想退出 emacs，只能 <code>sudo vim</code>，然后用非常别扭的方式编辑文件。但有了 tramp，只需要 <code>C-x f /sudo::/etc/passw</code>，烦恼木有了。</p>
+<p>刚在 Emacs 中输入上面那个远程文件的链接时，竟然也触发启动了 tramp 连接，然后网络连不上于是 Emacs 僵死了，只得 force quit 了下，看来不死之身有时候也会出问题的。</p>
+<h2 id="re-builder">re-builder</h2>
+<p>实时高亮显示当前 buffer 可以匹配所输入正则表达式的字串，非常适合查找替换前做检查。功能跟 occur 差不多，只是 occur 另开一个 buffer 用来显示匹配的行，re-builder 直接显示在当前 buffer。</p>
+<h2 id="ractangle">ractangle</h2>
+<p>如下矩阵:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1234</span><br><span class="line">2345</span><br><span class="line">3456</span><br></pre></td></tr></table></figure>
+<p>假如我们需要剪切左上 2x2 矩阵，从1排1列，<code>C-space</code> 选中，挪动光标到2排2列，<code>C-x r k</code>, 然后 <code>C-x r y</code> 复制，结果如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; After cut</span><br><span class="line">34</span><br><span class="line">45</span><br><span class="line">3456</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Copy</span><br><span class="line">12</span><br><span class="line">23</span><br></pre></td></tr></table></figure>
+<p><code>C-x r o</code> 插入空格到选中矩阵，<code>C-x r c</code> 用空格替换所选中矩阵，<code>C-x r d</code> 删除所选矩阵，如下三操作区别 (左上2x2矩阵):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; C-x r o</span><br><span class="line">  1234</span><br><span class="line">  2345</span><br><span class="line">3456</span><br><span class="line">&#x2F;&#x2F; C-x r c</span><br><span class="line">  34</span><br><span class="line">  45</span><br><span class="line">3456</span><br><span class="line">&#x2F;&#x2F; C-x r d</span><br><span class="line">34</span><br><span class="line">45</span><br><span class="line">3456</span><br></pre></td></tr></table></figure>
+<p><code>C-x r t</code> 用输入字符串替换所选矩阵每行, 下图结果用 xy 替换左上 2x2 矩阵。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xy34</span><br><span class="line">xy45</span><br><span class="line">3456</span><br></pre></td></tr></table></figure>
+<h2 id="auto-rever-tail-mode">auto-rever-tail-mode</h2>
+<p>我们多少次在 terminal 中 tail -f sys.log 来关注 log 的最新输出, 使用这个命令 Emacs 便自动完成该工作。</p>
+<h2 id="wdired-change-to-wdired-mode">wdired-change-to-wdired-mode</h2>
+<p>在 dired-mode 使用该 mode，就可以像文件那样对 dired-mode buffer 进行编辑，可以用 regex-replace，rectangle 命令，批量更改文件名等。</p>
+<h2 id="hexl-mode">hexl-mode</h2>
+<p>查看编辑非文本文件利器。</p>
+<h2 id="multi-occur-in-matching-buffers">multi-occur-in-matching-buffers</h2>
+<p>可以对所有打开的 buffer 进行 regex search。</p>
+<h2 id="c-u-c-spacebar">C-u C-spacebar</h2>
+<p>Emacs 记录了所有光标移动的历史，使用这个命令，可以依次回到前一个位置，在阅读代码时非常有用。</p>
+<h2 id="apropos">apropos</h2>
+<p>搜索包含某关键字或者匹配某正则表达式的 Emacs 命令，利用这个可以发现更多给力的 feature。</p>
+<h2 id="follow-mode">follow-mode</h2>
+<p>现在流行的是宽屏，宽度不是问题，因此 Emacs <code>C-x 3</code> 用的很多，但很多长的文档，要翻好多页，小拇指真疼。</p>
+<p>竖分屏后执行 follow-mode 后，所有 buffer 显示同一文件的不同部分，可视范围翻倍，甚至数倍，这要看你的屏幕有多宽了。</p>
+<h2 id="最后">最后</h2>
+<p>题目中说的非流行是依据我在发现这些 feature 的偶然程度来定的，也许里面有的可能地球人都知道或者都再用，比如我觉得的，应该大家都会用的，或者一开始就被人推荐使用的，我就没列在上面，它们是:</p>
+<p>org-mode (org2blog), cscope, ido-mode, auto-complete, cedet, magit, yasnippet, ecb …</p>
+<p>这里有个<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/60367/the-single-most-useful-emacs-feature">调查</a>，Emacs 中最有用的 feature，大家可以参与下，另外本文中的很多 command 是我看到这个 polls 之后才觉得很强大。</p>
+<p>最后，不能忘了很强大很强大的三个命令，分别用来查询某 key binding，某 function (command)，某variable 是干啥用的:</p>
+<p><code>c-h k</code>, <code>c-h f</code>, <code>c-h v</code></p>
 
       
     </div>
@@ -318,7 +542,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/18/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><a class="extend next" rel="next" href="/page/20/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/18/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/20/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -361,10 +585,12 @@
   &copy; 2010 – 
   <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Dong Zheng - Powered by Hexo, NextT, GitHub</span>
+  <span class="author" itemprop="copyrightHolder">Dong Zheng</span>
 </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
 
     </div>
   </footer>

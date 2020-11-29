@@ -14,7 +14,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Serif:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
@@ -108,6 +108,9 @@
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -128,6 +131,20 @@
 
 
 
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
 
 
 
@@ -164,16 +181,14 @@
   <p class="site-author-name" itemprop="name">Dong Zheng</p>
   <div class="site-description" itemprop="description"></div>
 </div>
-<div class="site-state-wrap site-overview-item animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives">
-          <span class="site-state-item-count">71</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-  </nav>
-</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="http://zhengdong.me/" title="About → http:&#x2F;&#x2F;zhengdong.me" rel="noopener" target="_blank"><i class="fa fa-user fa-fw"></i>About</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
 
 
 
@@ -209,7 +224,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2013/09/13/using-ios-android-libraries-unity3d/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/08/20/implementation-and-efficiency-of-regular-expression/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -223,7 +238,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2013/09/13/using-ios-android-libraries-unity3d/" class="post-title-link" itemprop="url">Using iOS and Android Libraries in Unity3d</a>
+            <a href="/2011/08/20/implementation-and-efficiency-of-regular-expression/" class="post-title-link" itemprop="url">正则表达式的实现和效率</a>
         </h2>
 
         <div class="post-meta-container">
@@ -234,7 +249,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2013-09-13 15:50:00" itemprop="dateCreated datePublished" datetime="2013-09-13T15:50:00+08:00">2013-09-13</time>
+      <time title="Created: 2011-08-20 15:58:00" itemprop="dateCreated datePublished" datetime="2011-08-20T15:58:00+08:00">2011-08-20</time>
     </span>
 
   
@@ -247,74 +262,275 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>I have written about <a href="/2013/07/12/using-ios-android-libraries-cocos2dx/">how to use iOS and Android Libraries in Cocos2d-x</a>, in mobile game industry, there is another cross platform framework named <a target="_blank" rel="noopener" href="http://unity3d.com">unity3d</a>, which is more elegant, powerful, and, super expensive!</p>
-<p>This post will show how to enable the App using unity3d framework to use native libraries of iOS and Android.</p>
-<h2 id="unity3d-plugin-mechanism">Unity3d Plugin Mechanism</h2>
-<p>Unity3d supports plugins well, compared with <a target="_blank" rel="noopener" href="http://www.cocos2d-x.org">Cocos2D-X</a>.</p>
-<p>In order to use a plugin in unity3d, two things have to be done.</p>
-<ul>
-<li>Write functions in a C-based language and compile them into a library</li>
-<li>Create a C# script which calls functions in the library</li>
-</ul>
-<p>Seems similar to the <a href="/2013/07/12/using-ios-android-libraries-cocos2dx/">cocos2d-x way</a>, but unity3d organizes things well, by which, plugin can be distributed as a package file, in App, simply import the package file, and, it's all.</p>
-<p>To create an iOS and Android plugin, five steps have to be followed.</p>
-<ol type="1">
-<li>Create a new unity3d project</li>
-<li>Make a folder "Plugins" in "Assets" folder, then, make "iOS" and "Android" folders in "Plugins" folder</li>
-<li>Put iOS <code>.a</code> and Android <code>.jar</code> lib files to their folders respectively</li>
-<li>Write the C wrapper code to expose the native APIs to C#</li>
-<li>Click the "Assets - Export Package" menu to export the plugin as a unity3d package</li>
-</ol>
-<p>At last the file structure will be similar to this.</p>
-<pre><code>Assets
-└── Plugins
-    ├── Android
-    │   ├── AndroidManifest.xml
-    │   └── humbleAssistant.jar
-    ├── HumbleAssistant.cs
-    └── iOS
-        ├── HumbleAssistant.h
-        ├── HumbleAssistantWrapper.h
-        ├── HumbleAssistantWrapper.m
-        └── libHumbleAssistant.a</code></pre>
-<h2 id="ios">iOS</h2>
-<p>I have an iOS lib named <code>libHumbleAssistant.a</code>, and its header file <code>HumbleAssistant.h</code>.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">HumbleAssistant</span> : <span class="title">NSObject</span></span></span><br><span class="line">+ (<span class="keyword">void</span>)doSomething:(<span class="built_in">NSString</span> *)order;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<p>In order to expose <code>doSomething:</code> interface to C#, a C wrapper need to be implemented. We know, lovely Objc integrates with C very well.</p>
-<p>At first, create an empty header file "HumbleAssistantWrapper.h"</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">HumbleAssistantWrapper</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<p>Then its implementation,</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">&quot;HumbleAssistant.h&quot;</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">&quot;HumbleAssistantWrapper.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> humble_assistant_do_something(<span class="keyword">char</span> *order) &#123;</span><br><span class="line">    [HumbleAssistant doSomething:[<span class="built_in">NSString</span> stringWithUTF8String:order]];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Now, the C function is exposed, then, how to call C functions in C# scripts?</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Runtime.InteropServices;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HumbleAssistant</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> UNITY_IPHONE</span></span><br><span class="line">    [<span class="meta">DllImport(<span class="meta-string">&quot;__Internal&quot;</span>)</span>]</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">extern</span> <span class="keyword">void</span> <span class="title">humble_assistant_do_something</span> (<span class="params"><span class="built_in">string</span> order</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span> (<span class="params"><span class="built_in">string</span> order</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">    	humble_assistant_do_something(order);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Macro <code>UNITY_IPHONE</code> means those code only take effect in iOS system, <code>[DllImport("__Internal")]</code> means to statically link the C wrapper code.</p>
-<p>Then, make the <code>doSomething</code> method, which is the real interface that can be used by other C# scripts.</p>
-<h2 id="android">Android</h2>
-<p>My android lib is <code>humbleAssistant.jar</code>, and has an interface as follows.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.my.libs;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HumbleAssistant</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">(String order)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>In unity3d, C# can interact with java APIs by <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Java_Native_Interface">JNI</a> directly.</p>
-<p>No C wrapper is needed, just add <code>elif UNITY_ANDROID</code> (those code only take effect in Android system), and begin to write the real code.</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Runtime.InteropServices;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HumbleAssistant</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> UNITY_IPHONE</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> UNITY_ANDROID</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span> (<span class="params"><span class="built_in">string</span> order</span>)</span></span><br><span class="line"><span class="function"></span> &#123;</span><br><span class="line">     AndroidJavaClass mHumbleAssistantClass = <span class="keyword">new</span> AndroidJavaClass(<span class="string">&quot;com.my.libs.HumbleAssistant&quot;</span>);</span><br><span class="line">     mHumbleAssistantClass.CallStatic(<span class="string">&quot;doSomething&quot;</span>, order);</span><br><span class="line"> &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>My lib API is a static method, I need to create an instance of <code>AndroidJavaClass</code> initialized with my class name "com.my.libs.HumbleAssistant" , then call the <code>CallStatic</code> method of this instance to finish the JNI invocation.</p>
-<p>If some APIs need android <code>Activity</code> object as parameter, following code can get the Activity instance.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AndroidJavaClass unityPlayer &#x3D; new AndroidJavaClass (&quot;com.unity3d.player.UnityPlayer&quot;);</span><br><span class="line">AndroidJavaObject mCurrentActivity &#x3D; unityPlayer.GetStatic&lt;AndroidJavaObject&gt; (&quot;currentActivity&quot;);</span><br></pre></td></tr></table></figure>
-<h2 id="extra-labor">Extra Labor</h2>
-<p><strong>If my iOS lib depend on some other libs or frameworks, what can I do?</strong></p>
-<p>In a unity3d project, export to iOS will generate a Xcode project, then you can add your dependencies there.</p>
-<p><strong>If my Android lib need to declare some permissions to Android system, what can I do?</strong></p>
-<p>Not like iOS, export to Android generate the <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/APK_(file_format)">APK</a> file directly, but "AndroidManifest.xml" can be put into "Assets/Plugins/Android/" folder to solve this problem.</p>
-<p>For example, I declare <code>READ_PHONE_STATE</code>, <code>INTERNET</code>, and other permissions as follows.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;manifest</span><br><span class="line">    xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;</span><br><span class="line">    package&#x3D;&quot;com.unity3d.player&quot;</span><br><span class="line">	android:installLocation&#x3D;&quot;preferExternal&quot;</span><br><span class="line">    android:versionCode&#x3D;&quot;1&quot;</span><br><span class="line">    android:versionName&#x3D;&quot;1.0&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;uses-permission android:name&#x3D;&quot;android.permission.READ_PHONE_STATE&quot;&#x2F;&gt;</span><br><span class="line">    &lt;uses-permission android:name&#x3D;&quot;android.permission.ACCESS_WIFI_STATE&quot;&#x2F;&gt;</span><br><span class="line">    &lt;uses-permission android:name&#x3D;&quot;android.permission.ACCESS_NETWORK_STATE&quot;&#x2F;&gt;</span><br><span class="line">    &lt;uses-permission android:name&#x3D;&quot;android.permission.INTERNET&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;supports-screens</span><br><span class="line">        android:smallScreens&#x3D;&quot;true&quot;</span><br><span class="line">        android:normalScreens&#x3D;&quot;true&quot;</span><br><span class="line">        android:largeScreens&#x3D;&quot;true&quot;</span><br><span class="line">        android:xlargeScreens&#x3D;&quot;true&quot;</span><br><span class="line">        android:anyDensity&#x3D;&quot;true&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;application</span><br><span class="line">		android:icon&#x3D;&quot;@drawable&#x2F;app_icon&quot;</span><br><span class="line">        android:label&#x3D;&quot;@string&#x2F;app_name&quot;</span><br><span class="line">        android:debuggable&#x3D;&quot;true&quot;&gt;</span><br><span class="line">        &lt;activity android:name&#x3D;&quot;com.unity3d.player.UnityPlayerProxyActivity&quot;</span><br><span class="line">                  android:label&#x3D;&quot;@string&#x2F;app_name&quot;</span><br><span class="line">                  android:configChanges&#x3D;&quot;fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen&quot;&gt;</span><br><span class="line">            &lt;intent-filter&gt;</span><br><span class="line">                &lt;action android:name&#x3D;&quot;android.intent.action.MAIN&quot; &#x2F;&gt;</span><br><span class="line">                &lt;category android:name&#x3D;&quot;android.intent.category.LAUNCHER&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;intent-filter&gt;</span><br><span class="line">        &lt;&#x2F;activity&gt;</span><br><span class="line">        &lt;activity android:name&#x3D;&quot;com.unity3d.player.UnityPlayerActivity&quot;</span><br><span class="line">                  android:label&#x3D;&quot;@string&#x2F;app_name&quot;</span><br><span class="line">                  android:configChanges&#x3D;&quot;fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen&quot;&gt;</span><br><span class="line">        &lt;&#x2F;activity&gt;</span><br><span class="line">        &lt;activity android:name&#x3D;&quot;com.unity3d.player.UnityPlayerNativeActivity&quot;</span><br><span class="line">                  android:label&#x3D;&quot;@string&#x2F;app_name&quot;</span><br><span class="line">                  android:configChanges&#x3D;&quot;fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen&quot;&gt;</span><br><span class="line">            &lt;meta-data android:name&#x3D;&quot;android.app.lib_name&quot; android:value&#x3D;&quot;unity&quot; &#x2F;&gt;</span><br><span class="line">            &lt;meta-data android:name&#x3D;&quot;unityplayer.ForwardNativeEventsToDalvik&quot; android:value&#x3D;&quot;false&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;activity&gt;</span><br><span class="line">        &lt;activity android:name&#x3D;&quot;com.unity3d.player.VideoPlayer&quot;</span><br><span class="line">                  android:label&#x3D;&quot;@string&#x2F;app_name&quot;</span><br><span class="line">                  android:configChanges&#x3D;&quot;fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen&quot;&gt;</span><br><span class="line">        &lt;&#x2F;activity&gt;</span><br><span class="line">    &lt;&#x2F;application&gt;</span><br><span class="line">&lt;&#x2F;manifest&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>How am I supposed to do if my iOS objc interface need a NSDictionary object as one parameter?</strong></p>
-<p>Although in <code>.m</code> file, Objc and C code can be written together, but C wrapper is about to provide a pure C interface, Objc object can't be used directly in method parameters.</p>
-<p>Following are what I have done to solve this.</p>
-<p>First, in the C wrapper, use a <code>const char *</code> as input, then parse the string to recreate the <code>NSDictionary</code> instance.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> humble_assistant_doComplicatedThing(<span class="keyword">const</span> <span class="keyword">char</span> *attributes) &#123;</span><br><span class="line">    <span class="built_in">NSString</span> *attris = [<span class="built_in">NSString</span> stringWithUTF8String:attributes];</span><br><span class="line">    <span class="built_in">NSArray</span> *attributesArray = [attris componentsSeparatedByString:<span class="string">@&quot;\n&quot;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">NSMutableDictionary</span> *oAttributes = [[<span class="built_in">NSMutableDictionary</span> alloc] init];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; [attributesArray count]; i++) &#123;</span><br><span class="line">        <span class="built_in">NSString</span> *keyValuePair = [attributesArray objectAtIndex:i];</span><br><span class="line">        <span class="built_in">NSRange</span> range = [keyValuePair rangeOfString:<span class="string">@&quot;=&quot;</span>];</span><br><span class="line">        <span class="keyword">if</span> (range.location != <span class="built_in">NSNotFound</span>) &#123;</span><br><span class="line">            <span class="built_in">NSString</span> *key = [keyValuePair substringToIndex:range.location];</span><br><span class="line">            <span class="built_in">NSString</span> *value = [keyValuePair substringFromIndex:range.location+<span class="number">1</span>];</span><br><span class="line">            [oAttributes setObject:value forKey:key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [HumbleAssistant doComplicatedThing:oAttributes];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>In the "HumbleAssistant.cs" script file, we should convert C# <code>Dictionary</code> to <code>const char *</code>.</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doComplicatedThing</span> (<span class="params">Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; attributes</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> attributesString = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">foreach</span>(KeyValuePair&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; kvp <span class="keyword">in</span> attributes)</span><br><span class="line">    &#123;</span><br><span class="line">        attributesString += kvp.Key + <span class="string">&quot;=&quot;</span> + kvp.Value + <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    humble_assistant_doComplicatedThing(attributesString);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>How am I supposed to do if my Android jar interface need a Map object as a parameter?</strong></p>
-<p>Java Map object can be generated in C# code by JNI.</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doComplcatedThing</span> (<span class="params">Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; attributes</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">using</span>(AndroidJavaObject obj_HashMap = <span class="keyword">new</span> AndroidJavaObject(<span class="string">&quot;java.util.HashMap&quot;</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        System.IntPtr method_Put = AndroidJNIHelper.GetMethodID(obj_HashMap.GetRawClass(), <span class="string">&quot;put&quot;</span>,</span><br><span class="line">            <span class="string">&quot;(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">object</span>[] args = <span class="keyword">new</span> <span class="built_in">object</span>[<span class="number">2</span>];</span><br><span class="line">        <span class="keyword">foreach</span>(KeyValuePair&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; kvp <span class="keyword">in</span> attributes)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span>(AndroidJavaObject k = <span class="keyword">new</span> AndroidJavaObject(<span class="string">&quot;java.lang.String&quot;</span>, kvp.Key))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">using</span>(AndroidJavaObject v = <span class="keyword">new</span> AndroidJavaObject(<span class="string">&quot;java.lang.String&quot;</span>, kvp.Value))</span><br><span class="line">                &#123;</span><br><span class="line">                    args[<span class="number">0</span>] = k;</span><br><span class="line">                    args[<span class="number">1</span>] = v;</span><br><span class="line">                    AndroidJNI.CallObjectMethod(obj_HashMap.GetRawObject(),</span><br><span class="line">                        method_Put, AndroidJNIHelper.CreateJNIArgArray(args));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mHumbleAssistantClass.CallStatic(<span class="string">&quot;doComplicatedThing&quot;</span>, obj_HashMap);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <h2 id="正则表达式的实现引擎nfadfa">正则表达式的实现引擎（NFA/DFA)</h2>
+<p>NFA 是不确定的有限自动机，也就是说在状态的迁移过程中，下一个状态可能有好几种可能，而对于 DFA 确定有限自动机而言，下一个状态只有一种可能。</p>
+<p>想起大学时上的一门课，“可计算性理论”，用自动机来证明程序是可以写出来的，我大学有两门典型天书课，这个是一，另一个是 “相对论和量子力学”。</p>
+<p>简单来讲，NFA 对应的是正则表达式主导的匹配，而 DFA 对应的是文本主导的匹配。</p>
+<p>比如说对于这样的文本和正则表达式，</p>
+<p><code>text ＝ ‘after tonight’</code></p>
+<p><code>regex ＝ ‘to(nite|nighta|night)’</code></p>
+<p>在 NFA 匹配时候，是根据正则表达式来匹配文本的，从 t 开始匹配 a，失败，继续，直到文本里面的第一个 t，接着比较 o 和 e，失败，正则回退到 t，继续，直到文本里面的第二个 t，然后 o 和 文本里面的 o 也匹配，继续，正则表达式后面有三个可选条件，依次匹配，第一个失败，接着二，三，直到匹配，可以看到回朔发生了两次。</p>
+<p>而在 DFA 匹配时候，采用的是用文本来匹配正则表达式的方式，从 a 开始匹配 t，直到第一个 t 跟正则的 t 匹配，但 e 跟 o 匹配失败，回朔，继续，直到文本里面的第二个 t 匹配正则的 t，接着 o o 匹配，n 的时候发现正则里面有三个可选匹配，开始并行匹配，直到文本中的 g 使得第一个可选条件不匹配，继续，直到最后匹配。</p>
+<p>可以看到，DFA 匹配过程中文本中的字符每一个只比较了一次，没有回朔的操作，应该是快于 NFA 的，另外，不管正则表达式怎么写，对于 DFA 而言，文本的匹配过程是一致的，都是对文本的字符依次从左到右进行匹配，所以，DFA 在匹配过程中是跟正则表达式无关的，而 NFA 对于不同但效果相同的正则表达式，匹配过程是完全不同的，比如，</p>
+<p><code>to(ni(ght|te)|knight) vs. tonite|toknight|tonight</code></p>
+<p>也正因为 DFA 跟正则表达式无关，也就意味着通过变更正则表达式来提升效率是不可能的，因为不管神马正则表达式，其匹配的过程是一致的。</p>
+<h2 id="为什么不用-dfa">为什么不用 DFA?</h2>
+<p>那为什么 DFA 这么快，而大多数工具都采用的是 NFA 的呢，比如 Emacs, vi, grep, awk, sed, python 等。</p>
+<p>因为 DFA 不支持很多正则表达式的 feature, 例如，</p>
+<h3 id="group-capturing">Group capturing</h3>
+<p><code>regex = ‘ab(.+)fg abcdefg’</code></p>
+<p>这个正则表达式里面的 <code>()</code> 代表的是 group，匹配完之后，可以用 <code>\1</code> 来表示该 group 匹配的内容，在这个例子里面，就是 cde，capturing 是在字符串替换等应用中很常用的功能。</p>
+<h3 id="lookaround">Lookaround</h3>
+<p><code>text = ‘JeffreyJeff’</code></p>
+<p><code>regex = ‘(?＝Jeffrey)Jeff JeffreyJeff’</code></p>
+<p>我想匹配文本里面的 Jeffrey 里面的 Jeff, 但不想匹配最后的那个 Jeff, 这个时候，就可以采用 Lookaround 功能，<code>?=</code> 代表的是向后查看，也就是说在匹配到第一个 J 时，先向后看有没有 Jeffrey, 有的话，才开始匹配，没有的话，就跳过。在这个例子里面，第一个 Jeff 完成了匹配，到第二个 Jeff 的时候，因为后面没有 Jeffrey，所以直接跳过，不进行匹配。</p>
+<h3 id="non-greey-quantifiers">Non-greey quantifiers</h3>
+<p><code>*</code>, <code>+</code>, <code>&#123;m, n&#125;</code> 等元字符 (metacharacter) 都是贪心版的，比如，</p>
+<p><code>text = ‘&lt;html&gt; &lt;title&gt; Test &lt;/title&gt;&lt;/html&gt;’</code></p>
+<p>如果采用 <code>&lt;.*&gt;</code> 来匹配，因为 <code>*</code> 是贪心的，所以这个正则表达式是匹配了整个文本 <code>&lt;htm...html&gt;</code>，如果采用 <code>*?</code> 这个非贪心元字符，则匹配的是 <code>&lt;html&gt;</code>。</p>
+<p>另外还有一些 feature 比如 atomic capturing 等也不支持，在这里就不赘述了。</p>
+<p>DFA 之所以可以并行的进行多种可能的匹配，那是因为在匹配前的编译阶段做了工作，它对正则表达式进行了分析，生成了一些 map 关系，在并行匹配过程中才能知道下一个匹配字符是哪个，而这个操作是有 time 和 memory 的消耗的，所以编译阶段，NFA 的效率是高于 DFA 的。</p>
+<h2 id="匹配规则">匹配规则</h2>
+<h3 id="the-match-that-begins-earliest-wins">The match that begins earliest wins</h3>
+<p><code>text =  ’indicates your  cat is’</code></p>
+<p><code>regex = ‘cat’</code></p>
+<p>上面正则表达式匹配的是 indicates 里面的 cat，因为出现的最早。</p>
+<h3 id="the-standard-quantifiers-are-greey">The standard quantifiers are greey</h3>
+<p><code>text = ‘Copyright 2003′</code></p>
+<p><code>regex = .+([0-9]+)</code></p>
+<p>上面正则表达式的 <code>()</code> 里面匹配的是什么?</p>
+<p>是 2003 吗?</p>
+<p>不是的，因为 <code>+</code> 是贪心的，所有直接匹配到文本最后，然后发现匹配失败，于是回朔到 3，发现满足 <code>[0-9]+</code>，于是匹配结束，group 匹配的只有 3。</p>
+<h2 id="效率">效率</h2>
+<p>因为 DFA 在匹配过程中是跟正则表达式无关的，所以接下来效率提升方面的讨论只针对 NFA。</p>
+<p>我们如何知道一个正则表达式效率低?</p>
+<p>匹配失败发生回朔的次数是一个指标，我的 keynote 里面有几个例子来展示对正则表达式进行很简单的改动，就可以大幅减少回朔的次数。</p>
+<p>而为什么会发生回朔呢?</p>
+<p>因为基本的元字符是贪婪的 <code>(*, +)</code>，因为有选择性的匹配 <code>(|)</code>, 于是在匹配过程中每一次这样的选择，都会记录一个回朔点，在匹配失败时，就会回朔到之前一个回朔点，继续匹配，也就是类似于栈的机制，后进先出。</p>
+<h2 id="一些提升效率的技巧">一些提升效率的技巧</h2>
+<p>对于大部分人来讲，使用正则表达式是想让自己的一些手工劳动变得简单自动高效，所以这里提到的都是类似于 common sense 之类简单的技巧，而如果真的效率很重要，那可能还需要更深入更复杂的方式，在这里就不讨论了。</p>
+<h3 id="alternation-is-expensive">Alternation is expensive</h3>
+<p><code>u|v|w|x|y|z vs. [uvwxyz]</code></p>
+<p>前者每一次匹配失败都要进行回朔，后者一次匹配所有的，如果失败，只发生一次匹配，也就是说，使用前者在全部匹配失败时的回朔次数是后者的六倍。虽然两个方式效果是一样的，能用后者尽量用后者。</p>
+<h3 id="start-or-end-of-stringline-anchor">Start or end of string/line anchor</h3>
+<p>如果可以确认行首或者行尾的特征时，尽量使用 <code>^</code> <code>$</code> 元字符，尤其是后面使用 <code>.*</code> 等贪心元字符时。</p>
+<p><code>^T.*</code></p>
+<p>对于这个正则表达式，如果没有 <code>^</code>，那么匹配过程中会对一行中每一个字符进行匹配，看其是否是 T，如果这一行有两万个字符，就回朔两万次，而使用了 <code>^</code> 之后，只进行一次匹配。</p>
+<h3 id="use-non-capturing-parentheses">Use non-capturing parentheses (?:)</h3>
+<p><code>text = ‘abcdefgh’</code></p>
+<p><code>regex = ‘ab(.+)e(.+)h</code></p>
+<p>上述正则表达式的两个 <code>()</code> 分别匹配的是 cd 和 fg，但是在很多情况下，使用 <code>()</code> 只是用来组合元字符，对于其匹配的内容不在乎，那么采用 <code>ab(?:.+)e(?:.+)h</code>，告诉匹配引擎，不需要匹配组，这样可以提升回朔的效率。因为组的匹配会对回朔的效率产生负面影响。</p>
+<h3 id="expose">Expose</h3>
+<p><code>th(?:is|at) vs. (?:this|that)</code></p>
+<p>显而易见，前者的效率是高于后者的，就跟写程序一样，重复功能可以提出来当作一个函数，在这里，可选择匹配里面重复的内容可以提取到 <code>|</code> 外面，从而减少回朔的次数。</p>
+<h3 id="most-likely-alternation-first">Most likely alternation first</h3>
+<p>假设我想匹配包含 com net org edu biz 等 url 的后缀，于是我从网上找到所有的可能后缀，然后按字母排序，写出正则表达式如下:</p>
+<p><code>(?:aero|biz|com|...)</code></p>
+<p>但是每一个后缀的域名数量是不一样的，比如 .net .org 的域名很多，但在上面正则表达式的匹配中，因为其很靠后，所以需要匹配失败很多次才能到 .net .org 的匹配，于是按照域名的可能数量来排序</p>
+<p><code>(?:com|edu|org|net|...)</code></p>
+<p>回朔的次数便大大减少了。</p>
+<h2 id="example">Example</h2>
+<p>假设我需要匹配有效的 IP 地址，例如 <code>10.10.10.10</code></p>
+<p>这样写</p>
+<p><code>[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*</code></p>
+<p>匹配成功，但发现这样的文本 ‘then ...’ 也可以成功。</p>
+<p>好，<code>.</code> 前后应该至少有一位数字，并且一行只能有一个 IP 地址，不能出现其他字符，于是改成这样，</p>
+<p><code>^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$</code></p>
+<p>OK, 这次 ‘then ...’ 匹配失败了，可是 <code>1234.5678.9101112.131415</code> 匹配成功了，对了，必须至多三位数字的，继续改,</p>
+<p><code>^\d&#123;1,3&#125;\.\d&#123;1,3&#125;\.\d&#123;1,3&#125;\.\d&#123;1,3&#125;$</code></p>
+<p>，跟 [0-9] 意义一样，成功。可是 <code>900.1.1.1</code> 是个无效 IP 地址，但还是可以匹配的，那我们必须限定数字的取值，有效 IP 地址的每一部分只能是 0-255 的数字，于是我绞尽脑汁，费尽心力折腾出这样一个正则表达式，</p>
+<p><code>^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$</code></p>
+<p>这下圆满了。从后到前看，25[0-5] 代表数字如果开头是 25，那么只能是 250-255；2[0-4]代表如果数字大于 200，那么只能是介于 200 到 249 之间；[01]? 代表所有小于 200 大于 0 的数字。</p>
+<p>可是可是，<code>0.0.0.0</code> 也是匹配的，但它是无效 IP 地址。</p>
+<p>肿么办?</p>
+<p>天无绝人之路，我们还有 Lookaround,</p>
+<p><code>^(?!0+\.0+\.0+\.0+$)([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$</code></p>
+<p>(?!0+.0+.0+.0+$) 表示在匹配过程中先往后面看，如果是 <code>0.0.0.0</code> <code>0.00.0.00</code> 这类 IP 地址，那么直接跳过，不进行后面的一串匹配，也就意味着可以通过 lookaround 功能来剔除匹配中的一些无效匹配。</p>
+<h2 id="我们可以说不">我们可以说不</h2>
+<p>为了简单的 IP 地址匹配，我们造出了这么长一个正则表达式，有必要吗?</p>
+<p>做任何事情都有一个投入产出比，使用正则表达式，我们是想提高工作效率，减少手工重复劳动，而不是尽量全部使用正则表达式来展示其魔力。</p>
+<p>比如对于上面 IP 地址匹配，到这一步 <code>^\d&#123;1,3&#125;\.\d&#123;1,3&#125;\.\d&#123;1,3&#125;\.\d&#123;1,3&#125;$</code> 是不是就已经够了?</p>
+<p>已经限制了 IP 地址的每一部分最多三位数，如果我们在用 Python RE 做这个匹配，那么将每一部分以 group () 的形式返回, 然后在 Python 中比较是不是处于 0-255 之间，是不是来得更快，因为数字比较，任何编程语言都是强项，但正则表达式不是。</p>
+<p><a target="_blank" rel="noopener" href="http://prezi.com/37j8fqferl8m/regular-expression">Keynote</a></p>
+<p>-- 记得是四月份的时候在北京 QCon 上看到 Twitter 的 <a target="_blank" rel="noopener" href="http://blog.evanweaver.com">Evan Weaver</a> 在用这个工具，这次试用了一下，是个靠谱的工具 XD</p>
+<p>-- <a target="_blank" rel="noopener" href="http://www.amazon.com/Mastering-Regular-Expressions-Jeffrey-Friedl/dp/0596528124">Mastering Regular Expression</a> 是本好书，推荐。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/06/13/about-objc-property/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/06/13/about-objc-property/" class="post-title-link" itemprop="url">Objc property 的事儿</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-06-13 22:55:00" itemprop="dateCreated datePublished" datetime="2011-06-13T22:55:00+08:00">2011-06-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>请看下面几行代码</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MyObject.h</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MyObject</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">   <span class="built_in">NSString</span> *name;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">retain</span>) <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// MyObject.m</span></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span></span></span><br><span class="line"><span class="keyword">@synthesize</span> name;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// MyObject.h</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MyObject</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">retain</span>) <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>第一个 interface 里面声明了一个 instance variable 名为 name，然后定义其为 property。 第二个 interface 里面直接定义了一个 property 名为 name。</p>
+<p>第二个忘了声明 instance variable 吗?</p>
+<p>如果你使用的 Objective-C Runtime 版本高于 ios 3.x 或者高于 64bit Snow Leopard，那么第二个方法是正确的。</p>
+<p>声明一个 instance variable，要么在 interface 的大括号里面声明，或者使用 property，又或者全部都用，而如果用了 property，只有一个不同，那就是可以用 synthesize 来自动生成 setter/getter。</p>
+<p>那么到底该如何选择呢?</p>
+<p>之前有人说如果不在大括号中声明，只用 property，debug 时候会看不到这个变量，我在 Xcode 4 中测试了下，是可以看到的，所以这个不是问题。</p>
+<p>So, feel free to use it.</p>
+<p>有这样的两个类</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Father</span> : <span class="title">NSObject</span></span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *father;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Child</span> : <span class="title">Father</span></span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> * child;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>Child 继承自 Father，如果我们需要往 Father 里面新加一个 instance variable，如果不重新编译 Child 的话，势必就影响了 Child，因为变量的访问是通过 offset 进行的，对于子类而言，实例化后父类是在子类中占据位置的，如果父类发生更改，那么 offset 值就会变化，这个时候，如果还是按之前的 offset 来访问的话，就很可能导致 crash。</p>
+<p>这在很多面向对象语言里面如 C++ 都是个问题，但是在 objc 里面已经不是问题，因为现代的 runtime 动态的对 offset 值进行更改，哪怕编译时得到的 offset 值是常量。</p>
+<p>所以可以动态地往父类里面加变量而又可以保持与子类的二进制兼容性。</p>
+<p>甚至都不需要更改父类的头文件，</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Father</span> ()</span></span><br><span class="line"><span class="keyword">@property</span> <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Father</span></span></span><br><span class="line"><span class="keyword">@synthesize</span> name;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>上面代码采用 private catagory 来隐藏新加入的 property，</p>
+<p>但是这样有一个问题，比如</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">BaseObject</span> : <span class="title">NSObject</span></span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *propertyOne;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">BaseObject</span></span></span><br><span class="line"><span class="keyword">@synthesize</span> propertyOne=myIvar;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">SubObject</span> : <span class="title">BaseObject</span></span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *propertyTwo;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">SubObject</span></span></span><br><span class="line"><span class="keyword">@synthesize</span> propertyTwo=myIvar;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>这样的 code 可以工作吗?</p>
+<p>如果父类和子类中有同名 instance variable，然后 synthesize，肿么办?</p>
+<p>实际上两个 myIvar 是不同的，有不同 offset 值，并且 synthesize 的 instance variable 总是 private 的，也就是说父类的这个同名变量对于子类而言是不可见的。</p>
+<p>不过要注意，不能将上述父子类代码放在一个文件中，会编译报错的，因为子类对于父类的 instance varaible 可见了。</p>
+<p>MVC 中，controller 通常会包含一些 IBOutlet，通常会采用 retain property，那么在删除的时候，可以这样</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span>.button = <span class="literal">nil</span>;</span><br></pre></td></tr></table></figure>
+<p>这样可以吗，没有用 [button release] 会 memory leak 吗?</p>
+<p>其实这样才是简洁的写法，因为其是 retained property，所以 synthesize 的 setter 大概如下</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)setButton:(<span class="built_in">UIButton</span> *)b</span><br><span class="line">&#123;</span><br><span class="line">    [button release];</span><br><span class="line">    button = b;</span><br><span class="line">    [button <span class="keyword">retain</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以 self.button 本身就执行了 [button release]，然后赋值为 nil，再 retain，是没有影响的。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/05/17/alignment-and-pack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/05/17/alignment-and-pack/" class="post-title-link" itemprop="url">Alignment and Pack</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-05-17 09:43:00" itemprop="dateCreated datePublished" datetime="2011-05-17T09:43:00+08:00">2011-05-17</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>长久以来，我都有这样一个观念，比如 pack(4)，就代表着所有数据都是以 4 字节对齐的，直到我有了 64 位机，并且看到下面这个例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">One</span> &#123;</span></span><br><span class="line">    <span class="keyword">double</span> d;</span><br><span class="line">    <span class="keyword">char</span> c;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Two</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> c;</span><br><span class="line">    <span class="keyword">double</span> d;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>如果按 4 字节对齐的话，按我的观点，结构体中每一个成员都应该以 4 字节对齐，那么两个都是 4+8+4=16, 结果是对的。</p>
+<p>那么如果按 8 字节对齐的话，结果是不是应该是 8+8+8＝24？</p>
+<p>可是错了。</p>
+<p>正确的结果应该是 <code>sizeof(struct One) = 16</code>, <code>sizeof(struct Two) = 24</code></p>
+<p>为什么不一样呢？</p>
+<p><code>pragma pack(n)</code> 它指定了结构成员按 n（1,2,4,8,16）字节对齐，但它并不是指结构体中的每个成员都要按 n 对齐，而是按照每个成员的大小（align 值）和 n 相比较小的值对齐。</p>
+<p>结构体还有另外一个需求，就是其大小必须是其成员 align 值最大者的整数倍。</p>
+<p>那么上面的两个不同就很好解释了：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">One</span> &#123;</span></span><br><span class="line">    <span class="keyword">double</span> d; <span class="comment">// 8 字节对齐占第 0-7 字节</span></span><br><span class="line">    <span class="keyword">char</span> c;   <span class="comment">// 1 字节对齐占第 8 字节，另外 9-11 字节用于下面 int 对齐</span></span><br><span class="line">    <span class="keyword">int</span> i;    <span class="comment">// 4 字节对齐占第 12-15 字节，16 是 8 的倍数，不需要 padding</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Two</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> c;   <span class="comment">// 1 字节对齐占第 0 字节，另外 1-7 字节用于下面 double 对齐</span></span><br><span class="line">    <span class="keyword">double</span> d; <span class="comment">// 8 字节对齐占 8-15 字节</span></span><br><span class="line">    <span class="keyword">int</span> i;    <span class="comment">// 4 字节对齐占 16-19 字节，20 不是 8 的倍数，需要加 4 个字节 padding</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>各种类型变量的 align 值可参考 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Data_structure_alignment">Data Structure Alignment</a></p>
+<p>再举一个结构体嵌套的例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Four</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">short</span> s;</span><br><span class="line">    <span class="keyword">long</span> l;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Five</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">char</span> c;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Four</span> <span class="title">four</span>;</span></span><br><span class="line">    <span class="keyword">short</span> s;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>sizeof(struct Four)</code> 和 <code>sizeof(struct Five)</code> 在 4 字节对齐和 8 字节对齐时分别是多少呢？</p>
+<p>我们以 8 字节对齐为例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Four</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">short</span> s; <span class="comment">// 2 字节对齐占第 0-1 字节，另外 2-7 字节用于下面 long 对齐</span></span><br><span class="line">    <span class="keyword">long</span> l;  <span class="comment">// 8 字节对齐占第 8-15 字节</span></span><br><span class="line">&#125;; <span class="comment">// sizeof(struct Four) ＝ 16</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Five</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">char</span> c;            <span class="comment">// 1 字节对齐占第 0 字节，另外 1-7 字节用于下面 four 对齐</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Four</span> <span class="title">four</span>;</span>  <span class="comment">// 8 字节对齐，占第 8-23 字节，结构体以其成员最大 align 值对齐</span></span><br><span class="line">    <span class="keyword">short</span> s;           <span class="comment">// 2 字节对齐，占第 24-25 字节，26 不是 8 的倍数，需外加 6 字节</span></span><br><span class="line">&#125;; <span class="comment">// sizeof(struct Five) ＝ 32</span></span><br></pre></td></tr></table></figure>
+<p>如果在 32 位机中，struct Four 中，long 长度为 4, 于是 <code>sizeof(struct Four) = 8</code>, 并且最大 align 值是 4.</p>
+<p>于是在 struct Five 中，four 是按 4 字节对齐的，虽然是 pack(8)，但 4&lt;8, 所以选 4 作为 align 值，<code>sizeof(struct Five) = 16</code>.</p>
+<p>以上所有实验结果来自 x86_64 GNU/Linux，gcc (GCC) 4.1.2 20080704 (Red Hat 4.1.2-48)。</p>
 
       
     </div>
@@ -336,7 +552,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/16/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><a class="extend next" rel="next" href="/page/18/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/16/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/18/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -379,10 +595,12 @@
   &copy; 2010 – 
   <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Dong Zheng - Powered by Hexo, NextT, GitHub</span>
+  <span class="author" itemprop="copyrightHolder">Dong Zheng</span>
 </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
 
     </div>
   </footer>

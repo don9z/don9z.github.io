@@ -14,7 +14,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Serif:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
@@ -108,6 +108,9 @@
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -128,6 +131,20 @@
 
 
 
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
 
 
 
@@ -164,16 +181,14 @@
   <p class="site-author-name" itemprop="name">Dong Zheng</p>
   <div class="site-description" itemprop="description"></div>
 </div>
-<div class="site-state-wrap site-overview-item animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives">
-          <span class="site-state-item-count">71</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-  </nav>
-</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="http://zhengdong.me/" title="About → http:&#x2F;&#x2F;zhengdong.me" rel="noopener" target="_blank"><i class="fa fa-user fa-fw"></i>About</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
 
 
 
@@ -209,7 +224,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2013/05/20/http-cookie-browser-identity-privacy/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/02/15/from-xml-to-lisp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -223,7 +238,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2013/05/20/http-cookie-browser-identity-privacy/" class="post-title-link" itemprop="url">HTTP Cookie, Browser Identity, and Privacy</a>
+            <a href="/2011/02/15/from-xml-to-lisp/" class="post-title-link" itemprop="url">从 XML 到 Lisp</a>
         </h2>
 
         <div class="post-meta-container">
@@ -234,7 +249,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2013-05-20 18:30:00" itemprop="dateCreated datePublished" datetime="2013-05-20T18:30:00+08:00">2013-05-20</time>
+      <time title="Created: 2011-02-15 22:20:00" itemprop="dateCreated datePublished" datetime="2011-02-15T22:20:00+08:00">2011-02-15</time>
     </span>
 
   
@@ -247,86 +262,236 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="cookie">Cookie</h2>
+          <p>之前学 elisp 的时候一直感觉思维转不过来很纠结，看了 <a target="_blank" rel="noopener" href="http://www.defmacro.org/ramblings/lisp.html">The Nature of Lisp</a>，原来正如 <a target="_blank" rel="noopener" href="http://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670">Code Complete</a> - Laying the Foundation 章节讲的那样，我们认识新事物总是会借鉴思维里面已有的 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Metaphor">Metaphor</a>, 我只用过 C, C++, Java，Python, Objective-C, 也就意味着我基本只有这些语言的 metaphor，都跟 Lisp 差异很大，也难怪了。但也正因为如此，才需要不断的克服自身的排斥心理，去接触更多的新事物。</p>
+<p>正如书中所云:</p>
 <blockquote>
-<p>A cookie, also known as an HTTP cookie, web cookie, or browser cookie, is a small piece of data sent from a website and stored in a user's web browser while a user is browsing a website. When the user browses the same website in the future, the data stored in the cookie can be retrieved by the website to notify the website of the user's previous activity. (<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/HTTP_cookie">refer</a>)</p>
+<p>A software metaphor is more like a searchlight than a road map. It doesn’t tell you where to find the answer, it tells you how to look for it. A metaphor serves more as a heuristic than it does as an algorithm.</p>
 </blockquote>
-<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a> is a stateless protocol, which does not require the HTTP server to retain information or status about each visit for the duration of multiple requests, when a HTTP server receives multiple requests, it can't recognize whether those requests are coming from one single browser or not.</p>
-<p>HTTP cookie is designed to be a reliable mechanism for websites to remember the state of the website or activity the user had taken in the past. When a user visits a website, cookies are sent by user's browser to the HTTP server inside HTTP header fields, the HTTP server can set cookies for its own purposes and sent them back to the user, e.g., set values to identify the user.</p>
-<p>With cookie, the website recognizes its users, on the one hand, users don't need to set language preferences or login, etc. every time when they visit the site again, on the other hand, the website could provide their users customized contents or services.</p>
-<p>But business is business, although some sites provide free services, they need revenue, so, they insert ads to web pages, with cookie, they can customize the ads to suit the users' needs, those ads could be less bothered and probably has better <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Click-through_rate">CTR</a> when their users see the ads.</p>
-<p>Since cookies are isolated by domains, different sites can't share cookies, it's more like a compromise between convenience and privacy, as my point of view, it's a win-win situation.</p>
-<p>Some advertising companies build systems, which can "share" cookies across multiple domains. When a user visits a website, it sets a user track cookie not only on its domain, but also on the domain of an advertising company, when the user visits another site which also use the system of that advertising company, the company recognizes him and displays ads according to the user's previous activities.</p>
-<p>Imaging, if the two sites are Google and Amazon, then one day you searched some porn stuff on Google, and some days later, you visit Amazon, it shows porn video recommendations on the top page directly.</p>
-<p>This is called <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/HTTP_cookie#Privacy_and_third-party_cookies">Third-party cookies</a>, which goes too far, no longer a win-win situation.</p>
-<p>Luckily, nearly all modern web browsers allow to disable third-party cookies, current version of <a target="_blank" rel="noopener" href="http://www.apple.com/safari/">Safari</a> even disable it by default.</p>
-<p>I strongly recommend to disable it.</p>
-<p>There might be some people are madly concern about their privacy, disable all cookies to forbid any website to track them, but doing this might make them more easier to be tracked by other ways.</p>
-<h2 id="entropy">Entropy</h2>
-<blockquote>
-<p>Entropy is a measure of unpredictability or information content. (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Entropy_(information_theory)">refer</a>)</p>
-</blockquote>
-<p>For a random <span class="math display">\[X\]</span> with <span class="math display">\[n\]</span> outcomes <span class="math display">\[\{x_1, ... x_n\}\]</span>, the entropy denoted by <span class="math display">\[H(X)\]</span>, is defined as</p>
-<p><span class="math display">\[
-    H(X) = -\sum_{i=1}^{n} p(x_i) log_b p(x_i)
-\]</span></p>
-<p><span class="math display">\[b\]</span> is the base of logarithm used, normally, it's <span class="math display">\[2\]</span>.</p>
-<p>If there is a set of <span class="math display">\[n\]</span> possible events <span class="math display">\[\{x_1, ... x_n\}\]</span> with equal probability <span class="math display">\[p(x_i)=1/n\]</span>, the entropy of it would be</p>
-<p><span class="math display">\[
-    H(X) = -\sum_{i=1}^{n} p(x_i) log_b p(x_i)=-n\frac{1}{n} log_2 \frac{1}{n}=log_2 n
-\]</span></p>
-<p>Easily, we can conclude that the entropy is the number of bits needed to specify all the events.</p>
-<p>If there is another set of <span class="math display">\[m\]</span> possible events <span class="math display">\[\{y_1, ... y_m\}\]</span> with equal probability <span class="math display">\[p(y_i)=1/m\]</span>, the two sets are independent, then the entropy would be</p>
-<p><span class="math display">\[
-    H(X)=-\sum_{i,j} p(x_i,y_j) log_b p(x_i,y_j)=-nm \frac{1}{nm} log_2 \frac{1}{nm}=log_2 n+log_2 m
-\]</span></p>
-<p>Thus, we can conclude that if we add sources of uncertainty, the overall uncertainty should be the sum of the individual uncertainties.</p>
-<p>We could design a browser fingerprinting algorithm <span class="math display">\[f(x)\]</span> which gives an ID to every browser that visits, follows <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Probability_distribution#Discrete_probability_distribution">discrete probability distribution</a></p>
-<p><span class="math display">\[
-    P(f_i)=\sum_i P(f(x)=i)=1
-\]</span></p>
-<p>The entropy is</p>
-<p><span class="math display">\[
-    H(F)=-\sum_{x=0}^{N} p(f_x) log_2(p(f_x))
-\]</span></p>
-<p>Given <span class="math display">\[X\]</span> different browsers, each has equal probability of visiting the website, its entropy is <span class="math display">\[log_2 X\]</span>.</p>
-<blockquote>
-<p>The uniform distribution on the interval [a,b] is the maximum entropy distribution among all continuous distributions which are supported in the interval [a, b] (which means that the probability density is 0 outside of the interval. (<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Maximum_entropy_probability_distribution">refer</a>)</p>
-</blockquote>
-<p>Then if the entropy of the browser fingerprinting algorithm is at least <span class="math display">\[log_2 X\]</span>, the browsers are uniquely recognizable.</p>
-<h2 id="browser-fingerprinting-algorithm">Browser Fingerprinting Algorithm</h2>
-<p>According to this <a target="_blank" rel="noopener" href="http://www.mendeley.com/catalog/unique-web-browser-2/">paper</a>,</p>
-<blockquote>
-<p>In particular, a fingerprint that carries no more than 15-20 bits of identifying information will in almost all cases be sufficient to uniquely identify a particular browser, given its IP address, its subnet, or even just its Autonomous System Number.</p>
-</blockquote>
-<p>Below are the metrics it used to do browser fingerprinting:</p>
-<ul>
-<li>User Agent</li>
-<li>HTTP ACCEPT headers</li>
-<li>Cookies enabled?</li>
-<li>Screen resolution</li>
-<li>Timezone</li>
-<li>Browser plugins, plugin versions, and MIME types</li>
-<li>System fonts</li>
-</ul>
-<p>Those metrics could be easily obtained by simple scripts running on the user's browser. And here comes the pretty good results,</p>
-<blockquote>
-<p>In general, modern desktop browsers fare very poorly, and around 90% of these are unique. The least unique desktop browsers often have JavaScript disabled (perhaps via NoScript). iPhone and Android browsers are significantly more uniform and harder to fingerprint than desktop browsers.</p>
-</blockquote>
-<p>How to defend the fingerprinting algorithms?</p>
-<p>There are two ways. First, hide the browser information, e.g., disable JavaScript. Second, make the browser similar to other browsers so that fingerprinting algorithm might misrecognize it.</p>
-<p>But, hide information of the browser will make it less common, make it common will disclose its information. It's a paradox.</p>
-<h2 id="the-mobile-internet-era">The Mobile Internet Era</h2>
-<p>Smart phones, Apps are all around us, when privacy could be violated, the consequences might be worse than the internet browsers.</p>
-<p>How do Apps track the device identity?</p>
-<p>In iOS, UDID could be used to identify devices, luckily, it was banned by Apple, but after iOS 6, Apple provides the <a target="_blank" rel="noopener" href="https://developer.apple.com/news/?id=3212013a">Advertising identifiers</a> similar to UDID, except it can be switched off by user. Also, MAC address can be used too.</p>
-<p>In Android, <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/International_Mobile_Station_Equipment_Identity">IMEI</a>, Android device ID, and MAC address all can be used to identify the devices.</p>
-<p>Those identifiers are different from cookies, since all cookies can be deleted, disabled, but MAC addresses, IMEIs, etc. can't be changed, and there is no way to prohibit Apps for getting those information.</p>
-<p>Apps can share your device ID between each other, here's how do some mobile App marketing systems work:</p>
-<p>An App displays some ads of other Apps from a marketing system, when a user taps on one ad to install the App, it would send a request to the marketing system with your device ID, when the user opens the newly installed App, that App would send another request to the marketing system with the same device ID, then the marketing system knows the click and activation rates of an ad.</p>
-<p>And, there are some mobile analytics systems require their SDK to be embedded into target Apps, e.g., <a target="_blank" rel="noopener" href="http://www.google.com/analytics/features/mobile-app-analytics.html">Google Analytics</a>. If all Apps are using the SDK, and the system has the ability and motivation to analyze all the data it has collected, activities of every user across all Apps could be monitored.</p>
-<p>How to defend those privacy threats?</p>
-<p>We just can't.</p>
+<p>接触的新事物越多，积攒起来的 metaphor 就越多，“本能” 的触类旁通便也会越频繁，很多科学上的新发现都是把不相干的事物触类旁通的引用到自身领域而突然使人茅塞顿开的。</p>
+<p>该文章从 XML 着手，对于这样一个函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> arg1, <span class="keyword">int</span> arg2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> arg1 + arg2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以将其表示成 XML 格式</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">define-function</span> <span class="attr">return-type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;add&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">arguments</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">argument</span> <span class="attr">type</span>=<span class="string">&quot;int&quot;</span>&gt;</span>arg1<span class="tag">&lt;/<span class="name">argument</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">argument</span> <span class="attr">type</span>=<span class="string">&quot;int&quot;</span>&gt;</span>arg2<span class="tag">&lt;/<span class="name">argument</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">arguments</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">return</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">add</span> <span class="attr">value1</span>=<span class="string">&quot;arg1&quot;</span> <span class="attr">value2</span>=<span class="string">&quot;arg2&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">return</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">define</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以看到，我们能够把任何源代码转为 XML 格式的文档，然后再转为源代码，这就意味着，对于一些语法相近的编程语言来说，可以借助 XML 文档将一种语言写的源代码翻译成另一种，比如 C++ 翻译成 Java。</p>
+<p>对于上面的 add 函数，在 XML 文档中，add 到底代表的是 data 还是 code？一方面，它只是位于 XML 文档里的一个单词，没有任何明显的方法去调用它，可以将它解析到 XML 节点树中，并进行一系列的变换，这一点上，它是 data。但另一方面，XML 文档在解析成语法树后被送入编译器，便可以去执行它，或者可以将 XML 文档翻译成 Java 或者 C++ 代码，并且运行它，这是 code。</p>
+<p>这意味着 "Code is always data!"，反之亦然。</p>
+<p>Lisp 的 symbol 不正如此!</p>
+<p>另一个例子，用 XML 描述的 copy 功能以及 Java 实现</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">copy</span> <span class="attr">todir</span>=<span class="string">&quot;../new/dir&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">fileset</span> <span class="attr">dir</span>=<span class="string">&quot;src_dir&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">copy</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CopyTask copy = <span class="keyword">new</span> CopyTask();</span><br><span class="line">Fileset fileset = <span class="keyword">new</span> Fileset();</span><br><span class="line"></span><br><span class="line">fileset.setDir(<span class="string">&quot;src_dir&quot;</span>);</span><br><span class="line">copy.setToDir(<span class="string">&quot;../new/dir&quot;</span>);</span><br><span class="line">copy.setFileset(fileset);</span><br><span class="line"></span><br><span class="line">copy.execute();</span><br></pre></td></tr></table></figure>
+<p>有了 XML 文档的表述之后，我们更想这样去实现 copy 函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">copy(<span class="string">&quot;../new/dir&quot;</span>)</span><br><span class="line">&#123;</span><br><span class="line">    fileset(<span class="string">&quot;src_dir&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>正如 if 和 for 一样，我们实现了一个新的标识符 copy，用来完成 copy 的功能，Java 被扩展了。</p>
+<p>然而我们能吗? 我们确实能，可以去 hack 编译器，无非是对抽象语法树和相关功能实现的修改。</p>
+<p>如果我们能够很方便的对其抽象语法树进行修改，便可以非常容易的定制特定领域的程序设计语言，即 "Domain Specific Languages"。</p>
+<p>将之前的 XML 文档简化</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">copy</span> <span class="attr">todir</span>=<span class="string">&quot;../new/dir&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">fileset</span> <span class="attr">dir</span>=<span class="string">&quot;src_dir&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">copy</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">copy</span></span><br><span class="line">    (<span class="name">todir</span> <span class="string">&quot;../new/dir&quot;</span>)</span><br><span class="line">    (<span class="name">fileset</span> (<span class="name">dir</span> <span class="string">&quot;src_dir&quot;</span>)))</span><br></pre></td></tr></table></figure>
+<p>这是什么?</p>
+<p>Lisp!</p>
+<p>该文章还举了 Ant 的例子来加深对代码和 XML 文档转化的理解，并讨论了 "how to write a program that writes programs", 比较了 C macro 和 lisp macro 的实现，最后列举了一系列 Lisp 的基本概念。</p>
+<p><a target="_blank" rel="noopener" href="http://www.defmacro.org/ramblings/lisp.html">原文链接</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/01/16/tdd-using-objective-c/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/01/16/tdd-using-objective-c/" class="post-title-link" itemprop="url">Test-driven using Objective-C</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-01-16 17:30:00" itemprop="dateCreated datePublished" datetime="2011-01-16T17:30:00+08:00">2011-01-16</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>对 TDD 不了解的同学可参考 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Test-driven_development">Test-driven development</a></p>
+<p>本文使用的 Objective-C 单元测试框架是 <a target="_blank" rel="noopener" href="http://sente.epfl.ch/software/ocunit/">OCUnit</a> ，最新的 Xcode 已经包含。</p>
+<h3 id="tdd-的步骤如下">TDD 的步骤如下:</h3>
+<ol type="1">
+<li>写一个测试某个功能的单元测试用例；</li>
+<li>运行，测试失败；</li>
+<li>编码实现功能；</li>
+<li>运行单元测试，通过修改代码，直到测试成功；</li>
+<li>重构代码；</li>
+<li>重构单元测试用例；</li>
+<li>重复 1。</li>
+</ol>
+<p>其中 5、6 是可选步骤，有必要了才会进行，但是必须保证产品代码和单元测试用例不能同时被更改。</p>
+<h3 id="简单的例子">简单的例子</h3>
+<p>实现一个很简单的储蓄账户管理。</p>
+<h4 id="创建项目">创建项目</h4>
+<p>TddDemo (iOS Window-based Application).</p>
+<p>Xcode 模版会缺省生成一个 TddDemo 的 target，这个是在 simulator 上跑的，我们需要添加新的 target Test，菜单 project -&gt; new target -&gt; Cocoa -&gt; Unit Test Bundle。具体设置可参考<a target="_blank" rel="noopener" href="http://www.mobileorchard.com/ocunit-integrated-unit-testing-in-xcode/">这篇博文</a>。</p>
+<h4 id="测试-case">测试 Case</h4>
+<p>创建类 _SavingAccountTest, target 选择 Test。</p>
+<p><img src="/images/2011/testdrivenobjc1.png" width="500"></p>
+<p>使用 OCUnit 需要 import 头文件 SenTestingKit.h, 并继承 SenTestCase，测试方法名必须以 test 开头。</p>
+<p>代码如下: 我们需要可以存钱。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// _SavingAccountTest.h</span></span><br><span class="line"><span class="meta">#import <span class="meta-string">&lt; foundation /Foundation.h &gt;</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">&lt; sentestingkit /SenTestingKit.h &gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">_SavingAccountTest</span> : <span class="title">SenTestCase</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// _SavingAccountTest.m</span></span><br><span class="line"><span class="meta">#import <span class="meta-string">&quot;_SavingAccountTest.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">_SavingAccountTest</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)testDeposit &#123;</span><br><span class="line">    SavingAccount *account = [[SavingAccount alloc] init];</span><br><span class="line">    [account deposit:<span class="number">100</span>];</span><br><span class="line">    STAssertEquals(<span class="number">100</span>, [account balance],</span><br><span class="line">                   <span class="string">@&quot;bad balance 100 != %d&quot;</span>, [account balance]);</span><br><span class="line">    [account release];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<h4 id="运行测试失败">运行，测试失败</h4>
+<p><img src="/images/2011/testdrivenobjc2.png" width="500"></p>
+<h4 id="功能实现">功能实现</h4>
+<p>最简单的方式让测试通过。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// SavingAccount.h</span></span><br><span class="line"><span class="meta">#import <span class="meta-string">&lt; foundation /Foundation.h &gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">SavingAccount</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)deposit:(<span class="keyword">int</span>)money;</span><br><span class="line">- (<span class="keyword">int</span>)balance;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// SavingAccount.m</span></span><br><span class="line"><span class="meta">#import <span class="meta-string">&quot;SavingAccount.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">SavingAccount</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)deposit:(<span class="keyword">int</span>)money &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">int</span>)balance &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<h3 id="运行测试成功">运行，测试成功</h3>
+<p><img src="/images/2011/testdrivenobjc3.png" width="500"></p>
+<h4 id="下一个-case">下一个 Case</h4>
+<p>那么如果取钱会怎样?</p>
+<p>修改 testDeposit 函数为如下:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// _SavingAccountTest.m</span></span><br><span class="line">- (<span class="keyword">void</span>)testDepositAndWithdraw &#123;</span><br><span class="line">    SavingAccount *account = [[SavingAccount alloc] init];</span><br><span class="line">    [account deposit:<span class="number">100</span>];</span><br><span class="line">    [account withdraw:<span class="number">50</span>];</span><br><span class="line">    STAssertEquals(<span class="number">50</span>, [account balance],</span><br><span class="line">                   <span class="string">@&quot;bad balance 50 != %d&quot;</span>, [account balance]);</span><br><span class="line">    [account release];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在 SavingAccount 添加空方法 withdraw 使编译通过。</p>
+<h4 id="运行测试失败-1">运行，测试失败</h4>
+<p><img src="/images/2011/testdrivenobjc4.png" width="500"></p>
+<h4 id="功能实现-1">功能实现</h4>
+<p>SavingAccount interface 添加属性 balance，更改实现如下</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// SavingAccount.m</span></span><br><span class="line">- (<span class="keyword">void</span>)deposit:(<span class="keyword">int</span>)money &#123;</span><br><span class="line">    balance += money;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)withdraw:(<span class="keyword">int</span>)money &#123;</span><br><span class="line">    balance -= money;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">int</span>)balance &#123;</span><br><span class="line">    <span class="keyword">return</span> balance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="运行测试成功-1">运行，测试成功</h4>
+<p><img src="/images/2011/testdrivenobjc5.png" width="500"></p>
+<h4 id="新-case">新 Case</h4>
+<p>银行存款账户不能透支, 添加 testNegativeBalanceIsNotFine:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// _SavingAccountTest.m</span></span><br><span class="line">- (<span class="keyword">void</span>)testNegativeBalanceIsNotFine &#123;</span><br><span class="line">    SavingAccount *account = [[SavingAccount alloc] init];</span><br><span class="line">    [account deposit:<span class="number">50</span>];</span><br><span class="line">    [account withdraw:<span class="number">100</span>];</span><br><span class="line">    STAssertEquals(<span class="number">0</span>, [account balance],</span><br><span class="line">                   <span class="string">@&quot;balance can&#x27;t be negative 0 &gt; %d&quot;</span>, [account balance]);</span><br><span class="line">    [account release];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="运行测试失败-2">运行，测试失败</h4>
+<p><img src="/images/2011/testdrivenobjc6.png" width="500"></p>
+<h4 id="更改实现">更改实现</h4>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)withdraw:(<span class="keyword">int</span>)money &#123;</span><br><span class="line">     balance -= money;</span><br><span class="line">     <span class="keyword">if</span> (balance &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        balance = <span class="number">0</span>;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="运行测试成功-2">运行，测试成功</h4>
+<p><img src="/images/2011/testdrivenobjc7.png" width="500"></p>
+<h4 id="重构">重构</h4>
+<p>这时我们会发现测试的两个 case 里面都要实例化一个 SavingAccount, 是重复代码，可以提取出来，放入 setUp 和 tearDown 中，这两个方法分别在每一个 test 的最早和最后执行。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// _SavingAccountTest.m</span></span><br><span class="line">- (<span class="keyword">void</span>)setUp &#123;</span><br><span class="line">    account = [[SavingAccount alloc] init];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)tearDown &#123;</span><br><span class="line">    [account release];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="运行测试成功-3">运行，测试成功</h4>
+<h4 id="继续-...">继续 ...</h4>
+<h3 id="ut-和-tdd">UT 和 TDD</h3>
+<ol type="1">
+<li>人月神话很早以前就说过 No, silver bullet，TDD 也是</li>
+<li>UT 是需要时间成本的，所以要考虑 ROI (Return on Investment), 有些场景比如 UI 交互单元测试成本很高，就可以不去做，但大多数场景下，只要做 UT，总是会有很好的 ROI 的</li>
+<li>切记切记不要追求覆盖率，但至少每个 bug 都要用 UT 覆盖</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2010/11/28/stl-code-digest-creation-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2010/11/28/stl-code-digest-creation-3/" class="post-title-link" itemprop="url">STL 源码分析-A.万物起源-3</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2010-11-28 02:15:00" itemprop="dateCreated datePublished" datetime="2010-11-28T02:15:00+08:00">2010-11-28</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><a href="/2010/11/24/stl-code-digest-creation-2/">上一篇</a>提到过，第二级 alloc 在分配大于 128 bytes 的时候，直接使用第一级 alloc，如果小于 128 bytes 才采用内存池的方式进行内存分配。</p>
+<p>分配过程是这样的，每次分配一大块内存，存到一个 free list 中，下次 client 若再有相同大小的内存要求，就直接从这个 free list 中划出，内存释放时，则直接回收到对应的 list 中。为了管理的方便，实际分配的大小都被调整为 8 的倍数，所以有 16 个 free lists，分别为 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128 bytes。例如需要 20 bytes，将会被自动调整为 24 bytes。free lists 的结构如下</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> &#123;</span>_ALIGN = <span class="number">8</span>&#125;;</span><br><span class="line"><span class="class"><span class="keyword">enum</span> &#123;</span>_MAX_BYTES = <span class="number">128</span>&#125;;</span><br><span class="line"><span class="class"><span class="keyword">enum</span> &#123;</span>_NFREELISTS = <span class="number">16</span>&#125;; <span class="comment">// _MAX_BYTES/_ALIGN</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">union</span> _<span class="title">Obj</span> &#123;</span></span><br><span class="line">      <span class="class"><span class="keyword">union</span> _<span class="title">Obj</span>* _<span class="title">M_free_list_link</span>;</span></span><br><span class="line">      <span class="keyword">char</span> _M_client_data[<span class="number">1</span>];    <span class="comment">/* The client sees this.        */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">static</span> _Obj* __STL_VOLATILE _S_free_list[_NFREELISTS];</span><br></pre></td></tr></table></figure>
+<p>为了节省内存使用，使用 union 结构，这个设计很巧妙，每一个元素（内存区域对象）即可以当作下一个元素的指针，例如后面代码中的 <code>result -&gt; _M_free_list_link</code>，也可以当作该元素的值，例如 <code>*__my_free_list</code>。整个 free lists 的结构便是一串使用后者的元素构成的节点，每个节点的值是使用前者构成的单向链表的首地址。</p>
+<p>首先来看 allocate 的过程</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">static</span> <span class="keyword">void</span>* <span class="title">allocate</span><span class="params">(<span class="keyword">size_t</span> __n)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">void</span>* __ret = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 还记得上篇中的 “typedef __malloc_alloc_template&lt;0&gt; malloc_alloc;” 吗？</span></span><br><span class="line">    <span class="comment">// 如果需分配的 size 大于 _MAX_BYTES(128) 时，采用第一级 alloc</span></span><br><span class="line">    <span class="keyword">if</span> (__n &gt; (<span class="keyword">size_t</span>) _MAX_BYTES) &#123;</span><br><span class="line">      __ret = malloc_alloc::allocate(__n);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 获得 free lists 对应节点地址（首地址 ＋ index）</span></span><br><span class="line">      <span class="comment">// _S_freelist_index(__n) 根据需要分配内存的 size 算出节点的 index，见下</span></span><br><span class="line">      _Obj* __STL_VOLATILE* __my_free_list</span><br><span class="line">          = _S_free_list + _S_freelist_index(__n);</span><br><span class="line">      <span class="comment">// Acquire the lock here with a constructor call.</span></span><br><span class="line">      <span class="comment">// This ensures that it is released in exit or during stack</span></span><br><span class="line">      <span class="comment">// unwinding.</span></span><br><span class="line"><span class="meta">#     <span class="meta-keyword">ifndef</span> _NOTHREADS</span></span><br><span class="line">      <span class="comment">/*REFERENCED*/</span></span><br><span class="line">      _Lock __lock_instance;</span><br><span class="line"><span class="meta">#     <span class="meta-keyword">endif</span></span></span><br><span class="line">      _Obj* __RESTRICT __result = *__my_free_list;</span><br><span class="line">      <span class="keyword">if</span> (__result == <span class="number">0</span>)</span><br><span class="line">        <span class="comment">// 如果该节点对应的可用区域分配的单向链表为空，则需要重新填充空间</span></span><br><span class="line">        <span class="comment">// _S_round_up(__n) 对内存分配 size 进行 8 倍圆整，见下</span></span><br><span class="line">        __ret = _S_refill(_S_round_up(__n));</span><br><span class="line">      <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 如果该节点对应可用区域存在，则调整单向链表，取链首元素</span></span><br><span class="line">        *__my_free_list = __result -&gt; _M_free_list_link;</span><br><span class="line">        __ret = __result;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> __ret;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span>  <span class="keyword">size_t</span> _S_freelist_index(<span class="keyword">size_t</span> __bytes) &#123;</span><br><span class="line">        <span class="keyword">return</span> (((__bytes) + (<span class="keyword">size_t</span>)_ALIGN<span class="number">-1</span>)/(<span class="keyword">size_t</span>)_ALIGN - <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">size_t</span></span><br><span class="line">  _S_round_up(<span class="keyword">size_t</span> __bytes)</span><br><span class="line">    &#123; <span class="keyword">return</span> (((__bytes) + (<span class="keyword">size_t</span>) _ALIGN<span class="number">-1</span>) &amp; ~((<span class="keyword">size_t</span>) _ALIGN - <span class="number">1</span>)); &#125;</span><br></pre></td></tr></table></figure>
+<p>上面解决了 free list 节点已经存在可用区域（即链表不为空）的情况下内存的分配问题，那么当不存在可用区域的时候该如何处理呢？也就是说到底 <code>_S_refill()</code> 做了什么？</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Returns an object of size __n, and optionally adds to size __n free list.*/</span></span><br><span class="line"><span class="comment">// 传入参数必需是 8 倍数圆整之后的</span></span><br><span class="line"><span class="comment">/* We assume that __n is properly aligned.                                */</span></span><br><span class="line"><span class="comment">/* We hold the allocation lock.                                         */</span></span><br><span class="line"><span class="keyword">template</span></span><br><span class="line"><span class="keyword">void</span>*</span><br><span class="line">__default_alloc_template &lt;__threads , __inst&gt;::_S_refill(<span class="keyword">size_t</span> __n)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 设定一次性分配内存区域个数</span></span><br><span class="line">    <span class="keyword">int</span> __nobjs = <span class="number">20</span>;</span><br><span class="line">    <span class="comment">// 分配 __nohjs 个 size 是 __n 的内存区域给 free lists 节点，见下</span></span><br><span class="line">    <span class="comment">// _S_chunk_alloc() 维护内存池，内存分配先从内存池中分配，如不够，再通过 malloc 分配</span></span><br><span class="line">    <span class="keyword">char</span>* __chunk = _S_chunk_alloc(__n, __nobjs);</span><br><span class="line">    _Obj* __STL_VOLATILE* __my_free_list;</span><br><span class="line">    _Obj* __result;</span><br><span class="line">    _Obj* __current_obj;</span><br><span class="line">    _Obj* __next_obj;</span><br><span class="line">    <span class="keyword">int</span> __i;</span><br><span class="line">    <span class="comment">// 如果只是分配出一个区域，直接返回给 client 使用</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="number">1</span> == __nobjs) <span class="keyword">return</span>(__chunk);</span><br><span class="line">    <span class="comment">// 获得节点地址</span></span><br><span class="line">    __my_free_list = _S_free_list + _S_freelist_index(__n);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Build free list in chunk */</span></span><br><span class="line">      <span class="comment">// 作为分配出来的第一个元素传回给 client 使用</span></span><br><span class="line">      __result = (_Obj*)__chunk;</span><br><span class="line">      <span class="comment">// 从第二个元素开始构建节点对应的链表，不赘述</span></span><br><span class="line">      *__my_free_list = __next_obj = (_Obj*)(__chunk + __n);</span><br><span class="line">      <span class="keyword">for</span> (__i = <span class="number">1</span>; ; __i++) &#123;</span><br><span class="line">        __current_obj = __next_obj;</span><br><span class="line">        __next_obj = (_Obj*)((<span class="keyword">char</span>*)__next_obj + __n);</span><br><span class="line">        <span class="keyword">if</span> (__nobjs - <span class="number">1</span> == __i) &#123;</span><br><span class="line">            <span class="comment">// 直到最后一个元素，_M_free_list_link 置为 NULL</span></span><br><span class="line">            __current_obj -&gt; _M_free_list_link = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            __current_obj -&gt; _M_free_list_link = __next_obj;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    <span class="keyword">return</span>(__result);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* We allocate memory in large chunks in order to avoid fragmenting     */</span></span><br><span class="line"><span class="comment">/* the malloc heap too much.                                            */</span></span><br><span class="line"><span class="comment">/* We assume that size is properly aligned.                             */</span></span><br><span class="line"><span class="comment">/* We hold the allocation lock.                                         */</span></span><br><span class="line"><span class="keyword">template</span></span><br><span class="line"><span class="keyword">char</span>*</span><br><span class="line">__default_alloc_template &lt;__threads , __inst&gt; ::_S_chunk_alloc(<span class="keyword">size_t</span> __size,</span><br><span class="line">                                                            <span class="keyword">int</span>&amp; __nobjs)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">char</span>* __result;</span><br><span class="line">    <span class="keyword">size_t</span> __total_bytes = __size * __nobjs;</span><br><span class="line">    <span class="keyword">size_t</span> __bytes_left = _S_end_free - _S_start_free;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果剩余空间满足需求，直接从 chunk 中分配</span></span><br><span class="line">    <span class="comment">// _S_start_free 指向 chunk 空闲位置</span></span><br><span class="line">    <span class="keyword">if</span> (__bytes_left &gt;= __total_bytes) &#123;</span><br><span class="line">        __result = _S_start_free;</span><br><span class="line">        _S_start_free += __total_bytes;</span><br><span class="line">        <span class="keyword">return</span>(__result);</span><br><span class="line">    <span class="comment">// 剩余空间不满足需求，但至少可用分配一个（含一个）区域以上</span></span><br><span class="line">    <span class="comment">// 直接从 chunk 中分配，并更改分配区域个数</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (__bytes_left &gt;= __size) &#123;</span><br><span class="line">        __nobjs = (<span class="keyword">int</span>)(__bytes_left/__size);</span><br><span class="line">        __total_bytes = __size * __nobjs;</span><br><span class="line">        __result = _S_start_free;</span><br><span class="line">        _S_start_free += __total_bytes;</span><br><span class="line">        <span class="keyword">return</span>(__result);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 如果连一个区域也无法分配</span></span><br><span class="line">        <span class="comment">// 设置需要 malloc() 分配内存空间大小，为需求的两倍，再加上附加值</span></span><br><span class="line">        <span class="comment">// _S_heap_size 是每一次 __bytes_to_get 的累加值</span></span><br><span class="line">        <span class="keyword">size_t</span> __bytes_to_get =</span><br><span class="line">            <span class="number">2</span> * __total_bytes + _S_round_up(_S_heap_size &gt;&gt; <span class="number">4</span>);</span><br><span class="line">        <span class="comment">// Try to make use of the left-over piece.</span></span><br><span class="line">        <span class="keyword">if</span> (__bytes_left &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 将 chunk 中剩余的空间分配给对应的节点</span></span><br><span class="line">            <span class="comment">// 因为剩余空间小于需求，所以直接分配给跟剩余空间大小相符的节点</span></span><br><span class="line">            _Obj* __STL_VOLATILE* __my_free_list =</span><br><span class="line">                        _S_free_list + _S_freelist_index(__bytes_left);</span><br><span class="line">            <span class="comment">// 该空间插到节点对应链表的链首</span></span><br><span class="line">            ((_Obj*)_S_start_free) -&gt; _M_free_list_link = *__my_free_list;</span><br><span class="line">            <span class="comment">// 再将节点值（对应链表地址）改成新链首</span></span><br><span class="line">            *__my_free_list = (_Obj*)_S_start_free;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 通过 malloc 分配</span></span><br><span class="line">        _S_start_free = (<span class="keyword">char</span>*)<span class="built_in">malloc</span>(__bytes_to_get);</span><br><span class="line">        <span class="comment">// 如果 heap 空间不够导致 malloc 失败</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="number">0</span> == _S_start_free) &#123;</span><br><span class="line">            <span class="keyword">size_t</span> __i;</span><br><span class="line">            _Obj* __STL_VOLATILE* __my_free_list;</span><br><span class="line">	        _Obj* __p;</span><br><span class="line">            <span class="comment">// Try to make do with what we have.  That can&#x27;t</span></span><br><span class="line">            <span class="comment">// hurt.  We do not try smaller requests, since that tends</span></span><br><span class="line">            <span class="comment">// to result in disaster on multi-process machines.</span></span><br><span class="line">            <span class="comment">// 从需要分配的节点开始，依次遍历所有的节点，找到有未用区域的</span></span><br><span class="line">            <span class="comment">// 将其作为 chunk 的空闲区域，然后再次调用本函数进行分配</span></span><br><span class="line">            <span class="keyword">for</span> (__i = __size; __i &gt;= (<span class="keyword">size_t</span>) _MAX_BYTES; __i += (<span class="keyword">size_t</span>) _ALIGN) &#123;</span><br><span class="line">                __my_free_list = _S_free_list + _S_freelist_index(__i);</span><br><span class="line">                __p = *__my_free_list;</span><br><span class="line">                <span class="keyword">if</span> (<span class="number">0</span> != __p) &#123;</span><br><span class="line">                    *__my_free_list = __p - &gt; _M_free_list_link;</span><br><span class="line">                    <span class="comment">// 置为 chunk 的空闲区域</span></span><br><span class="line">                    _S_start_free = (<span class="keyword">char</span>*)__p;</span><br><span class="line">                    _S_end_free = _S_start_free + __i;</span><br><span class="line">                    <span class="keyword">return</span>(_S_chunk_alloc(__size, __nobjs));</span><br><span class="line">                    <span class="comment">// Any leftover piece will eventually make it to the</span></span><br><span class="line">                    <span class="comment">// right free list.</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 如果执行到这里，也就意味着最后的努力也以失败告终</span></span><br><span class="line">	        _S_end_free = <span class="number">0</span>;	<span class="comment">// In case of exception.</span></span><br><span class="line">            <span class="comment">// 使用第一级 alloc 进行分配，因为其实第一级 alloc 也是调用 malloc()</span></span><br><span class="line">            <span class="comment">// 所以只是试试看内存分配失败处理函数或者抛出异常说不定有用或者内存使用得到缓解</span></span><br><span class="line">            _S_start_free = (<span class="keyword">char</span>*)malloc_alloc::allocate(__bytes_to_get);</span><br><span class="line">            <span class="comment">// This should either throw an</span></span><br><span class="line">            <span class="comment">// exception or remedy the situation.  Thus we assume it</span></span><br><span class="line">            <span class="comment">// succeeded.</span></span><br><span class="line">        &#125;</span><br><span class="line">        _S_heap_size += __bytes_to_get;</span><br><span class="line">        _S_end_free = _S_start_free + __bytes_to_get;</span><br><span class="line">        <span class="comment">// 重新进行分配，因为已经通过 malloc() 分配到了内存</span></span><br><span class="line">        <span class="keyword">return</span>(_S_chunk_alloc(__size, __nobjs));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>reallocate 只是先调用 allocate 分配新实体，然后拷贝老实体的值到新实体，然后释放老实体，就不再赘述。最后是 deallocate</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">/* __p may not be 0 */</span></span><br><span class="line">  <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">deallocate</span><span class="params">(<span class="keyword">void</span>* __p, <span class="keyword">size_t</span> __n)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="comment">// 同 allocate，大于 128 时使用第一级 alloc</span></span><br><span class="line">    <span class="keyword">if</span> (__n &gt; (<span class="keyword">size_t</span>) _MAX_BYTES)</span><br><span class="line">      malloc_alloc::deallocate(__p, __n);</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      _Obj* __STL_VOLATILE*  __my_free_list</span><br><span class="line">          = _S_free_list + _S_freelist_index(__n);</span><br><span class="line">      _Obj* __q = (_Obj*)__p;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// acquire lock</span></span><br><span class="line"><span class="meta">#       <span class="meta-keyword">ifndef</span> _NOTHREADS</span></span><br><span class="line">      <span class="comment">/*REFERENCED*/</span></span><br><span class="line">      _Lock __lock_instance;</span><br><span class="line"><span class="meta">#       <span class="meta-keyword">endif</span> <span class="comment">/* _NOTHREADS */</span></span></span><br><span class="line">      <span class="comment">// 调整链表，将 __p 插入链首，同时更改节点值（指向链表）</span></span><br><span class="line">      __q -&gt; _M_free_list_link = *__my_free_list;</span><br><span class="line">      *__my_free_list = __q;</span><br><span class="line">      <span class="comment">// lock is released here</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -348,7 +513,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/20/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><a class="extend next" rel="next" href="/page/22/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/20/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/22/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -391,10 +556,12 @@
   &copy; 2010 – 
   <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Dong Zheng - Powered by Hexo, NextT, GitHub</span>
+  <span class="author" itemprop="copyrightHolder">Dong Zheng</span>
 </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
 
     </div>
   </footer>
@@ -434,50 +601,6 @@
   
 
   
-      <script>
-  if (typeof MathJax === 'undefined') {
-    window.MathJax = {
-      tex: {
-        inlineMath: {'[+]': [['$', '$']]},
-        tags: 'ams'
-      },
-      options: {
-        renderActions: {
-          findScript: [10, doc => {
-            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-              const display = !!node.type.match(/; *mode=display/);
-              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-              const text = document.createTextNode('');
-              node.parentNode.replaceChild(text, node);
-              math.start = {node: text, delim: '', n: 0};
-              math.end = {node: text, delim: '', n: 0};
-              doc.math.push(math);
-            });
-          }, '', false],
-          insertedScript: [200, () => {
-            document.querySelectorAll('mjx-container').forEach(node => {
-              const target = node.parentNode;
-              if (target.nodeName.toLowerCase() === 'li') {
-                target.parentNode.classList.add('has-jax');
-              }
-            });
-          }, '', false]
-        }
-      }
-    };
-    const script = document.createElement('script');
-    script.src = '//cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
-    script.defer = true;
-    document.head.appendChild(script);
-  } else {
-    MathJax.startup.document.state(0);
-    MathJax.typesetClear();
-    MathJax.texReset();
-    MathJax.typeset();
-  }
-</script>
-
-    
 
   
 

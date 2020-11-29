@@ -14,7 +14,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Serif:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
@@ -108,6 +108,9 @@
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -128,6 +131,20 @@
 
 
 
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
 
 
 
@@ -164,16 +181,14 @@
   <p class="site-author-name" itemprop="name">Dong Zheng</p>
   <div class="site-description" itemprop="description"></div>
 </div>
-<div class="site-state-wrap site-overview-item animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives">
-          <span class="site-state-item-count">71</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-  </nav>
-</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="http://zhengdong.me/" title="About → http:&#x2F;&#x2F;zhengdong.me" rel="noopener" target="_blank"><i class="fa fa-user fa-fw"></i>About</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
 
 
 
@@ -209,7 +224,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2013/01/18/app-lifetime-measurement-ios-android/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2010/07/27/linux-memory-management-addressing-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -223,7 +238,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2013/01/18/app-lifetime-measurement-ios-android/" class="post-title-link" itemprop="url">App Lifetime Measurement on iOS & Android</a>
+            <a href="/2010/07/27/linux-memory-management-addressing-2/" class="post-title-link" itemprop="url">Linux 内存管理-A.寻址-2</a>
         </h2>
 
         <div class="post-meta-container">
@@ -234,7 +249,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2013-01-18 23:57:00" itemprop="dateCreated datePublished" datetime="2013-01-18T23:57:00+08:00">2013-01-18</time>
+      <time title="Created: 2010-07-27 23:18:00" itemprop="dateCreated datePublished" datetime="2010-07-27T23:18:00+08:00">2010-07-27</time>
     </span>
 
   
@@ -247,57 +262,151 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>I was working on a mobile app analytics system recent months, how well the system works relies on the app usage data captured on the users' devices.</p>
-<p>This post is about technically how I did it in both iOS and Android operating systems.</p>
-<h2 id="making-thread">Making Thread</h2>
-<p>When a user opens an app, an open session event needs to be captured, when a user tap the home button, app transitions to the background, the session needs to be marked as closed, when a user view an important page, or click a fancy button, counters need to be increased. Those needs must be handled in background threads since I don't want my app UI freezing by some time-consuming "needs".</p>
-<p>In iOS, <a target="_blank" rel="noopener" href="https://developer.apple.com/library/mac/#documentation/Performance/Reference/GCD_libdispatch_Ref/Reference/reference.html">Grand Central Dispatch (GCD)</a> is amazing, create a serial dispatch queue, and a background thread is alive.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_queue_t</span> dispatchQueue =</span><br><span class="line">       dispatch_queue_create(<span class="string">&quot;com.company.app&quot;</span>, DISPATCH_QUEUE_SERIAL);</span><br></pre></td></tr></table></figure>
-<p>Every time a user activity need to be tracked, a task is added to this queue as follows, and all tasks will be executed sequentially.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)open</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">dispatch_async</span>(<span class="keyword">self</span>.dispatchQueue, ^&#123;</span><br><span class="line">        <span class="comment">// task to mark session as open</span></span><br><span class="line">        [<span class="keyword">self</span> openSession];</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Android is not cool, I chose to use <a target="_blank" rel="noopener" href="http://developer.android.com/reference/android/os/Handler.html">Handler</a>.</p>
-<p>A <code>Handler</code> allows you to send and process <code>Message</code> and <code>Runnable</code> objects associated with a thread's <code>MessageQueue</code>.</p>
-<p>In the first place, design a handler class <code>SessionHandler</code> inherits <code>Handler</code>.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SessionHandler</span> <span class="keyword">extends</span> <span class="title">Handler</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MESSAGE_OPEN = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MESSAGE_CLOSE = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SessionHandler</span><span class="params">(<span class="keyword">final</span> Context context, Looper looper)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(looper);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(<span class="keyword">final</span> Message msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.handleMessage(msg);</span><br><span class="line">        <span class="keyword">switch</span> (msg.what) &#123;</span><br><span class="line">            <span class="keyword">case</span> MESSAGE_OPEN:</span><br><span class="line">                <span class="keyword">this</span>.open();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> MESSAGE_CLOSE:</span><br><span class="line">                <span class="keyword">this</span>.close();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                Log.i(SessionHandler.class.getName(), <span class="string">&quot;Can&#x27;t handle this message&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>Then, create a <code>HandlerThread</code>.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">private static final HandlerThread sessionHandlerThread &#x3D;</span><br><span class="line">        makeHandlerThread(SessionHandler.class.getSimpleName());</span><br><span class="line"></span><br><span class="line">static HandlerThread makeHandlerThread(final String name) &#123;</span><br><span class="line">    final HandlerThread thread &#x3D; new HandlerThread(name,</span><br><span class="line">            android.os.Process.THREAD_PRIORITY_BACKGROUND);</span><br><span class="line">    thread.start();</span><br><span class="line">    return thread;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Third, create a <code>Handler</code> instance using that handler thread.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Handler sessionHandler =</span><br><span class="line">    new SessionHandler(context, sessionHandlerThread.getLooper());</span><br></pre></td></tr></table></figure>
-<p>Finally, every time we need to track something, just send a message to the <code>Handler</code> instance.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sessionHandler.handleMessage(</span><br><span class="line">    sessionHandler.obtainMessage(SessionHandler.MESSAGE_CLOSE));</span><br></pre></td></tr></table></figure>
-<h2 id="binding-system-event">Binding System Event</h2>
-<p>If these tracking methods are provided as an SDK, app developers may not want to add those tracking methods one by one in their code base. So, the interfaces of this kind of SDK should be minimum. There are things can be done automatically.</p>
-<p>As in iOS, we could bind method calls to system events, for example, when app transitions to background or foreground.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSNotificationCenter</span> *center = [<span class="built_in">NSNotificationCenter</span> defaultCenter];</span><br><span class="line">[center addObserverForName:<span class="built_in">UIApplicationDidEnterBackgroundNotification</span></span><br><span class="line">                    object:<span class="literal">nil</span></span><br><span class="line">                     queue:[<span class="built_in">NSOperationQueue</span> mainQueue]</span><br><span class="line">                usingBlock:^(<span class="built_in">NSNotification</span> *notification) &#123;</span><br><span class="line">                    [<span class="keyword">self</span> close];</span><br><span class="line">                &#125;];</span><br><span class="line">[center addObserverForName:<span class="built_in">UIApplicationWillEnterForegroundNotification</span></span><br><span class="line">                    object:<span class="literal">nil</span></span><br><span class="line">                     queue:[<span class="built_in">NSOperationQueue</span> mainQueue]</span><br><span class="line">                usingBlock:^(<span class="built_in">NSNotification</span> *notification) &#123;</span><br><span class="line">                    [<span class="keyword">self</span> resume];</span><br><span class="line">                &#125;];</span><br></pre></td></tr></table></figure>
-<p>I added below code to main method in SDK, app developers only need to call this main method in their code base, believe me, they will love your SDK.</p>
-<p>In Android, sadly, I couldn't find anything similar. It does provide system event bindings in <a target="_blank" rel="noopener" href="http://developer.android.com/reference/android/app/Application.html">Application</a>, but only <code>onCreate</code> and <code>onTerminate</code>, useless for my needs. So I gave up, and looked for alternatives in <a target="_blank" rel="noopener" href="http://developer.android.com/reference/android/app/Activity.html">Activity</a>, maybe <a target="_blank" rel="noopener" href="http://developer.android.com/reference/android/app/Application.ActivityLifecycleCallbacks.html">Application.ActivityLifecycleCallbacks</a> could be helpful, but API level (14) is too high for me.</p>
-<h2 id="sending-data">Sending Data</h2>
-<h3 id="process">Process</h3>
-<p>The data captured are on the users' devices, they should be transferred to server for analysis.</p>
-<p>Although the data is anonymous, it's about users' behavior, encryption is needed to keep it safe during transfer.</p>
-<p>The target devices often connect to cellular network, it's much expensive than WiFi, compression is needed to keep the data size as small as possible.</p>
-<p>For encryption, I implemented two ways, <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a> and <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/RSA">RSA</a>, RSA is more secure, but AES is easy to implement and use. Below are AES implementation in iOS and Android.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="built_in">NSData</span> *)encryptAES128Data:(<span class="built_in">NSData</span> *)data withKey:(<span class="built_in">NSData</span> *)key</span><br><span class="line">&#123;</span><br><span class="line">    Byte *keyByte = (Byte *)[key bytes];</span><br><span class="line">    <span class="keyword">if</span>( [key length] != kCCKeySizeAES128)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Byte *valueByte = (Byte *)[data bytes];</span><br><span class="line">    <span class="keyword">int</span> valueLength = [data length];</span><br><span class="line">    <span class="keyword">int</span> bufferSize = valueLength + kCCBlockSizeAES128;</span><br><span class="line">    <span class="keyword">void</span> *buffer = malloc(bufferSize);</span><br><span class="line">    size_t numBytesEncrypted = <span class="number">0</span>;</span><br><span class="line">    CCCryptorStatus cryptStatus = CCCrypt(kCCEncrypt, kCCAlgorithmAES128,</span><br><span class="line">                                          kCCOptionPKCS7Padding | kCCOptionECBMode,</span><br><span class="line">                                          keyByte, kCCKeySizeAES128,</span><br><span class="line">                                          <span class="literal">NULL</span>,</span><br><span class="line">                                          valueByte, valueLength,</span><br><span class="line">                                          buffer, bufferSize,</span><br><span class="line">                                          &amp;numBytesEncrypted);</span><br><span class="line">    <span class="keyword">if</span> (cryptStatus == kCCSuccess) &#123;</span><br><span class="line">        <span class="keyword">return</span> [<span class="built_in">NSData</span> dataWithBytesNoCopy:buffer length:numBytesEncrypted];</span><br><span class="line">    &#125;</span><br><span class="line">    free(buffer);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>The Java way is more elegant.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> String AES128_ECB_KEY = <span class="string">&quot;ampassword&quot;</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">byte</span>[] encryptData(<span class="keyword">byte</span>[] data) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        SecretKeySpec secretKey =</span><br><span class="line">                <span class="keyword">new</span> SecretKeySpec(AES128_ECB_KEY.getBytes(), <span class="string">&quot;AES&quot;</span>);</span><br><span class="line">        Cipher cipher = Cipher.getInstance(<span class="string">&quot;AES/ECB/PKCS7Padding&quot;</span>);</span><br><span class="line">        cipher.init(Cipher.ENCRYPT_MODE, secretKey);</span><br><span class="line">        <span class="keyword">return</span> cipher.doFinal(data);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>For compression, gzip is enough.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">- (NSData *)gzipDeflateData:(NSData *)data</span><br><span class="line">&#123;</span><br><span class="line">	if ([data length] &#x3D;&#x3D; 0) return data;</span><br><span class="line">	z_stream strm;</span><br><span class="line">	strm.zalloc &#x3D; Z_NULL;</span><br><span class="line">	strm.zfree &#x3D; Z_NULL;</span><br><span class="line">	strm.opaque &#x3D; Z_NULL;</span><br><span class="line">	strm.total_out &#x3D; 0;</span><br><span class="line">	strm.next_in&#x3D;(Bytef *)[data bytes];</span><br><span class="line">	strm.avail_in &#x3D; [data length];</span><br><span class="line"></span><br><span class="line">	if (deflateInit2(&amp;strm, Z_DEFAULT_COMPRESSION, Z_DEFLATED, (15+16), 8, Z_DEFAULT_STRATEGY) !&#x3D; Z_OK) return nil;</span><br><span class="line">	NSMutableData *compressed &#x3D; [NSMutableData dataWithLength:16384];  &#x2F;&#x2F; 16K chunks for expansion</span><br><span class="line">	do &#123;</span><br><span class="line">		if (strm.total_out &gt;&#x3D; [compressed length])</span><br><span class="line">			[compressed increaseLengthBy: 16384];</span><br><span class="line">		strm.next_out &#x3D; [compressed mutableBytes] + strm.total_out;</span><br><span class="line">		strm.avail_out &#x3D; [compressed length] - strm.total_out;</span><br><span class="line">		deflate(&amp;strm, Z_FINISH);</span><br><span class="line">	&#125; while (strm.avail_out &#x3D;&#x3D; 0);</span><br><span class="line">	deflateEnd(&amp;strm);</span><br><span class="line">	[compressed setLength: strm.total_out];</span><br><span class="line">	return [NSData dataWithData:compressed];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Still, I like the Java way.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">byte</span>[] gzipDeflatedData(String jsonStr) &#123;</span><br><span class="line">    GZIPOutputStream gzipOutputStream = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">byte</span>[] data = jsonStr.getBytes(<span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">        <span class="keyword">final</span> ByteArrayOutputStream byteArrayOutputStream =</span><br><span class="line">                <span class="keyword">new</span> ByteArrayOutputStream(data.length);</span><br><span class="line">        gzipOutputStream = <span class="keyword">new</span> GZIPOutputStream(byteArrayOutputStream);</span><br><span class="line">        gzipOutputStream.write(data);</span><br><span class="line">        gzipOutputStream.finish();</span><br><span class="line">        gzipOutputStream.flush();</span><br><span class="line">        <span class="keyword">return</span> byteArrayOutputStream.toByteArray();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> UnsupportedEncodingException e) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> IOException e) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != gzipOutputStream) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                gzipOutputStream.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> Exception e) &#123;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="transfer">Transfer</h3>
-<p>In iOS, I wrapped <code>sendSynchronousRequest</code> of <a target="_blank" rel="noopener" href="http://developer.apple.com/library/mac/#documentation/Cocoa/Reference/Foundation/Classes/NSURLConnection_Class/Reference/Reference.html">NSURLConnection</a> to a dispatch queue.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">NSMutableURLRequest *request &#x3D;</span><br><span class="line">    [NSMutableURLRequest requestWithURL:serverUrl</span><br><span class="line">                            cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60.0];</span><br><span class="line">[request setHTTPMethod:@&quot;POST&quot;];</span><br><span class="line">[request setValue:@&quot;application&#x2F;x-gzip&quot; forHTTPHeaderField:@&quot;Content-Type&quot;];</span><br><span class="line">[request setValue:@&quot;gzip&quot; forHTTPHeaderField:@&quot;Content-Encoding&quot;];</span><br><span class="line">[request setValue:[NSString stringWithFormat:@&quot;%d&quot;, [jsonData length]] forHTTPHeaderField:@&quot;Content-Length&quot;];</span><br><span class="line">[request setHTTPBody:dataEncrypted];</span><br><span class="line"></span><br><span class="line">dispatch_group_async(self.dispatchGroup, self.anotherDispatchQueue, ^&#123;</span><br><span class="line">    NSURLResponse *response &#x3D; nil;</span><br><span class="line">    NSError *responseError &#x3D; nil;</span><br><span class="line">    NSData *responseData &#x3D; [NSURLConnection sendSynchronousRequest:request returningResponse:&amp;response error:&amp;responseError];</span><br><span class="line">    NSInteger responseStatusCode &#x3D; [(NSHTTPURLResponse *)response statusCode];</span><br><span class="line">    if (responseError) &#123;</span><br><span class="line">        &#x2F;&#x2F; handle failure</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        if (responseStatusCode &#x3D;&#x3D; 200) &#123;</span><br><span class="line">            &#x2F;&#x2F; do things</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            &#x2F;&#x2F; handler failure</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>Why I use dispatch group is because I don't want the uploading task block the tracking tasks, so the task is dispatched to another queue, in many circumstances, we have to wait all the tasks in tracking thread and uploading thread are finished, then do somethings.</p>
-<p>For example, if I want to send all the data captured every time app transitions to background, five seconds is not enough sometimes, app will crash and it's a bad user experience. We can add a long-running task by using <a target="_blank" rel="noopener" href="http://developer.apple.com/library/ios/#DOCUMENTATION/UIKit/Reference/UIApplication_Class/Reference/Reference.html">beginBackgroundTaskWithExpirationHandler</a>, when all the tasks in this dispatch group are finished, notify the system our long-running task is finished.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">[center addObserverForName:<span class="built_in">UIApplicationDidEnterBackgroundNotification</span></span><br><span class="line">                    object:<span class="literal">nil</span></span><br><span class="line">                     queue:[<span class="built_in">NSOperationQueue</span> mainQueue]</span><br><span class="line">                usingBlock:^(<span class="built_in">NSNotification</span> *notification) &#123;</span><br><span class="line">        <span class="built_in">UIApplication</span> *application = [<span class="built_in">UIApplication</span> sharedApplication];</span><br><span class="line">        __block <span class="built_in">UIBackgroundTaskIdentifier</span> taskId = [application beginBackgroundTaskWithExpirationHandler:^&#123;</span><br><span class="line">                Dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">                        <span class="comment">// If task is overtime, end it</span></span><br><span class="line">                        <span class="keyword">if</span> (taskId != <span class="built_in">UIBackgroundTaskInvalid</span>) &#123;</span><br><span class="line">                            <span class="comment">// Failed to finish background task, cleanup</span></span><br><span class="line">                            [application endBackgroundTask:taskId];</span><br><span class="line">                            taskId = <span class="built_in">UIBackgroundTaskInvalid</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">            &#125;];</span><br><span class="line"></span><br><span class="line">        [<span class="keyword">self</span> close];</span><br><span class="line">        [<span class="keyword">self</span> upload];</span><br><span class="line"></span><br><span class="line">        dispatch_group_notify(<span class="keyword">self</span>.dispatchGroup, dispatch_get_main_queue(), ^&#123;</span><br><span class="line">                <span class="comment">// Finished executing background task</span></span><br><span class="line">                <span class="keyword">if</span> (taskId != <span class="built_in">UIBackgroundTaskInvalid</span>) &#123;</span><br><span class="line">                    [application endBackgroundTask:taskId];</span><br><span class="line">                    taskId = <span class="built_in">UIBackgroundTaskInvalid</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
-<p>In Android, as I did before, create another handler <code>UploadHandler</code> in <code>SessionHandler</code> for the uploading tasks, <code>HttpClient</code> can be used to send the data to server via HTTP.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> HttpClient httpClient = <span class="keyword">new</span> DefaultHttpClient();</span><br><span class="line"><span class="keyword">final</span> HttpPost httpPost = <span class="keyword">new</span> HttpPost(url);</span><br><span class="line">httpPost.addHeader(<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;application/x-gzip&quot;</span>);</span><br><span class="line">httpPost.addHeader(<span class="string">&quot;Content-Encoding&quot;</span>, <span class="string">&quot;gzip&quot;</span>);</span><br><span class="line">httpPost.setEntity(<span class="keyword">new</span> ByteArrayEntity(dataEncrypted));</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> HttpResponse response = httpClient.execute(httpPost);</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> statusCode = response.getStatusLine().getStatusCode();</span><br><span class="line">    <span class="keyword">if</span> (statusCode == <span class="number">200</span>) &#123;</span><br><span class="line">        <span class="comment">// do things</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// handle failure</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    Log.w(TAG, <span class="string">&quot;Error occured during data sending, abort reason: &quot;</span> +</span><br><span class="line">            e.getMessage());</span><br><span class="line">    <span class="comment">// handle failure</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="user-identification">User Identification</h3>
-<p>Each iOS device has a Unique Device Identifier (UDID), it could be used to identify the app user, but <a target="_blank" rel="noopener" href="http://techcrunch.com/2012/03/24/apple-udids/">Apple Has Started Rejecting Apps That Access UDIDs</a>.</p>
-<p>In iOS 6, Apple provides <a target="_blank" rel="noopener" href="http://developer.apple.com/library/ios/#documentation/AdSupport/Reference/ASIdentifierManager_Ref/ASIdentifierManager.html">ADID</a>, we could use it to identify people, but app user can switch it off if they don't want to be tracked.</p>
-<p>I use <a target="_blank" rel="noopener" href="https://github.com/ylechelle/OpenUDID">OpenUDID</a> and ADID to identify app user, what OpenUDID does is generating a <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Universally_unique_identifier">UUID</a> and caching it for later look up.</p>
-<p>In Android, it has IMEI, ANDROID_ID, and mac address, none of them is reliable, so I hash those three with device model use <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Secure_Hash_Algorithm">SHA</a> to identify the app user.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Android UUID known to be duplicated across many devices due to manufacturer bugs</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String INVALID_ANDROID_ID = <span class="string">&quot;9774d56d682e549c&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getUDID</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    String imei = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">if</span> (context.getPackageManager().checkPermission(Manifest.permission.READ_PHONE_STATE,</span><br><span class="line">            context.getPackageName()) == PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">        TelephonyManager tm = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);</span><br><span class="line">        imei = tm.getDeviceId();</span><br><span class="line">    &#125;</span><br><span class="line">    String androidId = Settings.Secure.getString(context.getContentResolver(),</span><br><span class="line">            android.provider.Settings.Secure.ANDROID_ID);</span><br><span class="line">    <span class="keyword">if</span> (androidId == <span class="keyword">null</span> || androidId.toLowerCase().equals(INVALID_ANDROID_ID)) &#123;</span><br><span class="line">        androidId = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    String macAddr = (getMacAddr(context) == <span class="keyword">null</span>) ? <span class="string">&quot;&quot;</span> : getMacAddr(context);</span><br><span class="line">    <span class="keyword">return</span> SHA(imei + androidId + macAddr + Build.MODEL);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getMacAddr</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    String macAddr = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">if</span> (context.getPackageManager().checkPermission(Manifest.permission.ACCESS_WIFI_STATE,</span><br><span class="line">            context.getPackageName()) == PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">        <span class="keyword">final</span> WifiManager manager = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);</span><br><span class="line">        <span class="keyword">final</span> WifiInfo info = manager.getConnectionInfo();</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != info) &#123;</span><br><span class="line">            macAddr = info.getMacAddress();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// no permission</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> macAddr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> String <span class="title">SHA</span><span class="params">(<span class="keyword">final</span> String toConvert)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> MessageDigest md = MessageDigest.getInstance(<span class="string">&quot;SHA&quot;</span>);</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">byte</span>[] digest = md.digest(toConvert.getBytes(<span class="string">&quot;UTF-8&quot;</span>));</span><br><span class="line">        <span class="keyword">final</span> BigInteger hashedNumber = <span class="keyword">new</span> BigInteger(<span class="number">1</span>, digest);</span><br><span class="line">        <span class="keyword">return</span> hashedNumber.toString(<span class="number">16</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> NoSuchAlgorithmException e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> UnsupportedEncodingException e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <h2 id="paging">Paging</h2>
+<p>Paging unit 用来将 linear address 转换为 physical address，为了高效，linear address 按照一定的长度被分为若干组，称为 pages，并且，内存也被分为各个定长的 page frame (physical pages)，page 和 page frame 的长度是一样的，前者表示一块数据，它可以储存在 page frame 或者硬盘中。</p>
+<p>在 paging unit 开始工作之前，kernel 先初始化 page tables，这是一个用来映射 linear address 到 physical address 的表。</p>
+<p>Linear address 由三部分组成：</p>
+<ul>
+<li>Directory，10 bits</li>
+<li>Table，10 bits</li>
+<li>Offset，12 bits</li>
+</ul>
+<p>地址的转换过程如下，首先从 <code>cr3</code> 寄存器中拿到 page directory 的物理地址，再从 page directory 第 Directory 个表项中得到 table 的物理地址，再在 page table 的第 Table 个表项中得到 page frame 的物理地址，取第 Offset 个表项值，即得到 physical address。</p>
+<p>Page directory 和 page table 采用相同的数据结构，表项包含如下 flag。</p>
+<ul>
+<li>Present，1 则该 page 或者 page table 位于内存，反之则在硬盘中</li>
+<li>Accessed，当对该 page frame 进行访问（地址转换）时置 1</li>
+<li>Dirty，如果对该 page frame 进行写操作时置 1，只适用于 page table 表项</li>
+<li>Read/Write，访问权限，0 则该 page table 或者 page 只读</li>
+<li>User/Supervisor，优先级，0 则只能被 kernel mode 的进程访问</li>
+<li>PCD，表示是否在访问 page frame 时使用 cache，linux 缺省使用(=0)</li>
+<li>PWT，表示写数据到 page frame 时，cache 机制采用 write-back (=0) 还是 write-through (=1)，Linux 使用前者 (write-back 表示只有当 cache 表项需要被更新时，改动才写回内存，write-throught 表示每一次写操作都同时作用在内存和 cache 中)</li>
+<li>Page Size，如果为 1，则相应表项对应 4MB page frame，只适用于 page directory</li>
+</ul>
+<p>上述最后一项 page size flag 用来实现 extended paging，即不使用 page table，page directory 直接对应 4MB page frame，也就是说 directory 10bits，offset 22bits。</p>
+<p>众所周知，CPU 的速度远非 RAM 所能比拼的，系统采用 cache 来平衡两者速度不均衡的问题，基于局部性原则 (locality principle)：临近正在被访问数据的数据很有可能接下来被访问。</p>
+<p>硬件方面，在 intel 架构中，使用 line unit 来实现低速 DRAM 和高速 SRAM 之间的 caches。cache 被划分为若干 lines，内存和 cache 中的 line 一一对应被称为 direct map，即 line 在内存中的位置必须和 cache 中的位置一致，反之则是 fully associative，即内存中 line 可以储存在 cache 的任意位置，n-way associative，表示内存中的某一 line 在 cache 中有N个位置可以储存。</p>
+<p>这样，当系统对某一 linear address 进行取址时，因为 paging unit 和内存之间插入了 cache unit，每一次取址时，将先通过 cache controller 查找，如果 cache hit，则完成取址，如果 cache miss，则继续使用 paging unit 进行取址。当然，cache 不光用于 paging 过程，关于 cache，后面会有博文详细叙述。</p>
+<p>除了 cache 之外，系统还采用 translation lookaside buffers (TLB) 来加速 linear address 的转换，每当某一 physical address 被计算出来时，将其存入 TLB 中，从而使得下一次相同 linear address 的地址转换会有相当快的速度。</p>
+<p>前面所讲的 paging unit 采用的是两层模型，即 page directory –&gt;page table-&gt;offset，Linux 采用三层模型，将 page directory 分为两层：page global directory (10 bits)， page middle directory (10 bits)。如果是 64 位机，则 page 10 bits， offset 13 bits，即只使用地址前 43 位。如为 32 位机，则跟两层模型一样，page middle directory 设为 0 bit。</p>
+<p>在 Linear address 中，<code>0x00000000</code> 到 <code>PAGE_OFFSET</code> 用于 user mode 或者 kernel mode, <code>PAGE_OFFSET</code> 到 <code>0xffffffff</code> 只用于 kernel mode。</p>
+<p>在 physical address 中，kernel 的指令和数据都位于一组 reserved page frames 中，首地址位于 <code>0x00100000</code>，该组常驻内存，不能被动态 swap out。</p>
+<p>下一篇，page frame management…</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2010/07/20/linux-memory-management-addressing-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2010/07/20/linux-memory-management-addressing-1/" class="post-title-link" itemprop="url">Linux 内存管理-A.寻址-1</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2010-07-20 00:32:00" itemprop="dateCreated datePublished" datetime="2010-07-20T00:32:00+08:00">2010-07-20</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>这一个系列将会详细的介绍 Linux kernel 内存管理机制。</p>
+<p>使用特定内存地址就可以访问某一块内存单元，为了实现有效的寻址，操作系统将一系列繁琐的操作隐藏了起来，内存地址按照不同的抽象层次分为如下三种：</p>
+<ol type="1">
+<li>Logical address: 标识运算符或者程序指令的地址，由段号 (segment selector) 和偏移量 (offset) 组成。</li>
+<li>Linear address: 32位的无符号整型数，可以用来表示最大4GB地址空间。</li>
+<li>Physical address：内存物理单元的地址。</li>
+</ol>
+<p>CPU 控制单元通过 Segmentation Unit 将 Logical address 转换为 Linear address，而后，再通过 paging unit 将 linear address 转换为 physical address，至此，特定地址的访问行为完成。</p>
+<h2 id="segmentation-unit">Segmentation Unit</h2>
+<p>Logical address 由两部分组成，用来标识段的 segment selector (16 bits) 和用来表示偏移量的 offset (32 bits)。为了更快的读取 segment selector，处理器提供了六种段寄存器来存储 segment selector，<code>cs</code> (code segment), <code>ss</code> (stack segment), <code>ds</code> (data segment), 以及另外三种可以表示任意段的寄存器。</p>
+<p>为了表示段的特征，引入 segment descriptor (8 bits)，存储在 GDT (Global Descriptor Table) 或者 LDT (Local Descriptor Table) 中，一般情况下，整个系统只有一个 GDT，其地址在 gdtr 寄存器中，每一个进程有自己对应的 LDT，存于 <code>ldtr</code> 寄存器中。</p>
+<p>Segment descriptor 组成部分如下：</p>
+<ul>
+<li>Base (32 bits), 保存段首字节的 linear address；</li>
+<li>G (1 bit), 0 则段大小以 bytes 为单位，反之以 4096 bytes 为单位；</li>
+<li>Limit (20 bits), 标识段的长度；</li>
+<li>S (1 bit), 0 则该段储存 kernel 数据结构，反之为一般指令或数据段；</li>
+<li>Type (4 bits), 表示段类型以及相应的访问权限，四种类型将在下面详述；</li>
+<li>DPL (2 bits), descriptor privilege level，用来表示可以访问该段的最低 CPU 优先级 (privilege)，0 最高，只有 kernel mode 的进程才可以访问，3最低，任何 CPL 值都可以访问；</li>
+<li>Segment-Present (1 bit), 表示该段是否在内存中，Linux 中，段常驻内存，因而不会被 swap out 到硬盘，所以为1；</li>
+<li>D (段包含代码) / B (段包含数据) (1 bit), 0 则 offset 使用 32 bits 地址长度，反之 16 bits；</li>
+<li>reserved bit, 0；</li>
+<li>AVL (1 bit), Linux 不用。</li>
+</ul>
+<p>Segment 常见的四种类型如下：</p>
+<ol type="1">
+<li>Code Segment Descriptor: 对应指令段 (code segment)，S=1，GDT/LDT皆可；</li>
+<li>Data Segment Descriptor: 对应数据段 (data segment)， S=1，包含 stack segment，GDT/LDT皆可；</li>
+<li>Task State Segment Descriptor: 对应任务状态段 (task state segment)，用来存储寄存器的内容，只能处于 GDT，S=0，Type=9/11；</li>
+<li>Local Descriptor Table Descriptor，对应包含 LDT 的 segment，同3，只能处于 GDT，S=0，Type=2。</li>
+</ol>
+<p>前面提到过，logical address 由 segment selector 和 offset 组成，segment selector包含3个部分：</p>
+<ul>
+<li>index (13 bits), GDT 或者 LDT index；</li>
+<li>TI (Table Indicator) (1 bit), TI=0, 则该 segment descriptor 在 GDT 中，TI=1，LDT中；</li>
+<li>RPL (Request Privilege Level) (2 bits), 当 segment selector 存入 <code>cs</code> 寄存器时 CPU 的权限级别。</li>
+</ul>
+<p>通常情况下，为了得到一个 segment descriptor，</p>
+<ol type="1">
+<li>查看 TI，判断 segment descriptor 存储于哪一个表中，GDT (gdtr) 或者 LDT (ldtr)；</li>
+<li>根据 index 计算基于表首地址的偏移量，index * 8，然后再跟 <code>gdtr</code> 或者 <code>ldtr</code> 所存储地址相加，得到 segment descriptor 地址；</li>
+<li>segment descriptor Base 部分保存该段首字节的 linear address，再加上 logical address 后半部分 offset，就可得 linear address。</li>
+</ol>
+<p>为了提升向 linear address 转换的速度，处理器又额外提供了个寄存器，该寄存器不可被程序改写，专门用来存储 8 位 segment descriptor 每当 segment selector 存入寄存器时。这样，就不需要再访问 GDT 或者 LDT，而只需要直接读取寄存器，直到该寄存器中内容改变。</p>
+<p>Linux 中所有的进程使用相同的 logical address，因而段的总数不会太大，GDT 就可以存储所有的 segment descriptor (包括 LDT)。出于以下两个原因，Linux 较少的使用 segmentation 而更多的使用了 paging 机制来寻址：</p>
+<ol type="1">
+<li>当所有的进程使用相同的 segment 寄存器时，内存管理较为简单，即所有进程共享 linear addresses；</li>
+<li>Linux 设计的目标包括可移植性，一些 RISC 处理器不能很好的支持 segmentation。</li>
+</ol>
+<p>Linux 使用的段类型包括 kernel code segment, kernel data segment, user code segment, user data segment, task state segment, local descriptor table segment，各个 segment descriptor 的 Base 值是一样的。对于各个进程而言，GDT 包含了两种不同的 segment descriptor，TSS 和 LDT。LDT 通常是被各个进程共享的，并且当进程需要时，可以使用系统调用来创建自己的 LDT，但是 kernel 没有真正的使用 local descriptor table。</p>
+<p>下一篇，paging…</p>
 
       
     </div>
@@ -319,7 +428,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/23/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><a class="extend next" rel="next" href="/page/25/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/23/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span>
   </nav>
 
 
@@ -362,10 +471,12 @@
   &copy; 2010 – 
   <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Dong Zheng - Powered by Hexo, NextT, GitHub</span>
+  <span class="author" itemprop="copyrightHolder">Dong Zheng</span>
 </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
 
     </div>
   </footer>

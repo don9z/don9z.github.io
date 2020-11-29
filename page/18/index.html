@@ -14,7 +14,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Serif:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
@@ -108,6 +108,9 @@
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -128,6 +131,20 @@
 
 
 
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
 
 
 
@@ -164,16 +181,14 @@
   <p class="site-author-name" itemprop="name">Dong Zheng</p>
   <div class="site-description" itemprop="description"></div>
 </div>
-<div class="site-state-wrap site-overview-item animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives">
-          <span class="site-state-item-count">71</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-  </nav>
-</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="http://zhengdong.me/" title="About → http:&#x2F;&#x2F;zhengdong.me" rel="noopener" target="_blank"><i class="fa fa-user fa-fw"></i>About</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
 
 
 
@@ -209,7 +224,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2013/07/18/a-look-under-the-hood-of-objc-msgsend/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/04/29/autumn-and-sprint-of-westlake/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -223,7 +238,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2013/07/18/a-look-under-the-hood-of-objc-msgsend/" class="post-title-link" itemprop="url">A Look Under the Hood of objc_msgSend()</a>
+            <a href="/2011/04/29/autumn-and-sprint-of-westlake/" class="post-title-link" itemprop="url">西湖的秋春之别</a>
         </h2>
 
         <div class="post-meta-container">
@@ -234,7 +249,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2013-07-18 19:47:00" itemprop="dateCreated datePublished" datetime="2013-07-18T19:47:00+08:00">2013-07-18</time>
+      <time title="Created: 2011-04-29 16:20:00" itemprop="dateCreated datePublished" datetime="2011-04-29T16:20:00+08:00">2011-04-29</time>
     </span>
 
   
@@ -247,52 +262,212 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>When I began to learn Objective C, I often heard of people talking about "sending message", I was curious, come on, it's just calling a method.</p>
-<p>Then I recalled that I had that same feelings when functions become to methods as I began to touch C++.</p>
-<p>To support polymorphism, C++ object model has a <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Virtual_method_table">vtable</a> inside every object which stores instance methods addresses, by which, C++ has a little dynamic characteristic.</p>
-<p>But those dynamic are settled after compiling to machine code, unlike ruby or python, which has a <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Virtual_machine">virtual machine</a> to dynamically interpreter the behaviors of a program, you might know, the <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Duck_typing">duck typing</a>.</p>
-<p>Like C++, Objective C is also compiled to machine code, it supports polymiorphism, but also, to another level, it supports duck typing, you can send messages to any objects even the <code>nil</code>.</p>
-<p>What does it do to make it possible?</p>
-<h2 id="a-simple-program">A Simple Program</h2>
-<p>Let's do some tests by first creating a simple program.</p>
-<p><code>Example.h</code></p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Example</span>: <span class="title">NSObject</span></span></span><br><span class="line">- (<span class="keyword">void</span>)doSomething: (<span class="keyword">int</span>)index;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<p><code>Example.m</code></p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">&quot;Example.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Example</span></span></span><br><span class="line">- (<span class="keyword">void</span>)doSomething: (<span class="keyword">int</span>)index</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> main (<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[]) &#123;</span><br><span class="line">    Example *p;</span><br><span class="line">    [p doSomething:<span class="number">10</span>];</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>A class <code>Example</code> is created, then a message is sent to its instance <code>p</code>.</p>
-<h2 id="original-shape">Original Shape</h2>
-<p>Producing assembly by <code>clang -S Example.m</code> -&gt; <code>Example.s</code>.</p>
-<p>The result is a little complicated. Generally speaking, it does three things.</p>
-<p>First, setup necessary information, then make a call to <code>_objc_msgSend</code> and store the return value to a local variable.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Ltmp9:</span><br><span class="line">	.cfi_def_cfa_register %rbp</span><br><span class="line">	subq	$32, %rsp</span><br><span class="line">	movl	$0, %eax</span><br><span class="line">	movl	$10, %edx</span><br><span class="line">	movl	$0, -4(%rbp)</span><br><span class="line">	movl	%edi, -8(%rbp)</span><br><span class="line">	movq	%rsi, -16(%rbp)</span><br><span class="line">	movq	-24(%rbp), %rsi</span><br><span class="line">	movq	L_OBJC_SELECTOR_REFERENCES_(%rip), %rcx</span><br><span class="line">	movq	%rsi, %rdi</span><br><span class="line">	movq	%rcx, %rsi</span><br><span class="line">	movl	%eax, -28(%rbp)         ## 4-byte Spill</span><br><span class="line">	callq	_objc_msgSend</span><br><span class="line">	movl	-28(%rbp), %eax         ## 4-byte Reload</span><br><span class="line">	addq	$32, %rsp</span><br><span class="line">	popq	%rbp</span><br><span class="line">	ret</span><br><span class="line">	.cfi_endproc</span><br></pre></td></tr></table></figure>
-<p>Then we could jump to objc runtime <a target="_blank" rel="noopener" href="http://www.opensource.apple.com/source/objc4/objc4-532.2/">source code</a> to see what happens down the rabbit hole.</p>
-<h2 id="the-runtime">The Runtime</h2>
-<p><code>objc_msgSend</code> is called during every message sending, which might happen millions of times only by booting the Mac OS X system, obviously, it needs to be fine tuned, no surprise, it is written in assembly.</p>
-<p>Although those are assembly, they're fairly readable by the good naming conventions and explainable comments.</p>
-<p><code>runtime/Messengers.subproj/objc-msg-x86_64.s</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ENTRY	_objc_msgSend</span><br><span class="line">DW_START _objc_msgSend</span><br><span class="line"></span><br><span class="line">NilTest	NORMAL</span><br><span class="line"></span><br><span class="line">GetIsaFast NORMAL		&#x2F;&#x2F; r11 &#x3D; self-&gt;isa</span><br><span class="line">CacheLookup NORMAL, _objc_msgSend  &#x2F;&#x2F; r11&#x3D;method, eq set (nonstret fwd)</span><br><span class="line">jmp	*method_imp(%r11)	&#x2F;&#x2F; goto *imp</span><br><span class="line"></span><br><span class="line">NilTestSupport	NORMAL</span><br><span class="line"></span><br><span class="line">GetIsaSupport	NORMAL</span><br></pre></td></tr></table></figure>
-<p>First, executes <code>NilTest</code> macro, to check whether the message sending target is nil, if nil, then returns nil, that's why we could send messages to a nil object.</p>
-<p>Then, uses <code>GetIsaFast</code> to get the <code>isa</code> address.</p>
-<p>Every objc object has a member named <code>isa</code>, it's the blueprint of an object, which has all objc runtime needs to inspect an object and see what its class is and then seeing if it responds to some messages.</p>
-<p>Finally, by <code>CacheLookup</code>, objc runtime searches for the selector responsible for the message in a class method cache, and invokes the selector to finish the work.</p>
-<p>Since objc is a object oriented language, some objects may inheritant hundreds of methods, but only some are frequently called, it's not efficient to look up all the selectors every time a message is needed to be sent.</p>
-<p>If objc runtime failed to find the selector for a message, it jumps to handle the cache miss.</p>
-<p>Then <code>MethodTableLookup</code> will take the responsibility to look up for the selector from the target <code>isa</code>.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">LCacheMiss:</span><br><span class="line">	DW_MISS _objc_msgSend</span><br><span class="line">	GetIsa	NORMAL			&#x2F;&#x2F; r11 &#x3D; self-&gt;isa</span><br><span class="line">	MethodTableLookup %a1, %a2, _objc_msgSend	&#x2F;&#x2F; r11 &#x3D; IMP</span><br><span class="line">	cmp	%r11, %r11		&#x2F;&#x2F; set eq (nonstret) for forwarding</span><br><span class="line">	jmp	*%r11			&#x2F;&#x2F; goto *imp</span><br><span class="line"></span><br><span class="line">	DW_END 		_objc_msgSend, 1, 1</span><br><span class="line">	END_ENTRY	_objc_msgSend</span><br></pre></td></tr></table></figure>
-<p>The <code>MethodTableLookup</code> simply transfers the responsibility.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.macro MethodTableLookup</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">	call	__class_lookupMethodAndLoadCache3</span><br><span class="line">    ...</span><br><span class="line">.endmacro</span><br></pre></td></tr></table></figure>
-<p>Again, responsibility is transferred to <code>lookUpMethod</code>, pay attention to the parameters assignments.</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// runtime/objc-class.mm</span></span><br><span class="line"><span class="comment">/***********************************************************************</span></span><br><span class="line"><span class="comment">* _class_lookupMethodAndLoadCache.</span></span><br><span class="line"><span class="comment">* Method lookup for dispatchers ONLY. OTHER CODE SHOULD USE lookUpMethod().</span></span><br><span class="line"><span class="comment">* This lookup avoids optimistic cache scan because the dispatcher</span></span><br><span class="line"><span class="comment">* already tried that.</span></span><br><span class="line"><span class="comment">**********************************************************************/</span></span><br><span class="line">IMP _class_lookupMethodAndLoadCache3(id obj, SEL sel, Class cls)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> lookUpMethod(cls, sel, YES<span class="comment">/*initialize*/</span>, NO<span class="comment">/*cache*/</span>, obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Finally, lookup is done, and cache is refilled.</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// runtime/objc-class.mm</span></span><br><span class="line"><span class="comment">/***********************************************************************</span></span><br><span class="line"><span class="comment">* lookUpMethod.</span></span><br><span class="line"><span class="comment">* The standard method lookup.</span></span><br><span class="line"><span class="comment">* initialize==NO tries to avoid +initialize (but sometimes fails)</span></span><br><span class="line"><span class="comment">* cache==NO skips optimistic unlocked lookup (but uses cache elsewhere)</span></span><br><span class="line"><span class="comment">* Most callers should use initialize==YES and cache==YES.</span></span><br><span class="line"><span class="comment">* inst is an instance of cls or a subclass thereof, or nil if none is known.</span></span><br><span class="line"><span class="comment">*   If cls is an un-initialized metaclass then a non-nil inst is faster.</span></span><br><span class="line"><span class="comment">* May return _objc_msgForward_internal. IMPs destined for external use</span></span><br><span class="line"><span class="comment">*   must be converted to _objc_msgForward or _objc_msgForward_stret.</span></span><br><span class="line"><span class="comment">**********************************************************************/</span></span><br><span class="line"><span class="function">IMP <span class="title">lookUpMethod</span><span class="params">(Class cls, SEL sel, BOOL initialize, BOOL cache, id inst)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
-<p>If you want to step deeper, objc runtime source can be downloaded at this <a target="_blank" rel="noopener" href="http://www.opensource.apple.com/release/mac-os-x-1083/">place</a>.</p>
-<hr />
-<p>At last, where do I find the objc runtime in the Mac OS X system?</p>
-<p><code>/usr/lib/libobjc.A.dylib</code></p>
-<p>Why am I so sure?</p>
-<p>Since I lost my mind, wanted to remove the runtime to see what will happen.</p>
-<p>First, Terminal stopped working, then Apps became irresponsible, no new App could be opened, and even can't reboot the whole system ...</p>
-<p>Now I deeply know how important the objc runtime is in Mac OS X, and thank it, boot to recovery has a terminal to use, I was lucky.</p>
+          <p><a><img src="/images/2011/westlakeautumnspring1.jpg" width="280"></a> <a><img src="/images/2011/westlakeautumnspring2.jpg" width="280"></a> <a><img src="/images/2011/westlakeautumnspring3.jpg" width="280"></a> <a><img src="/images/2011/westlakeautumnspring4.jpg" width="280"></a> <a><img src="/images/2011/westlakeautumnspring5.jpg" width="280"></a> <a><img src="/images/2011/westlakeautumnspring6.jpg" width="280"></a> <a><img src="/images/2011/westlakeautumnspring7.jpg" width="280"></a> <a><img src="/images/2011/westlakeautumnspring8.jpg" width="280"></a> <a><img src="/images/2011/westlakeautumnspring9.jpg" width="280"></a> <a><img src="/images/2011/westlakeautumnspring10.jpg" width="280"></a> <a><img src="/images/2011/westlakeautumnspring11.jpg" width="380"></a> <a><img src="/images/2011/westlakeautumnspring12.jpg" width="180"></a></p>
+<p>-- Taken on November 27, 2010 &amp; April 29, 2011 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/sets/72157633601645817">flickr</a>, <a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157633613083101">flickr</a>)</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/04/26/ceylon-next-generation-java/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/04/26/ceylon-next-generation-java/" class="post-title-link" itemprop="url">QCon 北京 - Ceylon, 下一代 Java ?</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-04-26 21:42:00" itemprop="dateCreated datePublished" datetime="2011-04-26T21:42:00+08:00">2011-04-26</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Hibernate 的创建者 Gavin King 发明的新语言，Ceylon，基于 Java 虚拟机，并且认为这个语言是 Java Killer，完全针对他对 Java 不爽的地方改进的。</p>
+<p>下面是当时的 slides，第一个是初衷和新语言设计，第二个是 Ceylon 的类型系统，包括闭包，泛型等。</p>
+<p>因为 QCon 是 Oracle 等公司赞助的，一身型男打扮的 Gavin King，身后是大大的 Oracle Logo，然后型男不停吐槽 Java，真是别有一番滋味。</p>
+<p>Gavin King 觉得用动作语言实现 DSL (Domain Specific Language) 很危险，会不知道什么该做，什么不该做，因为没有限制，比如类型等。</p>
+<p>被问道和 Scala 的对比时，他说他不怎么了解，但认为 Scala 可读性很差，另外他觉得没有 IDE 来做 refactoring 是不可接受的。</p>
+<p>他也承认了 Ceylon 语言是语法糖，内存管理等其他都是使用 JVM 的，并且采用完全的静态类型系统，GP 看起来 learning curve 很陡。他这样解释: 他看代码是写代码的上千倍，如果稍微难写点，但极大提高了可读性，就是赚的。</p>
+<p>最后被问道有什么商业动机时，他说没有，不过提到了一条，那就是 Java 在 Oracle 手里。</p>
+<div id="__ss_7611390" style="width:510px">
+<strong style="display:block;margin:12px 0 4px"><a target="_blank" rel="noopener" href="http://www.slideshare.net/devstonez/introducing-the-ceylon-project-gavin-king-presentation-at-qcon-beijing-2011" title="Introducing the Ceylon Project - Gavin King presentation at QCon Beijing 2011">Introducing the Ceylon Project - Gavin King presentation at QCon Beijing 2011</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/7611390" width="510" height="426" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+<div style="padding:5px 0 12px">
+View more <a target="_blank" rel="noopener" href="http://www.slideshare.net/">presentations</a> from <a target="_blank" rel="noopener" href="http://www.slideshare.net/devstonez">devstonez</a>
+</div>
+</div>
+<div id="__ss_7611835" style="width:510px">
+<strong style="display:block;margin:12px 0 4px"><a target="_blank" rel="noopener" href="http://www.slideshare.net/devstonez/the-ceylon-type-system-gavin-king-presentation-at-qcon-beijing-2011" title="The Ceylon Type System - Gavin King presentation at QCon Beijing 2011">The Ceylon Type System - Gavin King presentation at QCon Beijing 2011</a></strong> <iframe src="http://www.slideshare.net/slideshow/embed_code/7611835" width="510" height="426" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+<div style="padding:5px 0 12px">
+View more <a target="_blank" rel="noopener" href="http://www.slideshare.net/">presentations</a> from <a target="_blank" rel="noopener" href="http://www.slideshare.net/devstonez">devstonez</a>
+</div>
+</div>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/04/21/legacy-code-and-domain-model/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/04/21/legacy-code-and-domain-model/" class="post-title-link" itemprop="url">QCon 北京 - 遗留系统 & 领域模型</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-04-21 23:57:00" itemprop="dateCreated datePublished" datetime="2011-04-21T23:57:00+08:00">2011-04-21</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="eric-evans---domain-driven-design-strategies-dealing-with-legacy-system">Eric Evans - Domain-Driven Design Strategies Dealing with Legacy System</h2>
+<p>首先从两个耦合关系很大的遗留系统开始，当我们需要增加新功能时，往往涉及到两个遗留系统的更改，那势必会又增加这两个系统之间的耦合关系。</p>
+<p>当问题多到一定程度，遗留系统之间藕断丝连的关系层出不穷，每一个新功能的添加都变得像噩梦，便有念头说要不干脆重写整个系统。</p>
+<p>假设整个新系统是一个金字塔结构，新功能的添加相当于塔顶部分，跟业务功能关系不大的基础设施则相当于塔底部分，然后中间层是业务逻辑。</p>
+<p>我们计划第一年，先完成基础设施功能的实现，因为它跟业务无关，所以遗留系统仍然继续维护；第二年，完成业务逻辑层的实现，这一层，将会慢慢的将旧的遗留系统中的功能模块迁移到新系统中；第三年，添加新功能到塔顶。</p>
+<p>看起来很完美，但是到底会发生什么呢?</p>
+<p>我们将不得不重新实现很多我们根本就不关注的功能，在实现中间层的过程中，一方便我们需要实现新系统的需要，另一方面，又要满足遗留系统迁移的要求，甚至，当不能很快迁移到新系统时，遗留系统还会有新功能的添加，那么同时还需要添加到新系统中去；</p>
+<p>为了实现移植的要求，团队会一直处于旧的系统思维模式下，用老的概念来进行设计，为了在规定时间结束这个"新"系统，可能会出现很多设计上的"迁就"，最后当这个新系统终于结束的时候，大家不是说: Awesome! 而变成了: Thanks God，it finally finished. 新系统刚出来就变成了遗留系统，效果可想而知。</p>
+<p>重写不行，那重构行不?</p>
+<p>我们将两个遗留系统进行重构整合，让新功能的添加能够独立出来，处于两个遗留系统的顶部，这样在添加新功能的时候，就不需要再在每一个遗留系统中去修改。</p>
+<p>但这样还是没有解决两个遗留系统耦合性高的问题，仍然会有很多需求会需要对各个遗留系统进行更改，千丝万缕千疮百孔…</p>
+<p>那到底该怎么办?</p>
+<p>整个系统的战略价值(Strategic Value)到底在哪里?</p>
+<p>日后添加的新功能，还有散布在遗留系统的一些核心功能。</p>
+<p>并不是所有的大型复杂系统都是被很好的设计的，所以，我们只需要关注这个 Strategic Value ，那么怎么才能只重新构建这些 Strategic Value 呢?</p>
+<ul>
+<li>domain: A sphere of knowledge or activity.</li>
+<li>model: A system of abstractions representing selected aspects of the domain.</li>
+<li>A model is a distilled form of domain knowledge, assumptions, rules and choices.</li>
+<li>模型是被提炼的领域知识、假设、规则、和决策。</li>
+</ul>
+<p>但是正如盲人摸象那样，每一个人对大象的认知是不同的，也就代表者每一个人建立的领域模型是不一样的，那该如何选择领域模型呢?</p>
+<p>这时候就需要引入 Bounded Context(上下文界定):</p>
+<blockquote>
+<p>An operational definition of where a particular model is well-defined and applicable. (Typically a subsystem, or the work owned by a particular team).</p>
+</blockquote>
+<p>即我们不需要认识到最真实的模型，而且也不应该坚持只有一个模型，只要一个领域模型符合 Bounded Context，那么它就是一个好的适用的模型。</p>
+<p>接下来，让我们回到构建新系统的问题。</p>
+<p>这次基于领域模型来进行新系统的构建，我们不去动遗留系统，而将其视为不同的模型，新增功能(Strategic Value)作为一个新的模型与遗留系统交互。</p>
+<p>很明显新的应用有自己的模型和上下文,它们和遗留模型和它的上下文相分离。它们不能被合并、混合或者模糊定义。所以当我们开发大的企业应用时，需要为每一个我们创建的模型定义上下文。</p>
+<p>为了隔离新模型和遗留模型，使用 Anticorruption Layer (防崩溃层)。</p>
+<p>有如下四个策略来实现新旧模型的交互:</p>
+<ul>
+<li>Bubble Context
+<p>
+使用 Anticorruption Layer 来进行新旧系统功能的转换，即所有的新系统依赖于旧系统的功能都需要经过该层进行转换，然后跟旧系统交互。
+</p></li>
+<li>Starting a New Chapter
+<p>
+新系统独立实现整个功能，有自己的数据中心，不依赖于旧系统，但需要通过 Anticorruption Layer 定期同步数据到旧的系统。
+</p></li>
+<li>Expose a Legacy Asset
+<p>
+前面两种策略适合于 Strategic Value 全处于新系统时，但有时遗留系统内部也是有我们的 Strategic Value 的。
+</p>
+<p>
+这种情形下，可以把 Anticorruption Layer 当做一个 Open-Host Service, 它通过服务机制向新系统暴露旧系统的 Strategic Value 供新系统使用。
+</p></li>
+<li>Starting a New Chapter
+<p>
+整个系统采用事件驱动方式，修改遗留系统，用来创建事件，然后通过事件翻译和分发，来让新系统使用遗留系统的 Strategic Value。
+</p></li>
+</ul>
+<p>以上四个策略实现起来难度依次增大，对遗留系统的修改范围依次变多。</p>
+<p>结束的时候问了 Eric 一个问题，那就是人是会犯错的，很有可能我选择了一个错误的领域模型，然后依据它采用 Anticorruption Layer 设计了新系统，但随着认知的不断深入，需要更改模型，这个时候，是否意味着以前的新系统也变成了遗留系统，那么在处理这个新系统时候，会出现多层 Anticorruption Layer，怎么办?</p>
+<p>他回答: 之前的新系统当然变成了遗留系统，而且这种情形经常会发生的，随着对一个业务领域的不断深入，人对领域模型的认知是会发生变化的，这时，为了解决这个问题，出现多层 Anticorruption Layer 是没问题的。</p>
+<p>PPT <a target="_blank" rel="noopener" href="http://www.google.com/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CBUQFjAA&amp;url=http%3A%2F%2Fwww.qconbeijing.com%2Fdownload%2FEric%2520session.pdf&amp;ei=B1qwTY2VC5Gjtgfa6YXpCw&amp;usg=AFQjCNErDRRhOf_c9iHflBvJkmi3EalZLQ&amp;sig2=LknXVK-3z8rMpB6-nqnnaA">点击下载</a></p>
 
       
     </div>
@@ -314,7 +489,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/17/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><a class="extend next" rel="next" href="/page/19/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/17/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/19/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -357,10 +532,12 @@
   &copy; 2010 – 
   <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Dong Zheng - Powered by Hexo, NextT, GitHub</span>
+  <span class="author" itemprop="copyrightHolder">Dong Zheng</span>
 </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
 
     </div>
   </footer>
