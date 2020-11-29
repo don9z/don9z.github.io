@@ -2783,6 +2783,11 @@ mjx-container[display="true"] + br {
 .site-title {
   font-size: 30px;
 }
+.site-subtitle {
+  font-family: "Josefin Slab";
+  color: #ccc;
+  text-align: center;
+}
 .site-brand-container {
   background: #3b5998;
 }
