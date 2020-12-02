@@ -2820,6 +2820,11 @@ body {
   font-size: 0.9em;
   line-height: 1.8em;
 }
+@media (max-width: 767px) {
+  body {
+    font-size: 0.95em;
+  }
+}
 .post-body h2 {
   font-size: 1.3em;
   color: #2e405b;
