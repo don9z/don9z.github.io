@@ -2822,7 +2822,7 @@ body {
 }
 @media (max-width: 767px) {
   body {
-    font-size: 0.95em;
+    font-size: 1em;
   }
 }
 .post-body h2 {
