@@ -243,7 +243,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2014/06/20/a-bug-in-a-java-servlet/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2012/02/12/start-blogging-with-octopress/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -257,7 +257,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2014/06/20/a-bug-in-a-java-servlet/" class="post-title-link" itemprop="url">A Bug in a Java Servlet</a>
+            <a href="/2012/02/12/start-blogging-with-octopress/" class="post-title-link" itemprop="url">Start Blogging With Octopress</a>
         </h2>
 
         <div class="post-meta-container">
@@ -268,7 +268,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2014-06-20 11:47:33" itemprop="dateCreated datePublished" datetime="2014-06-20T11:47:33+08:00">2014-06-20</time>
+      <time title="Created: 2012-02-12 17:23:00" itemprop="dateCreated datePublished" datetime="2012-02-12T17:23:00+08:00">2012-02-12</time>
     </span>
 
   
@@ -281,75 +281,16 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>We have a legacy system, which is a web service, receives HTTP POST from clients, parses the data, then stores them in a file.</p>
-<p>The function of the system is simple, and people already done functional and performance test, it's stable. As time drifted away, the system was <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Copy_and_paste_programming">copy and paste</a> to some projects by only changing the data parsing logic.</p>
-<p>I had a similar requirement recently, then I delved into the legacy code to check if it works in order to not <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Reinventing_the_wheel">reinventing the wheel</a>.</p>
-<h2 id="wtf">WTF</h2>
-<p>At first, I noticed below code in a <code>HttpServlet</code> class, it allocates more than 1M memory for each HTTP POST request.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> MAX_CONTENT_LENGTH = <span class="number">1024</span> * <span class="number">1024</span>;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> BUFFER_SIZE = <span class="number">4096</span>;</span><br><span class="line"></span><br><span class="line">   ...</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span></span></span><br><span class="line"><span class="function">		<span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">       ...</span><br><span class="line"></span><br><span class="line">       <span class="keyword">int</span> requestContentBufSize = request.getContentLength() + MAX_CONTENT_LENGTH;</span><br><span class="line">       ByteBuffer requestContentBuf = ByteBuffer.allocate(requestContentBufSize);</span><br><span class="line">       <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[BUFFER_SIZE];</span><br><span class="line">       requestInputStream = <span class="keyword">new</span> DataInputStream(request.getInputStream());</span><br><span class="line">       <span class="keyword">int</span> readBytes = <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">int</span> totalReadBytes = <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">while</span> ((readBytes = requestInputStream.read(buffer)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">           requestContentBuf.put(buffer);</span><br><span class="line">    	totalReadBytes = totalReadBytes + readBytes;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">byte</span>[] requestContent = Arrays.copyOf(requestContentBuf.array(), totalReadBytes);</span><br><span class="line"></span><br><span class="line">       ...</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>It's insane, I believe the memory should be the same as each HTTP POST body size. Then I changed the code.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> requestContentBufSize = request.getContentLength();</span><br></pre></td></tr></table></figure>
-<p>Deployed the service and sent one HTTP POST request to it.</p>
-<p><code>curl -d 'Hello, World' http://my.server.com:9000/log</code></p>
-<p>An <code>Exception</code> occurred.</p>
-<h2 id="the-bufferoverflowexception">The BufferOverflowException</h2>
-<p>After reducing the memory allocated for <code>ByteBuffer</code>, it overflows.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">java.nio.BufferOverflowException</span><br><span class="line">	at java.nio.HeapByteBuffer.put(HeapByteBuffer.java:183)</span><br><span class="line">	at java.nio.ByteBuffer.put(ByteBuffer.java:830)</span><br><span class="line">	at com.myproject.servlet.LogServer.doPost(LogServer.java:99)</span><br><span class="line">	at javax.servlet.http.HttpServlet.service(HttpServlet.java:643)</span><br><span class="line">	at javax.servlet.http.HttpServlet.service(HttpServlet.java:723)</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</span><br><span class="line">	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)</span><br><span class="line">	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:191)</span><br><span class="line">	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)</span><br><span class="line">	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:103)</span><br><span class="line">	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109)</span><br><span class="line">	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:293)</span><br><span class="line">	at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:861)</span><br><span class="line">	at org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:606)</span><br><span class="line">	at org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:489)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:701)</span><br></pre></td></tr></table></figure>
-<p>I thought I'd better dig into how does the servlet do to make <code>ByteBuffer</code> get its data?</p>
-<ol type="1">
-<li>It creates a small buffer occupied <code>BUFFER_SIZE</code> (4096) bytes.</li>
-<li>It iterates the HTTP request input stream, to put the data into the small buffer.</li>
-<li>It puts the small buffer to <code>ByteBuffer</code> and loop back to <code>1</code>.</li>
-</ol>
-<p>Well, in the last loop, the data read from the HTTP request input stream might smaller than the <code>BUFFER_SIZE</code>, but the servlet still puts <code>BUFFER_SIZE</code> bytes to <code>ByteBuffer</code>.</p>
-<p>Then, to fix the <code>ExceptionBufferOverflowException</code>, I increased the capacity of previous <code>ByteBuffer</code> by <code>BUFFER_SIZE</code>.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> requestContentBufSize = request.getContentLength() + BUFFER_SIZE;</span><br></pre></td></tr></table></figure>
-<p>Deployed again, and</p>
-<p><code>curl -d 'Hello, World' http://my.server.com:9000/log</code></p>
-<p>The bug was fixed.</p>
-<p>Did I?</p>
-<h2 id="the-servletinputstream">The ServletInputStream</h2>
-<p>When client posts huge data, what could happen?</p>
-<p>I created a String which is 7516 bytes, and sent to server.</p>
-<p><code>curl -d 'very very long string' http://my.server.com:9000/log</code></p>
-<p>Sometimes, the <code>java.nio.BufferOverflowException</code> occurred, and sometimes it didn't.</p>
-<p>What went wrong?</p>
-<p>To find the root cause, I added some logs to trace the <code>ByteBuffer</code>.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> requestContentBufSize = request.getContentLength() + BUFFER_SIZE;</span><br><span class="line">  ByteBuffer requestContentBuf = ByteBuffer.allocate(requestContentBufSize);</span><br><span class="line">  <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[BUFFER_SIZE];</span><br><span class="line">  requestInputStream = <span class="keyword">new</span> DataInputStream(request.getInputStream());</span><br><span class="line">  <span class="keyword">int</span> readBytes = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">int</span> totalReadBytes = <span class="number">0</span>;</span><br><span class="line">  log.debug(<span class="string">&quot;1: ByteBuffer position: &quot;</span> + requestContentBuf.position() +</span><br><span class="line">          <span class="string">&quot;, buffer capacity: &quot;</span> + requestContentBuf.capacity() +</span><br><span class="line">          <span class="string">&quot;, buffer remaining: &quot;</span> + requestContentBuf.remaining());</span><br><span class="line">  <span class="keyword">while</span> ((readBytes = requestInputStream.read(buffer)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">requestContentBuf.put(buffer);</span><br><span class="line">totalReadBytes = totalReadBytes + readBytes;</span><br><span class="line">      log.debug(<span class="string">&quot;2. Bytes read: &quot;</span> + readBytes);</span><br><span class="line">      log.debug(<span class="string">&quot;1: ByteBuffer position: &quot;</span> + requestContentBuf.position() +</span><br><span class="line">              <span class="string">&quot;, buffer capacity: &quot;</span> + requestContentBuf.capacity() +</span><br><span class="line">              <span class="string">&quot;, buffer remaining: &quot;</span> + requestContentBuf.remaining());</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<p>The log printed when no exception,</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- 1: ByteBuffer position: 0, buffer capacity: 11612, buffer remaining: 11612</span><br><span class="line">- 2. Bytes read: 4096</span><br><span class="line">- 1: ByteBuffer position: 4096, buffer capacity: 11612, buffer remaining: 7516</span><br><span class="line">- 2. Bytes read: 3420</span><br><span class="line">- 1: ByteBuffer position: 8192, buffer capacity: 11612, buffer remaining: 3420</span><br></pre></td></tr></table></figure>
-<p>The log printed when exception occurred,</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- 1: ByteBuffer position: 0, buffer capacity: 11612, buffer remaining: 11612</span><br><span class="line">- 2. Bytes read: 1356</span><br><span class="line">- 1: ByteBuffer position: 4096, buffer capacity: 11612, buffer remaining: 7516</span><br><span class="line">- 2. Bytes read: 1356</span><br><span class="line">- 1: ByteBuffer position: 8192, buffer capacity: 11612, buffer remaining: 3420</span><br></pre></td></tr></table></figure>
-<p>Now, it is easy to find out the root cause is in these lines of code.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> ((readBytes = requestInputStream.read(buffer)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    requestContentBuf.put(buffer);</span><br></pre></td></tr></table></figure>
-<p>The <code>read</code> method call won't put data to the <code>buffer</code> fully which was specified as 4096 bytes even when the input stream still has data.</p>
-<p>And to fix it, just specify the offset and length of the small <code>buffer</code>.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> ((readBytes = requestInputStream.read(buffer)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    requestContentBuf.put(buffer, <span class="number">0</span>, readBytes);</span><br></pre></td></tr></table></figure>
-<p>I had increased the capacity of the <code>ByteBuffer</code> by <code>BUFFER_SIZE</code>, this change should also be reverted.</p>
-<p>Now, the bug is fixed, and this is network programming.</p>
-<h2 id="questions">Questions</h2>
-<p>"The system works a long time, and it shouldn't have this problem or we knew it long ago"</p>
-<blockquote>
-<p>This is because the client seldom posts data more than 4096 bytes to server.</p>
-</blockquote>
-<p>"I have read the Javadoc of <code>DataInputStream</code>, the <code>read</code> method will put data fully to the specified buffer"</p>
-<blockquote>
-<p>It didn't, please read it again.</p>
-</blockquote>
-<p>"I have tested the <code>read</code> method of <code>DataInputStream</code> on a file, it reads fully 4096 bytes in every iteration"</p>
-<blockquote>
-<p>This is a web service, deploy it to a server and test.</p>
-</blockquote>
-<p>"I have tested it on my local machine as a web service, and it reads fully 4096 bytes in every iteration"</p>
-<blockquote>
-<p>This is a web service, it should be in a network.</p>
-</blockquote>
-<h2 id="at-last">At Last</h2>
-<p>When a potential bug was reported, we do tests to make it happen again and find the root cause.</p>
-<p>We do not stop listening and just look for reasons to reject it.</p>
-<p>When we find a bug, we do help others to make it reappear to collect information.</p>
-<p>We do not sit there and just blame on others for their mistakes.</p>
-
+          <h2 id="old-days">Old days</h2>
+<p>All files of <a target="_blank" rel="noopener" href="http://wordpress.org">Wordpress</a> were in server side, whenever I want to make changes, I had to <code>ssh</code> to my remote machine.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2012/02/12/start-blogging-with-octopress/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -375,7 +316,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2014/06/16/tdd-on-swift/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2012/02/05/talk-about-emacs/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -389,7 +330,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2014/06/16/tdd-on-swift/" class="post-title-link" itemprop="url">TDD on Swift</a>
+            <a href="/2012/02/05/talk-about-emacs/" class="post-title-link" itemprop="url">Talk about Emacs</a>
         </h2>
 
         <div class="post-meta-container">
@@ -400,7 +341,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2014-06-16 00:26:26" itemprop="dateCreated datePublished" datetime="2014-06-16T00:26:26+08:00">2014-06-16</time>
+      <time title="Created: 2012-02-05 18:42:00" itemprop="dateCreated datePublished" datetime="2012-02-05T18:42:00+08:00">2012-02-05</time>
     </span>
 
   
@@ -413,81 +354,600 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>Long long ago, I wrote a post about <a href="/2011/01/16/tdd-using-objective-c">how to do TDD using Objective-C</a>, since <a target="_blank" rel="noopener" href="http://www.apple.com/apple-events/june-2014/">Apple WWDC 2014</a>, <a target="_blank" rel="noopener" href="https://developer.apple.com/swift/">Swift</a> is really eye-catching, I think I should write a new one to follow the trend.</p>
-<p><a target="_blank" rel="noopener" href="https://developer.apple.com/library/ios/documentation/ToolsLanguages/Conceptual/Xcode_Overview/UnitTestYourApp/UnitTestYourApp.html">XCTest</a> is used as the unit test framework, and Xcode 6 is needed.</p>
-<h2 id="tdd-work-flow">TDD Work-flow</h2>
-<ol type="1">
-<li>Add a test for a user case or a user story</li>
-<li>Run all tests and see if the new one fails</li>
-<li>Write some code that causes the test to pass</li>
-<li>Run tests, change production code until all test cases pass</li>
-<li>Refactor the production code</li>
-<li>Refactor the test code</li>
-<li>Return to 1, and repeat</li>
-</ol>
-<p>The <code>5</code> and <code>6</code> are optional, do them only if needed, but be sure that DO NOT do them at the same time. That is, when you refactor production code, you can't change the test code, until all the test cases are passed, then you are confident that your production code refactoring is perfect, then, you can refactor the test code, and this time, you can't change the production code.</p>
-<h2 id="a-simple-example">A Simple Example</h2>
-<p>We are about to implement a super simple bank account management tool.</p>
-<h3 id="create-a-project">Create a Project</h3>
-<p>Use Xcode to create a project <code>BankAccount</code> (iOS Single View Application)</p>
-<p><img src="/images/2014/tddswift1.png" width="500"></p>
-<h3 id="add-a-test-case">Add a Test Case</h3>
-<p>Create a Swift file named <code>SavingAccountTest</code>, and choose <code>BankAccountTests</code> as target.</p>
-<p><img src="/images/2014/tddswift2.png" width="500"></p>
-<p>"People can deposit money to a saving account", it's our first user story.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"><span class="keyword">import</span> XCTest</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccountTest</span>: <span class="title">XCTestCase</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">testDeposit</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">var</span> account = <span class="type">SavingAccount</span>()</span><br><span class="line">        account.deposit(<span class="number">100</span>)</span><br><span class="line">        <span class="type">XCTAssertEqual</span>(<span class="number">100</span>, account.balance)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="run-all-tests">Run All Tests</h3>
-<p>Run all the unit tests, it fails as we expected.</p>
-<p><img src="/images/2014/tddswift3.png" width="500"></p>
-<h3 id="write-code-to-pass-the-test">Write Code to Pass the Test</h3>
-<p>Create a Swift file named <code>SavingAccount</code>, and choose both <code>BankAccount</code> and <code>BankAccountTests</code> as targets.</p>
-<p>Make it simple, just to pass the test.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccount</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> balance:<span class="type">Int</span> = <span class="number">100</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">deposit</span><span class="params">(money:Int)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="run-all-tests-1">Run All Tests</h3>
-<p>It passes.</p>
-<p><img src="/images/2014/tddswift4.png" width="500"></p>
-<h3 id="next-user-story">Next User Story?</h3>
-<p>"People could withdraw some money"</p>
-<p>Let's change the <code>testDeposit</code> test case.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"><span class="keyword">import</span> XCTest</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccountTest</span>: <span class="title">XCTestCase</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">testDepositAndWithdraw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">var</span> account = <span class="type">SavingAccount</span>()</span><br><span class="line">        account.deposit(<span class="number">100</span>)</span><br><span class="line">        account.withdraw(<span class="number">50</span>)</span><br><span class="line">        <span class="type">XCTAssertEqual</span>(<span class="number">50</span>, account.balance)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Also, add an empty <code>withdraw</code> method to <code>SavingAccount</code> to satisfy the compiler. Do not add any other code until we see it fails.</p>
-<h3 id="run-all-tests-2">Run All Tests</h3>
-<p>The test fails, because the account balance was not updated after people withdrew some money.</p>
-<p><img src="/images/2014/tddswift5.png" width="500"></p>
-<h3 id="write-code-to-support-withdraw">Write Code to Support Withdraw</h3>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccount</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> balance:<span class="type">Int</span> = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">deposit</span><span class="params">(money:Int)</span></span> &#123;</span><br><span class="line">        balance += money</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">withdraw</span><span class="params">(money:Int)</span></span> &#123;</span><br><span class="line">        balance -= money</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="run-all-tests-3">Run All Tests</h3>
-<p>All the user stories are satisfied.</p>
-<p><img src="/images/2014/tddswift6.png" width="500"></p>
-<h3 id="any-other-new-user-story">Any Other New User Story?</h3>
-<p>"People can't withdraw money beyond their account balance"</p>
-<p>We add a new test case <code>testNegativeBalanceIsNotFine</code></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testNegativeBalanceIsNotFine</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> account = <span class="type">SavingAccount</span>()</span><br><span class="line">    account.deposit(<span class="number">50</span>)</span><br><span class="line">    account.withdraw(<span class="number">100</span>)</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="run-all-tests-4">Run All Tests</h3>
-<p>It fails, we have to fix it.</p>
-<p><img src="/images/2014/tddswift7.png" width="500"></p>
-<h3 id="write-code">Write Code</h3>
-<p>Change the <code>withdraw</code> method, set account balance to 0 if it is less than 0.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">withdraw</span><span class="params">(money:Int)</span></span> &#123;</span><br><span class="line">    balance -= money</span><br><span class="line">    <span class="keyword">if</span> balance &lt; <span class="number">0</span> &#123;</span><br><span class="line">        balance = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="run-all-tests-5">Run All Tests</h3>
-<p>All right, all the test cases are succeeded.</p>
-<p><img src="/images/2014/tddswift8.png" width="500"></p>
-<h3 id="refactoring">Refactoring</h3>
-<p>Until now, we haven't do any refactoring on our code base.</p>
-<p>I think the production code is fine, so we skip the step 5, and refactor the test code.</p>
-<p>We can see that both test cases create an instance of <code>SavingAccount</code>, the duplicated code can be removed by using only one <code>SavingAccount</code> instance.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SavingAccountTest</span>: <span class="title">XCTestCase</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> account = <span class="type">SavingAccount</span>()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">testDepositAndWithdraw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        account.deposit(<span class="number">100</span>)</span><br><span class="line">        account.withdraw(<span class="number">50</span>)</span><br><span class="line">        <span class="type">XCTAssertEqual</span>(<span class="number">50</span>, account.balance)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">testNegativeBalanceIsNotFine</span><span class="params">()</span></span> &#123;</span><br><span class="line">        account.deposit(<span class="number">50</span>)</span><br><span class="line">        account.withdraw(<span class="number">100</span>)</span><br><span class="line">        <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Don't forget to run all the tests, make sure it is succeeded.</p>
-<h3 id="why-no-setup-and-teardown">Why no setup and tearDown</h3>
-<p>People coming from <code>objc</code> may doubt that why the <code>account</code> instance is not put into <code>setUp</code> method, the way we use might cause different test cases sharing one instance variable, as we know, test cases should be independent with each other.</p>
-<p>Yes, I had this doubt, too. So I did a test, by adding a "account balance should be 0" check before each test cases.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testDepositAndWithdraw</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">    account.deposit(<span class="number">100</span>)</span><br><span class="line">    account.withdraw(<span class="number">50</span>)</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">50</span>, account.balance)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testNegativeBalanceIsNotFine</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">    account.deposit(<span class="number">50</span>)</span><br><span class="line">    account.withdraw(<span class="number">100</span>)</span><br><span class="line">    <span class="type">XCTAssertEqual</span>(<span class="number">0</span>, account.balance)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>The result shows that the <code>XCTest</code> framework avoids instance variable sharing between test cases by instantiating a brand new <code>XCTestCase</code> object for each test case. That is, it instantiated two <code>SavingAccountTest</code> objects as our tests run.</p>
-<h2 id="to-tdd-haters">To TDD Haters</h2>
-<p>If you hate TDD, and may think this blog post is garbage.</p>
-<p>Sorry for that, you can remove your browser history of this address, if it makes you feel better.</p>
-<p>Also, I strongly recommend you to watch the "TDD dead" <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=z9quxZsLcfo">discussions</a> by <a target="_blank" rel="noopener" href="http://martinfowler.com">Martin Fowler</a>, <a target="_blank" rel="noopener" href="http://www.threeriversinstitute.org/Kent%20Beck.htm">Kent Beck</a> and <a target="_blank" rel="noopener" href="http://david.heinemeierhansson.com">David Heinemeier Hansson</a>.</p>
+          <p>Using Emacs is like an adventure.</p>
+<p>I found two very powerful extensions recently in Github. Yes, I’ve shared some powerful features/extensions last year by this <a href="/2011/03/31/emacs-features/">post</a>, but those two are not only powerful, but also handy, compared with align-regex, occur, anything, etc.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2012/02/05/talk-about-emacs/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
 
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/12/29/hadoop-rpc-client-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/12/29/hadoop-rpc-client-2/" class="post-title-link" itemprop="url">Hadoop RPC – Client (2)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-12-29 16:28:00" itemprop="dateCreated datePublished" datetime="2011-12-29T16:28:00+08:00">2011-12-29</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>What does <code>org.apache.hadoop.ipc.Client</code> do to help the real RPC client to make a remote method invocation on RPC server?</p>
+<p>If you don’t know, or forget, please read <a href="/2011/12/27/hadoop-rpc-client-1/">my last post</a>.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2011/12/29/hadoop-rpc-client-2/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/12/27/hadoop-rpc-client-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/12/27/hadoop-rpc-client-1/" class="post-title-link" itemprop="url">Hadoop RPC – Client (1)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-12-27 22:27:00" itemprop="dateCreated datePublished" datetime="2011-12-27T22:27:00+08:00">2011-12-27</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>In last post, I metioned that all RPC client calls will be dispatched to <code>Invoker.invoke()</code> method by the dynamic proxy, mainly work of method <code>invoke</code> are done by <code>client.call</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//** org.apache.hadoop.ipc.RPC.java L218</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span></span></span><br><span class="line"><span class="function">  <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="keyword">boolean</span> logDebug = LOG.isDebugEnabled();</span><br><span class="line">  <span class="keyword">long</span> startTime = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (logDebug) &#123;</span><br><span class="line">    startTime = System.currentTimeMillis();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//** Request comes to &quot;invoke&quot;,</span></span><br><span class="line">  <span class="comment">//** then it calls &quot;client.call&quot;,</span></span><br><span class="line">  <span class="comment">//** and get the result &quot;value&quot;,</span></span><br><span class="line">  <span class="comment">//** then return it back by &quot;value.get&quot;.</span></span><br><span class="line">  <span class="comment">//** The first parameter is an instance of &quot;Invocation&quot;</span></span><br><span class="line">  ObjectWritable value = (ObjectWritable)</span><br><span class="line">    client.call(<span class="keyword">new</span> Invocation(method, args), remoteId);</span><br><span class="line">  <span class="keyword">if</span> (logDebug) &#123;</span><br><span class="line">    <span class="keyword">long</span> callTime = System.currentTimeMillis() - startTime;</span><br><span class="line">    LOG.debug(<span class="string">&quot;Call: &quot;</span> + method.getName() + <span class="string">&quot; &quot;</span> + callTime);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> value.get();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2011/12/27/hadoop-rpc-client-1/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/12/13/hadoop-rpc-dynami-proxy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/12/13/hadoop-rpc-dynami-proxy/" class="post-title-link" itemprop="url">Hadoop RPC – Dynamic Proxy</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-12-13 01:18:00" itemprop="dateCreated datePublished" datetime="2011-12-13T01:18:00+08:00">2011-12-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>This will be the first article of a series of blogs I am about to post, which are all about what I learned from reading the <a target="_blank" rel="noopener" href="http://hadoop.apache.org/">Hadoop</a> source code (<a target="_blank" rel="noopener" href="http://archive.cloudera.com/cdh/3/hadoop-0.20.2-cdh3u2/">cdh3u2</a>).</p>
+<p>Code snippets will be full of those posts, to not confuse you, all comments added by me begin with <code>//**</code> instead of <code>//</code> or <code>/*</code>.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2011/12/13/hadoop-rpc-dynami-proxy/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/10/26/kerberos-principal-name-parsing-in-hadoop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/10/26/kerberos-principal-name-parsing-in-hadoop/" class="post-title-link" itemprop="url">Kerberos principal 主机名解析问题</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-10-26 12:56:00" itemprop="dateCreated datePublished" datetime="2011-10-26T12:56:00+08:00">2011-10-26</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在集群安装 Hadoop 的过程中，出现了这样的问题。</p>
+<p>所有 Node 都起来了，工作正常，唯独 secondary namenode 在 doCheckpoint 的时候报错，而且是诡异的 403 http error。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2011/10/26/kerberos-principal-name-parsing-in-hadoop/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/10/20/install-hadoop-with-kerberos-in-ubuntu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/10/20/install-hadoop-with-kerberos-in-ubuntu/" class="post-title-link" itemprop="url">Ubuntu 安装 Hadoop 和 Kerberos</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-10-20 21:59:00" itemprop="dateCreated datePublished" datetime="2011-10-20T21:59:00+08:00">2011-10-20</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>花了两天多时间，终于让 Hadoop 可以安安稳稳的跑几个 MapReduce 的程序了，安装的过程很折腾，但我觉得应该用不着花这么长时间的。</p>
+<p>很久以前就深知 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/RTFM">RTFM</a> 的重要性，但很多时候第一反应仍然是去 Google，而不是去官网找 Documentation，诚然，有些东西的文档的确很烂，但其实 Google 出来的 Blog 转载来转载去也就那么几份，很多里面都存在问题，毕竟需求是不一样的，态度也是不一样的。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2011/10/20/install-hadoop-with-kerberos-in-ubuntu/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/10/11/change/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/10/11/change/" class="post-title-link" itemprop="url">Change</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-10-11 10:48:00" itemprop="dateCreated datePublished" datetime="2011-10-11T10:48:00+08:00">2011-10-11</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>今天失业在家。</p>
+<p>第一次换工作，考虑了很久。也许是因为没有经验，或者说自己决断力不足，纠结了不少时间。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2011/10/11/change/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/09/18/wuyishan/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/09/18/wuyishan/" class="post-title-link" itemprop="url">武夷山</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-09-18 22:43:00" itemprop="dateCreated datePublished" datetime="2011-09-18T22:43:00+08:00">2011-09-18</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>七月中旬 outing 去了武夷山，本来的休闲游，却被我们搞成了暴走三日行，其实旅游本是探索，如果跟着导游，或者只按景点安排来，那或许少了很多乐趣。</p>
+<p>就譬如说在贴这篇 Blog 的过程中，我经历了洗手间门被反锁事件，拿卡片开了十几分钟，无果，但同样的锁，隔壁房间开了好多次，早已练就 10 秒内开门绝技，无奈我只得叫开锁公司。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2011/09/18/wuyishan/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/08/20/implementation-and-efficiency-of-regular-expression/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/08/20/implementation-and-efficiency-of-regular-expression/" class="post-title-link" itemprop="url">正则表达式的实现和效率</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-08-20 15:58:00" itemprop="dateCreated datePublished" datetime="2011-08-20T15:58:00+08:00">2011-08-20</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="正则表达式的实现引擎nfadfa">正则表达式的实现引擎（NFA/DFA)</h2>
+<p>NFA 是不确定的有限自动机，也就是说在状态的迁移过程中，下一个状态可能有好几种可能，而对于 DFA 确定有限自动机而言，下一个状态只有一种可能。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2011/08/20/implementation-and-efficiency-of-regular-expression/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -508,7 +968,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
