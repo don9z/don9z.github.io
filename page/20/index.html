@@ -187,7 +187,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">72</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -242,6 +242,107 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2012/02/22/hive-external-table-with-partitions/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/02/22/hive-external-table-with-partitions/" class="post-title-link" itemprop="url">Hive - External Table With Partitions</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2012-02-22 21:00:00" itemprop="dateCreated datePublished" datetime="2012-02-22T21:00:00+08:00">2012-02-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="a-normal-hive-table">A normal Hive table</h2>
+<p>A normal hive table can be created by executing this script,</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">  userId <span class="built_in">BIGINT</span>,</span><br><span class="line">  <span class="keyword">type</span> <span class="built_in">INT</span>,</span><br><span class="line">  <span class="keyword">level</span> <span class="built_in">TINYINT</span>,</span><br><span class="line">  <span class="built_in">date</span> <span class="keyword">String</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">COMMENT</span> <span class="string">&#x27;User Infomation&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>It's empty, util we load some data into it, it's useless.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">LOAD</span> INPATH <span class="string">&#x27;/user/chris/data/testdata&#x27;</span> OVERWRITE <span class="keyword">INTO</span> <span class="keyword">TABLE</span> <span class="keyword">user</span></span><br></pre></td></tr></table></figure>
+<p>By default, when data file is loaded, <code>/user/$&#123;USER&#125;/warehouse/user</code> is created automatically.</p>
+<p>For me, it's <code>/user/chris/warehouse/user</code>, <code>user</code> is the table name, data files of <code>user</code> table are all located in this folder.</p>
+<p>Now, we can freely to use SQLs to analyze the data.</p>
+<h2 id="what-if">What if</h2>
+<p>What if we want to process the data by some <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Extract,_transform,_load">ETL</a> programs, and load the result data to hive, but we don't want to load them manually?</p>
+<p>What if the data is not only used by hive, but also some other applications, maybe it still need to be MapReduced?</p>
+<p>External table comes to save us by creating table using following syntax,</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">  userId <span class="built_in">BIGINT</span>,</span><br><span class="line">  <span class="keyword">type</span> <span class="built_in">INT</span>,</span><br><span class="line">  <span class="keyword">level</span> <span class="built_in">TINYINT</span>,</span><br><span class="line">  <span class="built_in">date</span> <span class="keyword">String</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">COMMENT</span> <span class="string">&#x27;User Infomation&#x27;</span></span><br><span class="line">LOCATION <span class="string">&#x27;/user/chris/datastore/user/&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>The location is where we put the data files in, name of the folder must be the same as the table name (like normal table). In this example, table name is <code>user</code>.</p>
+<p>Then, we can put any file which satisfy the pattern declared by <code>user</code> table inside <code>user</code> folder.</p>
+<p>All data can be accessed by hive SQLs right away.</p>
+<h2 id="something-not-cool">Something not cool</h2>
+<p>When the data files become huge (number and size), we might need to use <code>Partition</code> to improved the efficiency of data processing.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">  userId <span class="built_in">BIGINT</span>,</span><br><span class="line">  <span class="keyword">type</span> <span class="built_in">INT</span>,</span><br><span class="line">  <span class="keyword">level</span> <span class="built_in">TINYINT</span>,</span><br><span class="line">)</span><br><span class="line"><span class="keyword">COMMENT</span> <span class="string">&#x27;User Infomation&#x27;</span></span><br><span class="line">PARTITIONED <span class="keyword">BY</span> (<span class="built_in">date</span> <span class="keyword">String</span>)</span><br></pre></td></tr></table></figure>
+<p><code>data String</code> is moved to <code>PARTITIONED BY</code>, when we need to load data into hive, partition must be assigned.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">LOAD</span> INPATH <span class="string">&#x27;/user/chris/data/testdata&#x27;</span> OVERWRITE <span class="keyword">INTO</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> <span class="keyword">PARTITION</span> (<span class="built_in">date</span>=<span class="string">&#x27;2012-02-22&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>After data is loaded, we can see a new folder named <code>date=2010-02-22</code> is create inside <code>/user/chris/warehouse/user/</code></p>
+<p>So, how can we do it using external table?</p>
+<p>Same as before, first declare the external table <code>user</code>, and assign the location.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">  userId <span class="built_in">BIGINT</span>,</span><br><span class="line">  <span class="keyword">type</span> <span class="built_in">INT</span>,</span><br><span class="line">  <span class="keyword">level</span> <span class="built_in">TINYINT</span>,</span><br><span class="line">  <span class="built_in">date</span> <span class="keyword">String</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">COMMENT</span> <span class="string">&#x27;User Infomation&#x27;</span></span><br><span class="line">PARTITIONED <span class="keyword">BY</span> (<span class="built_in">date</span> <span class="keyword">String</span>)</span><br><span class="line">LOCATION <span class="string">&#x27;/user/chris/datastore/user/&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>Then, create the folder <code>date=2010-02-22</code> inside <code>/user/chris/datastore/user/</code></p>
+<p>At last, put the data files of date 2010-02-22 into the folder, done.</p>
+<p>But,</p>
+<p>When we executes <code>select * from user;</code> nothing appears.</p>
+<p>Why?</p>
+<p>I spent a long time searching for an answer.</p>
+<p>Finally, solved.</p>
+<p>Because when external table is declared, default table path is changed to specified location in hive metadata which contains in metastore, but about partition, nothing is changed, so, we must manually add those metadata.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> <span class="keyword">ADD</span> <span class="keyword">PARTITION</span>(<span class="built_in">date</span>=<span class="string">&#x27;2010-02-22&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>Every time a new <code>data=...</code> folder (partition) is created, we must manually alter the table to add partition information.</p>
+<p>That is really not cool!</p>
+<p>But luckily, we have Hive JDBC/Thrift, let <a target="_blank" rel="noopener" href="https://github.com/don9z/hadoop-tools/blob/master/hive/addpartition.py">script</a> do that.</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
     <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2012/02/21/maojiabu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -286,97 +387,6 @@
 </center>
 <p><a><img src="/images/2011/maojiabu4.jpg" width="560"></a></p>
 <p>-- Taken on November 27, 2011 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157633620906465">flickr</a>)</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2012/02/12/start-blogging-with-octopress/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Zheng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Extra Cookies">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2012/02/12/start-blogging-with-octopress/" class="post-title-link" itemprop="url">Start Blogging With Octopress</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2012-02-12 17:23:00" itemprop="dateCreated datePublished" datetime="2012-02-12T17:23:00+08:00">2012-02-12</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="old-days">Old days</h2>
-<p>All files of <a target="_blank" rel="noopener" href="http://wordpress.org">Wordpress</a> were in server side, whenever I want to make changes, I had to <code>ssh</code> to my remote machine.</p>
-<p>I use a <a target="_blank" rel="noopener" href="http://www.linode.com">Linode VPS</a> shared by some friends, sometimes, tragedies like "failed to start-up after reboot", "system needs to be re-installed" happened. I didn't want to lose any file, so, I relied on <a target="_blank" rel="noopener" href="http://git-scm.com">git</a>, after changes were made directly on server, <code>git pull</code> on my Macbook Pro would get all things backed up locally.</p>
-<p>To write posts, I used Wordpress editor at first, but it sucked, I like leaving one blank line between every paragraph, it couldn't.</p>
-<p>I tried <code>org-mode</code> by using "org2blog" package, since I use <a target="_blank" rel="noopener" href="http://www.gnu.org/software/emacs/">Emacs</a> a lot, it was an amazing writing experience. But when my blog post became long, and with lots of code snippets, problem occurred, Emacs ate up all CPU resources making system hung during <code>org2blog-post-buffer</code> occasionally.</p>
-<p>Then I tried MarsEdit, it's really fantastic, but it's kinda expensive.</p>
-<p>At last, I decided to write blog posts using HTML, every problems were solved immediately. I can edit in Wordpress, Emacs, even one Wordpress app on iPhone.</p>
-<p>While I was using <code>org-mode</code>, I kept all blog posts locally, but HTML is unreadable by human, so, I no longer kept blog posts, just left them in server.</p>
-<p>Furthermore, I couldn't use <code>flyspell-mode</code> to check spells in Emacs, it got confused by HTML tags.</p>
-<p>In server, all blog posts were contained in MySql database, Every time I submitted one blog post, I dumped it and saved in my <a target="_blank" rel="noopener" href="https://www.dropbox.com/">Dropbox</a>.</p>
-<p>I felt uncomfortable using Wordpress, all I wanted is to write one or two articles a month, I bought a host, setup one database, edited configure files to connect to it, updated and installed plugin of Wordpress by hand, it's overkill.</p>
-<h2 id="octopress">Octopress</h2>
-<p>I am learning ruby recently, when I looked for some stuffs, <code>Octopress</code> appears a lot, I was curious, and did some research. It's definitely what I want!</p>
-<ul>
-<li>Markdown is simple and readable</li>
-<li>All changes are made locally</li>
-<li>Track changes by Git</li>
-<li>No database at all</li>
-<li>Simple and small</li>
-<li>Hack in Ruby</li>
-<li>I like <code>rsync</code></li>
-<li>...</li>
-</ul>
-<p>You can search it on <a target="_blank" rel="noopener" href="http://www.google.com/search?client=safari&amp;rls=en&amp;q=octopress&amp;ie=UTF-8&amp;oe=UTF-8">Google</a>, there are couples of blogs, like <a target="_blank" rel="noopener" href="http://aijazansari.com/2011/12/12/switching-to-octopress/">this</a> and <a target="_blank" rel="noopener" href="http://blog.pixelingene.com/2011/09/switching-to-the-octopress-blogging-engine/">that</a></p>
-<p>I tried to convert all previous blog posts in Wordpress to Octopress, but failed, since most of them are written in Chinese. But luckily, I was lazy, there are not a huge number of blog posts, so, I think I can rewrite them using Markdown, to learn Markdown, and to drop some blog posts I believe is not useful at all.</p>
-<p>About theme, yes, most sites adopt Octopress are using the default theme, I am not uncomfortable with it, but the font size is too big, I think I need to make a change later.</p>
-<p>Now I have one git branch named <code>mergeold</code>, all moving work happens there. And in master branch, I can continue update new blog posts. Is it magic?</p>
 
       
     </div>

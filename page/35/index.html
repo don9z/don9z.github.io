@@ -187,7 +187,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">72</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -234,6 +234,102 @@
       
 
       
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2010/09/22/from-concept-to-iterator_traits/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2010/09/22/from-concept-to-iterator_traits/" class="post-title-link" itemprop="url">从 concept 到 iterator_traits</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2010-09-22 01:30:00" itemprop="dateCreated datePublished" datetime="2010-09-22T01:30:00+08:00">2010-09-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">Iterator</span>, <span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="function">Iterator <span class="title">find</span><span class="params">(Iterator first, Iterator last, <span class="keyword">const</span> T&amp; value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (first != last &amp;&amp; *first != value)</span><br><span class="line">        ++first;</span><br><span class="line">    <span class="keyword">return</span> first;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面是 C++ 中一个普通的模板函数，调用的时候直接将特定类型变量当参数传入就行，这段程序运用了 Generic Programming（泛型编程/GP）。</p>
+<p>GP 要求函数尽量一般化，假设参数可适用于任何范畴，那么函数 <code>find</code> 到底有多一般化？</p>
+<p>输入条件，对于类型 Iterator，首先能够以 <code>operator “*”</code> 来操作提取其指向区域的值，并且可以用 <code>operator “++”</code> 来移至下一个 Iterator 对象…</p>
+<p>为了表示输入条件，假定 Iterator 必须是一个 iterator，在这个地方 iterator 没有其他意思，只是我们定义出来的一个概念，用来指定一组描述某个类型的条件。</p>
+<p>而这便是 GP 里面非常重要的 concept，当某一个类型满足所有这样的条件，我们便说它是该 concept 的一个 model，比如 <code>char *</code> 便是 iterator 的 model。不过需要注意，concept 不是类，变量，更不是 template 参数，事实上它不是任何可以能直接在 C++ 中呈现的东西。</p>
+<p>我们可以想象 concept 为一组类型条件，如果说类型 T 是 concept C 的一个 model，那么 T 满足所有 C 的条件。也可以把 concept 想象成类型的集合，比如 iterator concept 就包含了 <code>char *, int *</code> 等类型，如果类型 T 是 concept C 的 model，则 T 属于 C 所代表的类型集合。</p>
+<p>对于 <code>find</code> 函数，似乎我们需要定义 Iterator 为一个 concept，用来表示泛型指针，但是考虑到不同的算法只依赖泛型指针中很小的子集，将其划分为五个不同的 concept，Input Iterator（只读），Output Iterator（只写），Forward Iterator（读写），Bidirectional Iterator（双向移动），Random Access Iterator（随机读取），详细描述请点击。</p>
+<p>每个 iterator 都有一个相关联的类型，即 iterator 指向某物的类型，称之为 value type。为什么需要这个类型呢？</p>
+<p>因为在特定算法中，需要定义一些临时变量，类型为 iterator 指向的某物的类型，即 iterator 的 value type，我们该怎么做？</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">Iterator</span>, <span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">implement</span><span class="params">(Iterator iter, T t)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    T temp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function</span><span class="params">(T iter)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    implement(iter, *iter);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>令 <code>function()</code> 成为一个单独的传递函数，并将所有的工作委托给 <code>implement()</code> 函数。</p>
+<p>这算是一个方法，如果我们只需要声明临时变量，虽然实现起来笨拙但可用，但如果需要用来声明函数返回值，便回天无力了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">Type</span>&gt;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Iterator</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">typedef</span> Type value_type;</span><br><span class="line">    Type *pointer;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>第二种方法，在 iterator 类中嵌套定义 value type, 通过 <code>typename Iterator::value_type</code> 便可以取出类型，但是那些满足 concept iterator 的基本类型怎么办？比如 <code>int *</code>，我们无法把 <code>Iterator::value_type</code> 定义为 <code>int</code>。</p>
+<p>看来在 iterator 中声明嵌套类型依然不妥。那么单独定义一个 class 来处理这个问题，行不？</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">Iterator</span>&gt;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">iterator_traits</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::value_type value_type;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>我们可以使用诸如此类语句提取类型: <code>iterator_traits&lt;int *&gt;::value_type;</code> 而一些细节问题，例如 <code>const int *</code>，可以借助 template 的 partial specification 轻松的解决。</p>
+<p>Iterator 主要应用于算法中需要遍历的场合，遍历中需要知道整个区域的 range 大小，而这个区间的大小是未知的，选择什么类型来存储便是一个问题，比如大数超过 <code>int</code> 最大值，却用 <code>int</code> 来存储，便会不够。模仿 value type：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">Iterator</span>&gt;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">iterator_traits</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::value_type value_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::difference_type difference_type;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同上，我们可以非常容易的实现 reference type 和 pointer type traits。</p>
+<p>前面提到过，Iterator 分为五个 concepts，对于同一个算法，有时候不止一个 concept 成立，需要在此提一下 refinement 这个概念。</p>
+<p>举个例子，Random Access Iterator 满足 Forward Iterator 的所有条件，即 Random Access Iterator 的任何 model 必定是 Forward Iterator 的 model，我们将这样的关系成为 refinement，如果 concept C2 提供 concept C1 的所有功能，再加上其他额外功能，则 C2 便是 C1 的 refinement。如果一个算法要求参数类型是 C1 的 model，那么传给它一个 C2 model 类型也是可以正常工作的。</p>
+<p>正是因为有 refinement 的存在，有些算法为了效率的提高，会针对不同的 refinement concept 设计不同的实现，比如获取当前 iterator 后第 N 个 iterator，对于 Input Iterator 来说，只能一个一个遍历，但对于 Random Access Iterator，就可以直接 +N 就行了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">InputIterator</span>, <span class="keyword">class</span> <span class="title">Distance</span>&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">go_to</span><span class="params">(InputIterator &amp;i, Distance n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(is_random_access_iterator(i))</span><br><span class="line">        goto_random(i, n);</span><br><span class="line">    <span class="keyword">if</span>(is_input_iterator(i))</span><br><span class="line">        goto_input(i, n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这的确是个很糟的实现，因为是一直等到运行期才进行选择，太慢了，如果能在编译时就确定好算法版本，就很好了。如何实现同一个函数多种不同实现呢？</p>
+<p>当然是重载了！</p>
+<p>为每一个算法函数加一个参数，用来指明该算法的版本。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">InputIterator</span>, <span class="keyword">class</span> <span class="title">Distance</span>&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">go_to</span><span class="params">(InputIterator &amp;i, Distance n, input_iterator_tag)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    goto_input(i, n);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">RandomAccessIterator</span>, <span class="keyword">class</span> <span class="title">Distance</span>&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">go_to</span><span class="params">(RandomAccessIterator &amp;i, Distance n, random_iterator_tag)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    goto_random(i, n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个参数可以称之为 <code>iterator_category</code>，同样可以借用 value_type 的实现：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">Iterator</span>&gt;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">iterator_traits</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::iterator_category iterator_category;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::value_type value_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::difference_type difference_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::pointer pointer;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::reference reference;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">iterator_traits</span>&lt;</span>T*&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">typedef</span> random_access_iterator_tag iterator_category;</span><br><span class="line">    <span class="keyword">typedef</span> T value_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">ptrdiff_t</span> difference_type;</span><br><span class="line">    <span class="keyword">typedef</span> T* pointer;</span><br><span class="line">    <span class="keyword">typedef</span> T&amp; reference;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">iterator_traits</span>&lt;</span><span class="keyword">const</span> T*&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">typedef</span> random_access_iterator_tag iterator_category;</span><br><span class="line">    <span class="keyword">typedef</span> T value_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">ptrdiff_t</span> difference_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">const</span> T* pointer;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">const</span> T&amp; reference;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>上面便是整个 <code>iterator_traits</code> 的实现，如果需要自己定义新的 iterator class，那就得在这个 class 中定义五个嵌套类型 <code>iterator_category</code>, <code>value_type</code>, <code>difference_type</code>, <code>pointer</code>, <code>reference</code>, 要不然，就必须像上面 <code>T *</code> 和 <code>const T*</code> 那样，对 iterator_traits 进行 partial specification。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
     
 
 
@@ -296,100 +392,6 @@
 </center>
 <p><a><img src="/images/2010/newdelhi9.jpg" width="560"></a> <a><img src="/images/2010/newdelhi10.jpg" width="560"></a></p>
 <p>-- Taken on August, 2010 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157633607232390">flickr</a>)</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2010/07/27/linux-memory-management-addressing-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Zheng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Extra Cookies">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2010/07/27/linux-memory-management-addressing-2/" class="post-title-link" itemprop="url">Linux 内存管理-A.寻址-2</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2010-07-27 23:18:00" itemprop="dateCreated datePublished" datetime="2010-07-27T23:18:00+08:00">2010-07-27</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="paging">Paging</h2>
-<p>Paging unit 用来将 linear address 转换为 physical address，为了高效，linear address 按照一定的长度被分为若干组，称为 pages，并且，内存也被分为各个定长的 page frame (physical pages)，page 和 page frame 的长度是一样的，前者表示一块数据，它可以储存在 page frame 或者硬盘中。</p>
-<p>在 paging unit 开始工作之前，kernel 先初始化 page tables，这是一个用来映射 linear address 到 physical address 的表。</p>
-<p>Linear address 由三部分组成：</p>
-<ul>
-<li>Directory，10 bits</li>
-<li>Table，10 bits</li>
-<li>Offset，12 bits</li>
-</ul>
-<p>地址的转换过程如下，首先从 <code>cr3</code> 寄存器中拿到 page directory 的物理地址，再从 page directory 第 Directory 个表项中得到 table 的物理地址，再在 page table 的第 Table 个表项中得到 page frame 的物理地址，取第 Offset 个表项值，即得到 physical address。</p>
-<p>Page directory 和 page table 采用相同的数据结构，表项包含如下 flag。</p>
-<ul>
-<li>Present，1 则该 page 或者 page table 位于内存，反之则在硬盘中</li>
-<li>Accessed，当对该 page frame 进行访问（地址转换）时置 1</li>
-<li>Dirty，如果对该 page frame 进行写操作时置 1，只适用于 page table 表项</li>
-<li>Read/Write，访问权限，0 则该 page table 或者 page 只读</li>
-<li>User/Supervisor，优先级，0 则只能被 kernel mode 的进程访问</li>
-<li>PCD，表示是否在访问 page frame 时使用 cache，linux 缺省使用(=0)</li>
-<li>PWT，表示写数据到 page frame 时，cache 机制采用 write-back (=0) 还是 write-through (=1)，Linux 使用前者 (write-back 表示只有当 cache 表项需要被更新时，改动才写回内存，write-throught 表示每一次写操作都同时作用在内存和 cache 中)</li>
-<li>Page Size，如果为 1，则相应表项对应 4MB page frame，只适用于 page directory</li>
-</ul>
-<p>上述最后一项 page size flag 用来实现 extended paging，即不使用 page table，page directory 直接对应 4MB page frame，也就是说 directory 10bits，offset 22bits。</p>
-<p>众所周知，CPU 的速度远非 RAM 所能比拼的，系统采用 cache 来平衡两者速度不均衡的问题，基于局部性原则 (locality principle)：临近正在被访问数据的数据很有可能接下来被访问。</p>
-<p>硬件方面，在 intel 架构中，使用 line unit 来实现低速 DRAM 和高速 SRAM 之间的 caches。cache 被划分为若干 lines，内存和 cache 中的 line 一一对应被称为 direct map，即 line 在内存中的位置必须和 cache 中的位置一致，反之则是 fully associative，即内存中 line 可以储存在 cache 的任意位置，n-way associative，表示内存中的某一 line 在 cache 中有N个位置可以储存。</p>
-<p>这样，当系统对某一 linear address 进行取址时，因为 paging unit 和内存之间插入了 cache unit，每一次取址时，将先通过 cache controller 查找，如果 cache hit，则完成取址，如果 cache miss，则继续使用 paging unit 进行取址。当然，cache 不光用于 paging 过程，关于 cache，后面会有博文详细叙述。</p>
-<p>除了 cache 之外，系统还采用 translation lookaside buffers (TLB) 来加速 linear address 的转换，每当某一 physical address 被计算出来时，将其存入 TLB 中，从而使得下一次相同 linear address 的地址转换会有相当快的速度。</p>
-<p>前面所讲的 paging unit 采用的是两层模型，即 page directory –&gt;page table-&gt;offset，Linux 采用三层模型，将 page directory 分为两层：page global directory (10 bits)， page middle directory (10 bits)。如果是 64 位机，则 page 10 bits， offset 13 bits，即只使用地址前 43 位。如为 32 位机，则跟两层模型一样，page middle directory 设为 0 bit。</p>
-<p>在 Linear address 中，<code>0x00000000</code> 到 <code>PAGE_OFFSET</code> 用于 user mode 或者 kernel mode, <code>PAGE_OFFSET</code> 到 <code>0xffffffff</code> 只用于 kernel mode。</p>
-<p>在 physical address 中，kernel 的指令和数据都位于一组 reserved page frames 中，首地址位于 <code>0x00100000</code>，该组常驻内存，不能被动态 swap out。</p>
-<p>下一篇，page frame management…</p>
 
       
     </div>
