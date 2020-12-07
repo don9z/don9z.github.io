@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.zhengdong.me/2020/12/06/view-of-the-future-data-product-trends/</loc>
+    
+    <lastmod>2020-12-07</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.zhengdong.me/2020/12/05/view-of-the-future-data-dev-technology/</loc>
     
     <lastmod>2020-12-05</lastmod>
@@ -508,7 +515,7 @@
 
   <url>
     <loc>http://blog.zhengdong.me/</loc>
-    <lastmod>2020-12-06</lastmod>
+    <lastmod>2020-12-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
