@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.zhengdong.me/2020/11/27/some-thoughts-in-2018/</loc>
+    
+    <lastmod>2020-12-10</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.zhengdong.me/2020/12/06/view-of-the-future-data-product-trends/</loc>
     
     <lastmod>2020-12-08</lastmod>
@@ -17,13 +24,6 @@
   
   <url>
     <loc>http://blog.zhengdong.me/2019/01/16/data-product-creating-and-selling/</loc>
-    
-    <lastmod>2020-12-02</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.zhengdong.me/2020/11/27/some-thoughts-in-2018/</loc>
     
     <lastmod>2020-12-02</lastmod>
     
@@ -373,14 +373,14 @@
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/06/13/about-objc-property/</loc>
+    <loc>http://blog.zhengdong.me/2011/08/20/implementation-and-efficiency-of-regular-expression/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/08/20/implementation-and-efficiency-of-regular-expression/</loc>
+    <loc>http://blog.zhengdong.me/2011/06/13/about-objc-property/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
@@ -408,14 +408,14 @@
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/04/18/mobile-dev/</loc>
+    <loc>http://blog.zhengdong.me/2011/04/17/agile/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/04/17/agile/</loc>
+    <loc>http://blog.zhengdong.me/2011/04/18/mobile-dev/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
@@ -515,7 +515,7 @@
 
   <url>
     <loc>http://blog.zhengdong.me/</loc>
-    <lastmod>2020-12-08</lastmod>
+    <lastmod>2020-12-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
