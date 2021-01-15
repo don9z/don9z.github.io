@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.zhengdong.me/2021/01/15/data-product-growth-analysis-framework/</loc>
+    
+    <lastmod>2021-01-15</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.zhengdong.me/2020/11/27/some-thoughts-in-2018/</loc>
     
     <lastmod>2020-12-10</lastmod>
@@ -373,14 +380,14 @@
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/08/20/implementation-and-efficiency-of-regular-expression/</loc>
+    <loc>http://blog.zhengdong.me/2011/06/13/about-objc-property/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/06/13/about-objc-property/</loc>
+    <loc>http://blog.zhengdong.me/2011/08/20/implementation-and-efficiency-of-regular-expression/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
@@ -515,7 +522,7 @@
 
   <url>
     <loc>http://blog.zhengdong.me/</loc>
-    <lastmod>2020-12-10</lastmod>
+    <lastmod>2021-01-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
