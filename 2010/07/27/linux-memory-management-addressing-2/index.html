@@ -366,13 +366,6 @@
 
 
       
-    
-  <div class="comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-    </div>
-  </div>
-  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -457,27 +450,6 @@
   
 
   
-
-<script>
-  var disqus_config = function() {
-    this.page.url = "http://blog.zhengdong.me/2010/07/27/linux-memory-management-addressing-2/";
-    this.page.identifier = "2010/07/27/linux-memory-management-addressing-2/";
-    this.page.title = "Linux 内存管理-A.寻址-2";
-    };
-  NexT.utils.loadComments('#disqus_thread', () => {
-    if (window.DISQUS) {
-      DISQUS.reset({
-        reload: true,
-        config: disqus_config
-      });
-    } else {
-      var d = document, s = d.createElement('script');
-      s.src = 'https://extracookies.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', '' + +new Date());
-      (d.head || d.body).appendChild(s);
-    }
-  });
-</script>
 
 </body>
 </html>

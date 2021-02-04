@@ -404,13 +404,6 @@
 
 
       
-    
-  <div class="comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-    </div>
-  </div>
-  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -495,27 +488,6 @@
   
 
   
-
-<script>
-  var disqus_config = function() {
-    this.page.url = "http://blog.zhengdong.me/2020/12/05/view-of-the-future-data-dev-technology/";
-    this.page.identifier = "2020/12/05/view-of-the-future-data-dev-technology/";
-    this.page.title = "关于未来数据开发技术方向的几个观点";
-    };
-  NexT.utils.loadComments('#disqus_thread', () => {
-    if (window.DISQUS) {
-      DISQUS.reset({
-        reload: true,
-        config: disqus_config
-      });
-    } else {
-      var d = document, s = d.createElement('script');
-      s.src = 'https://extracookies.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', '' + +new Date());
-      (d.head || d.body).appendChild(s);
-    }
-  });
-</script>
 
 </body>
 </html>
