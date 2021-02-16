@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.zhengdong.me/2021/02/16/how-to-nail-product-pos/</loc>
+    
+    <lastmod>2021-02-16</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.zhengdong.me/2021/01/15/data-product-growth-analysis-framework/</loc>
     
     <lastmod>2021-01-15</lastmod>
@@ -345,14 +352,14 @@
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/12/13/hadoop-rpc-dynami-proxy/</loc>
+    <loc>http://blog.zhengdong.me/2011/12/27/hadoop-rpc-client-1/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/12/27/hadoop-rpc-client-1/</loc>
+    <loc>http://blog.zhengdong.me/2011/12/13/hadoop-rpc-dynami-proxy/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
@@ -429,14 +436,14 @@
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/03/26/taiziwan/</loc>
+    <loc>http://blog.zhengdong.me/2011/03/31/emacs-features/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/03/31/emacs-features/</loc>
+    <loc>http://blog.zhengdong.me/2011/03/26/taiziwan/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
@@ -478,14 +485,14 @@
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2010/10/25/emacs-lisp-basics/</loc>
+    <loc>http://blog.zhengdong.me/2010/11/04/relocation-and-link-of-a-program/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2010/11/04/relocation-and-link-of-a-program/</loc>
+    <loc>http://blog.zhengdong.me/2010/10/25/emacs-lisp-basics/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
@@ -522,7 +529,7 @@
 
   <url>
     <loc>http://blog.zhengdong.me/</loc>
-    <lastmod>2021-02-04</lastmod>
+    <lastmod>2021-02-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
