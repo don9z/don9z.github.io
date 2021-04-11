@@ -436,13 +436,6 @@
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/04/17/agile/</loc>
-    
-    <lastmod>2020-11-28</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.zhengdong.me/2011/04/18/mobile-dev/</loc>
     
     <lastmod>2020-11-28</lastmod>
@@ -450,7 +443,7 @@
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/03/26/taiziwan/</loc>
+    <loc>http://blog.zhengdong.me/2011/04/17/agile/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
@@ -458,6 +451,13 @@
   
   <url>
     <loc>http://blog.zhengdong.me/2011/03/31/emacs-features/</loc>
+    
+    <lastmod>2020-11-28</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.zhengdong.me/2011/03/26/taiziwan/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
