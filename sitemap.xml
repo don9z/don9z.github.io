@@ -4,7 +4,7 @@
   <url>
     <loc>http://blog.zhengdong.me/2021/04/11/situational-leader-and-insensitivity-power/</loc>
     
-    <lastmod>2021-04-11</lastmod>
+    <lastmod>2021-04-17</lastmod>
     
   </url>
   
@@ -366,14 +366,14 @@
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/12/13/hadoop-rpc-dynami-proxy/</loc>
+    <loc>http://blog.zhengdong.me/2011/12/27/hadoop-rpc-client-1/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/12/27/hadoop-rpc-client-1/</loc>
+    <loc>http://blog.zhengdong.me/2011/12/13/hadoop-rpc-dynami-proxy/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
@@ -436,13 +436,6 @@
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/04/18/mobile-dev/</loc>
-    
-    <lastmod>2020-11-28</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.zhengdong.me/2011/04/17/agile/</loc>
     
     <lastmod>2020-11-28</lastmod>
@@ -450,7 +443,7 @@
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/03/31/emacs-features/</loc>
+    <loc>http://blog.zhengdong.me/2011/04/18/mobile-dev/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
@@ -458,6 +451,13 @@
   
   <url>
     <loc>http://blog.zhengdong.me/2011/03/26/taiziwan/</loc>
+    
+    <lastmod>2020-11-28</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.zhengdong.me/2011/03/31/emacs-features/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
@@ -543,7 +543,7 @@
 
   <url>
     <loc>http://blog.zhengdong.me/</loc>
-    <lastmod>2021-04-11</lastmod>
+    <lastmod>2021-04-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
