@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/e-favicon-512x512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/e-favicon-512x512.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/e-favicon-32x32.png">
+  <link rel="mask-icon" href="/images/e-favicon.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Serif:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.zhengdong.me","root":"/","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":null}},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+
+  <meta name="description" content="1234567template &lt;class Iterator, class T&gt;Iterator find(Iterator first, Iterator last, const T&amp; value)&amp;#123;    while (first !&#x3D; last &amp;&amp; *first !&#x3D; value)        ++first;    return firs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从 concept 到 iterator_traits">
+<meta property="og:url" content="http://blog.zhengdong.me/2010/09/22/from-concept-to-iterator_traits/index.html">
+<meta property="og:site_name" content="Extra Cookies">
+<meta property="og:description" content="1234567template &lt;class Iterator, class T&gt;Iterator find(Iterator first, Iterator last, const T&amp; value)&amp;#123;    while (first !&#x3D; last &amp;&amp; *first !&#x3D; value)        ++first;    return firs">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2010-09-21T17:30:00.000Z">
+<meta property="article:modified_time" content="2020-11-28T10:52:32.781Z">
+<meta property="article:author" content="Dong Zheng">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://blog.zhengdong.me/2010/09/22/from-concept-to-iterator_traits/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>从 concept 到 iterator_traits | Extra Cookies</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-17531526-2"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-17531526-2');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Extra Cookies" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Extra Cookies</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">By Dong ZHENG</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dong Zheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="http://zhengdong.me/" title="About → http:&#x2F;&#x2F;zhengdong.me" rel="noopener" target="_blank"><i class="fa fa-user fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:chrisdcheng+blog@gmail.com" title="E-Mail → mailto:chrisdcheng+blog@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2010/09/22/from-concept-to-iterator_traits/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从 concept 到 iterator_traits
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2010-09-22 01:30:00" itemprop="dateCreated datePublished" datetime="2010-09-22T01:30:00+08:00">2010-09-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">Iterator</span>, <span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="function">Iterator <span class="title">find</span><span class="params">(Iterator first, Iterator last, <span class="keyword">const</span> T&amp; value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (first != last &amp;&amp; *first != value)</span><br><span class="line">        ++first;</span><br><span class="line">    <span class="keyword">return</span> first;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面是 C++ 中一个普通的模板函数，调用的时候直接将特定类型变量当参数传入就行，这段程序运用了 Generic Programming（泛型编程/GP）。</p>
+<p>GP 要求函数尽量一般化，假设参数可适用于任何范畴，那么函数 <code>find</code> 到底有多一般化？</p>
+<p>输入条件，对于类型 Iterator，首先能够以 <code>operator “*”</code> 来操作提取其指向区域的值，并且可以用 <code>operator “++”</code> 来移至下一个 Iterator 对象…</p>
+<p>为了表示输入条件，假定 Iterator 必须是一个 iterator，在这个地方 iterator 没有其他意思，只是我们定义出来的一个概念，用来指定一组描述某个类型的条件。</p>
+<p>而这便是 GP 里面非常重要的 concept，当某一个类型满足所有这样的条件，我们便说它是该 concept 的一个 model，比如 <code>char *</code> 便是 iterator 的 model。不过需要注意，concept 不是类，变量，更不是 template 参数，事实上它不是任何可以能直接在 C++ 中呈现的东西。</p>
+<p>我们可以想象 concept 为一组类型条件，如果说类型 T 是 concept C 的一个 model，那么 T 满足所有 C 的条件。也可以把 concept 想象成类型的集合，比如 iterator concept 就包含了 <code>char *, int *</code> 等类型，如果类型 T 是 concept C 的 model，则 T 属于 C 所代表的类型集合。</p>
+<p>对于 <code>find</code> 函数，似乎我们需要定义 Iterator 为一个 concept，用来表示泛型指针，但是考虑到不同的算法只依赖泛型指针中很小的子集，将其划分为五个不同的 concept，Input Iterator（只读），Output Iterator（只写），Forward Iterator（读写），Bidirectional Iterator（双向移动），Random Access Iterator（随机读取），详细描述请点击。</p>
+<p>每个 iterator 都有一个相关联的类型，即 iterator 指向某物的类型，称之为 value type。为什么需要这个类型呢？</p>
+<p>因为在特定算法中，需要定义一些临时变量，类型为 iterator 指向的某物的类型，即 iterator 的 value type，我们该怎么做？</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">Iterator</span>, <span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">implement</span><span class="params">(Iterator iter, T t)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    T temp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function</span><span class="params">(T iter)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    implement(iter, *iter);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>令 <code>function()</code> 成为一个单独的传递函数，并将所有的工作委托给 <code>implement()</code> 函数。</p>
+<p>这算是一个方法，如果我们只需要声明临时变量，虽然实现起来笨拙但可用，但如果需要用来声明函数返回值，便回天无力了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">Type</span>&gt;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Iterator</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">typedef</span> Type value_type;</span><br><span class="line">    Type *pointer;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>第二种方法，在 iterator 类中嵌套定义 value type, 通过 <code>typename Iterator::value_type</code> 便可以取出类型，但是那些满足 concept iterator 的基本类型怎么办？比如 <code>int *</code>，我们无法把 <code>Iterator::value_type</code> 定义为 <code>int</code>。</p>
+<p>看来在 iterator 中声明嵌套类型依然不妥。那么单独定义一个 class 来处理这个问题，行不？</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">Iterator</span>&gt;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">iterator_traits</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::value_type value_type;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>我们可以使用诸如此类语句提取类型: <code>iterator_traits&lt;int *&gt;::value_type;</code> 而一些细节问题，例如 <code>const int *</code>，可以借助 template 的 partial specification 轻松的解决。</p>
+<p>Iterator 主要应用于算法中需要遍历的场合，遍历中需要知道整个区域的 range 大小，而这个区间的大小是未知的，选择什么类型来存储便是一个问题，比如大数超过 <code>int</code> 最大值，却用 <code>int</code> 来存储，便会不够。模仿 value type：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">Iterator</span>&gt;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">iterator_traits</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::value_type value_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::difference_type difference_type;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同上，我们可以非常容易的实现 reference type 和 pointer type traits。</p>
+<p>前面提到过，Iterator 分为五个 concepts，对于同一个算法，有时候不止一个 concept 成立，需要在此提一下 refinement 这个概念。</p>
+<p>举个例子，Random Access Iterator 满足 Forward Iterator 的所有条件，即 Random Access Iterator 的任何 model 必定是 Forward Iterator 的 model，我们将这样的关系成为 refinement，如果 concept C2 提供 concept C1 的所有功能，再加上其他额外功能，则 C2 便是 C1 的 refinement。如果一个算法要求参数类型是 C1 的 model，那么传给它一个 C2 model 类型也是可以正常工作的。</p>
+<p>正是因为有 refinement 的存在，有些算法为了效率的提高，会针对不同的 refinement concept 设计不同的实现，比如获取当前 iterator 后第 N 个 iterator，对于 Input Iterator 来说，只能一个一个遍历，但对于 Random Access Iterator，就可以直接 +N 就行了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">InputIterator</span>, <span class="keyword">class</span> <span class="title">Distance</span>&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">go_to</span><span class="params">(InputIterator &amp;i, Distance n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(is_random_access_iterator(i))</span><br><span class="line">        goto_random(i, n);</span><br><span class="line">    <span class="keyword">if</span>(is_input_iterator(i))</span><br><span class="line">        goto_input(i, n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这的确是个很糟的实现，因为是一直等到运行期才进行选择，太慢了，如果能在编译时就确定好算法版本，就很好了。如何实现同一个函数多种不同实现呢？</p>
+<p>当然是重载了！</p>
+<p>为每一个算法函数加一个参数，用来指明该算法的版本。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">InputIterator</span>, <span class="keyword">class</span> <span class="title">Distance</span>&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">go_to</span><span class="params">(InputIterator &amp;i, Distance n, input_iterator_tag)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    goto_input(i, n);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">RandomAccessIterator</span>, <span class="keyword">class</span> <span class="title">Distance</span>&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">go_to</span><span class="params">(RandomAccessIterator &amp;i, Distance n, random_iterator_tag)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    goto_random(i, n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个参数可以称之为 <code>iterator_category</code>，同样可以借用 value_type 的实现：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">Iterator</span>&gt;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">iterator_traits</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::iterator_category iterator_category;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::value_type value_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::difference_type difference_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::pointer pointer;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::reference reference;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">iterator_traits</span>&lt;</span>T*&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">typedef</span> random_access_iterator_tag iterator_category;</span><br><span class="line">    <span class="keyword">typedef</span> T value_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">ptrdiff_t</span> difference_type;</span><br><span class="line">    <span class="keyword">typedef</span> T* pointer;</span><br><span class="line">    <span class="keyword">typedef</span> T&amp; reference;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">iterator_traits</span>&lt;</span><span class="keyword">const</span> T*&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">typedef</span> random_access_iterator_tag iterator_category;</span><br><span class="line">    <span class="keyword">typedef</span> T value_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">ptrdiff_t</span> difference_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">const</span> T* pointer;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">const</span> T&amp; reference;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>上面便是整个 <code>iterator_traits</code> 的实现，如果需要自己定义新的 iterator class，那就得在这个 class 中定义五个嵌套类型 <code>iterator_category</code>, <code>value_type</code>, <code>difference_type</code>, <code>pointer</code>, <code>reference</code>, 要不然，就必须像上面 <code>T *</code> 和 <code>const T*</code> 那样，对 iterator_traits 进行 partial specification。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Dong Zheng
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="http://blog.zhengdong.me/2010/09/22/from-concept-to-iterator_traits/" title="从 concept 到 iterator_traits">http://blog.zhengdong.me/2010/09/22/from-concept-to-iterator_traits/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2010/09/15/new-delhi/" rel="prev" title="New Delhi">
+                  <i class="fa fa-chevron-left"></i> New Delhi
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2010/10/20/stl-code-digest-creation-1/" rel="next" title="STL 源码分析-A.万物起源-1">
+                  STL 源码分析-A.万物起源-1 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2010 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a target="_blank" rel="noopener" href="http://zhengdong.me">Dong Zheng</a></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

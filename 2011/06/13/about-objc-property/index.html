@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/e-favicon-512x512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/e-favicon-512x512.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/e-favicon-32x32.png">
+  <link rel="mask-icon" href="/images/e-favicon.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Serif:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.zhengdong.me","root":"/","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":null}},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+
+  <meta name="description" content="请看下面几行代码 1234567891011121314151617&#x2F;&#x2F; MyObject.h@interface MyObject : NSObject &amp;#123;   NSString *name;&amp;#125;@property (nonatomic, retain) NSString *name;@end&#x2F;&#x2F; MyObject.m@implementation@synthesize nam">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Objc property 的事儿">
+<meta property="og:url" content="http://blog.zhengdong.me/2011/06/13/about-objc-property/index.html">
+<meta property="og:site_name" content="Extra Cookies">
+<meta property="og:description" content="请看下面几行代码 1234567891011121314151617&#x2F;&#x2F; MyObject.h@interface MyObject : NSObject &amp;#123;   NSString *name;&amp;#125;@property (nonatomic, retain) NSString *name;@end&#x2F;&#x2F; MyObject.m@implementation@synthesize nam">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2011-06-13T14:55:00.000Z">
+<meta property="article:modified_time" content="2020-11-28T10:52:32.794Z">
+<meta property="article:author" content="Dong Zheng">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://blog.zhengdong.me/2011/06/13/about-objc-property/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Objc property 的事儿 | Extra Cookies</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-17531526-2"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-17531526-2');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Extra Cookies" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Extra Cookies</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">By Dong ZHENG</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dong Zheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="http://zhengdong.me/" title="About → http:&#x2F;&#x2F;zhengdong.me" rel="noopener" target="_blank"><i class="fa fa-user fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:chrisdcheng+blog@gmail.com" title="E-Mail → mailto:chrisdcheng+blog@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/06/13/about-objc-property/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Objc property 的事儿
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-06-13 22:55:00" itemprop="dateCreated datePublished" datetime="2011-06-13T22:55:00+08:00">2011-06-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>请看下面几行代码</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MyObject.h</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MyObject</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">   <span class="built_in">NSString</span> *name;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">retain</span>) <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// MyObject.m</span></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span></span></span><br><span class="line"><span class="keyword">@synthesize</span> name;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// MyObject.h</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MyObject</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">retain</span>) <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>第一个 interface 里面声明了一个 instance variable 名为 name，然后定义其为 property。 第二个 interface 里面直接定义了一个 property 名为 name。</p>
+<p>第二个忘了声明 instance variable 吗?</p>
+<p>如果你使用的 Objective-C Runtime 版本高于 ios 3.x 或者高于 64bit Snow Leopard，那么第二个方法是正确的。</p>
+<p>声明一个 instance variable，要么在 interface 的大括号里面声明，或者使用 property，又或者全部都用，而如果用了 property，只有一个不同，那就是可以用 synthesize 来自动生成 setter/getter。</p>
+<p>那么到底该如何选择呢?</p>
+<p>之前有人说如果不在大括号中声明，只用 property，debug 时候会看不到这个变量，我在 Xcode 4 中测试了下，是可以看到的，所以这个不是问题。</p>
+<p>So, feel free to use it.</p>
+<p>有这样的两个类</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Father</span> : <span class="title">NSObject</span></span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *father;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Child</span> : <span class="title">Father</span></span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> * child;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>Child 继承自 Father，如果我们需要往 Father 里面新加一个 instance variable，如果不重新编译 Child 的话，势必就影响了 Child，因为变量的访问是通过 offset 进行的，对于子类而言，实例化后父类是在子类中占据位置的，如果父类发生更改，那么 offset 值就会变化，这个时候，如果还是按之前的 offset 来访问的话，就很可能导致 crash。</p>
+<p>这在很多面向对象语言里面如 C++ 都是个问题，但是在 objc 里面已经不是问题，因为现代的 runtime 动态的对 offset 值进行更改，哪怕编译时得到的 offset 值是常量。</p>
+<p>所以可以动态地往父类里面加变量而又可以保持与子类的二进制兼容性。</p>
+<p>甚至都不需要更改父类的头文件，</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Father</span> ()</span></span><br><span class="line"><span class="keyword">@property</span> <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Father</span></span></span><br><span class="line"><span class="keyword">@synthesize</span> name;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>上面代码采用 private catagory 来隐藏新加入的 property，</p>
+<p>但是这样有一个问题，比如</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">BaseObject</span> : <span class="title">NSObject</span></span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *propertyOne;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">BaseObject</span></span></span><br><span class="line"><span class="keyword">@synthesize</span> propertyOne=myIvar;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">SubObject</span> : <span class="title">BaseObject</span></span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *propertyTwo;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">SubObject</span></span></span><br><span class="line"><span class="keyword">@synthesize</span> propertyTwo=myIvar;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>这样的 code 可以工作吗?</p>
+<p>如果父类和子类中有同名 instance variable，然后 synthesize，肿么办?</p>
+<p>实际上两个 myIvar 是不同的，有不同 offset 值，并且 synthesize 的 instance variable 总是 private 的，也就是说父类的这个同名变量对于子类而言是不可见的。</p>
+<p>不过要注意，不能将上述父子类代码放在一个文件中，会编译报错的，因为子类对于父类的 instance varaible 可见了。</p>
+<p>MVC 中，controller 通常会包含一些 IBOutlet，通常会采用 retain property，那么在删除的时候，可以这样</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span>.button = <span class="literal">nil</span>;</span><br></pre></td></tr></table></figure>
+<p>这样可以吗，没有用 [button release] 会 memory leak 吗?</p>
+<p>其实这样才是简洁的写法，因为其是 retained property，所以 synthesize 的 setter 大概如下</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)setButton:(<span class="built_in">UIButton</span> *)b</span><br><span class="line">&#123;</span><br><span class="line">    [button release];</span><br><span class="line">    button = b;</span><br><span class="line">    [button <span class="keyword">retain</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以 self.button 本身就执行了 [button release]，然后赋值为 nil，再 retain，是没有影响的。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Dong Zheng
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="http://blog.zhengdong.me/2011/06/13/about-objc-property/" title="Objc property 的事儿">http://blog.zhengdong.me/2011/06/13/about-objc-property/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2011/05/17/alignment-and-pack/" rel="prev" title="Alignment and Pack">
+                  <i class="fa fa-chevron-left"></i> Alignment and Pack
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2011/08/20/implementation-and-efficiency-of-regular-expression/" rel="next" title="正则表达式的实现和效率">
+                  正则表达式的实现和效率 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2010 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a target="_blank" rel="noopener" href="http://zhengdong.me">Dong Zheng</a></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

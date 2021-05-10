@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/e-favicon-512x512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/e-favicon-512x512.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/e-favicon-32x32.png">
+  <link rel="mask-icon" href="/images/e-favicon.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Serif:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.zhengdong.me","root":"/","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":null}},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+
+  <meta name="description" content="Story We, programmers built Apps for people to use, sometimes, we could benefit from our users, too.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="An Approach for User Behavior Clustering">
+<meta property="og:url" content="http://blog.zhengdong.me/2013/11/15/an-approach-for-user-behavior-clustering/index.html">
+<meta property="og:site_name" content="Extra Cookies">
+<meta property="og:description" content="Story We, programmers built Apps for people to use, sometimes, we could benefit from our users, too.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2013-11-15T08:42:00.000Z">
+<meta property="article:modified_time" content="2020-11-28T10:52:32.823Z">
+<meta property="article:author" content="Dong Zheng">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://blog.zhengdong.me/2013/11/15/an-approach-for-user-behavior-clustering/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>An Approach for User Behavior Clustering | Extra Cookies</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-17531526-2"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-17531526-2');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Extra Cookies" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Extra Cookies</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">By Dong ZHENG</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#story"><span class="nav-number">1.</span> <span class="nav-text">Story</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#k-means-algorithms"><span class="nav-number">2.</span> <span class="nav-text">k-means Algorithms</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#solution"><span class="nav-number">3.</span> <span class="nav-text">Solution</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#identify-the-features"><span class="nav-number">3.1.</span> <span class="nav-text">Identify the features</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#normalize-the-data"><span class="nav-number">3.2.</span> <span class="nav-text">Normalize the data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#clustering"><span class="nav-number">3.3.</span> <span class="nav-text">Clustering</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dong Zheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="http://zhengdong.me/" title="About → http:&#x2F;&#x2F;zhengdong.me" rel="noopener" target="_blank"><i class="fa fa-user fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:chrisdcheng+blog@gmail.com" title="E-Mail → mailto:chrisdcheng+blog@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2013/11/15/an-approach-for-user-behavior-clustering/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          An Approach for User Behavior Clustering
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2013-11-15 16:42:00" itemprop="dateCreated datePublished" datetime="2013-11-15T16:42:00+08:00">2013-11-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="story">Story</h2>
+<p>We, programmers built Apps for people to use, sometimes, we could benefit from our users, too.</p>
+<p>We could collect anonymous data from users by recording their behaviors on using our App, then analyzing those data, we could find the most favorable features of our App for us to plan for future development, we could uncover some hidden needs of users for us to add new features or create new Apps, we could cluster the users and use different marketing strategy on each users group, etc.</p>
+<p>This post will be an example of how I do user clustering.</p>
+<p>Imagine I have a music player app, which has 2 millions users.</p>
+<p>All data in my hand is how many times a user <code>played</code>, <code>downloaded</code>, <code>purchased</code>, and <code>shared</code> the songs as well as his <code>active days</code> (If a user opens the app one day, then the active days increment by one) as follows.</p>
+<table>
+<tr>
+<th>
+User id
+</th>
+<th>
+Downloaded
+</th>
+<th>
+Played
+</th>
+<th>
+Purchased
+</th>
+<th>
+Shared
+</th>
+<th>
+Active days
+</th>
+</tr>
+<tr>
+<td>
+100035
+</td>
+<td>
+7
+</td>
+<td>
+53
+</td>
+<td>
+0
+</td>
+<td>
+0
+</td>
+<td>
+4
+</td>
+</tr>
+<tr>
+<td>
+150079
+</td>
+<td>
+45
+</td>
+<td>
+312
+</td>
+<td>
+3
+</td>
+<td>
+8
+</td>
+<td>
+63
+</td>
+</tr>
+<tr>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+<td>
+...
+</td>
+</tr>
+<tr>
+<td>
+199972
+</td>
+<td>
+114
+</td>
+<td>
+2425
+</td>
+<td>
+82
+</td>
+<td>
+25
+</td>
+<td>
+205
+</td>
+</tr>
+</table>
+<h2 id="k-means-algorithms">k-means Algorithms</h2>
+<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/K-means_clustering">k-means</a> clustering aims to partition <code>n</code> observations into <code>k</code> clusters and each cluster is represented by its cluster center.</p>
+<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Euclidean_distance">Euclidean distance</a> can be used to represent the distance of each point.</p>
+<p>Given cluster centers, we can simply assign each point to its nearest center. Similarly, if we know the assignment of points to clusters, we can compute the centers by their <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Mean">means</a>.</p>
+<p>This introduces a <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Chicken_or_the_egg">chicken-and-egg problem</a>.</p>
+<p>The general computer science answer to chicken-and-egg problems is iteration. We will start with a guess of the cluster centers, for example, randomly choose <code>k</code> points as cluster centers. Based on that guess, we will assign each data point to its closest center. Then we can recompute the cluster centers on these new assignments.</p>
+<p>Repeat above process until clusters stop moving.</p>
+<p>If you want to know more, please <a target="_blank" rel="noopener" href="http://www.cs.uvm.edu/~xwu/kdd/Slides/Kmeans-ICDM06.pdf">click</a>.</p>
+<h2 id="solution">Solution</h2>
+<h3 id="identify-the-features">Identify the features</h3>
+<p>From the data, there are five columns, "played", "downloaded", "purchased", "shared", and "active days".</p>
+<p>The first four are user behaviors, and we believe all are important, so those four will be our features.</p>
+<h3 id="normalize-the-data">Normalize the data</h3>
+<p>But the data is not "balanced", some values are hundreds of times bigger than the others. Luckily, we have "active days", simply divide each feature value by its "active days", then the values are "balanced".</p>
+<h3 id="clustering">Clustering</h3>
+<p>We will use <a target="_blank" rel="noopener" href="http://www.scipy.org">scipy</a>, believe me, it's a great tool.</p>
+<p>First, import the packages and load the data.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> scipy.cluster <span class="keyword">import</span> vq</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">data = np.loadtxt(<span class="string">&#x27;user_normalized_log&#x27;</span>, delimiter=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># The first column is userId, better ignore it</span></span><br><span class="line">subject = data[:,<span class="number">1</span>:]</span><br></pre></td></tr></table></figure>
+<p>Then trying <code>k = 4</code>,</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">centers, dist = vq.kmeans(subject, <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<p>and get the centers of each cluster.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">array([[<span class="number">5.42879071e+00</span>, <span class="number">1.37091994e+00</span>, <span class="number">1.04975836e-01</span>, <span class="number">6.75508656e-02</span>],</span><br><span class="line">       [<span class="number">6.73032088e+01</span>, <span class="number">6.70227684e+00</span>, <span class="number">4.90761870e-01</span>, <span class="number">3.36144445e-01</span>],</span><br><span class="line">       [<span class="number">1.86167614e+01</span>, <span class="number">2.40616831e+00</span>, <span class="number">2.02231194e-01</span>, <span class="number">2.60513990e-01</span>],</span><br><span class="line">       [<span class="number">1.97979796e-01</span>, <span class="number">1.78638818e-01</span>, <span class="number">4.22213041e-02</span>, <span class="number">5.21060364e-02</span>]]</span><br><span class="line"></span><br><span class="line">=</span><br><span class="line"></span><br><span class="line">array([[<span class="number">5.42879071</span>, <span class="number">1.37091994</span>, <span class="number">0.104975836</span>, <span class="number">0.0675508656</span>],</span><br><span class="line">       [<span class="number">67.3032088</span>, <span class="number">6.70227684</span>, <span class="number">0.49076187</span>, <span class="number">0.336144445</span>],</span><br><span class="line">       [<span class="number">18.6167614</span>, <span class="number">2.40616831</span>, <span class="number">0.202231194</span>, <span class="number">0.26051399</span>],</span><br><span class="line">       [<span class="number">0.197979796</span>, <span class="number">0.178638818</span>, <span class="number">0.0422213041</span>, <span class="number">0.0521060364</span>]])</span><br></pre></td></tr></table></figure>
+<p>Below code will assign the code(cluster) to each subjects(observations).</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">code, distance = vq.vq(subject,centers)</span><br><span class="line">a = subject[code == <span class="number">0</span>]</span><br><span class="line">b = subject[code == <span class="number">1</span>]</span><br><span class="line">c = subject[code == <span class="number">2</span>]</span><br><span class="line">d = subject[code == <span class="number">3</span>]</span><br></pre></td></tr></table></figure>
+<p>And calculates each cluster size.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">In [266]: a.shape, b.shape, c.shape, d.shape</span><br><span class="line">Out[266]: ((393926, 8), (28301, 8), (208115, 8), (1855756, 8))</span><br></pre></td></tr></table></figure>
+<p>Then I cried, look at the biggest cluster, the fourth one, the number of songs played, downloaded, purchased, and shared per active day by users are all nearly 0.</p>
+<p>The final truth is although I have 2 million users, nearly all are zombie users.</p>
+<p>(Disclaimer, the data mentioned in this post is faked)</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Dong Zheng
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="http://blog.zhengdong.me/2013/11/15/an-approach-for-user-behavior-clustering/" title="An Approach for User Behavior Clustering">http://blog.zhengdong.me/2013/11/15/an-approach-for-user-behavior-clustering/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2013/10/28/an-arithmetic-issue-in-hive-sql/" rel="prev" title="An Arithmetic Issue in Hive SQL">
+                  <i class="fa fa-chevron-left"></i> An Arithmetic Issue in Hive SQL
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2013/11/30/colorful-season/" rel="next" title="Colorful Season">
+                  Colorful Season <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2010 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a target="_blank" rel="noopener" href="http://zhengdong.me">Dong Zheng</a></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/e-favicon-512x512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/e-favicon-512x512.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/e-favicon-32x32.png">
+  <link rel="mask-icon" href="/images/e-favicon.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Serif:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.zhengdong.me","root":"/","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":null}},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+
+  <meta name="description" content="长久以来，我都有这样一个观念，比如 pack(4)，就代表着所有数据都是以 4 字节对齐的，直到我有了 64 位机，并且看到下面这个例子： 1234567891011struct One &amp;#123;    double d;    char c;    int i;&amp;#125;;struct Two &amp;#123;    char c;    double d;    int i;&amp;#125;;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Alignment and Pack">
+<meta property="og:url" content="http://blog.zhengdong.me/2011/05/17/alignment-and-pack/index.html">
+<meta property="og:site_name" content="Extra Cookies">
+<meta property="og:description" content="长久以来，我都有这样一个观念，比如 pack(4)，就代表着所有数据都是以 4 字节对齐的，直到我有了 64 位机，并且看到下面这个例子： 1234567891011struct One &amp;#123;    double d;    char c;    int i;&amp;#125;;struct Two &amp;#123;    char c;    double d;    int i;&amp;#125;;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2011-05-17T01:43:00.000Z">
+<meta property="article:modified_time" content="2020-11-28T10:52:32.793Z">
+<meta property="article:author" content="Dong Zheng">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://blog.zhengdong.me/2011/05/17/alignment-and-pack/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Alignment and Pack | Extra Cookies</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-17531526-2"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-17531526-2');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Extra Cookies" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Extra Cookies</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">By Dong ZHENG</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dong Zheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="http://zhengdong.me/" title="About → http:&#x2F;&#x2F;zhengdong.me" rel="noopener" target="_blank"><i class="fa fa-user fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:chrisdcheng+blog@gmail.com" title="E-Mail → mailto:chrisdcheng+blog@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/05/17/alignment-and-pack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Alignment and Pack
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-05-17 09:43:00" itemprop="dateCreated datePublished" datetime="2011-05-17T09:43:00+08:00">2011-05-17</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>长久以来，我都有这样一个观念，比如 pack(4)，就代表着所有数据都是以 4 字节对齐的，直到我有了 64 位机，并且看到下面这个例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">One</span> &#123;</span></span><br><span class="line">    <span class="keyword">double</span> d;</span><br><span class="line">    <span class="keyword">char</span> c;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Two</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> c;</span><br><span class="line">    <span class="keyword">double</span> d;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>如果按 4 字节对齐的话，按我的观点，结构体中每一个成员都应该以 4 字节对齐，那么两个都是 4+8+4=16, 结果是对的。</p>
+<p>那么如果按 8 字节对齐的话，结果是不是应该是 8+8+8＝24？</p>
+<p>可是错了。</p>
+<p>正确的结果应该是 <code>sizeof(struct One) = 16</code>, <code>sizeof(struct Two) = 24</code></p>
+<p>为什么不一样呢？</p>
+<p><code>pragma pack(n)</code> 它指定了结构成员按 n（1,2,4,8,16）字节对齐，但它并不是指结构体中的每个成员都要按 n 对齐，而是按照每个成员的大小（align 值）和 n 相比较小的值对齐。</p>
+<p>结构体还有另外一个需求，就是其大小必须是其成员 align 值最大者的整数倍。</p>
+<p>那么上面的两个不同就很好解释了：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">One</span> &#123;</span></span><br><span class="line">    <span class="keyword">double</span> d; <span class="comment">// 8 字节对齐占第 0-7 字节</span></span><br><span class="line">    <span class="keyword">char</span> c;   <span class="comment">// 1 字节对齐占第 8 字节，另外 9-11 字节用于下面 int 对齐</span></span><br><span class="line">    <span class="keyword">int</span> i;    <span class="comment">// 4 字节对齐占第 12-15 字节，16 是 8 的倍数，不需要 padding</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Two</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> c;   <span class="comment">// 1 字节对齐占第 0 字节，另外 1-7 字节用于下面 double 对齐</span></span><br><span class="line">    <span class="keyword">double</span> d; <span class="comment">// 8 字节对齐占 8-15 字节</span></span><br><span class="line">    <span class="keyword">int</span> i;    <span class="comment">// 4 字节对齐占 16-19 字节，20 不是 8 的倍数，需要加 4 个字节 padding</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>各种类型变量的 align 值可参考 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Data_structure_alignment">Data Structure Alignment</a></p>
+<p>再举一个结构体嵌套的例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Four</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">short</span> s;</span><br><span class="line">    <span class="keyword">long</span> l;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Five</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">char</span> c;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Four</span> <span class="title">four</span>;</span></span><br><span class="line">    <span class="keyword">short</span> s;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>sizeof(struct Four)</code> 和 <code>sizeof(struct Five)</code> 在 4 字节对齐和 8 字节对齐时分别是多少呢？</p>
+<p>我们以 8 字节对齐为例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Four</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">short</span> s; <span class="comment">// 2 字节对齐占第 0-1 字节，另外 2-7 字节用于下面 long 对齐</span></span><br><span class="line">    <span class="keyword">long</span> l;  <span class="comment">// 8 字节对齐占第 8-15 字节</span></span><br><span class="line">&#125;; <span class="comment">// sizeof(struct Four) ＝ 16</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Five</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">char</span> c;            <span class="comment">// 1 字节对齐占第 0 字节，另外 1-7 字节用于下面 four 对齐</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Four</span> <span class="title">four</span>;</span>  <span class="comment">// 8 字节对齐，占第 8-23 字节，结构体以其成员最大 align 值对齐</span></span><br><span class="line">    <span class="keyword">short</span> s;           <span class="comment">// 2 字节对齐，占第 24-25 字节，26 不是 8 的倍数，需外加 6 字节</span></span><br><span class="line">&#125;; <span class="comment">// sizeof(struct Five) ＝ 32</span></span><br></pre></td></tr></table></figure>
+<p>如果在 32 位机中，struct Four 中，long 长度为 4, 于是 <code>sizeof(struct Four) = 8</code>, 并且最大 align 值是 4.</p>
+<p>于是在 struct Five 中，four 是按 4 字节对齐的，虽然是 pack(8)，但 4&lt;8, 所以选 4 作为 align 值，<code>sizeof(struct Five) = 16</code>.</p>
+<p>以上所有实验结果来自 x86_64 GNU/Linux，gcc (GCC) 4.1.2 20080704 (Red Hat 4.1.2-48)。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Dong Zheng
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="http://blog.zhengdong.me/2011/05/17/alignment-and-pack/" title="Alignment and Pack">http://blog.zhengdong.me/2011/05/17/alignment-and-pack/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2011/04/29/autumn-and-sprint-of-westlake/" rel="prev" title="西湖的秋春之别">
+                  <i class="fa fa-chevron-left"></i> 西湖的秋春之别
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2011/06/13/about-objc-property/" rel="next" title="Objc property 的事儿">
+                  Objc property 的事儿 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2010 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a target="_blank" rel="noopener" href="http://zhengdong.me">Dong Zheng</a></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

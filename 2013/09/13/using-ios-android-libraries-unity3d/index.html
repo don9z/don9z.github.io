@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/e-favicon-512x512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/e-favicon-512x512.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/e-favicon-32x32.png">
+  <link rel="mask-icon" href="/images/e-favicon.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Serif:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.zhengdong.me","root":"/","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":null}},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+
+  <meta name="description" content="I have written about how to use iOS and Android Libraries in Cocos2d-x, in mobile game industry, there is another cross platform framework named unity3d, which is more elegant, powerful, and, super ex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Using iOS and Android Libraries in Unity3d">
+<meta property="og:url" content="http://blog.zhengdong.me/2013/09/13/using-ios-android-libraries-unity3d/index.html">
+<meta property="og:site_name" content="Extra Cookies">
+<meta property="og:description" content="I have written about how to use iOS and Android Libraries in Cocos2d-x, in mobile game industry, there is another cross platform framework named unity3d, which is more elegant, powerful, and, super ex">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2013-09-13T07:50:00.000Z">
+<meta property="article:modified_time" content="2020-11-28T10:52:32.822Z">
+<meta property="article:author" content="Dong Zheng">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://blog.zhengdong.me/2013/09/13/using-ios-android-libraries-unity3d/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Using iOS and Android Libraries in Unity3d | Extra Cookies</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-17531526-2"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-17531526-2');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Extra Cookies" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Extra Cookies</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">By Dong ZHENG</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#unity3d-plugin-mechanism"><span class="nav-number">1.</span> <span class="nav-text">Unity3d Plugin Mechanism</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ios"><span class="nav-number">2.</span> <span class="nav-text">iOS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#android"><span class="nav-number">3.</span> <span class="nav-text">Android</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#extra-labor"><span class="nav-number">4.</span> <span class="nav-text">Extra Labor</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dong Zheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="http://zhengdong.me/" title="About → http:&#x2F;&#x2F;zhengdong.me" rel="noopener" target="_blank"><i class="fa fa-user fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:chrisdcheng+blog@gmail.com" title="E-Mail → mailto:chrisdcheng+blog@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2013/09/13/using-ios-android-libraries-unity3d/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Using iOS and Android Libraries in Unity3d
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2013-09-13 15:50:00" itemprop="dateCreated datePublished" datetime="2013-09-13T15:50:00+08:00">2013-09-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>I have written about <a href="/2013/07/12/using-ios-android-libraries-cocos2dx/">how to use iOS and Android Libraries in Cocos2d-x</a>, in mobile game industry, there is another cross platform framework named <a target="_blank" rel="noopener" href="http://unity3d.com">unity3d</a>, which is more elegant, powerful, and, super expensive!</p>
+<p>This post will show how to enable the App using unity3d framework to use native libraries of iOS and Android.</p>
+<h2 id="unity3d-plugin-mechanism">Unity3d Plugin Mechanism</h2>
+<p>Unity3d supports plugins well, compared with <a target="_blank" rel="noopener" href="http://www.cocos2d-x.org">Cocos2D-X</a>.</p>
+<p>In order to use a plugin in unity3d, two things have to be done.</p>
+<ul>
+<li>Write functions in a C-based language and compile them into a library</li>
+<li>Create a C# script which calls functions in the library</li>
+</ul>
+<p>Seems similar to the <a href="/2013/07/12/using-ios-android-libraries-cocos2dx/">cocos2d-x way</a>, but unity3d organizes things well, by which, plugin can be distributed as a package file, in App, simply import the package file, and, it's all.</p>
+<p>To create an iOS and Android plugin, five steps have to be followed.</p>
+<ol type="1">
+<li>Create a new unity3d project</li>
+<li>Make a folder "Plugins" in "Assets" folder, then, make "iOS" and "Android" folders in "Plugins" folder</li>
+<li>Put iOS <code>.a</code> and Android <code>.jar</code> lib files to their folders respectively</li>
+<li>Write the C wrapper code to expose the native APIs to C#</li>
+<li>Click the "Assets - Export Package" menu to export the plugin as a unity3d package</li>
+</ol>
+<p>At last the file structure will be similar to this.</p>
+<pre><code>Assets
+└── Plugins
+    ├── Android
+    │   ├── AndroidManifest.xml
+    │   └── humbleAssistant.jar
+    ├── HumbleAssistant.cs
+    └── iOS
+        ├── HumbleAssistant.h
+        ├── HumbleAssistantWrapper.h
+        ├── HumbleAssistantWrapper.m
+        └── libHumbleAssistant.a</code></pre>
+<h2 id="ios">iOS</h2>
+<p>I have an iOS lib named <code>libHumbleAssistant.a</code>, and its header file <code>HumbleAssistant.h</code>.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">HumbleAssistant</span> : <span class="title">NSObject</span></span></span><br><span class="line">+ (<span class="keyword">void</span>)doSomething:(<span class="built_in">NSString</span> *)order;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>In order to expose <code>doSomething:</code> interface to C#, a C wrapper need to be implemented. We know, lovely Objc integrates with C very well.</p>
+<p>At first, create an empty header file "HumbleAssistantWrapper.h"</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">HumbleAssistantWrapper</span> : <span class="title">NSObject</span></span></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>Then its implementation,</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">&quot;HumbleAssistant.h&quot;</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">&quot;HumbleAssistantWrapper.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> humble_assistant_do_something(<span class="keyword">char</span> *order) &#123;</span><br><span class="line">    [HumbleAssistant doSomething:[<span class="built_in">NSString</span> stringWithUTF8String:order]];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Now, the C function is exposed, then, how to call C functions in C# scripts?</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Runtime.InteropServices;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HumbleAssistant</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> UNITY_IPHONE</span></span><br><span class="line">    [<span class="meta">DllImport(<span class="meta-string">&quot;__Internal&quot;</span>)</span>]</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">extern</span> <span class="keyword">void</span> <span class="title">humble_assistant_do_something</span> (<span class="params"><span class="built_in">string</span> order</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span> (<span class="params"><span class="built_in">string</span> order</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">    	humble_assistant_do_something(order);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Macro <code>UNITY_IPHONE</code> means those code only take effect in iOS system, <code>[DllImport("__Internal")]</code> means to statically link the C wrapper code.</p>
+<p>Then, make the <code>doSomething</code> method, which is the real interface that can be used by other C# scripts.</p>
+<h2 id="android">Android</h2>
+<p>My android lib is <code>humbleAssistant.jar</code>, and has an interface as follows.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.my.libs;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HumbleAssistant</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">(String order)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In unity3d, C# can interact with java APIs by <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Java_Native_Interface">JNI</a> directly.</p>
+<p>No C wrapper is needed, just add <code>elif UNITY_ANDROID</code> (those code only take effect in Android system), and begin to write the real code.</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Runtime.InteropServices;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HumbleAssistant</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> UNITY_IPHONE</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> UNITY_ANDROID</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span> (<span class="params"><span class="built_in">string</span> order</span>)</span></span><br><span class="line"><span class="function"></span> &#123;</span><br><span class="line">     AndroidJavaClass mHumbleAssistantClass = <span class="keyword">new</span> AndroidJavaClass(<span class="string">&quot;com.my.libs.HumbleAssistant&quot;</span>);</span><br><span class="line">     mHumbleAssistantClass.CallStatic(<span class="string">&quot;doSomething&quot;</span>, order);</span><br><span class="line"> &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>My lib API is a static method, I need to create an instance of <code>AndroidJavaClass</code> initialized with my class name "com.my.libs.HumbleAssistant" , then call the <code>CallStatic</code> method of this instance to finish the JNI invocation.</p>
+<p>If some APIs need android <code>Activity</code> object as parameter, following code can get the Activity instance.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AndroidJavaClass unityPlayer &#x3D; new AndroidJavaClass (&quot;com.unity3d.player.UnityPlayer&quot;);</span><br><span class="line">AndroidJavaObject mCurrentActivity &#x3D; unityPlayer.GetStatic&lt;AndroidJavaObject&gt; (&quot;currentActivity&quot;);</span><br></pre></td></tr></table></figure>
+<h2 id="extra-labor">Extra Labor</h2>
+<p><strong>If my iOS lib depend on some other libs or frameworks, what can I do?</strong></p>
+<p>In a unity3d project, export to iOS will generate a Xcode project, then you can add your dependencies there.</p>
+<p><strong>If my Android lib need to declare some permissions to Android system, what can I do?</strong></p>
+<p>Not like iOS, export to Android generate the <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/APK_(file_format)">APK</a> file directly, but "AndroidManifest.xml" can be put into "Assets/Plugins/Android/" folder to solve this problem.</p>
+<p>For example, I declare <code>READ_PHONE_STATE</code>, <code>INTERNET</code>, and other permissions as follows.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;manifest</span><br><span class="line">    xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;</span><br><span class="line">    package&#x3D;&quot;com.unity3d.player&quot;</span><br><span class="line">	android:installLocation&#x3D;&quot;preferExternal&quot;</span><br><span class="line">    android:versionCode&#x3D;&quot;1&quot;</span><br><span class="line">    android:versionName&#x3D;&quot;1.0&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;uses-permission android:name&#x3D;&quot;android.permission.READ_PHONE_STATE&quot;&#x2F;&gt;</span><br><span class="line">    &lt;uses-permission android:name&#x3D;&quot;android.permission.ACCESS_WIFI_STATE&quot;&#x2F;&gt;</span><br><span class="line">    &lt;uses-permission android:name&#x3D;&quot;android.permission.ACCESS_NETWORK_STATE&quot;&#x2F;&gt;</span><br><span class="line">    &lt;uses-permission android:name&#x3D;&quot;android.permission.INTERNET&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;supports-screens</span><br><span class="line">        android:smallScreens&#x3D;&quot;true&quot;</span><br><span class="line">        android:normalScreens&#x3D;&quot;true&quot;</span><br><span class="line">        android:largeScreens&#x3D;&quot;true&quot;</span><br><span class="line">        android:xlargeScreens&#x3D;&quot;true&quot;</span><br><span class="line">        android:anyDensity&#x3D;&quot;true&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;application</span><br><span class="line">		android:icon&#x3D;&quot;@drawable&#x2F;app_icon&quot;</span><br><span class="line">        android:label&#x3D;&quot;@string&#x2F;app_name&quot;</span><br><span class="line">        android:debuggable&#x3D;&quot;true&quot;&gt;</span><br><span class="line">        &lt;activity android:name&#x3D;&quot;com.unity3d.player.UnityPlayerProxyActivity&quot;</span><br><span class="line">                  android:label&#x3D;&quot;@string&#x2F;app_name&quot;</span><br><span class="line">                  android:configChanges&#x3D;&quot;fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen&quot;&gt;</span><br><span class="line">            &lt;intent-filter&gt;</span><br><span class="line">                &lt;action android:name&#x3D;&quot;android.intent.action.MAIN&quot; &#x2F;&gt;</span><br><span class="line">                &lt;category android:name&#x3D;&quot;android.intent.category.LAUNCHER&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;intent-filter&gt;</span><br><span class="line">        &lt;&#x2F;activity&gt;</span><br><span class="line">        &lt;activity android:name&#x3D;&quot;com.unity3d.player.UnityPlayerActivity&quot;</span><br><span class="line">                  android:label&#x3D;&quot;@string&#x2F;app_name&quot;</span><br><span class="line">                  android:configChanges&#x3D;&quot;fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen&quot;&gt;</span><br><span class="line">        &lt;&#x2F;activity&gt;</span><br><span class="line">        &lt;activity android:name&#x3D;&quot;com.unity3d.player.UnityPlayerNativeActivity&quot;</span><br><span class="line">                  android:label&#x3D;&quot;@string&#x2F;app_name&quot;</span><br><span class="line">                  android:configChanges&#x3D;&quot;fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen&quot;&gt;</span><br><span class="line">            &lt;meta-data android:name&#x3D;&quot;android.app.lib_name&quot; android:value&#x3D;&quot;unity&quot; &#x2F;&gt;</span><br><span class="line">            &lt;meta-data android:name&#x3D;&quot;unityplayer.ForwardNativeEventsToDalvik&quot; android:value&#x3D;&quot;false&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;activity&gt;</span><br><span class="line">        &lt;activity android:name&#x3D;&quot;com.unity3d.player.VideoPlayer&quot;</span><br><span class="line">                  android:label&#x3D;&quot;@string&#x2F;app_name&quot;</span><br><span class="line">                  android:configChanges&#x3D;&quot;fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen&quot;&gt;</span><br><span class="line">        &lt;&#x2F;activity&gt;</span><br><span class="line">    &lt;&#x2F;application&gt;</span><br><span class="line">&lt;&#x2F;manifest&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>How am I supposed to do if my iOS objc interface need a NSDictionary object as one parameter?</strong></p>
+<p>Although in <code>.m</code> file, Objc and C code can be written together, but C wrapper is about to provide a pure C interface, Objc object can't be used directly in method parameters.</p>
+<p>Following are what I have done to solve this.</p>
+<p>First, in the C wrapper, use a <code>const char *</code> as input, then parse the string to recreate the <code>NSDictionary</code> instance.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> humble_assistant_doComplicatedThing(<span class="keyword">const</span> <span class="keyword">char</span> *attributes) &#123;</span><br><span class="line">    <span class="built_in">NSString</span> *attris = [<span class="built_in">NSString</span> stringWithUTF8String:attributes];</span><br><span class="line">    <span class="built_in">NSArray</span> *attributesArray = [attris componentsSeparatedByString:<span class="string">@&quot;\n&quot;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">NSMutableDictionary</span> *oAttributes = [[<span class="built_in">NSMutableDictionary</span> alloc] init];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; [attributesArray count]; i++) &#123;</span><br><span class="line">        <span class="built_in">NSString</span> *keyValuePair = [attributesArray objectAtIndex:i];</span><br><span class="line">        <span class="built_in">NSRange</span> range = [keyValuePair rangeOfString:<span class="string">@&quot;=&quot;</span>];</span><br><span class="line">        <span class="keyword">if</span> (range.location != <span class="built_in">NSNotFound</span>) &#123;</span><br><span class="line">            <span class="built_in">NSString</span> *key = [keyValuePair substringToIndex:range.location];</span><br><span class="line">            <span class="built_in">NSString</span> *value = [keyValuePair substringFromIndex:range.location+<span class="number">1</span>];</span><br><span class="line">            [oAttributes setObject:value forKey:key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [HumbleAssistant doComplicatedThing:oAttributes];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In the "HumbleAssistant.cs" script file, we should convert C# <code>Dictionary</code> to <code>const char *</code>.</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doComplicatedThing</span> (<span class="params">Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; attributes</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> attributesString = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">foreach</span>(KeyValuePair&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; kvp <span class="keyword">in</span> attributes)</span><br><span class="line">    &#123;</span><br><span class="line">        attributesString += kvp.Key + <span class="string">&quot;=&quot;</span> + kvp.Value + <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    humble_assistant_doComplicatedThing(attributesString);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>How am I supposed to do if my Android jar interface need a Map object as a parameter?</strong></p>
+<p>Java Map object can be generated in C# code by JNI.</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doComplcatedThing</span> (<span class="params">Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; attributes</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">using</span>(AndroidJavaObject obj_HashMap = <span class="keyword">new</span> AndroidJavaObject(<span class="string">&quot;java.util.HashMap&quot;</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        System.IntPtr method_Put = AndroidJNIHelper.GetMethodID(obj_HashMap.GetRawClass(), <span class="string">&quot;put&quot;</span>,</span><br><span class="line">            <span class="string">&quot;(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">object</span>[] args = <span class="keyword">new</span> <span class="built_in">object</span>[<span class="number">2</span>];</span><br><span class="line">        <span class="keyword">foreach</span>(KeyValuePair&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; kvp <span class="keyword">in</span> attributes)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span>(AndroidJavaObject k = <span class="keyword">new</span> AndroidJavaObject(<span class="string">&quot;java.lang.String&quot;</span>, kvp.Key))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">using</span>(AndroidJavaObject v = <span class="keyword">new</span> AndroidJavaObject(<span class="string">&quot;java.lang.String&quot;</span>, kvp.Value))</span><br><span class="line">                &#123;</span><br><span class="line">                    args[<span class="number">0</span>] = k;</span><br><span class="line">                    args[<span class="number">1</span>] = v;</span><br><span class="line">                    AndroidJNI.CallObjectMethod(obj_HashMap.GetRawObject(),</span><br><span class="line">                        method_Put, AndroidJNIHelper.CreateJNIArgArray(args));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mHumbleAssistantClass.CallStatic(<span class="string">&quot;doComplicatedThing&quot;</span>, obj_HashMap);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Dong Zheng
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="http://blog.zhengdong.me/2013/09/13/using-ios-android-libraries-unity3d/" title="Using iOS and Android Libraries in Unity3d">http://blog.zhengdong.me/2013/09/13/using-ios-android-libraries-unity3d/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2013/07/18/a-look-under-the-hood-of-objc-msgsend/" rel="prev" title="A Look Under the Hood of objc_msgSend()">
+                  <i class="fa fa-chevron-left"></i> A Look Under the Hood of objc_msgSend()
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2013/10/28/an-arithmetic-issue-in-hive-sql/" rel="next" title="An Arithmetic Issue in Hive SQL">
+                  An Arithmetic Issue in Hive SQL <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2010 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a target="_blank" rel="noopener" href="http://zhengdong.me">Dong Zheng</a></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
