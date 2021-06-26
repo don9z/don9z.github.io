@@ -283,6 +283,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>In last post, I metioned that all RPC client calls will be dispatched to <code>Invoker.invoke()</code> method by the dynamic proxy, mainly work of method <code>invoke</code> are done by <code>client.call</code>.</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//** org.apache.hadoop.ipc.RPC.java L218</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span></span></span><br><span class="line"><span class="function">  <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="keyword">boolean</span> logDebug = LOG.isDebugEnabled();</span><br><span class="line">  <span class="keyword">long</span> startTime = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (logDebug) &#123;</span><br><span class="line">    startTime = System.currentTimeMillis();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//** Request comes to &quot;invoke&quot;,</span></span><br><span class="line">  <span class="comment">//** then it calls &quot;client.call&quot;,</span></span><br><span class="line">  <span class="comment">//** and get the result &quot;value&quot;,</span></span><br><span class="line">  <span class="comment">//** then return it back by &quot;value.get&quot;.</span></span><br><span class="line">  <span class="comment">//** The first parameter is an instance of &quot;Invocation&quot;</span></span><br><span class="line">  ObjectWritable value = (ObjectWritable)</span><br><span class="line">    client.call(<span class="keyword">new</span> Invocation(method, args), remoteId);</span><br><span class="line">  <span class="keyword">if</span> (logDebug) &#123;</span><br><span class="line">    <span class="keyword">long</span> callTime = System.currentTimeMillis() - startTime;</span><br><span class="line">    LOG.debug(<span class="string">&quot;Call: &quot;</span> + method.getName() + <span class="string">&quot; &quot;</span> + callTime);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> value.get();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>There are two parameters in method <code>client.call</code>, the first one is an instance of <code>Invocation</code>, the second one is remoteId, which is easy to guess that it might be used to represent the connection between client and server.</p>
+<p>Before step into <code>client.call</code> to see what are done there, it’s better to know what the <code>Invocation</code> is.</p>
+<p><code>Invocation</code> implements <code>Writable</code> interface, so, let’s look at <code>Writable</code> first.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/12/27/hadoop-rpc-client-1/#more" rel="contents">
@@ -356,6 +359,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>This will be the first article of a series of blogs I am about to post, which are all about what I learned from reading the <a target="_blank" rel="noopener" href="http://hadoop.apache.org/">Hadoop</a> source code (<a target="_blank" rel="noopener" href="http://archive.cloudera.com/cdh/3/hadoop-0.20.2-cdh3u2/">cdh3u2</a>).</p>
 <p>Code snippets will be full of those posts, to not confuse you, all comments added by me begin with <code>//**</code> instead of <code>//</code> or <code>/*</code>.</p>
+<h2 id="an-easy-example-of-java-dynamic-proxy">An Easy Example of Java Dynamic Proxy</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyTester</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Hello</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RealHello</span> <span class="keyword">implements</span> <span class="title">Hello</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;Hello, World&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FakeHello</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> Object agent;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">FakeHello</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.agent = obj;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//** Hijacking real method invocation</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;Hello Hadoop first&quot;</span>);</span><br><span class="line">            <span class="comment">//** Real method invocation happens here</span></span><br><span class="line">            Object result = method.invoke(agent, args);</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        RealHello realHello = <span class="keyword">new</span> RealHello();</span><br><span class="line">        FakeHello fakeHello = <span class="keyword">new</span> FakeHello(realHello);</span><br><span class="line">        <span class="comment">//** &quot;hello&quot; will be a proxy,</span></span><br><span class="line">        <span class="comment">//** whose method invocation will be dispatched to &quot;fakeHello&quot;.</span></span><br><span class="line">        Hello hello = (Hello) Proxy.newProxyInstance(</span><br><span class="line">            Hello.class.getClassLoader(), <span class="keyword">new</span> Class[] &#123;Hello.class&#125;, fakeHello);</span><br><span class="line">        hello.sayHello();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ProxyTester proxyTester = <span class="keyword">new</span> ProxyTester();</span><br><span class="line">        proxyTester.test();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The results:</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/12/13/hadoop-rpc-dynami-proxy/#more" rel="contents">
@@ -429,6 +435,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>在集群安装 Hadoop 的过程中，出现了这样的问题。</p>
 <p>所有 Node 都起来了，工作正常，唯独 secondary namenode 在 doCheckpoint 的时候报错，而且是诡异的 403 http error。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; secondary namenode log</span><br><span class="line">2011-10-24 17:09:12,255 INFO org.apache.hadoop.security.UserGroupInformation: Initiating re-login for hadoop&#x2F;hz169-92.i.site.com@I.SITE.COM</span><br><span class="line">2011-10-24 17:09:22,917 ERROR org.apache.hadoop.hdfs.server.namenode.SecondaryNameNode: Exception in doCheckpoint: 2011-10-24 17:09:22,918 ERROR org.apache.hadoop.hdfs.server.namenode.SecondaryNameNode: java.io.IOException: Server returned HTTP response code: 403 for URL: https:&#x2F;&#x2F;hz169-91.i.site.com:50475&#x2F;getimage?getimage&#x3D;1</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>于是怀疑 kerberos 认证问题，可是 secondary namenode 已经通过 Kerberos 验证了；</p>
+<p>又怀疑 secondary namenode 向 namenode 请求服务被拒绝，可是 namenode 的 log 显示已经通过验证了。(<code>hadoop/hz169-92.i.site.com@I.SITE.COM</code> 是 secondary namenode 的 kerberos principal，<code>hadoop/hz169-91.i.site.com@I.SITE.COM</code> 是 namenode 的 kerberos principal)</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/10/26/kerberos-principal-name-parsing-in-hadoop/#more" rel="contents">
@@ -502,6 +511,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>花了两天多时间，终于让 Hadoop 可以安安稳稳的跑几个 MapReduce 的程序了，安装的过程很折腾，但我觉得应该用不着花这么长时间的。</p>
 <p>很久以前就深知 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/RTFM">RTFM</a> 的重要性，但很多时候第一反应仍然是去 Google，而不是去官网找 Documentation，诚然，有些东西的文档的确很烂，但其实 Google 出来的 Blog 转载来转载去也就那么几份，很多里面都存在问题，毕竟需求是不一样的，态度也是不一样的。</p>
+<p>这篇文章内容大部分参照自官方文档，并且包含若干我的配置错误，以及解决方法。</p>
+<p>这个安装过程适用于配置 <strong>Kerberos V5 1.8.4</strong> to <strong>Cloudera CDH3</strong> on <strong>Ubuntu 11.04</strong></p>
+<h2 id="安装-jdk-6">安装 JDK 6</h2>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/10/20/install-hadoop-with-kerberos-in-ubuntu/#more" rel="contents">
@@ -575,6 +587,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>今天失业在家。</p>
 <p>第一次换工作，考虑了很久。也许是因为没有经验，或者说自己决断力不足，纠结了不少时间。</p>
+<p>兴趣对我来说很重要，我平时看的，学的，做的跟工作完全不相关，我早该离开的，但是离不开的是那里的工作氛围，真的挺好，像研究生时的实验室。</p>
+<p>我试图换岗位，做 Coach，遇到了一群可爱的 co-worker，但很多时候很多事情总是事与愿违。</p>
+<p>死去的乔布斯说过 connecting the dots，我新工作，是因为我研究生时候做的项目的经历来的。所以虽然我放弃了这三年来的工作经验和积累，但谁知道说不准未来什么时候就突然有用了。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/10/11/change/#more" rel="contents">
@@ -648,6 +663,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>七月中旬 outing 去了武夷山，本来的休闲游，却被我们搞成了暴走三日行，其实旅游本是探索，如果跟着导游，或者只按景点安排来，那或许少了很多乐趣。</p>
 <p>就譬如说在贴这篇 Blog 的过程中，我经历了洗手间门被反锁事件，拿卡片开了十几分钟，无果，但同样的锁，隔壁房间开了好多次，早已练就 10 秒内开门绝技，无奈我只得叫开锁公司。</p>
+<p>回想起两年前，同样是晚上，去洗澡，锁坏了，出不去，在洗手间足足呆了三个多小时，期间洗了 4 次澡，坐马桶上发呆，对窗外发呆，以至于对面楼很多房间都拉了窗帘。室友回来才帮我叫开锁公司，开门换锁，就是今天开不了的这只。</p>
+<p>这就叫做生活的花絮，</p>
+<p>那种我也许可以讲很多年的故事。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/09/18/wuyishan/#more" rel="contents">
@@ -721,6 +739,9 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="正则表达式的实现引擎nfadfa">正则表达式的实现引擎（NFA/DFA)</h2>
 <p>NFA 是不确定的有限自动机，也就是说在状态的迁移过程中，下一个状态可能有好几种可能，而对于 DFA 确定有限自动机而言，下一个状态只有一种可能。</p>
+<p>想起大学时上的一门课，“可计算性理论”，用自动机来证明程序是可以写出来的，我大学有两门典型天书课，这个是一，另一个是 “相对论和量子力学”。</p>
+<p>简单来讲，NFA 对应的是正则表达式主导的匹配，而 DFA 对应的是文本主导的匹配。</p>
+<p>比如说对于这样的文本和正则表达式，</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/08/20/implementation-and-efficiency-of-regular-expression/#more" rel="contents">
@@ -794,6 +815,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>请看下面几行代码</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MyObject.h</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MyObject</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">   <span class="built_in">NSString</span> *name;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">retain</span>) <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// MyObject.m</span></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span></span></span><br><span class="line"><span class="keyword">@synthesize</span> name;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// MyObject.h</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MyObject</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">retain</span>) <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>第一个 interface 里面声明了一个 instance variable 名为 name，然后定义其为 property。 第二个 interface 里面直接定义了一个 property 名为 name。</p>
+<p>第二个忘了声明 instance variable 吗?</p>
+<p>如果你使用的 Objective-C Runtime 版本高于 ios 3.x 或者高于 64bit Snow Leopard，那么第二个方法是正确的。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/06/13/about-objc-property/#more" rel="contents">
@@ -867,6 +891,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>长久以来，我都有这样一个观念，比如 pack(4)，就代表着所有数据都是以 4 字节对齐的，直到我有了 64 位机，并且看到下面这个例子：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">One</span> &#123;</span></span><br><span class="line">    <span class="keyword">double</span> d;</span><br><span class="line">    <span class="keyword">char</span> c;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Two</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> c;</span><br><span class="line">    <span class="keyword">double</span> d;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>如果按 4 字节对齐的话，按我的观点，结构体中每一个成员都应该以 4 字节对齐，那么两个都是 4+8+4=16, 结果是对的。</p>
+<p>那么如果按 8 字节对齐的话，结果是不是应该是 8+8+8＝24？</p>
+<p>可是错了。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/05/17/alignment-and-pack/#more" rel="contents">
@@ -943,6 +970,15 @@
 </center>
 <center>
 <img src="/images/2011/westlakeautumnspring3.jpg" width="280" style="display: inline;"> <img src="/images/2011/westlakeautumnspring4.jpg" width="280" style="display: inline;">
+</center>
+<center>
+<img src="/images/2011/westlakeautumnspring5.jpg" width="280" style="display: inline;"> <img src="/images/2011/westlakeautumnspring6.jpg" width="280" style="display: inline;">
+</center>
+<center>
+<img src="/images/2011/westlakeautumnspring7.jpg" width="280" style="display: inline;"> <img src="/images/2011/westlakeautumnspring8.jpg" width="280" style="display: inline;">
+</center>
+<center>
+<img src="/images/2011/westlakeautumnspring9.jpg" width="280" style="display: inline;"> <img src="/images/2011/westlakeautumnspring10.jpg" width="280" style="display: inline;">
 </center>
           <!--noindex-->
             <div class="post-button">

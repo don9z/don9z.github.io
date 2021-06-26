@@ -285,6 +285,11 @@
 <center>
 <img src="/images/2013/hangzhouinsnow2.jpg" width="280" style="display: inline;"> <img src="/images/2013/hangzhouinsnow3.jpg" width="280" style="display: inline;">
 </center>
+<a><img src="/images/2013/hangzhouinsnow4.jpg" width="560"></a>
+<center>
+<img src="/images/2013/hangzhouinsnow5.jpg" width="280" style="display: inline;"> <img src="/images/2013/hangzhouinsnow6.jpg" width="280" style="display: inline;">
+</center>
+<p><a><img src="/images/2013/hangzhouinsnow7.jpg" width="560"></a></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/01/22/hangzhou-in-snow/#more" rel="contents">
@@ -358,6 +363,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>I was working on a mobile app analytics system recent months, how well the system works relies on the app usage data captured on the users' devices.</p>
 <p>This post is about technically how I did it in both iOS and Android operating systems.</p>
+<h2 id="making-thread">Making Thread</h2>
+<p>When a user opens an app, an open session event needs to be captured, when a user tap the home button, app transitions to the background, the session needs to be marked as closed, when a user view an important page, or click a fancy button, counters need to be increased. Those needs must be handled in background threads since I don't want my app UI freezing by some time-consuming "needs".</p>
+<p>In iOS, <a target="_blank" rel="noopener" href="https://developer.apple.com/library/mac/#documentation/Performance/Reference/GCD_libdispatch_Ref/Reference/reference.html">Grand Central Dispatch (GCD)</a> is amazing, create a serial dispatch queue, and a background thread is alive.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/01/18/app-lifetime-measurement-ios-android/#more" rel="contents">
@@ -431,6 +439,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>Last week, I read the old book <a target="_blank" rel="noopener" href="http://www.amazon.com/Getting-Things-Done-Stress-Free-Productivity/dp/0142000280">Get Things Done</a> again, it did make me think. I read it first two years ago, at that time, I didn't feel the benefits since I could manage all stuff in my mind. But now, I can't, I do forget things, I do procrastinate things. During my reread, I kept asking me, why I just missed this treasure, so silly I was.</p>
 <p>Below are my reading notes.</p>
+<hr>
+<p><strong>Stuff</strong>: anything you have allowed into your psychological or physical world that doesn’t belong where it is, but for which you haven’t yet determined the desired outcome and the next action step.</p>
+<p>We need to transform all the “stuff” we’re trying to organize into <strong>actionable</strong> stuff we need to do.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/01/16/sharing-my-gtd-notes/#more" rel="contents">
@@ -508,6 +519,11 @@
 <li>Edit "_config.yml", replace <code>markdown: rdiscount</code> to <code>markdown: kramdown</code>, <a target="_blank" rel="noopener" href="http://kramdown.rubyforge.org">kramdown</a> is a fast, pure-Ruby Markdown-superset converter.</li>
 <li>Open "source/_includes/custom/head.html", and add below scripts to use <a target="_blank" rel="noopener" href="http://www.mathjax.org">MathJax</a>, a decent js display engine for mathematics.</li>
 </ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- MathJax --&gt;</span><br><span class="line">&lt;script type=<span class="string">&quot;text/x-mathjax-config&quot;</span>&gt;</span><br><span class="line">  MathJax.Hub.Config(&#123;</span><br><span class="line">    tex2jax: &#123;</span><br><span class="line">      inlineMath: [ [<span class="string">&#x27;$&#x27;</span>,<span class="string">&#x27;$&#x27;</span>], [<span class="string">&quot;\\(&quot;</span>,<span class="string">&quot;\\)&quot;</span>] ],</span><br><span class="line">      processEscapes: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type=<span class="string">&quot;text/x-mathjax-config&quot;</span>&gt;</span><br><span class="line">    MathJax.Hub.Config(&#123;</span><br><span class="line">      tex2jax: &#123;</span><br><span class="line">        skipTags: [<span class="string">&#x27;script&#x27;</span>, <span class="string">&#x27;noscript&#x27;</span>, <span class="string">&#x27;style&#x27;</span>, <span class="string">&#x27;textarea&#x27;</span>, <span class="string">&#x27;pre&#x27;</span>, <span class="string">&#x27;code&#x27;</span>]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type=<span class="string">&quot;text/x-mathjax-config&quot;</span>&gt;</span><br><span class="line">    MathJax.Hub.Queue(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> all = MathJax.Hub.getAllJax(), i;</span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>; i &lt; all.length; i += <span class="number">1</span>) &#123;</span><br><span class="line">            all[i].SourceElement().parentNode.className += <span class="string">&#x27; has-jax&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type=<span class="string">&quot;text/javascript&quot;</span></span><br><span class="line">   src=<span class="string">&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;</span>&gt;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>Now, let's enjoy the beauty of <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Normal_distribution">Gaussian Distribution</a></p>
+<p><span class="math display">\[
+f(x;\mu,\sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}
+\]</span></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2012/12/19/latex-math-in-octopress/#more" rel="contents">
@@ -583,6 +599,11 @@
 <center>
 <img src="/images/2012/theautumn2.jpg" width="280" style="display: inline;"> <img src="/images/2012/theautumn3.jpg" width="280" style="display: inline;">
 </center>
+<a><img src="/images/2012/theautumn4.jpg" width="560"></a>
+<center>
+<img src="/images/2012/theautumn5.jpg" width="280" style="display: inline;"> <img src="/images/2012/theautumn6.jpg" width="280" style="display: inline;">
+</center>
+<p><a><img src="/images/2012/theautumn7.jpg" width="560"></a></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2012/11/25/the-autumn/#more" rel="contents">
@@ -656,6 +677,9 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="problem">Problem</h2>
 <p>The day before yesterday, I looked into the Markdown menu of Emacs and saw "Preview" and "Export" commands while I was editing one markdown document, then, I just clicked, and opened the exported HTML file, but found out that almost all my contents were emptied, that document were written in Chinese.</p>
+<p>I had another separate Emacs instance running on a terminal, I do the same thing there, the non-ASCII characters were well outputted.</p>
+<h2 id="solution">Solution</h2>
+<p>Before, I always used <code>markdown</code> directly by <code>shell-command</code>, and it worked well. I doubt there might be something wrong in the encoding functions of <code>markdown-mode</code>. Then I checked.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2012/11/22/coding-system-in-shell-command/#more" rel="contents">
@@ -729,6 +753,11 @@
     <div class="post-body" itemprop="articleBody">
           <p>Before I learned "Web Analytics", I was stupid at this area.</p>
 <p>For example, I only knew and obsessed with "PageView", I got angry for Google not putting "pageviews" as the default selected metric in "Google Analytics", instead, it uses "visits".</p>
+<h2 id="let-them-go">Let Them Go</h2>
+<blockquote>
+<p>A page view (PV) or page impression is a request to load a single HTML file (web page) of an Internet site. (<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Pageviews">Wikipedia</a>)</p>
+</blockquote>
+<p>Yes, from the early days of web, we all obsessed about "page views", it is a calculation of how many times a page is viewed, so, more "page views" means more "famous" your site is, or more opportunity for someone to click your ads.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2012/10/30/talk-about-web-analytics-metrics/#more" rel="contents">
@@ -809,14 +838,7 @@
 <p>You may say, well, forget the mess, it's not mine, I'm not sure it's useless or not, but, the truth is, it's yours.</p>
 <p>Some day, you can't stand the messy house, you buy a new one.</p>
 </blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2012/10/09/porting-code/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+
       
     </div>
 
@@ -884,6 +906,9 @@
 <img src="/images/2012/wreckage1.jpg" width="280" style="display: inline;"> <img src="/images/2012/wreckage2.jpg" width="280" style="display: inline;">
 </center>
 <p><a><img src="/images/2012/wreckage3.jpg" width="560"></a></p>
+<p>We are all going to end like this, so, enjoy life!</p>
+<p><a><img src="/images/2012/wreckage4.jpg" width="560"></a></p>
+<p>-- Taken on September 1, 2012 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157633625737217">flickr</a>)</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2012/09/02/wreckage-decay/#more" rel="contents">
@@ -957,6 +982,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>I am engaging in data analysis of Apache access logs recently, sick of writing mapreduce programs in Java way, I chose python, which is far more better than Java on processing text, and exploited [stream](http://en.wikipedia.org/wiki/Stream_(computing)) which is the nature of mapreduce programming.</p>
 <h2 id="word-count-example">Word Count Example</h2>
+<p>Mapper receives inputs from standard input, splits each line and sends all words out as <code>word  1</code> pairs.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> sys.stdin:</span><br><span class="line">    line = line.strip()</span><br><span class="line">    words = line.split()</span><br><span class="line">    <span class="keyword">for</span> word <span class="keyword">in</span> words:</span><br><span class="line">        <span class="built_in">print</span> <span class="string">&#x27;%s\t%s&#x27;</span> % (word, <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>All the pairs are sorted by <code>word</code>, and sent to the Reducer, don't worry, <a target="_blank" rel="noopener" href="http://hadoop.apache.org/common/docs/r0.15.2/streaming.html">hadoop streaming</a> does it for us.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2012/07/30/streaming-python-unit-testing/#more" rel="contents">

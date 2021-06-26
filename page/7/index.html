@@ -283,6 +283,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>Hibernate 的创建者 Gavin King 发明的新语言，Ceylon，基于 Java 虚拟机，并且认为这个语言是 Java Killer，完全针对他对 Java 不爽的地方改进的。</p>
 <p>下面是当时的 slides，第一个是初衷和新语言设计，第二个是 Ceylon 的类型系统，包括闭包，泛型等。</p>
+<p>因为 QCon 是 Oracle 等公司赞助的，一身型男打扮的 Gavin King，身后是大大的 Oracle Logo，然后型男不停吐槽 Java，真是别有一番滋味。</p>
+<p>Gavin King 觉得用动作语言实现 DSL (Domain Specific Language) 很危险，会不知道什么该做，什么不该做，因为没有限制，比如类型等。</p>
+<p>被问道和 Scala 的对比时，他说他不怎么了解，但认为 Scala 可读性很差，另外他觉得没有 IDE 来做 refactoring 是不可接受的。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/04/26/ceylon-next-generation-java/#more" rel="contents">
@@ -356,6 +359,9 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="eric-evans---domain-driven-design-strategies-dealing-with-legacy-system">Eric Evans - Domain-Driven Design Strategies Dealing with Legacy System</h2>
 <p>首先从两个耦合关系很大的遗留系统开始，当我们需要增加新功能时，往往涉及到两个遗留系统的更改，那势必会又增加这两个系统之间的耦合关系。</p>
+<p>当问题多到一定程度，遗留系统之间藕断丝连的关系层出不穷，每一个新功能的添加都变得像噩梦，便有念头说要不干脆重写整个系统。</p>
+<p>假设整个新系统是一个金字塔结构，新功能的添加相当于塔顶部分，跟业务功能关系不大的基础设施则相当于塔底部分，然后中间层是业务逻辑。</p>
+<p>我们计划第一年，先完成基础设施功能的实现，因为它跟业务无关，所以遗留系统仍然继续维护；第二年，完成业务逻辑层的实现，这一层，将会慢慢的将旧的遗留系统中的功能模块迁移到新系统中；第三年，添加新功能到塔顶。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/04/21/legacy-code-and-domain-model/#more" rel="contents">
@@ -429,6 +435,9 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="robinlu-的-high-quality-ios-development."><span class="citation" data-cites="robinlu">@robinlu</span> 的 High Quality iOS Development.</h2>
 <p>内存管理中的引用计数，Ownership 的概念，以及 Autorelease 的使用，这些都快被讲烂了。</p>
+<p>但里面提到的 implicit ownership 以前没怎么注意过:</p>
+<p>NSTimer, Delayed performance of selector, Thread, IBOutlet</p>
+<p>另外提到的 Circular Reference，使用引用计数来进行内存管理很容易出现环引用的场景，比如有一个父视图包含一个子视图，则 retain 子视图，然而子视图又需要知道自己的父视图是谁，则需要 retain 主视图，于是就出现了循环，这样因为相互依赖，内存始终是得不到释放的。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/04/18/mobile-dev/#more" rel="contents">
@@ -502,6 +511,14 @@
     <div class="post-body" itemprop="articleBody">
           <p>上周末在北京参加了 QCon 会议，是自己第一次参加，学到了很多东西，大大开拓了眼界，一直忙没来的及总结，这篇以及后面的几篇都是对这次会议上自己感兴趣的东西的总结，在这里分享一下。</p>
 <h2 id="上海贝尔的敏捷转型之旅">上海贝尔的敏捷转型之旅</h2>
+<p>讲了 5 个转型故事，可能因为我也是处于相似的环境下，听得好累 :-)</p>
+<ul>
+<li>自上而下改革，领导更替，组织调整，意见分歧，传言惑众;</li>
+<li>高速中换轮胎，"黑暗"力量卷土重来，"敏捷不搞了";</li>
+<li>大师一席话胜读 10 年书，大师的话真的这么重要吗? 答案是的确重要；</li>
+<li>祝福的人少，挑刺的人多，自以为是的咨询师…</li>
+</ul>
+<p>整个 session 最让我印象深刻的是，说中间换了个领导，然后让人觉得敏捷好像不搞了，然后自己怎么怎么跟领导谈，让领导支持，甚至是公司有的团队使用了 agile，却不让他写到案例中，要悄悄搞。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/04/17/agile/#more" rel="contents">
@@ -575,6 +592,9 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="align-regexp">align-regexp</h2>
 <p>相必大家都用过 <code>C-M-\</code>，一般都能满足需要，可是有时候需要按一行中的某些字符对齐，比如一些变态的语言或者编程规范规定赋值语句需要按 "=" 对齐，那怎么办?</p>
+<p>align-regexp 使用起来只需要选中需要对齐的 region，然后执行，输入需要匹配的正则表达式即可。</p>
+<p>比如如下代码:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> var = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">int</span> variable_is_kinda_long = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">int</span> var_is_less_long = <span class="number">4</span>;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/03/31/emacs-features/#more" rel="contents">
@@ -648,14 +668,7 @@
     <div class="post-body" itemprop="articleBody">
           <p><a><img src="/images/2011/taiziwan1.jpg" width="560"></a> <a><img src="/images/2011/taiziwan2.jpg" width="560"></a> <a><img src="/images/2011/taiziwan3.jpg" width="560"></a> <a><img src="/images/2011/taiziwan4.jpg" width="560"></a> <a><img src="/images/2011/taiziwan5.jpg" width="560"></a></p>
 <p>-- Taken on March 26, 2011 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157633612673569">flickr</a>)</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2011/03/26/taiziwan/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+
       
     </div>
 
@@ -721,6 +734,9 @@
     <div class="post-body" itemprop="articleBody">
           <p><a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/155964/what-are-best-practices-that-you-use-when-writing-objective-c-and-cocoa">StackOverflow</a> 上有人问除了 <a target="_blank" rel="noopener" href="http://developer.apple.com/library/mac/#documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGIntro/XHIGIntro.htm">HIG</a> 外使用 Objective-C 以及 Cocoa 还有什么好的工程实践，果然是抛砖引玉，很多好的 practices 和 tips 一一跃然纸上，摘抄一些:</p>
 <p>1&gt; 使用 properties，不用 "_" 前缀。</p>
+<p>2&gt; 把 private 方法的定义移到 .m 文件，如下:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">&quot;MyClass.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MyClass</span> ()</span></span><br><span class="line">- (<span class="keyword">void</span>) someMethod</span><br><span class="line">- (<span class="keyword">void</span>) someOtherMethod</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MyClass</span></span></span><br></pre></td></tr></table></figure>
+<p>Objective-C 的方法没有像 Java 那样的 private 或者 public 属性，如果需要设置方法为 private，一般采用 category 来对方法进行隐藏。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/03/14/objective-c-and-cocoa-engineering-practices/#more" rel="contents">
@@ -792,7 +808,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <a><img src="/images/2011/lingfengtanmei1.jpg" width="560"></a> <a><img src="/images/2011/lingfengtanmei2.jpg" width="560"></a>
+          <a><img src="/images/2011/lingfengtanmei1.jpg" width="560"></a> <a><img src="/images/2011/lingfengtanmei2.jpg" width="560"></a> <a><img src="/images/2011/lingfengtanmei3.jpg" width="560"></a> <a><img src="/images/2011/lingfengtanmei4.jpg" width="560"></a>
+<center>
+<img src="/images/2011/lingfengtanmei5.jpg" width="280" style="display: inline;"> <img src="/images/2011/lingfengtanmei6.jpg" width="280" style="display: inline;">
+</center>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/02/23/lingfeng-tanmei/#more" rel="contents">
@@ -866,6 +885,11 @@
     <div class="post-body" itemprop="articleBody">
           <p>之前学 elisp 的时候一直感觉思维转不过来很纠结，看了 <a target="_blank" rel="noopener" href="http://www.defmacro.org/ramblings/lisp.html">The Nature of Lisp</a>，原来正如 <a target="_blank" rel="noopener" href="http://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670">Code Complete</a> - Laying the Foundation 章节讲的那样，我们认识新事物总是会借鉴思维里面已有的 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Metaphor">Metaphor</a>, 我只用过 C, C++, Java，Python, Objective-C, 也就意味着我基本只有这些语言的 metaphor，都跟 Lisp 差异很大，也难怪了。但也正因为如此，才需要不断的克服自身的排斥心理，去接触更多的新事物。</p>
 <p>正如书中所云:</p>
+<blockquote>
+<p>A software metaphor is more like a searchlight than a road map. It doesn’t tell you where to find the answer, it tells you how to look for it. A metaphor serves more as a heuristic than it does as an algorithm.</p>
+</blockquote>
+<p>接触的新事物越多，积攒起来的 metaphor 就越多，“本能” 的触类旁通便也会越频繁，很多科学上的新发现都是把不相干的事物触类旁通的引用到自身领域而突然使人茅塞顿开的。</p>
+<p>该文章从 XML 着手，对于这样一个函数</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/02/15/from-xml-to-lisp/#more" rel="contents">
@@ -939,6 +963,17 @@
     <div class="post-body" itemprop="articleBody">
           <p>对 TDD 不了解的同学可参考 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Test-driven_development">Test-driven development</a></p>
 <p>本文使用的 Objective-C 单元测试框架是 <a target="_blank" rel="noopener" href="http://sente.epfl.ch/software/ocunit/">OCUnit</a> ，最新的 Xcode 已经包含。</p>
+<h3 id="tdd-的步骤如下">TDD 的步骤如下:</h3>
+<ol type="1">
+<li>写一个测试某个功能的单元测试用例；</li>
+<li>运行，测试失败；</li>
+<li>编码实现功能；</li>
+<li>运行单元测试，通过修改代码，直到测试成功；</li>
+<li>重构代码；</li>
+<li>重构单元测试用例；</li>
+<li>重复 1。</li>
+</ol>
+<p>其中 5、6 是可选步骤，有必要了才会进行，但是必须保证产品代码和单元测试用例不能同时被更改。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/01/16/tdd-using-objective-c/#more" rel="contents">

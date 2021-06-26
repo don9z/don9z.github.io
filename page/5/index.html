@@ -283,6 +283,9 @@
     <div class="post-body" itemprop="articleBody">
           <p><a target="_blank" rel="noopener" href="http://orgmode.org/">org-mode</a> is an amazing tool, you can use it to write documents, make spreadsheets, track to-do list, generate agendas, etc. If you use Emacs a lot, you don't want to miss this unicorn.</p>
 <p>I mainly use it as my notebook, and <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Getting_Things_Done">GTD</a> tool.</p>
+<p>This post is about how I configured it to be my single daily use GTD tool.</p>
+<h2 id="customized-task">Customized Task</h2>
+<p>I use 5 different states of my task item. <code>WAITING</code> and <code>CANCELED</code> are abnormal cases, when switching to these states, <a target="_blank" rel="noopener" href="http://orgmode.org/guide/Tracking-TODO-state-changes.html#Tracking-TODO-state-changes">note of reason</a> should be added, as well as time-stamp, if task is done, it switches to DONE state, with a time-stamp, but no note needed.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2012/06/16/org-my-life/#more" rel="contents">
@@ -356,6 +359,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>I have an application runs perfectly on single machine, it was designed to be used this way, but things got changed, now, at least three copies have deployed, and is continue increasing.</p>
 <p>The main job of the application is to collect data, and then do analysis, being used by three products means deploy it to three machines.</p>
+<p>It always runs background with three processes, so I need to keep an eye on every processes, trace logs and set nearly the same configurations to each copy on every machine, as well as some product specific settings. It's chaos.</p>
+<p>I plan to make it distributed, with one server do the product specific analysis, and some clients collecting data. Server dispatches clients, gives clients job to do, sets configurations per client, and gets running status of all clients.</p>
+<p>Hope this can relieve me. :)</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2012/05/10/hello-world-by-thrift-using-java/#more" rel="contents">
@@ -428,14 +434,11 @@
     
     <div class="post-body" itemprop="articleBody">
           <a><img src="/images/2012/aroundwestlake1.jpg" width="560"></a> <a><img src="/images/2012/aroundwestlake2.jpg" width="560"></a>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2012/04/12/around-west-lake/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+<center>
+<img src="/images/2012/aroundwestlake3.jpg" width="280" style="display: inline;"> <img src="/images/2012/aroundwestlake4.jpg" width="280" style="display: inline;">
+</center>
+<p>-- Taken on April 4, 2012 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157633612673569">flickr</a>)</p>
+
       
     </div>
 
@@ -501,6 +504,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>Recently, I needed to do some analysis on lots of short messages like tweets. To be accurate, I had to remove the duplicated messages.</p>
 <p>String compare is not enough, what I wanted is to remove all the similar messages.</p>
+<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Cluster_analysis">Clustering</a> works, but I don't want to write a whole <a target="_blank" rel="noopener" href="http://maya.cs.depaul.edu/classes/ds575/single-pass.html">Single Pass Algorithm</a>, a colleague suggested me to consider <a target="_blank" rel="noopener" href="http://lucene.apache.org/">Lucene</a>.</p>
+<p>I've never used Lucene before, so I searched and read some documents of it. At first, I thought I could put all short messages into Lucene index, then search by each message content, set a hit score threshold, collect all the hit docs, and remove all docs beyond the threshold.</p>
+<p>But when it came to implementation, it's not easy to extract important words in message content as keywords used for "search by each message content".</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2012/04/09/clustering-with-lucene-example/#more" rel="contents">
@@ -574,6 +580,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>Though Emacs is one of the best text editors, I mean without any packages, nearly every emacser has a bunch of packages they collect which fits their needs.</p>
 <p>With those packages, Emacs becomes the best text editor, no more "one of".</p>
+<p>OK, Vim is a good editor, too. I had tried it before addicted to Emacs, but couldn't get used to it. I felt uncomfortable of the philosophy, the separatation of editing and operation, and the switch key <code>ESC</code>, which is really hard to type.</p>
+<p>Someone may also say that Emacs is an operating system, it can be used to write programs on any languages, to read or send emails, to play games, even as a twitter client.</p>
+<p>Like always, I see some interesting tools, Google whether Emacs can do so, then, turns out it can, just by some packages.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2012/03/14/how-i-manage-emacs-packages/#more" rel="contents">
@@ -647,6 +656,9 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="a-normal-hive-table">A normal Hive table</h2>
 <p>A normal hive table can be created by executing this script,</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">  userId <span class="built_in">BIGINT</span>,</span><br><span class="line">  <span class="keyword">type</span> <span class="built_in">INT</span>,</span><br><span class="line">  <span class="keyword">level</span> <span class="built_in">TINYINT</span>,</span><br><span class="line">  <span class="built_in">date</span> <span class="keyword">String</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">COMMENT</span> <span class="string">&#x27;User Infomation&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>It's empty, util we load some data into it, it's useless.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">LOAD</span> INPATH <span class="string">&#x27;/user/chris/data/testdata&#x27;</span> OVERWRITE <span class="keyword">INTO</span> <span class="keyword">TABLE</span> <span class="keyword">user</span></span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2012/02/22/hive-external-table-with-partitions/#more" rel="contents">
@@ -722,14 +734,9 @@
 <center>
 <img src="/images/2011/maojiabu2.jpg" width="280" style="display: inline;"> <img src="/images/2011/maojiabu3.jpg" width="280" style="display: inline;">
 </center>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2012/02/21/maojiabu/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+<p><a><img src="/images/2011/maojiabu4.jpg" width="560"></a></p>
+<p>-- Taken on November 27, 2011 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157633620906465">flickr</a>)</p>
+
       
     </div>
 
@@ -795,6 +802,9 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="old-days">Old days</h2>
 <p>All files of <a target="_blank" rel="noopener" href="http://wordpress.org">Wordpress</a> were in server side, whenever I want to make changes, I had to <code>ssh</code> to my remote machine.</p>
+<p>I use a <a target="_blank" rel="noopener" href="http://www.linode.com">Linode VPS</a> shared by some friends, sometimes, tragedies like "failed to start-up after reboot", "system needs to be re-installed" happened. I didn't want to lose any file, so, I relied on <a target="_blank" rel="noopener" href="http://git-scm.com">git</a>, after changes were made directly on server, <code>git pull</code> on my Macbook Pro would get all things backed up locally.</p>
+<p>To write posts, I used Wordpress editor at first, but it sucked, I like leaving one blank line between every paragraph, it couldn't.</p>
+<p>I tried <code>org-mode</code> by using "org2blog" package, since I use <a target="_blank" rel="noopener" href="http://www.gnu.org/software/emacs/">Emacs</a> a lot, it was an amazing writing experience. But when my blog post became long, and with lots of code snippets, problem occurred, Emacs ate up all CPU resources making system hung during <code>org2blog-post-buffer</code> occasionally.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2012/02/12/start-blogging-with-octopress/#more" rel="contents">
@@ -868,6 +878,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>Using Emacs is like an adventure.</p>
 <p>I found two very powerful extensions recently in Github. Yes, I’ve shared some powerful features/extensions last year by this <a href="/2011/03/31/emacs-features/">post</a>, but those two are not only powerful, but also handy, compared with align-regex, occur, anything, etc.</p>
+<h2 id="mark-multiple.el">mark-multiple.el</h2>
+<p>I’ve used Eclipse, which has a good support for refactoring, but I want complain: Dialogs suck!</p>
+<p>So, when I need to rename one variable or a function which occurs many times in a file, what am I supposed to do?</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2012/02/05/talk-about-emacs/#more" rel="contents">
@@ -941,6 +954,15 @@
     <div class="post-body" itemprop="articleBody">
           <p>What does <code>org.apache.hadoop.ipc.Client</code> do to help the real RPC client to make a remote method invocation on RPC server?</p>
 <p>If you don’t know, or forget, please read <a href="/2011/12/27/hadoop-rpc-client-1/">my last post</a>.</p>
+<blockquote>
+<p>Firstly, create a <code>Call</code> instance, passing the <code>param</code> to it, which contains method name and parameters (class type and instances).</p>
+</blockquote>
+<blockquote>
+<p>Then, get a client-server connection.</p>
+</blockquote>
+<blockquote>
+<p>In the third place, send the <code>Call</code> instance to server using <code>connection.sendParam</code> method.</p>
+</blockquote>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/12/29/hadoop-rpc-client-2/#more" rel="contents">

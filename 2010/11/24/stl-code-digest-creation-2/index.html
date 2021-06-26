@@ -24,12 +24,12 @@
     var CONFIG = {"hostname":"blog.zhengdong.me","root":"/","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":null}},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 
-  <meta name="description" content="在分析了对象的构建和析构之后，我们接着看对象构建所基于的内存空间是如何分配和释放的。这一功能是由 stl_alloc 提供的。之前提到过 allocate，在 SGI STL 中是不使用的，因为其只是对 new 和 delete 进行了简单的封装，并且加上了这段代码 1set_new_handler(0);">
+  <meta name="description" content="在分析了对象的构建和析构之后，我们接着看对象构建所基于的内存空间是如何分配和释放的。这一功能是由 stl_alloc 提供的。之前提到过 allocate，在 SGI STL 中是不使用的，因为其只是对 new 和 delete 进行了简单的封装，并且加上了这段代码 1set_new_handler(0); 这个函数用来指定如果内存分配失败时的 callback 函数，定义如下 12typedef">
 <meta property="og:type" content="article">
 <meta property="og:title" content="STL 源码分析-A.万物起源-2">
 <meta property="og:url" content="http://blog.zhengdong.me/2010/11/24/stl-code-digest-creation-2/index.html">
 <meta property="og:site_name" content="Extra Cookies">
-<meta property="og:description" content="在分析了对象的构建和析构之后，我们接着看对象构建所基于的内存空间是如何分配和释放的。这一功能是由 stl_alloc 提供的。之前提到过 allocate，在 SGI STL 中是不使用的，因为其只是对 new 和 delete 进行了简单的封装，并且加上了这段代码 1set_new_handler(0);">
+<meta property="og:description" content="在分析了对象的构建和析构之后，我们接着看对象构建所基于的内存空间是如何分配和释放的。这一功能是由 stl_alloc 提供的。之前提到过 allocate，在 SGI STL 中是不使用的，因为其只是对 new 和 delete 进行了简单的封装，并且加上了这段代码 1set_new_handler(0); 这个函数用来指定如果内存分配失败时的 callback 函数，定义如下 12typedef">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2010-11-23T16:59:00.000Z">
 <meta property="article:modified_time" content="2020-11-28T10:52:32.784Z">

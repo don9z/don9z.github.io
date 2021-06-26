@@ -24,12 +24,12 @@
     var CONFIG = {"hostname":"blog.zhengdong.me","root":"/","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":null}},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 
-  <meta name="description" content="C++中，我们熟悉的对象的创建和释放过程如下： 123456789class Thing&amp;#123;   ...&amp;#125;;...Thing *pt &#x3D; new Thing;delete pt;">
+  <meta name="description" content="C++中，我们熟悉的对象的创建和释放过程如下： 123456789class Thing&amp;#123;   ...&amp;#125;;...Thing *pt &#x3D; new Thing;delete pt; 代码中 new 完成两部分动作，1. 调用 ::operator new 分配对象所占内存空间，2. 调用 Thing 构造函数初始化对象内容。delete 也完成两部分动作，1. 调用析构函数清除对象">
 <meta property="og:type" content="article">
 <meta property="og:title" content="STL 源码分析-A.万物起源-1">
 <meta property="og:url" content="http://blog.zhengdong.me/2010/10/20/stl-code-digest-creation-1/index.html">
 <meta property="og:site_name" content="Extra Cookies">
-<meta property="og:description" content="C++中，我们熟悉的对象的创建和释放过程如下： 123456789class Thing&amp;#123;   ...&amp;#125;;...Thing *pt &#x3D; new Thing;delete pt;">
+<meta property="og:description" content="C++中，我们熟悉的对象的创建和释放过程如下： 123456789class Thing&amp;#123;   ...&amp;#125;;...Thing *pt &#x3D; new Thing;delete pt; 代码中 new 完成两部分动作，1. 调用 ::operator new 分配对象所占内存空间，2. 调用 Thing 构造函数初始化对象内容。delete 也完成两部分动作，1. 调用析构函数清除对象">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2010-10-20T15:56:00.000Z">
 <meta property="article:modified_time" content="2020-11-28T10:52:32.782Z">

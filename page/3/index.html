@@ -283,6 +283,9 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="the-old-mapreduce">The Old MapReduce</h2>
 <p>The Hadoop 0.x MapReduce system composed of JobTracker and TaskTrackers.</p>
+<p><img src="/images/2014/introtoyarn-jt.png" width="560"></p>
+<p>The JobTracker is responsible for resource management, tracking resource usage and job life-cycle management, e.g. scheduling job tasks, tracking progress, providing fault-tolerance for tasks.</p>
+<p>The TaskTracker is the per-node slave for JobTracker, takes orders from the JobTracker to launch or tear-down tasks, and provides task status information to the JobTracker periodically.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2014/02/20/the-hadoop-2-dot-x-introduction-to-yarn/#more" rel="contents">
@@ -354,7 +357,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <a><img src="/images/2013/colorfulseason1.jpg" width="560"></a> <a><img src="/images/2013/colorfulseason2.jpg" width="560"></a>
+          <a><img src="/images/2013/colorfulseason1.jpg" width="560"></a> <a><img src="/images/2013/colorfulseason2.jpg" width="560"></a> <a><img src="/images/2013/colorfulseason3.jpg" width="560"></a> <a><img src="/images/2013/colorfulseason4.jpg" width="560"></a>
+<center>
+<img src="/images/2013/colorfulseason5.jpg" width="280" style="display: inline;"> <img src="/images/2013/colorfulseason6.jpg" width="280" style="display: inline;">
+</center>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/11/30/colorful-season/#more" rel="contents">
@@ -428,6 +434,9 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="story">Story</h2>
 <p>We, programmers built Apps for people to use, sometimes, we could benefit from our users, too.</p>
+<p>We could collect anonymous data from users by recording their behaviors on using our App, then analyzing those data, we could find the most favorable features of our App for us to plan for future development, we could uncover some hidden needs of users for us to add new features or create new Apps, we could cluster the users and use different marketing strategy on each users group, etc.</p>
+<p>This post will be an example of how I do user clustering.</p>
+<p>Imagine I have a music player app, which has 2 millions users.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/11/15/an-approach-for-user-behavior-clustering/#more" rel="contents">
@@ -501,6 +510,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>Last week, a requirement came to me, that we needed to know how often some kind of actions users did in one of our products.</p>
 <p>It's temporal, I didn't want to write a mapreduce program, instead, I figured out an hive SQL which is a little complicated (joins 3 tables and a long where clause).</p>
+<p>It worked. I got the results, we knew how many times people did one kind of actions on their 1st day, 1st week, 2nd week and 3rd week.</p>
+<p>But in the 4th week, I got 0!</p>
+<p>It's weird.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/10/28/an-arithmetic-issue-in-hive-sql/#more" rel="contents">
@@ -574,6 +586,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>I have written about <a href="/2013/07/12/using-ios-android-libraries-cocos2dx/">how to use iOS and Android Libraries in Cocos2d-x</a>, in mobile game industry, there is another cross platform framework named <a target="_blank" rel="noopener" href="http://unity3d.com">unity3d</a>, which is more elegant, powerful, and, super expensive!</p>
 <p>This post will show how to enable the App using unity3d framework to use native libraries of iOS and Android.</p>
+<h2 id="unity3d-plugin-mechanism">Unity3d Plugin Mechanism</h2>
+<p>Unity3d supports plugins well, compared with <a target="_blank" rel="noopener" href="http://www.cocos2d-x.org">Cocos2D-X</a>.</p>
+<p>In order to use a plugin in unity3d, two things have to be done.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/09/13/using-ios-android-libraries-unity3d/#more" rel="contents">
@@ -647,6 +662,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>When I began to learn Objective C, I often heard of people talking about "sending message", I was curious, come on, it's just calling a method.</p>
 <p>Then I recalled that I had that same feelings when functions become to methods as I began to touch C++.</p>
+<p>To support polymorphism, C++ object model has a <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Virtual_method_table">vtable</a> inside every object which stores instance methods addresses, by which, C++ has a little dynamic characteristic.</p>
+<p>But those dynamic are settled after compiling to machine code, unlike ruby or python, which has a <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Virtual_machine">virtual machine</a> to dynamically interpreter the behaviors of a program, you might know, the <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Duck_typing">duck typing</a>.</p>
+<p>Like C++, Objective C is also compiled to machine code, it supports polymiorphism, but also, to another level, it supports duck typing, you can send messages to any objects even the <code>nil</code>.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/07/18/a-look-under-the-hood-of-objc-msgsend/#more" rel="contents">
@@ -720,6 +738,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>Been working on some libs on both iOS and Android platforms for a long time, recently needed to support <a target="_blank" rel="noopener" href="http://www.cocos2d-x.org">Cocos2d-x</a> framework, I have no interest to write a whole new lib based on C++, nightmare for maintenance, So I worked on to integrate both libs to Cocos2d-x framework.</p>
 <h2 id="ios">iOS</h2>
+<p>Imagine my lib name is <code>libHumbleAssistant.a</code>, with a header file <code>HumbleAssistant.h</code>.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">HumbleAssistant</span> : <span class="title">NSObject</span></span></span><br><span class="line">+ (<span class="keyword">void</span>)doSomething:(<span class="built_in">NSString</span> *)order;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>Lucky me, Objective C belongs to C family, which could integrate with C and C++ seamlessly.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/07/12/using-ios-android-libraries-cocos2dx/#more" rel="contents">
@@ -797,6 +818,11 @@
 <center>
 <img src="/images/2013/xitang3.jpg" width="226" style="display: inline;"> <img src="/images/2013/xitang4.jpg" width="334" style="display: inline;">
 </center>
+<p><a><img src="/images/2013/xitang5.jpg" width="560"></a></p>
+<center>
+<img src="/images/2013/xitang6.jpg" width="280" style="display: inline;"> <img src="/images/2013/xitang7.jpg" width="280" style="display: inline;">
+</center>
+<p>-- Taken on June 13 ~ 14, 2013 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157634136179541">flickr</a>)</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/06/15/xitang/#more" rel="contents">
@@ -872,6 +898,9 @@
 <blockquote>
 <p>A cookie, also known as an HTTP cookie, web cookie, or browser cookie, is a small piece of data sent from a website and stored in a user's web browser while a user is browsing a website. When the user browses the same website in the future, the data stored in the cookie can be retrieved by the website to notify the website of the user's previous activity. (<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/HTTP_cookie">refer</a>)</p>
 </blockquote>
+<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a> is a stateless protocol, which does not require the HTTP server to retain information or status about each visit for the duration of multiple requests, when a HTTP server receives multiple requests, it can't recognize whether those requests are coming from one single browser or not.</p>
+<p>HTTP cookie is designed to be a reliable mechanism for websites to remember the state of the website or activity the user had taken in the past. When a user visits a website, cookies are sent by user's browser to the HTTP server inside HTTP header fields, the HTTP server can set cookies for its own purposes and sent them back to the user, e.g., set values to identify the user.</p>
+<p>With cookie, the website recognizes its users, on the one hand, users don't need to set language preferences or login, etc. every time when they visit the site again, on the other hand, the website could provide their users customized contents or services.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/05/20/http-cookie-browser-identity-privacy/#more" rel="contents">
@@ -945,6 +974,9 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="ranking">Ranking</h2>
 <p>App ranking informations can be get from <a target="_blank" rel="noopener" href="http://itunes.apple.com/rss">iTunes RSS feeds</a> provided by Apple, currently, at most Top 300 are listed in each feed.</p>
+<p>For example, if I want the top 300 grossing apps in "Games" category, after input my requirements, I get the feed URL as follows:</p>
+<p><code>https://itunes.apple.com/us/rss/topgrossingapplications/limit=300/genre=6014/xml</code></p>
+<p>Using python, I chose <a target="_blank" rel="noopener" href="https://pypi.python.org/pypi/feedparser/">feedparser</a> as an RSS parser.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/04/22/ranking-reviews-from-appstore/#more" rel="contents">

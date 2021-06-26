@@ -27,7 +27,21 @@
     
     
     <summary type="html">&lt;p&gt;从产品、商业策略和组织视角谈谈自己对数据 To B 商业化的一些心得。&lt;/p&gt;
-&lt;h2 id=&quot;产品视角&quot;&gt;产品视角&lt;/h2&gt;</summary>
+&lt;h2 id=&quot;产品视角&quot;&gt;产品视角&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;如何做一个好的数据产品？&lt;/strong&gt;&lt;/p&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;p&gt;分清客户和用户。&lt;/p&gt;
+&lt;p&gt;客户是产品的购买者，用户是产品的实际使用者。&lt;/p&gt;
+&lt;p&gt;大部分情况下，客户和用户不是一群人，甚至在企业里往往层级相差很多，对产品有不同诉求很正常。面临不同诉求，要记住一条准则：产品的价值是帮助客户实现其业务价值。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;分层服务“阅览者”和“编辑者”。&lt;/p&gt;
+&lt;p&gt;“阅览者”消费产品的内容，”编辑者“生产产品的内容，产品不仅要让消费者很舒服，也要帮助生产者提效降本。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;平衡好“功能强大”和“简单上手”的矛盾。&lt;/p&gt;
+&lt;p&gt;能服务好超级用户是产品在竞争中获得优势的核心能力，但不能自high，将产品的上手难度和产品的能力挂钩。&lt;/p&gt;
+&lt;p&gt;真正做到初级用户很容易上手，但随着使用的深入，不断发掘更多更深入的功能，才是产品的能力体现。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;兼顾产品的前台功能和运维治理能力建设。&lt;/p&gt;
+&lt;p&gt;不光要做被用户看得到的功能，也要关注产品的运维保障、用户使用监控、资源成本治理等能力建设，做到产品全生命周期的管理和服务。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;如何做好B端产品经理？&lt;/strong&gt;&lt;/p&gt;</summary>
     
     
     
@@ -45,7 +59,15 @@
     
     
     <summary type="html">&lt;p&gt;上周看的一篇文章了解到一个概念，Psychological Safety，大致可翻译成「心理安全」。&lt;/p&gt;
-&lt;p&gt;文章标题是 &lt;em&gt;What Google Learned From Its Quest to Build the Perfect Team&lt;/em&gt;，发表在 &lt;a href=&quot;https://www.nytimes.com/2016/02/28/magazine/what-google-learned-from-its-quest-to-build-the-perfect-team.html&quot;&gt;The New York Times Magazine&lt;/a&gt;，具体内容&lt;a href=&quot;https://centre.upeace.org/wp-content/uploads/2020/09/7.1-what-google-learnt.pdf&quot;&gt;这里&lt;/a&gt;可以找到，主要是 Google 内部一个研究高效团队有哪些共同点的项目（Project Aristotle）得出的结论。&lt;/p&gt;</summary>
+&lt;p&gt;文章标题是 &lt;em&gt;What Google Learned From Its Quest to Build the Perfect Team&lt;/em&gt;，发表在 &lt;a href=&quot;https://www.nytimes.com/2016/02/28/magazine/what-google-learned-from-its-quest-to-build-the-perfect-team.html&quot;&gt;The New York Times Magazine&lt;/a&gt;，具体内容&lt;a href=&quot;https://centre.upeace.org/wp-content/uploads/2020/09/7.1-what-google-learnt.pdf&quot;&gt;这里&lt;/a&gt;可以找到，主要是 Google 内部一个研究高效团队有哪些共同点的项目（Project Aristotle）得出的结论。&lt;/p&gt;
+&lt;p&gt;针对如何打造一个好团队，研究者分析了很多数据，但无法找到某种统一的决定性模式。无论团队成员的性格类型、技能和背景如何，大家生活上是好朋友还是公私分明私下无交集，是强管理还是扁平结构弱管理等，都存在成功的团队。&lt;/p&gt;
+&lt;p&gt;文中的一个例子我印象非常深刻：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Imagine you have been invited to join one of two groups.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Team A&lt;/strong&gt; is composed of people who are all exceptionally smart and successful. When you watch a video of this group working, you see professionals who wait until a topic arises in which they are expert, and then they speak at length, explaining what the group ought to do. When someone makes a side comment, the speaker stops, reminds everyone of the agenda and pushes the meeting back on track. This team is efficient. There is no idle chitchat or long debates. The meeting ends as scheduled and disbands so everyone can get back to their desks.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Team B&lt;/strong&gt; is different. It’s evenly divided between successful executives and middle managers with few professional accomplishments. Teammates jump in and out of discussions. People interject and complete one another’s thoughts. When a team member abruptly changes the topic, the rest of the group follows him off the agenda. At the end of the meeting, the meeting doesn’t actually end: Everyone sits around to gossip and talk about their lives.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Which group would you rather join?&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
     
     
     
@@ -63,7 +85,13 @@
     
     
     <summary type="html">&lt;p&gt;最近看书，有两本印象不错。&lt;/p&gt;
-&lt;p&gt;第一本是「&lt;a href=&quot;https://book.douban.com/subject/1102987/&quot;&gt;情境领导者&lt;/a&gt;」，比较老的书，是一套帮助领导者提高领导行为有效性的模式：有效的领导风格需要和被领导者的准备度水平相匹配。&lt;/p&gt;</summary>
+&lt;p&gt;第一本是「&lt;a href=&quot;https://book.douban.com/subject/1102987/&quot;&gt;情境领导者&lt;/a&gt;」，比较老的书，是一套帮助领导者提高领导行为有效性的模式：有效的领导风格需要和被领导者的准备度水平相匹配。&lt;/p&gt;
+&lt;p&gt;这方面知识很多管理类书都会提及，这本书给我带来的最大收获在于做了系统化拆解，可以说以前是基于内心认知来实践，通过这本书，变得更具象，更可被衡量。&lt;/p&gt;
+&lt;p&gt;首先是领导者风格的定义：1）领导者采用的&lt;strong&gt;工作行为&lt;/strong&gt;的数量；2）领导者采用的&lt;strong&gt;关系行为&lt;/strong&gt;的数量。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;工作行为&lt;/strong&gt;：是指领导者清楚的说明个人或组织的责任的程度。这种行为包括告诉人们做什么，如何做，什么时间做，在哪里做，以及由谁来做。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;关系行为&lt;/strong&gt;：是指当管理对象超过一个人的时候，领导者进行双向或者多向沟通的程度。这种行为包括倾听、鼓励、协助、提供工作说明以及给予社交方面的支持等。&lt;/li&gt;
+&lt;/ul&gt;</summary>
     
     
     
@@ -81,7 +109,10 @@
     
     
     <summary type="html">&lt;p&gt;最近看了一些关于 DataOps 的书和文章，对自己的理解做个总结。&lt;/p&gt;
-&lt;h2 id=&quot;dataops-要解决什么问题&quot;&gt;DataOps 要解决什么问题？&lt;/h2&gt;</summary>
+&lt;h2 id=&quot;dataops-要解决什么问题&quot;&gt;DataOps 要解决什么问题？&lt;/h2&gt;
+&lt;p&gt;两个价值点，第一是&lt;strong&gt;提高数据生产到价值产出全链路的效率&lt;/strong&gt;，第二是&lt;strong&gt;用数据来持续优化整个数据链路的可用性和价值&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2 id=&quot;dataops-是什么&quot;&gt;DataOps 是什么？&lt;/h2&gt;
+&lt;p&gt;下面是 Gartner 对 DataOps 的&lt;a href=&quot;https://www.gartner.com/en/information-technology/glossary/dataops&quot;&gt;定义&lt;/a&gt;。&lt;/p&gt;</summary>
     
     
     
@@ -99,7 +130,12 @@
     
     
     <summary type="html">&lt;p&gt;书中关于定位的表述，相比著名的 &lt;a href=&quot;https://www.amazon.com/Positioning-Battle-Your-Al-Ries/dp/0071373586/ref=sr_1_1?dchild=1&amp;amp;keywords=positioning&amp;amp;qid=1613460532&amp;amp;sr=8-1&quot;&gt;Positioning: The Battle for Your Mind&lt;/a&gt;，更产品视角，不仅仅是讲述如何在营销战中抓住用户获取胜利，而是如何基于定位去打造产品、迭代产品。&lt;/p&gt;
-&lt;p&gt;看完 &lt;a href=&quot;https://www.amazon.com/Obviously-Awesome-Product-Positioning-Customers/dp/1999023005/ref=sr_1_1?dchild=1&amp;amp;keywords=obviously+awesome&amp;amp;qid=1613461641&amp;amp;sr=8-1&quot;&gt;Obvious Awesome&lt;/a&gt;，我理解的重点有三部分，一是究竟什么是定位（Positioning），二是有效定位有哪些组成部分，三是如何通过10个步骤来确定定位。&lt;/p&gt;</summary>
+&lt;p&gt;看完 &lt;a href=&quot;https://www.amazon.com/Obviously-Awesome-Product-Positioning-Customers/dp/1999023005/ref=sr_1_1?dchild=1&amp;amp;keywords=obviously+awesome&amp;amp;qid=1613461641&amp;amp;sr=8-1&quot;&gt;Obvious Awesome&lt;/a&gt;，我理解的重点有三部分，一是究竟什么是定位（Positioning），二是有效定位有哪些组成部分，三是如何通过10个步骤来确定定位。&lt;/p&gt;
+&lt;h2 id=&quot;什么是定位&quot;&gt;什么是定位&lt;/h2&gt;
+&lt;p&gt;引言中作者对定位是这么描述的：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Positioning is the act of deliberately defining how you are the best at something that a defined market cares a lot about.&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
     
     
     
@@ -117,7 +153,17 @@
     
     
     <summary type="html">&lt;p&gt;&lt;strong&gt;一、从客户的角度来看，我们的客户都是谁？他们的核心痛点是什么？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;我们的客户可能是分析师，业务人员，企业决策层，企业IT团队，甚至企业服务的客户，不同客户的痛点是不同的，进而对产品的期望也不同。这里会面临两个决策点：&lt;/p&gt;</summary>
+&lt;p&gt;我们的客户可能是分析师，业务人员，企业决策层，企业IT团队，甚至企业服务的客户，不同客户的痛点是不同的，进而对产品的期望也不同。这里会面临两个决策点：&lt;/p&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;确定我们真正要服务的客户是哪些？让所有人满意是非常难的。&lt;/li&gt;
+&lt;li&gt;对这些客户按角色、数据能力等进行分层，针对定义服务的方式。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;举例：基于客户分层的产品服务方式&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;让他们可以快速获知自己关注指标的状态，帮助他们迅速获知面临哪些问题。&lt;/li&gt;
+&lt;li&gt;让他们能够在特定业务场景的分析框架下，灵活定义自己的看数视角，获得洞察。&lt;/li&gt;
+&lt;li&gt;让他们能够定义自己的分析框架，自助取数和分析。&lt;/li&gt;
+&lt;/ul&gt;</summary>
     
     
     
@@ -135,7 +181,14 @@
     
     
     <summary type="html">&lt;p&gt;这里的内容型数据产品指的是以提供内容为主要目标的数据产品，区别于以提供技术能力为主要目标的工具型数据产品，如 Tableau 及类似的可视化 BI 产品、Zeppelin 及类似的分析、协作产品等。&lt;/p&gt;
-&lt;h2 id=&quot;内容型数据产品的3个方向&quot;&gt;内容型数据产品的3个方向&lt;/h2&gt;</summary>
+&lt;h2 id=&quot;内容型数据产品的3个方向&quot;&gt;内容型数据产品的3个方向&lt;/h2&gt;
+&lt;p&gt;未来内容型数据产品方向，我认为是如下三个：&lt;/p&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;数据产品基于BI或低代码工具搭建而成；&lt;/li&gt;
+&lt;li&gt;数据产品和业务产品合二为一；&lt;/li&gt;
+&lt;li&gt;交互式、对话式分析成为数据产品的基本能力。&lt;a href=&quot;#fn1&quot; class=&quot;footnote-ref&quot; id=&quot;fnref1&quot; role=&quot;doc-noteref&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;一数据产品基于bi或低代码工具搭建而成&quot;&gt;一、数据产品基于BI或低代码工具搭建而成&lt;/h3&gt;</summary>
     
     
     
@@ -153,7 +206,16 @@
     
     
     <summary type="html">&lt;h2 id=&quot;数据开发技术的3个方向&quot;&gt;数据开发技术的3个方向&lt;/h2&gt;
-&lt;p&gt;未来数据开发技术方向，我认为有三个，首先是流批一体成为主流开发模式，其次是代码自动化技术走向成熟，第三是 OLAP Cubes 终将衰落。&lt;a href=&quot;#fn1&quot; class=&quot;footnote-ref&quot; id=&quot;fnref1&quot; role=&quot;doc-noteref&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;</summary>
+&lt;p&gt;未来数据开发技术方向，我认为有三个，首先是流批一体成为主流开发模式，其次是代码自动化技术走向成熟，第三是 OLAP Cubes 终将衰落。&lt;a href=&quot;#fn1&quot; class=&quot;footnote-ref&quot; id=&quot;fnref1&quot; role=&quot;doc-noteref&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;一流批一体成为主流开发模式&quot;&gt;一、流批一体成为主流开发模式&lt;/h3&gt;
+&lt;p&gt;先说说我看到的数据开发的历史。&lt;/p&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;“远古”时代，通过写 SQL 脚本抽取 OLTP 数据库中数据进行分析和统计，大量查询有可能把数据库拖挂；&lt;/li&gt;
+&lt;li&gt;OLAP 分析成为数据库的一项重要能力，这个时候，可以写 SQL，也可以写 Python 代码等来进行数据分析和统计，但面对不断增长的数据量，数据库性能遇到挑战；&lt;/li&gt;
+&lt;li&gt;Hadoop 技术的引入和不断成熟，海量数据的离线存储、计算和调度问题得到解决；&lt;/li&gt;
+&lt;li&gt;Storm 让海量数据的实时计算成为可能，促进了一大批实时数据产品的出现，也促进了 Lambda 数据架构的出现和流行；&lt;/li&gt;
+&lt;li&gt;Kafka、Spark、Flink 等技术的流行，整个数据链路的全流式计算成为可能，Kappa 架构出现和流行。&lt;/li&gt;
+&lt;/ol&gt;</summary>
     
     
     
@@ -171,7 +233,14 @@
     
     
     <summary type="html">&lt;p&gt;整理写的东西，发现18年的这几天，写过这么两段话，当时在 Vegas 参加 AWS re:Invent。&lt;/p&gt;
-&lt;p&gt;第一段是关于在中国做 to B。&lt;/p&gt;</summary>
+&lt;p&gt;第一段是关于在中国做 to B。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;中国做 to B 相比美国难做（重且周期长），是因为中国目前不是一个契约社会，是一个感情社会。很多客户在接受 B 端企业服务方面，还处于婴孩期，倔强任性，什么都要，无视契约，过度重视服务方表现出来的投入力度，即感情分。当然这些客户会随着发展成长起来，很多区域已经有这样的趋势。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;第二段是关于在集团公司里面搞阿米巴解决中后台价值难评估问题。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;做公司内部平台、中台等支撑业务会碰到很多问题，通过内部结算来体现价值，来确定投入规模，让财务、HR来横向协同、处理集团各事业部和平台中台部门的结算，是很难做好的。不懂技术，在冲突问题上，很难有大的规划，来定夺取舍。一个大公司，平台中台帮助业务做大，然后从大的业务获得更多的财务回报，来保障研发，从而让企业新增的小业务能够直接享受这些研发成果，助力新业务创新，这是平台中台的根本。如果业务做大了后，认为支出过高，便用安全、投入、需求响应等理由投入人力自研基础组件，去重复造轮子，企业的平台中台很难做好，毕竟出不了成绩，决策层会不认可。后果是小业务基本很难起来，最后可能变成了大业务有钱可以做内部创新，集团公司层面的业务创新却因为部门结算成本的问题越来越难做。解决集团公司平台中台技术协同问题有两个解，一个是横向技术管理，如公司确定CTO或者建设技术委员会，并且给予充分授权。二是打破集团公司内部的各个山头，让技术管理者能够跨部门，在业务、平台中台之间周期调派，让大家开放起来，而不是守着、扩充着自己的势力范围，生怕别人进来占了自己的自留地。&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
     
     
     
@@ -189,7 +258,10 @@
     
     
     <summary type="html">&lt;p&gt;&lt;a href=&quot;http://blog.zhengdong.me/2019/01/07/speaking-of-a-data-team/&quot;&gt;上篇&lt;/a&gt;文章以一个数据团队发展的视角，总结了数据团队要做的事。当然，一些企业业务复杂起来之后，数据团队的职能也会发生分工，负责基础数据建设的团队，将数据集成、治理、资产管理、质量管控等工具及规范做掉，同时构建数据仓库的公共层并对上游业务以产品化和服务化的形式提供支持，现在比较热的「数据中台」概念就是指这块事情，和负责业务数据建设的团队，基于公共层数据，直接对接业务，让数据产品化、智能化，赋能业务发展。&lt;/p&gt;
-&lt;h2 id=&quot;数据产品的四个层次&quot;&gt;数据产品的四个层次&lt;/h2&gt;</summary>
+&lt;h2 id=&quot;数据产品的四个层次&quot;&gt;数据产品的四个层次&lt;/h2&gt;
+&lt;p&gt;这篇文章，主要想聊下数据产品，在我的理解里面，数据产品可以分为以下四个层次。&lt;/p&gt;
+&lt;p&gt;首先是通用的数据分析及可视化工具，能够连接各种数据，解决分析师、运营等岗位人员查看和分析业务数据的需求，如进行数据的多维分析，数据报告的制作等工作。&lt;/p&gt;
+&lt;p&gt;其次是场景化的数据分析产品，通用工具只解决了获取和分析数据的需求，但其实很难要求每个岗位都有好的数据分析能力，知道怎么用数据、怎么用好数据，知道数据的价值。场景化数据产品指的是用分析师沉淀下来的分析思路或分析模型来组织和展示数据，降低数据分析的门槛，提高数据化运营的效率。比如固化 ”AARRR“ 分析模型的用户分析和流量分析产品、活动大促的专题分析产品，面向业务场景的实时数据大屏产品等。&lt;/p&gt;</summary>
     
     
     
@@ -207,7 +279,10 @@
     
     
     <summary type="html">&lt;p&gt;大数据时代，在有庞大自有数据的企业，作为一个承担数据体系建设责任的数据团队要从哪些事情开始做起？&lt;/p&gt;
-&lt;p&gt;一开始，数据的需求很多都是企业的领导者要快速了解公司的业务情况，比如销售、财务、研发环节的一些统计指标。&lt;/p&gt;</summary>
+&lt;p&gt;一开始，数据的需求很多都是企业的领导者要快速了解公司的业务情况，比如销售、财务、研发环节的一些统计指标。&lt;/p&gt;
+&lt;p&gt;于是数据团队开始熟悉企业的各种数据，把各种不同数据源的数据汇集到大数据技术栈：把业务数据库的数据同步出来，把在线系统的日志收集起来，把用户在产品各端的行为记录采集起来。接着，基于大数据技术栈，针对性做数据清洗、数据统计，然后将数据展现出来给领导者。&lt;/p&gt;
+&lt;p&gt;几个几十个指标这么做问题不大，但数据需求很快膨胀了起来，指标需求增长到好几百，数据团队开始疲于奔命响应业务方繁杂多变的需求。每个指标都要从原始数据算起，重复工作很多，加上都是独立做计算，同类指标口径歧义的问题也越来越严重。同时，快速增长的计算任务，带来任务产出稳定性、及时性的大幅下降。数据团队同时面临开发人力的不足、数据产出的不稳定以及业务方的频繁不满。&lt;/p&gt;
+&lt;p&gt;团队思考再三，为了解决困境，决定从以下两件事情做起。&lt;/p&gt;</summary>
     
     
     
@@ -225,7 +300,10 @@
     
     
     <summary type="html">&lt;p&gt;上篇从数据技术的角度谈了自己对大数据变现的一些思考，这篇继续，从企业的数据资产角度入手，谈谈变现的方式。&lt;a href=&quot;#fn1&quot; class=&quot;footnote-ref&quot; id=&quot;fnref1&quot; role=&quot;doc-noteref&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;数据资产变现是指企业通过自身拥有的数据进行的商业化变现。我始终认为数据已经是新的生产力，企业应该把最大的资源、最全的数据，首先用于自身，让数据驱动业务发展。接下来才是去想如何做商业化变现，不能本末倒置，当然，核心业务就是数据变现的企业另说。&lt;/p&gt;</summary>
+&lt;p&gt;数据资产变现是指企业通过自身拥有的数据进行的商业化变现。我始终认为数据已经是新的生产力，企业应该把最大的资源、最全的数据，首先用于自身，让数据驱动业务发展。接下来才是去想如何做商业化变现，不能本末倒置，当然，核心业务就是数据变现的企业另说。&lt;/p&gt;
+&lt;h2 id=&quot;在线广告&quot;&gt;在线广告&lt;/h2&gt;
+&lt;p&gt;从门户网站开始，在线广告模式的变现就是很多互联网公司收入的主要来源，现如今，全球和国内广告收入的一二名都是互联网公司。&lt;/p&gt;
+&lt;p&gt;最常见有两种广告方式，一个是品牌（合约）广告，一个是效果广告。&lt;/p&gt;</summary>
     
     
     
@@ -252,7 +330,10 @@
 &lt;li&gt;咨询类的数据报告，针对不同领域提供对客户有价值的分析及数据报告等。&lt;/li&gt;
 &lt;li&gt;数据交易。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/blockquote&gt;</summary>
+&lt;/blockquote&gt;
+&lt;p&gt;最近，在数据技术变现和数据资产变现这两个方向，我又深入梳理了自己的认识，并将我的思考写了出来，这篇是数据技术变现部分。&lt;a href=&quot;#fn1&quot; class=&quot;footnote-ref&quot; id=&quot;fnref1&quot; role=&quot;doc-noteref&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;从-bi-产品开始&quot;&gt;从 BI 产品开始&lt;/h2&gt;
+&lt;p&gt;BI 产品在大数据这个概念出来之前，已经是蛮成熟的品类。简单说来，就是能连接和有效整合企业内部各个数据源的数据，通过强大灵活的分析能力，以丰富的可视化形式来展现数据，帮助企业进行业务经营决策。&lt;/p&gt;</summary>
     
     
     
@@ -270,7 +351,10 @@
     
     
     <summary type="html">&lt;p&gt;最近要参加一个关于数据埋点和分析的线上讨论，这两天总结了对一些问题的思考。&lt;/p&gt;
-&lt;h2 id=&quot;为什么企业需要一套完善的用户行为埋点和分析平台&quot;&gt;为什么企业需要一套完善的用户行为埋点和分析平台？&lt;/h2&gt;</summary>
+&lt;h2 id=&quot;为什么企业需要一套完善的用户行为埋点和分析平台&quot;&gt;为什么企业需要一套完善的用户行为埋点和分析平台？&lt;/h2&gt;
+&lt;p&gt;一个互联网产品从萌芽到发展壮大，离不开对用户行为的深度洞察。&lt;/p&gt;
+&lt;p&gt;产品初创期间，需要分析天使用户的行为来改进产品，甚至从用户行为中得到新的思路或发现来调整产品方向；产品 growth 过程，通过对用户行为的多角度（多维）分析、对用户群体的划分以及相应行为特征的分析和比较，来指导产品设计、运营活动，并对市场渠道效果进行评估。&lt;/p&gt;
+&lt;p&gt;配合上 A/B 试验平台，可以加速产品的迭代，更快得到用户的真实反馈。同时，这些数据沉淀下来，对业务的数据仓库建设、数据智能应用等方面也能起到促进作用，比如做实时推荐，需要能更快获得用户尽可能多且明细的行为数据；做用户分类、意愿预测等机器学习业务，需要清洗过的规范化、结构化的数据做 training。&lt;/p&gt;</summary>
     
     
     
@@ -288,7 +372,10 @@
     
     
     <summary type="html">&lt;p&gt;最近在看 &lt;a href=&quot;https://en.wikipedia.org/wiki/Michael_Stonebraker&quot;&gt;Stonebraker&lt;/a&gt; 的 &lt;a href=&quot;http://www.redbook.io&quot;&gt;“Readings in Database Systems”&lt;/a&gt;, 发觉开拓了很多思路。&lt;/p&gt;
-&lt;p&gt;这么多年自己一直在从事大数据方面的工作，但除了翻过数据挖掘算法和分布式系统设计方面的论文外，完全没想过去翻翻数据库相关的论文看。现在想想，其实大数据和数据库两者很多需求和场景是一致的，要解决的问题，没准学术界很多年前就已经有方案了。&lt;/p&gt;</summary>
+&lt;p&gt;这么多年自己一直在从事大数据方面的工作，但除了翻过数据挖掘算法和分布式系统设计方面的论文外，完全没想过去翻翻数据库相关的论文看。现在想想，其实大数据和数据库两者很多需求和场景是一致的，要解决的问题，没准学术界很多年前就已经有方案了。&lt;/p&gt;
+&lt;p&gt;这篇文章主要是 &quot;Interactive Analytics&quot; 相关部分。&lt;/p&gt;
+&lt;h2 id=&quot;what-is-interactive-analytics&quot;&gt;What is Interactive Analytics&lt;/h2&gt;
+&lt;p&gt;假如你是一家电商公司的分析师，如果有 100 万用户原始交易数据打印出来摆在你面前，让你去分析这些数据的意义，你会怎么做？&lt;/p&gt;</summary>
     
     
     
@@ -306,7 +393,10 @@
     
     
     <summary type="html">&lt;p&gt;We have a legacy system, which is a web service, receives HTTP POST from clients, parses the data, then stores them in a file.&lt;/p&gt;
-&lt;p&gt;The function of the system is simple, and people already done functional and performance test, it&#39;s stable. As time drifted away, the system was &lt;a href=&quot;http://en.wikipedia.org/wiki/Copy_and_paste_programming&quot;&gt;copy and paste&lt;/a&gt; to some projects by only changing the data parsing logic.&lt;/p&gt;</summary>
+&lt;p&gt;The function of the system is simple, and people already done functional and performance test, it&#39;s stable. As time drifted away, the system was &lt;a href=&quot;http://en.wikipedia.org/wiki/Copy_and_paste_programming&quot;&gt;copy and paste&lt;/a&gt; to some projects by only changing the data parsing logic.&lt;/p&gt;
+&lt;p&gt;I had a similar requirement recently, then I delved into the legacy code to check if it works in order to not &lt;a href=&quot;http://en.wikipedia.org/wiki/Reinventing_the_wheel&quot;&gt;reinventing the wheel&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;wtf&quot;&gt;WTF&lt;/h2&gt;
+&lt;p&gt;At first, I noticed below code in a &lt;code&gt;HttpServlet&lt;/code&gt; class, it allocates more than 1M memory for each HTTP POST request.&lt;/p&gt;</summary>
     
     
     
@@ -324,7 +414,18 @@
     
     
     <summary type="html">&lt;p&gt;Long long ago, I wrote a post about &lt;a href=&quot;/2011/01/16/tdd-using-objective-c&quot;&gt;how to do TDD using Objective-C&lt;/a&gt;, since &lt;a href=&quot;http://www.apple.com/apple-events/june-2014/&quot;&gt;Apple WWDC 2014&lt;/a&gt;, &lt;a href=&quot;https://developer.apple.com/swift/&quot;&gt;Swift&lt;/a&gt; is really eye-catching, I think I should write a new one to follow the trend.&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/ToolsLanguages/Conceptual/Xcode_Overview/UnitTestYourApp/UnitTestYourApp.html&quot;&gt;XCTest&lt;/a&gt; is used as the unit test framework, and Xcode 6 is needed.&lt;/p&gt;</summary>
+&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/ToolsLanguages/Conceptual/Xcode_Overview/UnitTestYourApp/UnitTestYourApp.html&quot;&gt;XCTest&lt;/a&gt; is used as the unit test framework, and Xcode 6 is needed.&lt;/p&gt;
+&lt;h2 id=&quot;tdd-work-flow&quot;&gt;TDD Work-flow&lt;/h2&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;Add a test for a user case or a user story&lt;/li&gt;
+&lt;li&gt;Run all tests and see if the new one fails&lt;/li&gt;
+&lt;li&gt;Write some code that causes the test to pass&lt;/li&gt;
+&lt;li&gt;Run tests, change production code until all test cases pass&lt;/li&gt;
+&lt;li&gt;Refactor the production code&lt;/li&gt;
+&lt;li&gt;Refactor the test code&lt;/li&gt;
+&lt;li&gt;Return to 1, and repeat&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The &lt;code&gt;5&lt;/code&gt; and &lt;code&gt;6&lt;/code&gt; are optional, do them only if needed, but be sure that DO NOT do them at the same time. That is, when you refactor production code, you can&#39;t change the test code, until all the test cases are passed, then you are confident that your production code refactoring is perfect, then, you can refactor the test code, and this time, you can&#39;t change the production code.&lt;/p&gt;</summary>
     
     
     
@@ -341,8 +442,10 @@
     <content type="html"><![CDATA[<p><a><img src="/images/2014/niubeimountain1.jpg" width="560"></a> <a><img src="/images/2014/niubeimountain2.jpg" width="560"></a> <a><img src="/images/2014/niubeimountain3.jpg" width="560"></a> <a><img src="/images/2014/niubeimountain4.jpg" width="560"></a></p><p>-- Taken on April 12, 2014 (<a href="https://www.flickr.com/photos/don9z/albums/72157644027815816">flickr</a>)</p>]]></content>
     
     
-    <summary type="html">&lt;p&gt;&lt;a&gt;&lt;img src=&quot;/images/2014/niubeimountain1.jpg&quot; width=&quot;560&quot;&gt;&lt;/a&gt; &lt;a&gt;&lt;img src=&quot;/images/2014/niubeimountain2.jpg&quot; width=&quot;560&quot;&gt;&lt;/a&gt; &lt;a&gt;&lt;img src=&quot;/images/2014/niubeimountain3.jpg&quot; width=&quot;560&quot;&gt;&lt;/a&gt; &lt;a&gt;&lt;img src=&quot;/images/2014/niubeimountain4.jpg&quot; width=&quot;560&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;-- Taken on April 12, 2014 (&lt;a href=&quot;https://www.flickr.com/photos/don9z/albums/72157644027815816&quot;&gt;flickr&lt;/a&gt;)&lt;/p&gt;</summary>
+      
+      
+    <summary type="html">&lt;p&gt;&lt;a&gt;&lt;img src=&quot;/images/2014/niubeimountain1.jpg&quot; width=&quot;560&quot;&gt;&lt;/a&gt; &lt;a&gt;&lt;img src=&quot;/images/2014/niubeimountain2.jpg&quot; width=&quot;560&quot;&gt;&lt;/a&gt; &lt;a&gt;&lt;img s</summary>
+      
     
     
     
@@ -360,7 +463,10 @@
     
     
     <summary type="html">&lt;p&gt;In &lt;a href=&quot;/2014/02/25/the-hadoop-2-dot-x-running-a-yarn-job-1/&quot;&gt;last blog post&lt;/a&gt;, The job &lt;code&gt;Client&lt;/code&gt; has been created and initialized.&lt;/p&gt;
-&lt;p&gt;This post will discuss on how does &lt;code&gt;Client&lt;/code&gt; do to deploy the job to hadoop cluster.&lt;/p&gt;</summary>
+&lt;p&gt;This post will discuss on how does &lt;code&gt;Client&lt;/code&gt; do to deploy the job to hadoop cluster.&lt;/p&gt;
+&lt;p&gt;Code snippets will be full of this post, to not confuse you, all comments added by me begin with &lt;code&gt;//**&lt;/code&gt; instead of &lt;code&gt;//&lt;/code&gt; or &lt;code&gt;/*&lt;/code&gt; and the code can be cloned from &lt;a href=&quot;http://git.apache.org/hadoop-common.git/&quot;&gt;Apache Git Repository&lt;/a&gt;, commit id is &lt;code&gt;2e01e27e5ba4ece19650484f646fac42596250ce&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;the-resource-manager-proxy&quot;&gt;The Resource Manager Proxy&lt;/h2&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//** org.apache.hadoop.yarn.applications.distributedshell.Client.java L330&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;throws&lt;/span&gt; IOException, YarnException &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  LOG.info(&lt;span class=&quot;string&quot;&gt;&amp;quot;Running Client&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  yarnClient.start();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  ...&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
     
     
     
@@ -378,7 +484,10 @@
     
     
     <summary type="html">&lt;p&gt;In last &lt;a href=&quot;/2014/02/20/the-hadoop-2-dot-x-introduction-to-yarn/&quot;&gt;blog post&lt;/a&gt;, a hadoop distribution is built to run a YARN job.&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ bin/hadoop jar share/hadoop/yarn/hadoop-yarn-applications-distributedshell-2.2.0.jar \&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    org.apache.hadoop.yarn.applications.distributedshell.Client -jar \&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    share/hadoop/yarn/hadoop-yarn-applications-distributedshell-2.2.0.jar \&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    -shell_command &lt;span class=&quot;string&quot;&gt;&amp;#x27;date&amp;#x27;&lt;/span&gt; -shell_args &lt;span class=&quot;string&quot;&gt;&amp;quot;-u&amp;quot;&lt;/span&gt; -num_containers 2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ bin/hadoop jar share/hadoop/yarn/hadoop-yarn-applications-distributedshell-2.2.0.jar \&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    org.apache.hadoop.yarn.applications.distributedshell.Client -jar \&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    share/hadoop/yarn/hadoop-yarn-applications-distributedshell-2.2.0.jar \&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    -shell_command &lt;span class=&quot;string&quot;&gt;&amp;#x27;date&amp;#x27;&lt;/span&gt; -shell_args &lt;span class=&quot;string&quot;&gt;&amp;quot;-u&amp;quot;&lt;/span&gt; -num_containers 2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;The &lt;code&gt;date -u&lt;/code&gt; command is executed in Hadoop cluster by above script, we might conclude that there exists a dispatcher named &lt;code&gt;Client&lt;/code&gt; in &quot;hadoop-yarn-applications-distributedshell-2.2.0.jar&quot;, responsible for deploying a jar to cluster with parameters, such as shell command and args, and notify the cluster to execute the shell command.&lt;/p&gt;
+&lt;p&gt;To see what&#39;s in the rabbit hole, let&#39;s step into the &lt;code&gt;Client&lt;/code&gt; source code.&lt;/p&gt;
+&lt;p&gt;Code snippets will be full of this post, to not confuse you, all comments added by me begin with &lt;code&gt;//**&lt;/code&gt; instead of &lt;code&gt;//&lt;/code&gt; or &lt;code&gt;/*&lt;/code&gt; and the code can be cloned from &lt;a href=&quot;http://git.apache.org/hadoop-common.git/&quot;&gt;Apache Git Repository&lt;/a&gt;, commit id is &lt;code&gt;2e01e27e5ba4ece19650484f646fac42596250ce&lt;/code&gt;.&lt;/p&gt;</summary>
     
     
     

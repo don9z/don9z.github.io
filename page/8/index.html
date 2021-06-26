@@ -283,6 +283,9 @@
     <div class="post-body" itemprop="articleBody">
           <p><a href="/2010/11/24/stl-code-digest-creation-2/">上一篇</a>提到过，第二级 alloc 在分配大于 128 bytes 的时候，直接使用第一级 alloc，如果小于 128 bytes 才采用内存池的方式进行内存分配。</p>
 <p>分配过程是这样的，每次分配一大块内存，存到一个 free list 中，下次 client 若再有相同大小的内存要求，就直接从这个 free list 中划出，内存释放时，则直接回收到对应的 list 中。为了管理的方便，实际分配的大小都被调整为 8 的倍数，所以有 16 个 free lists，分别为 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128 bytes。例如需要 20 bytes，将会被自动调整为 24 bytes。free lists 的结构如下</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> &#123;</span>_ALIGN = <span class="number">8</span>&#125;;</span><br><span class="line"><span class="class"><span class="keyword">enum</span> &#123;</span>_MAX_BYTES = <span class="number">128</span>&#125;;</span><br><span class="line"><span class="class"><span class="keyword">enum</span> &#123;</span>_NFREELISTS = <span class="number">16</span>&#125;; <span class="comment">// _MAX_BYTES/_ALIGN</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">union</span> _<span class="title">Obj</span> &#123;</span></span><br><span class="line">      <span class="class"><span class="keyword">union</span> _<span class="title">Obj</span>* _<span class="title">M_free_list_link</span>;</span></span><br><span class="line">      <span class="keyword">char</span> _M_client_data[<span class="number">1</span>];    <span class="comment">/* The client sees this.        */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">static</span> _Obj* __STL_VOLATILE _S_free_list[_NFREELISTS];</span><br></pre></td></tr></table></figure>
+<p>为了节省内存使用，使用 union 结构，这个设计很巧妙，每一个元素（内存区域对象）即可以当作下一个元素的指针，例如后面代码中的 <code>result -&gt; _M_free_list_link</code>，也可以当作该元素的值，例如 <code>*__my_free_list</code>。整个 free lists 的结构便是一串使用后者的元素构成的节点，每个节点的值是使用前者构成的单向链表的首地址。</p>
+<p>首先来看 allocate 的过程</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2010/11/28/stl-code-digest-creation-3/#more" rel="contents">
@@ -356,6 +359,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>在分析了对象的构建和析构之后，我们接着看对象构建所基于的内存空间是如何分配和释放的。这一功能是由 <code>stl_alloc</code> 提供的。<a href="/2010/10/20/stl-code-digest-creation-1/">之前</a>提到过 allocate，在 SGI STL 中是不使用的，因为其只是对 new 和 delete 进行了简单的封装，并且加上了这段代码</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set_new_handler(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>这个函数用来指定如果内存分配失败时的 callback 函数，定义如下</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(*new_handler)</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function">new_handler <span class="title">set_new_handler</span><span class="params">(new_handler p)</span> <span class="title">throw</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<p>使用时参数传入 NULL(0) 则表示卸除 <code>new_handler</code>，也就意味着如果 <code>::operator new</code> 分配内存失败，则会抛出 <code>std::bad_alloc</code> 类型的异常。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2010/11/24/stl-code-digest-creation-2/#more" rel="contents">
@@ -429,6 +435,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>在做单元测试过程中，经常需要对被测程序的一些函数实现 stub，下面三个文件</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// product.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lib_pro</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;I&#x27;m in lib\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// user.c</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    lib_pro();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// stub.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lib_pro</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;I am in fake lib\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>product.c 为产品代码提供 <code>lib_pro</code> 函数，user.c 为使用者，可以当作 UT 测试函数，stub.c 提供 <code>lib_pro</code> 函数的另一个定义。</p>
+<p>通常，为了使用 stub，需要在测试时将 user.c 产生的 user.o 和 stub.c 产生的 stub.o 链接在一起，这样，每当要给某一个文件加 stub 时，都需要替换链接，有没有什么办法可以自动进行这一工作，如果有 stub，就链接 stub，如果没有，就链接产品代码。</p>
+<p>当然有，</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2010/11/04/relocation-and-link-of-a-program/#more" rel="contents">
@@ -502,6 +511,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>使用 Emacs 大概也有大半年了，越用越觉得它的强大，始终都有惊喜，每次看到一个功能，心中想：Emacs 可以吗？答案真的往往会是 Yes!</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">defun</span> factorial (<span class="name">n</span>)</span><br><span class="line">   (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&lt;=</span></span> n <span class="number">1</span>)</span><br><span class="line">       <span class="number">1</span></span><br><span class="line">       (<span class="name"><span class="builtin-name">*</span></span> n (<span class="name">factorial</span> (<span class="name"><span class="builtin-name">-</span></span> n <span class="number">1</span>)))))</span><br></pre></td></tr></table></figure>
+<p>上面这种充满括号的奇怪的语言叫 Lisp，它是仅次于 Fortran 的最老的高级程序设计语言，名称来源于 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Lisp_(programming_language)">LISt Processing</a>，它有两个方言，分别是 Common Lisp 和 Scheme。 Emacs lisp (elisp) 来源于 Common Lisp。使用 Emacs，如果不能自己打造适合自己的功能，虽然仍然可以享受 Emacs 带来的流畅和便利，但却会与另一种乐趣失之交臂，这篇文章简要叙述 elisp 的基本概念和语法。</p>
+<h2 id="hello-world">Hello World</h2>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">message</span> <span class="string">&quot;Hello, World!&quot;</span>)</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2010/10/25/emacs-lisp-basics/#more" rel="contents">
@@ -575,6 +587,9 @@
     <div class="post-body" itemprop="articleBody">
           <p>C++中，我们熟悉的对象的创建和释放过程如下：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Thing</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">   ...</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">Thing *pt = <span class="keyword">new</span> Thing;</span><br><span class="line"><span class="keyword">delete</span> pt;</span><br></pre></td></tr></table></figure>
+<p>代码中 new 完成两部分动作，1. 调用 <code>::operator new</code> 分配对象所占内存空间，2. 调用 Thing 构造函数初始化对象内容。delete 也完成两部分动作，1. 调用析构函数清除对象内容，2. 调用 <code>::operator delete</code> 释放内存空间。</p>
+<p>STL 将这两部分动作分离了开来，内存分配由 <code>alloc:allocate()</code> 负责，释放由 <code>alloc:deallocate()</code> 负责，对象构造和析构依次由 <code>::contruct()</code> 和 <code>::destroy()</code> 负责。</p>
+<p>具体实现位于 <code>stl_alloc.h</code>, <code>stl_contruct.h</code>, <code>stl_uninitialized.h</code> 中，<code>stl_alloc.h</code> 负责内存分配，<code>stl_contruct.h</code> 负责对象构建和析构，<code>stl_uninitialized.h</code> 提供一系列全局函数来进行内存填充 (fill) 和拷贝 (copy)。其实 alloc 并不符合标准规范，而应该是 allocator，位于 <code>stl_defalloc.h</code> 中。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2010/10/20/stl-code-digest-creation-1/#more" rel="contents">
@@ -648,6 +663,9 @@
     <div class="post-body" itemprop="articleBody">
           <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">Iterator</span>, <span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="function">Iterator <span class="title">find</span><span class="params">(Iterator first, Iterator last, <span class="keyword">const</span> T&amp; value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (first != last &amp;&amp; *first != value)</span><br><span class="line">        ++first;</span><br><span class="line">    <span class="keyword">return</span> first;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面是 C++ 中一个普通的模板函数，调用的时候直接将特定类型变量当参数传入就行，这段程序运用了 Generic Programming（泛型编程/GP）。</p>
+<p>GP 要求函数尽量一般化，假设参数可适用于任何范畴，那么函数 <code>find</code> 到底有多一般化？</p>
+<p>输入条件，对于类型 Iterator，首先能够以 <code>operator “*”</code> 来操作提取其指向区域的值，并且可以用 <code>operator “++”</code> 来移至下一个 Iterator 对象…</p>
+<p>为了表示输入条件，假定 Iterator 必须是一个 iterator，在这个地方 iterator 没有其他意思，只是我们定义出来的一个概念，用来指定一组描述某个类型的条件。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2010/09/22/from-concept-to-iterator_traits/#more" rel="contents">
@@ -721,6 +739,15 @@
     <div class="post-body" itemprop="articleBody">
           <p>印度官方旅游广告词是 Incredible India!</p>
 <p>不管之前怎么看待这个国家，身临其境总是会想起这句话，当然语调的不同可以表述截然相反的感受。</p>
+<center>
+<img src="/images/2010/newdelhi1.jpg" width="280" style="display: inline;"> <img src="/images/2010/newdelhi2.jpg" width="280" style="display: inline;">
+</center>
+<center>
+<img src="/images/2010/newdelhi3.jpg" width="280" style="display: inline;"> <img src="/images/2010/newdelhi4.jpg" width="280" style="display: inline;">
+</center>
+<center>
+<img src="/images/2010/newdelhi5.jpg" width="280" style="display: inline;"> <img src="/images/2010/newdelhi6.jpg" width="280" style="display: inline;">
+</center>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2010/09/15/new-delhi/#more" rel="contents">
@@ -794,6 +821,13 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="paging">Paging</h2>
 <p>Paging unit 用来将 linear address 转换为 physical address，为了高效，linear address 按照一定的长度被分为若干组，称为 pages，并且，内存也被分为各个定长的 page frame (physical pages)，page 和 page frame 的长度是一样的，前者表示一块数据，它可以储存在 page frame 或者硬盘中。</p>
+<p>在 paging unit 开始工作之前，kernel 先初始化 page tables，这是一个用来映射 linear address 到 physical address 的表。</p>
+<p>Linear address 由三部分组成：</p>
+<ul>
+<li>Directory，10 bits</li>
+<li>Table，10 bits</li>
+<li>Offset，12 bits</li>
+</ul>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2010/07/27/linux-memory-management-addressing-2/#more" rel="contents">
@@ -867,6 +901,13 @@
     <div class="post-body" itemprop="articleBody">
           <p>这一个系列将会详细的介绍 Linux kernel 内存管理机制。</p>
 <p>使用特定内存地址就可以访问某一块内存单元，为了实现有效的寻址，操作系统将一系列繁琐的操作隐藏了起来，内存地址按照不同的抽象层次分为如下三种：</p>
+<ol type="1">
+<li>Logical address: 标识运算符或者程序指令的地址，由段号 (segment selector) 和偏移量 (offset) 组成。</li>
+<li>Linear address: 32位的无符号整型数，可以用来表示最大4GB地址空间。</li>
+<li>Physical address：内存物理单元的地址。</li>
+</ol>
+<p>CPU 控制单元通过 Segmentation Unit 将 Logical address 转换为 Linear address，而后，再通过 paging unit 将 linear address 转换为 physical address，至此，特定地址的访问行为完成。</p>
+<h2 id="segmentation-unit">Segmentation Unit</h2>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2010/07/20/linux-memory-management-addressing-1/#more" rel="contents">
