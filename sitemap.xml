@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.zhengdong.me/2021/08/22/evaluation-system-for-report-based-data-product/</loc>
+    
+    <lastmod>2021-08-22</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.zhengdong.me/2021/06/26/thoughts-on-tob-data-commercialization/</loc>
     
     <lastmod>2021-06-26</lastmod>
@@ -268,14 +275,14 @@
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2013/07/12/using-ios-android-libraries-cocos2dx/</loc>
+    <loc>http://blog.zhengdong.me/2013/07/18/a-look-under-the-hood-of-objc-msgsend/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2013/07/18/a-look-under-the-hood-of-objc-msgsend/</loc>
+    <loc>http://blog.zhengdong.me/2013/07/12/using-ios-android-libraries-cocos2dx/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
@@ -464,14 +471,14 @@
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/03/26/taiziwan/</loc>
+    <loc>http://blog.zhengdong.me/2011/03/31/emacs-features/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/03/31/emacs-features/</loc>
+    <loc>http://blog.zhengdong.me/2011/03/26/taiziwan/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
@@ -557,7 +564,7 @@
 
   <url>
     <loc>http://blog.zhengdong.me/</loc>
-    <lastmod>2021-06-26</lastmod>
+    <lastmod>2021-08-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
