@@ -188,7 +188,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">80</span>
+          <span class="site-state-item-count">81</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -235,6 +235,84 @@
       
 
       
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/02/15/from-xml-to-lisp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/02/15/from-xml-to-lisp/" class="post-title-link" itemprop="url">从 XML 到 Lisp</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-02-15 22:20:00" itemprop="dateCreated datePublished" datetime="2011-02-15T22:20:00+08:00">2011-02-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>之前学 elisp 的时候一直感觉思维转不过来很纠结，看了 <a target="_blank" rel="noopener" href="http://www.defmacro.org/ramblings/lisp.html">The Nature of Lisp</a>，原来正如 <a target="_blank" rel="noopener" href="http://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670">Code Complete</a> - Laying the Foundation 章节讲的那样，我们认识新事物总是会借鉴思维里面已有的 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Metaphor">Metaphor</a>, 我只用过 C, C++, Java，Python, Objective-C, 也就意味着我基本只有这些语言的 metaphor，都跟 Lisp 差异很大，也难怪了。但也正因为如此，才需要不断的克服自身的排斥心理，去接触更多的新事物。</p>
+<p>正如书中所云:</p>
+<blockquote>
+<p>A software metaphor is more like a searchlight than a road map. It doesn’t tell you where to find the answer, it tells you how to look for it. A metaphor serves more as a heuristic than it does as an algorithm.</p>
+</blockquote>
+<p>接触的新事物越多，积攒起来的 metaphor 就越多，“本能” 的触类旁通便也会越频繁，很多科学上的新发现都是把不相干的事物触类旁通的引用到自身领域而突然使人茅塞顿开的。</p>
+<p>该文章从 XML 着手，对于这样一个函数</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2011/02/15/from-xml-to-lisp/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
     
 
 
@@ -937,90 +1015,10 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2010/07/20/linux-memory-management-addressing-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Zheng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Extra Cookies">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2010/07/20/linux-memory-management-addressing-1/" class="post-title-link" itemprop="url">Linux 内存管理-A.寻址-1</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2010-07-20 00:32:00" itemprop="dateCreated datePublished" datetime="2010-07-20T00:32:00+08:00">2010-07-20</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>这一个系列将会详细的介绍 Linux kernel 内存管理机制。</p>
-<p>使用特定内存地址就可以访问某一块内存单元，为了实现有效的寻址，操作系统将一系列繁琐的操作隐藏了起来，内存地址按照不同的抽象层次分为如下三种：</p>
-<ol type="1">
-<li>Logical address: 标识运算符或者程序指令的地址，由段号 (segment selector) 和偏移量 (offset) 组成。</li>
-<li>Linear address: 32位的无符号整型数，可以用来表示最大4GB地址空间。</li>
-<li>Physical address：内存物理单元的地址。</li>
-</ol>
-<p>CPU 控制单元通过 Segmentation Unit 将 Logical address 转换为 Linear address，而后，再通过 paging unit 将 linear address 转换为 physical address，至此，特定地址的访问行为完成。</p>
-<h2 id="segmentation-unit">Segmentation Unit</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2010/07/20/linux-memory-management-addressing-1/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
