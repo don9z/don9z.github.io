@@ -188,7 +188,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">81</span>
+          <span class="site-state-item-count">82</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -235,6 +235,86 @@
       
 
       
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2010/07/27/linux-memory-management-addressing-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2010/07/27/linux-memory-management-addressing-2/" class="post-title-link" itemprop="url">Linux 内存管理-A.寻址-2</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2010-07-27 23:18:00" itemprop="dateCreated datePublished" datetime="2010-07-27T23:18:00+08:00">2010-07-27</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="paging">Paging</h2>
+<p>Paging unit 用来将 linear address 转换为 physical address，为了高效，linear address 按照一定的长度被分为若干组，称为 pages，并且，内存也被分为各个定长的 page frame (physical pages)，page 和 page frame 的长度是一样的，前者表示一块数据，它可以储存在 page frame 或者硬盘中。</p>
+<p>在 paging unit 开始工作之前，kernel 先初始化 page tables，这是一个用来映射 linear address 到 physical address 的表。</p>
+<p>Linear address 由三部分组成：</p>
+<ul>
+<li>Directory，10 bits</li>
+<li>Table，10 bits</li>
+<li>Offset，12 bits</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2010/07/27/linux-memory-management-addressing-2/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
     
 
 
