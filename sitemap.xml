@@ -4,7 +4,7 @@
   <url>
     <loc>http://blog.zhengdong.me/2021/11/03/the-product-lesson-of-wanghw/</loc>
     
-    <lastmod>2021-11-03</lastmod>
+    <lastmod>2021-11-06</lastmod>
     
   </url>
   
@@ -268,14 +268,14 @@
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2013/11/15/an-approach-for-user-behavior-clustering/</loc>
+    <loc>http://blog.zhengdong.me/2013/10/28/an-arithmetic-issue-in-hive-sql/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2013/10/28/an-arithmetic-issue-in-hive-sql/</loc>
+    <loc>http://blog.zhengdong.me/2013/11/15/an-approach-for-user-behavior-clustering/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
@@ -436,14 +436,14 @@
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/08/20/implementation-and-efficiency-of-regular-expression/</loc>
+    <loc>http://blog.zhengdong.me/2011/06/13/about-objc-property/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2011/06/13/about-objc-property/</loc>
+    <loc>http://blog.zhengdong.me/2011/08/20/implementation-and-efficiency-of-regular-expression/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
@@ -578,7 +578,7 @@
 
   <url>
     <loc>http://blog.zhengdong.me/</loc>
-    <lastmod>2021-11-03</lastmod>
+    <lastmod>2021-11-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
