@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.zhengdong.me/2022/03/12/four-types-of-data-products/</loc>
+    
+    <lastmod>2022-03-12</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.zhengdong.me/2022/02/12/from-china-economy-book-reading/</loc>
     
     <lastmod>2022-02-12</lastmod>
@@ -219,14 +226,14 @@
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2018/10/28/ways-to-profit-from-the-bigdata-on-data/</loc>
+    <loc>http://blog.zhengdong.me/2018/10/27/ways-to-profit-from-the-bigdata-on-tech/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2018/10/27/ways-to-profit-from-the-bigdata-on-tech/</loc>
+    <loc>http://blog.zhengdong.me/2018/10/28/ways-to-profit-from-the-bigdata-on-data/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
@@ -282,14 +289,14 @@
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2013/11/15/an-approach-for-user-behavior-clustering/</loc>
+    <loc>http://blog.zhengdong.me/2013/10/28/an-arithmetic-issue-in-hive-sql/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2013/10/28/an-arithmetic-issue-in-hive-sql/</loc>
+    <loc>http://blog.zhengdong.me/2013/11/15/an-approach-for-user-behavior-clustering/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
@@ -548,14 +555,14 @@
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2010/11/04/relocation-and-link-of-a-program/</loc>
+    <loc>http://blog.zhengdong.me/2010/10/25/emacs-lisp-basics/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2010/10/25/emacs-lisp-basics/</loc>
+    <loc>http://blog.zhengdong.me/2010/11/04/relocation-and-link-of-a-program/</loc>
     
     <lastmod>2020-11-28</lastmod>
     
@@ -592,7 +599,7 @@
 
   <url>
     <loc>http://blog.zhengdong.me/</loc>
-    <lastmod>2022-02-12</lastmod>
+    <lastmod>2022-03-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
