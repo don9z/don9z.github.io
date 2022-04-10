@@ -287,53 +287,93 @@
     
     <div class="post-body" itemprop="articleBody">
         <h2 id="align-regexp">align-regexp</h2>
-<p>相必大家都用过 <code>C-M-\</code>，一般都能满足需要，可是有时候需要按一行中的某些字符对齐，比如一些变态的语言或者编程规范规定赋值语句需要按 "=" 对齐，那怎么办?</p>
-<p>align-regexp 使用起来只需要选中需要对齐的 region，然后执行，输入需要匹配的正则表达式即可。</p>
+<p>相必大家都用过
+<code>C-M-\</code>，一般都能满足需要，可是有时候需要按一行中的某些字符对齐，比如一些变态的语言或者编程规范规定赋值语句需要按
+"=" 对齐，那怎么办?</p>
+<p>align-regexp 使用起来只需要选中需要对齐的
+region，然后执行，输入需要匹配的正则表达式即可。</p>
 <p>比如如下代码:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> var = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">int</span> variable_is_kinda_long = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">int</span> var_is_less_long = <span class="number">4</span>;</span><br></pre></td></tr></table></figure>
-<p>需要按 = 对齐，选中执行 <code>M-x align-regexp</code>, 然后 regexp 填 =，结果如下:</p>
+<p>需要按 = 对齐，选中执行 <code>M-x align-regexp</code>, 然后 regexp 填
+=，结果如下:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int var                    &#x3D; 2;</span><br><span class="line">int variable_is_kinda_long &#x3D; 3;</span><br><span class="line">int var_is_less_long       &#x3D; 4;</span><br></pre></td></tr></table></figure>
 <h2 id="occur">occur</h2>
-<p>输出 buffer 中符合正则表达式的所有行，在查找替换时，或者需要重构代码时，事先用 occur 来验证下构造的正则表达式的效果，可以避免一时自信或者冲动毁了先前的工作.</p>
+<p>输出 buffer
+中符合正则表达式的所有行，在查找替换时，或者需要重构代码时，事先用 occur
+来验证下构造的正则表达式的效果，可以避免一时自信或者冲动毁了先前的工作.</p>
 <h2 id="anything">anything</h2>
-<p>用过 Mac 的 quicksilver，或者 Linux 上的 gnome go 的同学，也许会觉得简直是神器，自称操作系统 Emacs 岂能自甘落后，anything 绝对值得拥有。</p>
-<p><code>M-x anything</code>, 会出现 anything buffer，其中显示当前目录下所有文件，当前打开的所有 buffer 以及最近打开的文件，只需要挑着敲文件名包含的少数字母，文件会被选中，然后直接 tab，buffer 会显示所有操作，输入操作名称，当然是少数字母，执行即可，也可以使用 <code>C-n C-p</code> 来选择。</p>
-<p>我使用的是 anything-config，anything-startup 会让 <code>C-x f</code> 变得很乱很难用，不如 ido-mode 好用。</p>
+<p>用过 Mac 的 quicksilver，或者 Linux 上的 gnome go
+的同学，也许会觉得简直是神器，自称操作系统 Emacs 岂能自甘落后，anything
+绝对值得拥有。</p>
+<p><code>M-x anything</code>, 会出现 anything
+buffer，其中显示当前目录下所有文件，当前打开的所有 buffer
+以及最近打开的文件，只需要挑着敲文件名包含的少数字母，文件会被选中，然后直接
+tab，buffer
+会显示所有操作，输入操作名称，当然是少数字母，执行即可，也可以使用
+<code>C-n C-p</code> 来选择。</p>
+<p>我使用的是 anything-config，anything-startup 会让 <code>C-x f</code>
+变得很乱很难用，不如 ido-mode 好用。</p>
 <h2 id="tramp">tramp</h2>
-<p>远程文件编辑的利器，<code>C-x f username@user.com:filepath</code>, 流畅俨如本地文件，该工具其实很流行，但还有一个功能很少被人使用，但却可以解决烦恼。</p>
-<p>有多少次你编辑了文件，悲催的发现是只读文件，不能保存，你又不想退出 emacs，只能 <code>sudo vim</code>，然后用非常别扭的方式编辑文件。但有了 tramp，只需要 <code>C-x f /sudo::/etc/passw</code>，烦恼木有了。</p>
-<p>刚在 Emacs 中输入上面那个远程文件的链接时，竟然也触发启动了 tramp 连接，然后网络连不上于是 Emacs 僵死了，只得 force quit 了下，看来不死之身有时候也会出问题的。</p>
+<p>远程文件编辑的利器，<code>C-x f username@user.com:filepath</code>,
+流畅俨如本地文件，该工具其实很流行，但还有一个功能很少被人使用，但却可以解决烦恼。</p>
+<p>有多少次你编辑了文件，悲催的发现是只读文件，不能保存，你又不想退出
+emacs，只能 <code>sudo vim</code>，然后用非常别扭的方式编辑文件。但有了
+tramp，只需要 <code>C-x f /sudo::/etc/passw</code>，烦恼木有了。</p>
+<p>刚在 Emacs 中输入上面那个远程文件的链接时，竟然也触发启动了 tramp
+连接，然后网络连不上于是 Emacs 僵死了，只得 force quit
+了下，看来不死之身有时候也会出问题的。</p>
 <h2 id="re-builder">re-builder</h2>
-<p>实时高亮显示当前 buffer 可以匹配所输入正则表达式的字串，非常适合查找替换前做检查。功能跟 occur 差不多，只是 occur 另开一个 buffer 用来显示匹配的行，re-builder 直接显示在当前 buffer。</p>
+<p>实时高亮显示当前 buffer
+可以匹配所输入正则表达式的字串，非常适合查找替换前做检查。功能跟 occur
+差不多，只是 occur 另开一个 buffer 用来显示匹配的行，re-builder
+直接显示在当前 buffer。</p>
 <h2 id="ractangle">ractangle</h2>
 <p>如下矩阵:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1234</span><br><span class="line">2345</span><br><span class="line">3456</span><br></pre></td></tr></table></figure>
-<p>假如我们需要剪切左上 2x2 矩阵，从1排1列，<code>C-space</code> 选中，挪动光标到2排2列，<code>C-x r k</code>, 然后 <code>C-x r y</code> 复制，结果如下:</p>
+<p>假如我们需要剪切左上 2x2 矩阵，从1排1列，<code>C-space</code>
+选中，挪动光标到2排2列，<code>C-x r k</code>, 然后 <code>C-x r y</code>
+复制，结果如下:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; After cut</span><br><span class="line">34</span><br><span class="line">45</span><br><span class="line">3456</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Copy</span><br><span class="line">12</span><br><span class="line">23</span><br></pre></td></tr></table></figure>
-<p><code>C-x r o</code> 插入空格到选中矩阵，<code>C-x r c</code> 用空格替换所选中矩阵，<code>C-x r d</code> 删除所选矩阵，如下三操作区别 (左上2x2矩阵):</p>
+<p><code>C-x r o</code> 插入空格到选中矩阵，<code>C-x r c</code>
+用空格替换所选中矩阵，<code>C-x r d</code> 删除所选矩阵，如下三操作区别
+(左上2x2矩阵):</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; C-x r o</span><br><span class="line">  1234</span><br><span class="line">  2345</span><br><span class="line">3456</span><br><span class="line">&#x2F;&#x2F; C-x r c</span><br><span class="line">  34</span><br><span class="line">  45</span><br><span class="line">3456</span><br><span class="line">&#x2F;&#x2F; C-x r d</span><br><span class="line">34</span><br><span class="line">45</span><br><span class="line">3456</span><br></pre></td></tr></table></figure>
-<p><code>C-x r t</code> 用输入字符串替换所选矩阵每行, 下图结果用 xy 替换左上 2x2 矩阵。</p>
+<p><code>C-x r t</code> 用输入字符串替换所选矩阵每行, 下图结果用 xy
+替换左上 2x2 矩阵。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xy34</span><br><span class="line">xy45</span><br><span class="line">3456</span><br></pre></td></tr></table></figure>
 <h2 id="auto-rever-tail-mode">auto-rever-tail-mode</h2>
-<p>我们多少次在 terminal 中 tail -f sys.log 来关注 log 的最新输出, 使用这个命令 Emacs 便自动完成该工作。</p>
+<p>我们多少次在 terminal 中 tail -f sys.log 来关注 log 的最新输出,
+使用这个命令 Emacs 便自动完成该工作。</p>
 <h2 id="wdired-change-to-wdired-mode">wdired-change-to-wdired-mode</h2>
-<p>在 dired-mode 使用该 mode，就可以像文件那样对 dired-mode buffer 进行编辑，可以用 regex-replace，rectangle 命令，批量更改文件名等。</p>
+<p>在 dired-mode 使用该 mode，就可以像文件那样对 dired-mode buffer
+进行编辑，可以用 regex-replace，rectangle 命令，批量更改文件名等。</p>
 <h2 id="hexl-mode">hexl-mode</h2>
 <p>查看编辑非文本文件利器。</p>
-<h2 id="multi-occur-in-matching-buffers">multi-occur-in-matching-buffers</h2>
+<h2
+id="multi-occur-in-matching-buffers">multi-occur-in-matching-buffers</h2>
 <p>可以对所有打开的 buffer 进行 regex search。</p>
 <h2 id="c-u-c-spacebar">C-u C-spacebar</h2>
-<p>Emacs 记录了所有光标移动的历史，使用这个命令，可以依次回到前一个位置，在阅读代码时非常有用。</p>
+<p>Emacs
+记录了所有光标移动的历史，使用这个命令，可以依次回到前一个位置，在阅读代码时非常有用。</p>
 <h2 id="apropos">apropos</h2>
-<p>搜索包含某关键字或者匹配某正则表达式的 Emacs 命令，利用这个可以发现更多给力的 feature。</p>
+<p>搜索包含某关键字或者匹配某正则表达式的 Emacs
+命令，利用这个可以发现更多给力的 feature。</p>
 <h2 id="follow-mode">follow-mode</h2>
-<p>现在流行的是宽屏，宽度不是问题，因此 Emacs <code>C-x 3</code> 用的很多，但很多长的文档，要翻好多页，小拇指真疼。</p>
-<p>竖分屏后执行 follow-mode 后，所有 buffer 显示同一文件的不同部分，可视范围翻倍，甚至数倍，这要看你的屏幕有多宽了。</p>
+<p>现在流行的是宽屏，宽度不是问题，因此 Emacs <code>C-x 3</code>
+用的很多，但很多长的文档，要翻好多页，小拇指真疼。</p>
+<p>竖分屏后执行 follow-mode 后，所有 buffer
+显示同一文件的不同部分，可视范围翻倍，甚至数倍，这要看你的屏幕有多宽了。</p>
 <h2 id="最后">最后</h2>
-<p>题目中说的非流行是依据我在发现这些 feature 的偶然程度来定的，也许里面有的可能地球人都知道或者都再用，比如我觉得的，应该大家都会用的，或者一开始就被人推荐使用的，我就没列在上面，它们是:</p>
-<p>org-mode (org2blog), cscope, ido-mode, auto-complete, cedet, magit, yasnippet, ecb …</p>
-<p>这里有个<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/60367/the-single-most-useful-emacs-feature">调查</a>，Emacs 中最有用的 feature，大家可以参与下，另外本文中的很多 command 是我看到这个 polls 之后才觉得很强大。</p>
-<p>最后，不能忘了很强大很强大的三个命令，分别用来查询某 key binding，某 function (command)，某variable 是干啥用的:</p>
+<p>题目中说的非流行是依据我在发现这些 feature
+的偶然程度来定的，也许里面有的可能地球人都知道或者都再用，比如我觉得的，应该大家都会用的，或者一开始就被人推荐使用的，我就没列在上面，它们是:</p>
+<p>org-mode (org2blog), cscope, ido-mode, auto-complete, cedet, magit,
+yasnippet, ecb …</p>
+<p>这里有个<a
+target="_blank" rel="noopener" href="http://stackoverflow.com/questions/60367/the-single-most-useful-emacs-feature">调查</a>，Emacs
+中最有用的 feature，大家可以参与下，另外本文中的很多 command
+是我看到这个 polls 之后才觉得很强大。</p>
+<p>最后，不能忘了很强大很强大的三个命令，分别用来查询某 key binding，某
+function (command)，某variable 是干啥用的:</p>
 <p><code>c-h k</code>, <code>c-h f</code>, <code>c-h v</code></p>
 
     </div>
@@ -342,12 +382,7 @@
     
     
 
-    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
-<hr style="border:1px solid #a9a9a9;">
-<p>📣 在 Substack 开了个订阅号 (Newsletter)，主题会聚焦在对数据、技术和产品的思考。<br>
-可以通过邮件来阅读，欢迎点击订阅：<a target="_blank" rel="noopener" href="https://dongz.substack.com/" class="uri">https://dongz.substack.com/</a></p>
-</div>
-
+    <footer class="post-footer">
           
 
 <div class="post-copyright">

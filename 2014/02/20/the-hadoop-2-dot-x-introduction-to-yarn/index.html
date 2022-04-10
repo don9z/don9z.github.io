@@ -290,31 +290,56 @@
     
     <div class="post-body" itemprop="articleBody">
         <h2 id="the-old-mapreduce">The Old MapReduce</h2>
-<p>The Hadoop 0.x MapReduce system composed of JobTracker and TaskTrackers.</p>
+<p>The Hadoop 0.x MapReduce system composed of JobTracker and
+TaskTrackers.</p>
 <p><img src="/images/2014/introtoyarn-jt.png" width="560"></p>
-<p>The JobTracker is responsible for resource management, tracking resource usage and job life-cycle management, e.g. scheduling job tasks, tracking progress, providing fault-tolerance for tasks.</p>
-<p>The TaskTracker is the per-node slave for JobTracker, takes orders from the JobTracker to launch or tear-down tasks, and provides task status information to the JobTracker periodically.</p>
-<p>For those years, we are benefited from the MapReduce framework, it's the most successful programming model in the big data world.</p>
-<p>But MapReduce is not everything, we need to do graph processing, or real-time stream processing, since Hadoop is essentially batch oriented, we have to look for other systems to do those work.</p>
+<p>The JobTracker is responsible for resource management, tracking
+resource usage and job life-cycle management, e.g. scheduling job tasks,
+tracking progress, providing fault-tolerance for tasks.</p>
+<p>The TaskTracker is the per-node slave for JobTracker, takes orders
+from the JobTracker to launch or tear-down tasks, and provides task
+status information to the JobTracker periodically.</p>
+<p>For those years, we are benefited from the MapReduce framework, it's
+the most successful programming model in the big data world.</p>
+<p>But MapReduce is not everything, we need to do graph processing, or
+real-time stream processing, since Hadoop is essentially batch oriented,
+we have to look for other systems to do those work.</p>
 <p>And the hadoop community made a huge change.</p>
 <h2 id="the-hadoop-yarn">The Hadoop YARN</h2>
-<p>The fundamental idea of YARN is to split up the two major responsibilities of the JobTracker i.e. resource management and job scheduling/monitoring, into separate daemons: a global ResourceManager (RM) and per-application ApplicationMaster (AM).</p>
+<p>The fundamental idea of YARN is to split up the two major
+responsibilities of the JobTracker i.e. resource management and job
+scheduling/monitoring, into separate daemons: a global ResourceManager
+(RM) and per-application ApplicationMaster (AM).</p>
 <p><img src="/images/2014/introtoyarn-rm.png" width="560"></p>
-<p>The ResourceManager is responsible for allocating resources to the running applications.</p>
-<p>The NodeManager is a per-machine slave, works on launching the application's containers, monitoring the resource usage, and reporting them to the ResourceManager.</p>
-<p>The ApplicationMaster is a per-application framework, which runs as a normal container, responsible for negotiating appropriate resource containers from ResourceManager, tracking their status and monitoring for progress.</p>
-<p>Click <a target="_blank" rel="noopener" href="http://hortonworks.com/blog/apache-hadoop-yarn-background-and-an-overview/">here</a> to read the details about Hadoop YARN.</p>
+<p>The ResourceManager is responsible for allocating resources to the
+running applications.</p>
+<p>The NodeManager is a per-machine slave, works on launching the
+application's containers, monitoring the resource usage, and reporting
+them to the ResourceManager.</p>
+<p>The ApplicationMaster is a per-application framework, which runs as a
+normal container, responsible for negotiating appropriate resource
+containers from ResourceManager, tracking their status and monitoring
+for progress.</p>
+<p>Click <a
+target="_blank" rel="noopener" href="http://hortonworks.com/blog/apache-hadoop-yarn-background-and-an-overview/">here</a>
+to read the details about Hadoop YARN.</p>
 <h2 id="the-hadoop-distribution">The Hadoop Distribution</h2>
-<p>My intention is to read the source code of hadoop, so I prefer to build a hadoop distribution from the source code.</p>
-<p>First, git clone from <a target="_blank" rel="noopener" href="https://github.com/apache/hadoop-common">github</a> or <a target="_blank" rel="noopener" href="http://git.apache.org/hadoop-common.git/">apache</a>.</p>
+<p>My intention is to read the source code of hadoop, so I prefer to
+build a hadoop distribution from the source code.</p>
+<p>First, git clone from <a
+target="_blank" rel="noopener" href="https://github.com/apache/hadoop-common">github</a> or <a
+target="_blank" rel="noopener" href="http://git.apache.org/hadoop-common.git/">apache</a>.</p>
 <p>Second, checkout the branch-2.2.0 branch, which is quite stable.</p>
 <p>Third, apply below patch,</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">diff --git a&#x2F;hadoop-common-project&#x2F;hadoop-auth&#x2F;pom.xml b&#x2F;hadoop-common-project&#x2F;hadoop-auth&#x2F;pom.xml</span><br><span class="line">index 8819941..70ff207 100644</span><br><span class="line">--- a&#x2F;hadoop-common-project&#x2F;hadoop-auth&#x2F;pom.xml</span><br><span class="line">+++ b&#x2F;hadoop-common-project&#x2F;hadoop-auth&#x2F;pom.xml</span><br><span class="line">@@ -55,6 +55,11 @@</span><br><span class="line">     &lt;&#x2F;dependency&gt;</span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">       &lt;groupId&gt;org.mortbay.jetty&lt;&#x2F;groupId&gt;</span><br><span class="line">+      &lt;artifactId&gt;jetty-util&lt;&#x2F;artifactId&gt;</span><br><span class="line">+      &lt;scope&gt;test&lt;&#x2F;scope&gt;</span><br><span class="line">+    &lt;&#x2F;dependency&gt;</span><br><span class="line">+    &lt;dependency&gt;</span><br><span class="line">+      &lt;groupId&gt;org.mortbay.jetty&lt;&#x2F;groupId&gt;</span><br><span class="line">       &lt;artifactId&gt;jetty&lt;&#x2F;artifactId&gt;</span><br><span class="line">       &lt;scope&gt;test&lt;&#x2F;scope&gt;</span><br><span class="line">     &lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
 <p>Fourth, type and run.</p>
 <p><code>mvn package -Pdist -DskipTests -Dtar</code></p>
 <h2 id="the-installation-guide">The Installation Guide</h2>
-<p><a target="_blank" rel="noopener" href="http://www.alexjf.net/blog/distributed-systems/hadoop-yarn-installation-definitive-guide">This</a> is a great guide to install Hadoop 2.2.0.</p>
-<p>I did a single installation, after configuring everything, hdfs can be setup and daemons are started by below scripts.</p>
+<p><a
+target="_blank" rel="noopener" href="http://www.alexjf.net/blog/distributed-systems/hadoop-yarn-installation-definitive-guide">This</a>
+is a great guide to install Hadoop 2.2.0.</p>
+<p>I did a single installation, after configuring everything, hdfs can
+be setup and daemons are started by below scripts.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ /bin/hdfs namenode -format</span><br><span class="line">$ sbin/hadoop-daemon.sh start namenode</span><br><span class="line">$ sbin/hadoop-daemon.sh start datanode</span><br><span class="line">$ sbin/yarn-daemon.sh start resourcemanager</span><br><span class="line">$ sbin/yarn-daemon.sh start nodemanager</span><br></pre></td></tr></table></figure>
 <p>Then, run <code>date -u</code> commands on two containers.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bin/hadoop jar share/hadoop/yarn/hadoop-yarn-applications-distributedshell-2.2.0.jar org.apache.hadoop.yarn.applications.distributedshell.Client -jar share/hadoop/yarn/hadoop-yarn-applications-distributedshell-2.2.0.jar -shell_command <span class="string">&#x27;date&#x27;</span> -shell_args <span class="string">&quot;-u&quot;</span> -num_containers 2</span><br></pre></td></tr></table></figure>
@@ -330,12 +355,7 @@
     
     
 
-    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
-<hr style="border:1px solid #a9a9a9;">
-<p>📣 在 Substack 开了个订阅号 (Newsletter)，主题会聚焦在对数据、技术和产品的思考。<br>
-可以通过邮件来阅读，欢迎点击订阅：<a target="_blank" rel="noopener" href="https://dongz.substack.com/" class="uri">https://dongz.substack.com/</a></p>
-</div>
-
+    <footer class="post-footer">
           
 
 <div class="post-copyright">

@@ -285,34 +285,59 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p><a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/155964/what-are-best-practices-that-you-use-when-writing-objective-c-and-cocoa">StackOverflow</a> 上有人问除了 <a target="_blank" rel="noopener" href="http://developer.apple.com/library/mac/#documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGIntro/XHIGIntro.htm">HIG</a> 外使用 Objective-C 以及 Cocoa 还有什么好的工程实践，果然是抛砖引玉，很多好的 practices 和 tips 一一跃然纸上，摘抄一些:</p>
+        <p><a
+target="_blank" rel="noopener" href="http://stackoverflow.com/questions/155964/what-are-best-practices-that-you-use-when-writing-objective-c-and-cocoa">StackOverflow</a>
+上有人问除了 <a
+target="_blank" rel="noopener" href="http://developer.apple.com/library/mac/#documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGIntro/XHIGIntro.htm">HIG</a>
+外使用 Objective-C 以及 Cocoa
+还有什么好的工程实践，果然是抛砖引玉，很多好的 practices 和 tips
+一一跃然纸上，摘抄一些:</p>
 <p>1&gt; 使用 properties，不用 "_" 前缀。</p>
 <p>2&gt; 把 private 方法的定义移到 .m 文件，如下:</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">&quot;MyClass.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MyClass</span> ()</span></span><br><span class="line">- (<span class="keyword">void</span>) someMethod</span><br><span class="line">- (<span class="keyword">void</span>) someOtherMethod</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MyClass</span></span></span><br></pre></td></tr></table></figure>
-<p>Objective-C 的方法没有像 Java 那样的 private 或者 public 属性，如果需要设置方法为 private，一般采用 category 来对方法进行隐藏。</p>
+<p>Objective-C 的方法没有像 Java 那样的 private 或者 public
+属性，如果需要设置方法为 private，一般采用 category
+来对方法进行隐藏。</p>
 <p>如果外界根本就不关心私有方法，那何必要放在 .h 里呢。</p>
-<p>3&gt; 把 dealloc 方法移到 .m 文件的最前面，<span class="citation" data-cites="synthesize">@synthesize</span> 下面。这样到底什么该 dealloc 一目了然。</p>
-<p>4&gt; 不用使用 double 类型，iPhone 原生不支持任何 double 精度的计算。</p>
-<p>5&gt; 不用多线程时将 properties 设置为 nonatomic，synthesize 缺省是 atomic 的，运行时会添加semaphore 代码来进行线程互斥，nonatomic 效率上会好点。</p>
-<p>6&gt; SQLite 处理大数据集非常快，但瓶颈往往出现在磁盘 I/O，不要频繁的 commit 小数据，使用 BEGIN; 和 COMMIT; 来组装 transaction，确保大块的进行数据写入。</p>
-<p>如果查询操作非常耗时，SQL 可能会阻塞 GUI，最好使用单独来处理 SQL 操作。</p>
-<p>7&gt; 出于历史原因，Outlet 的内存管理很差，最好声明 outlets 为 properties:</p>
+<p>3&gt; 把 dealloc 方法移到 .m 文件的最前面，<span class="citation"
+data-cites="synthesize">@synthesize</span> 下面。这样到底什么该 dealloc
+一目了然。</p>
+<p>4&gt; 不用使用 double 类型，iPhone 原生不支持任何 double
+精度的计算。</p>
+<p>5&gt; 不用多线程时将 properties 设置为 nonatomic，synthesize 缺省是
+atomic 的，运行时会添加semaphore 代码来进行线程互斥，nonatomic
+效率上会好点。</p>
+<p>6&gt; SQLite 处理大数据集非常快，但瓶颈往往出现在磁盘 I/O，不要频繁的
+commit 小数据，使用 BEGIN; 和 COMMIT; 来组装
+transaction，确保大块的进行数据写入。</p>
+<p>如果查询操作非常耗时，SQL 可能会阻塞 GUI，最好使用单独来处理 SQL
+操作。</p>
+<p>7&gt; 出于历史原因，Outlet 的内存管理很差，最好声明 outlets 为
+properties:</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MyClass</span> :<span class="title">NSObject</span> </span>&#123;</span><br><span class="line">    <span class="built_in">NSTextField</span> *textField;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">retain</span>) <span class="keyword">IBOutlet</span> <span class="built_in">NSTextField</span> *textField;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<p>8&gt; 不要使用 id m_something 这样的命名来表明其为成员变量，用 something 或者 _something 替代。</p>
-<p>9&gt; 不要使用 -getSomething 还命名 getter，cocoa 惯例为 -something； 不要使用 -something 来命名 setter，cocoa 惯例为 -setSomething。</p>
-<p>10&gt; 命名中使用 CamelCase，不用下划线，类名称首字母大写，变量和方法首字母小写。</p>
+<p>8&gt; 不要使用 id m_something 这样的命名来表明其为成员变量，用
+something 或者 _something 替代。</p>
+<p>9&gt; 不要使用 -getSomething 还命名 getter，cocoa 惯例为 -something；
+不要使用 -something 来命名 setter，cocoa 惯例为 -setSomething。</p>
+<p>10&gt; 命名中使用
+CamelCase，不用下划线，类名称首字母大写，变量和方法首字母小写。</p>
 <p>11&gt; 使用 LLVM/Clang 做静态检查。</p>
 <p>12&gt; 不要使用未知 string 作为格式化 string，如下:</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *aString = <span class="comment">// get a string from somewhere;</span></span><br><span class="line"><span class="built_in">NSLog</span>(aString);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;aString: %@&quot;</span>, aString)；</span><br></pre></td></tr></table></figure>
-<p>aString 有可能包含一些被认为是格式化的字符，这样传入 NSLog 可能会导致错误输出，crash 或者安全问题。应该像最后一行那样，直接输入格式化 string。</p>
-<p>13&gt; 不要使用 autorelease，使用 cocoa 命名惯例来标记需要调用者释放的资源。</p>
+<p>aString 有可能包含一些被认为是格式化的字符，这样传入 NSLog
+可能会导致错误输出，crash
+或者安全问题。应该像最后一行那样，直接输入格式化 string。</p>
+<p>13&gt; 不要使用 autorelease，使用 cocoa
+命名惯例来标记需要调用者释放的资源。</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (MyClass *)convenienceMethod &#123;</span><br><span class="line">    MyClass *instance = [[[<span class="keyword">self</span> alloc] init] autorelease];</span><br><span class="line">    <span class="comment">// configure instance</span></span><br><span class="line">    <span class="keyword">return</span> instance;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// instead</span></span><br><span class="line">- (MyClass *)newInstance &#123;</span><br><span class="line">    MyClass *instance = [[<span class="keyword">self</span> alloc] init];</span><br><span class="line">    <span class="comment">// configure instance</span></span><br><span class="line">    <span class="keyword">return</span> instance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>14&gt; dealloc 中不要忘了重置 delegate:</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">self</span>.someObject.delegate = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">self</span>.someObject = <span class="literal">NULL</span>;</span><br><span class="line">    [<span class="keyword">super</span> dealloc];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>15&gt; 单元测试。</p>
 <p>16&gt; 不要像 Java/C#/C++… 那样来写 Objective-C。</p>
-<p>17&gt; 不要无节制的使用 category，这样在 port 过程中你会得到好处。</p>
-<p>详细列表请<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/155964/what-are-best-practices-that-you-use-when-writing-objective-c-and-cocoa">点击</a></p>
+<p>17&gt; 不要无节制的使用 category，这样在 port
+过程中你会得到好处。</p>
+<p>详细列表请<a
+target="_blank" rel="noopener" href="http://stackoverflow.com/questions/155964/what-are-best-practices-that-you-use-when-writing-objective-c-and-cocoa">点击</a></p>
 
     </div>
 
@@ -320,12 +345,7 @@
     
     
 
-    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
-<hr style="border:1px solid #a9a9a9;">
-<p>📣 在 Substack 开了个订阅号 (Newsletter)，主题会聚焦在对数据、技术和产品的思考。<br>
-可以通过邮件来阅读，欢迎点击订阅：<a target="_blank" rel="noopener" href="https://dongz.substack.com/" class="uri">https://dongz.substack.com/</a></p>
-</div>
-
+    <footer class="post-footer">
           
 
 <div class="post-copyright">

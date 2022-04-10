@@ -289,53 +289,99 @@
         <p>这一个系列将会详细的介绍 Linux kernel 内存管理机制。</p>
 <p>使用特定内存地址就可以访问某一块内存单元，为了实现有效的寻址，操作系统将一系列繁琐的操作隐藏了起来，内存地址按照不同的抽象层次分为如下三种：</p>
 <ol type="1">
-<li>Logical address: 标识运算符或者程序指令的地址，由段号 (segment selector) 和偏移量 (offset) 组成。</li>
-<li>Linear address: 32位的无符号整型数，可以用来表示最大4GB地址空间。</li>
+<li>Logical address: 标识运算符或者程序指令的地址，由段号 (segment
+selector) 和偏移量 (offset) 组成。</li>
+<li>Linear address:
+32位的无符号整型数，可以用来表示最大4GB地址空间。</li>
 <li>Physical address：内存物理单元的地址。</li>
 </ol>
-<p>CPU 控制单元通过 Segmentation Unit 将 Logical address 转换为 Linear address，而后，再通过 paging unit 将 linear address 转换为 physical address，至此，特定地址的访问行为完成。</p>
+<p>CPU 控制单元通过 Segmentation Unit 将 Logical address 转换为 Linear
+address，而后，再通过 paging unit 将 linear address 转换为 physical
+address，至此，特定地址的访问行为完成。</p>
 <h2 id="segmentation-unit">Segmentation Unit</h2>
-<p>Logical address 由两部分组成，用来标识段的 segment selector (16 bits) 和用来表示偏移量的 offset (32 bits)。为了更快的读取 segment selector，处理器提供了六种段寄存器来存储 segment selector，<code>cs</code> (code segment), <code>ss</code> (stack segment), <code>ds</code> (data segment), 以及另外三种可以表示任意段的寄存器。</p>
-<p>为了表示段的特征，引入 segment descriptor (8 bits)，存储在 GDT (Global Descriptor Table) 或者 LDT (Local Descriptor Table) 中，一般情况下，整个系统只有一个 GDT，其地址在 gdtr 寄存器中，每一个进程有自己对应的 LDT，存于 <code>ldtr</code> 寄存器中。</p>
+<p>Logical address 由两部分组成，用来标识段的 segment selector (16 bits)
+和用来表示偏移量的 offset (32 bits)。为了更快的读取 segment
+selector，处理器提供了六种段寄存器来存储 segment
+selector，<code>cs</code> (code segment), <code>ss</code> (stack
+segment), <code>ds</code> (data segment),
+以及另外三种可以表示任意段的寄存器。</p>
+<p>为了表示段的特征，引入 segment descriptor (8 bits)，存储在 GDT
+(Global Descriptor Table) 或者 LDT (Local Descriptor Table)
+中，一般情况下，整个系统只有一个 GDT，其地址在 gdtr
+寄存器中，每一个进程有自己对应的 LDT，存于 <code>ldtr</code>
+寄存器中。</p>
 <p>Segment descriptor 组成部分如下：</p>
 <ul>
 <li>Base (32 bits), 保存段首字节的 linear address；</li>
-<li>G (1 bit), 0 则段大小以 bytes 为单位，反之以 4096 bytes 为单位；</li>
+<li>G (1 bit), 0 则段大小以 bytes 为单位，反之以 4096 bytes
+为单位；</li>
 <li>Limit (20 bits), 标识段的长度；</li>
-<li>S (1 bit), 0 则该段储存 kernel 数据结构，反之为一般指令或数据段；</li>
-<li>Type (4 bits), 表示段类型以及相应的访问权限，四种类型将在下面详述；</li>
-<li>DPL (2 bits), descriptor privilege level，用来表示可以访问该段的最低 CPU 优先级 (privilege)，0 最高，只有 kernel mode 的进程才可以访问，3最低，任何 CPL 值都可以访问；</li>
-<li>Segment-Present (1 bit), 表示该段是否在内存中，Linux 中，段常驻内存，因而不会被 swap out 到硬盘，所以为1；</li>
-<li>D (段包含代码) / B (段包含数据) (1 bit), 0 则 offset 使用 32 bits 地址长度，反之 16 bits；</li>
+<li>S (1 bit), 0 则该段储存 kernel
+数据结构，反之为一般指令或数据段；</li>
+<li>Type (4 bits),
+表示段类型以及相应的访问权限，四种类型将在下面详述；</li>
+<li>DPL (2 bits), descriptor privilege level，用来表示可以访问该段的最低
+CPU 优先级 (privilege)，0 最高，只有 kernel mode
+的进程才可以访问，3最低，任何 CPL 值都可以访问；</li>
+<li>Segment-Present (1 bit), 表示该段是否在内存中，Linux
+中，段常驻内存，因而不会被 swap out 到硬盘，所以为1；</li>
+<li>D (段包含代码) / B (段包含数据) (1 bit), 0 则 offset 使用 32 bits
+地址长度，反之 16 bits；</li>
 <li>reserved bit, 0；</li>
 <li>AVL (1 bit), Linux 不用。</li>
 </ul>
 <p>Segment 常见的四种类型如下：</p>
 <ol type="1">
-<li>Code Segment Descriptor: 对应指令段 (code segment)，S=1，GDT/LDT皆可；</li>
-<li>Data Segment Descriptor: 对应数据段 (data segment)， S=1，包含 stack segment，GDT/LDT皆可；</li>
-<li>Task State Segment Descriptor: 对应任务状态段 (task state segment)，用来存储寄存器的内容，只能处于 GDT，S=0，Type=9/11；</li>
-<li>Local Descriptor Table Descriptor，对应包含 LDT 的 segment，同3，只能处于 GDT，S=0，Type=2。</li>
+<li>Code Segment Descriptor: 对应指令段 (code
+segment)，S=1，GDT/LDT皆可；</li>
+<li>Data Segment Descriptor: 对应数据段 (data segment)， S=1，包含 stack
+segment，GDT/LDT皆可；</li>
+<li>Task State Segment Descriptor: 对应任务状态段 (task state
+segment)，用来存储寄存器的内容，只能处于 GDT，S=0，Type=9/11；</li>
+<li>Local Descriptor Table Descriptor，对应包含 LDT 的
+segment，同3，只能处于 GDT，S=0，Type=2。</li>
 </ol>
-<p>前面提到过，logical address 由 segment selector 和 offset 组成，segment selector包含3个部分：</p>
+<p>前面提到过，logical address 由 segment selector 和 offset
+组成，segment selector包含3个部分：</p>
 <ul>
 <li>index (13 bits), GDT 或者 LDT index；</li>
-<li>TI (Table Indicator) (1 bit), TI=0, 则该 segment descriptor 在 GDT 中，TI=1，LDT中；</li>
-<li>RPL (Request Privilege Level) (2 bits), 当 segment selector 存入 <code>cs</code> 寄存器时 CPU 的权限级别。</li>
+<li>TI (Table Indicator) (1 bit), TI=0, 则该 segment descriptor 在 GDT
+中，TI=1，LDT中；</li>
+<li>RPL (Request Privilege Level) (2 bits), 当 segment selector 存入
+<code>cs</code> 寄存器时 CPU 的权限级别。</li>
 </ul>
 <p>通常情况下，为了得到一个 segment descriptor，</p>
 <ol type="1">
-<li>查看 TI，判断 segment descriptor 存储于哪一个表中，GDT (gdtr) 或者 LDT (ldtr)；</li>
-<li>根据 index 计算基于表首地址的偏移量，index * 8，然后再跟 <code>gdtr</code> 或者 <code>ldtr</code> 所存储地址相加，得到 segment descriptor 地址；</li>
-<li>segment descriptor Base 部分保存该段首字节的 linear address，再加上 logical address 后半部分 offset，就可得 linear address。</li>
+<li>查看 TI，判断 segment descriptor 存储于哪一个表中，GDT (gdtr) 或者
+LDT (ldtr)；</li>
+<li>根据 index 计算基于表首地址的偏移量，index * 8，然后再跟
+<code>gdtr</code> 或者 <code>ldtr</code> 所存储地址相加，得到 segment
+descriptor 地址；</li>
+<li>segment descriptor Base 部分保存该段首字节的 linear address，再加上
+logical address 后半部分 offset，就可得 linear address。</li>
 </ol>
-<p>为了提升向 linear address 转换的速度，处理器又额外提供了个寄存器，该寄存器不可被程序改写，专门用来存储 8 位 segment descriptor 每当 segment selector 存入寄存器时。这样，就不需要再访问 GDT 或者 LDT，而只需要直接读取寄存器，直到该寄存器中内容改变。</p>
-<p>Linux 中所有的进程使用相同的 logical address，因而段的总数不会太大，GDT 就可以存储所有的 segment descriptor (包括 LDT)。出于以下两个原因，Linux 较少的使用 segmentation 而更多的使用了 paging 机制来寻址：</p>
+<p>为了提升向 linear address
+转换的速度，处理器又额外提供了个寄存器，该寄存器不可被程序改写，专门用来存储
+8 位 segment descriptor 每当 segment selector
+存入寄存器时。这样，就不需要再访问 GDT 或者
+LDT，而只需要直接读取寄存器，直到该寄存器中内容改变。</p>
+<p>Linux 中所有的进程使用相同的 logical
+address，因而段的总数不会太大，GDT 就可以存储所有的 segment descriptor
+(包括 LDT)。出于以下两个原因，Linux 较少的使用 segmentation
+而更多的使用了 paging 机制来寻址：</p>
 <ol type="1">
-<li>当所有的进程使用相同的 segment 寄存器时，内存管理较为简单，即所有进程共享 linear addresses；</li>
-<li>Linux 设计的目标包括可移植性，一些 RISC 处理器不能很好的支持 segmentation。</li>
+<li>当所有的进程使用相同的 segment
+寄存器时，内存管理较为简单，即所有进程共享 linear addresses；</li>
+<li>Linux 设计的目标包括可移植性，一些 RISC 处理器不能很好的支持
+segmentation。</li>
 </ol>
-<p>Linux 使用的段类型包括 kernel code segment, kernel data segment, user code segment, user data segment, task state segment, local descriptor table segment，各个 segment descriptor 的 Base 值是一样的。对于各个进程而言，GDT 包含了两种不同的 segment descriptor，TSS 和 LDT。LDT 通常是被各个进程共享的，并且当进程需要时，可以使用系统调用来创建自己的 LDT，但是 kernel 没有真正的使用 local descriptor table。</p>
+<p>Linux 使用的段类型包括 kernel code segment, kernel data segment, user
+code segment, user data segment, task state segment, local descriptor
+table segment，各个 segment descriptor 的 Base
+值是一样的。对于各个进程而言，GDT 包含了两种不同的 segment
+descriptor，TSS 和 LDT。LDT
+通常是被各个进程共享的，并且当进程需要时，可以使用系统调用来创建自己的
+LDT，但是 kernel 没有真正的使用 local descriptor table。</p>
 <p>下一篇，paging…</p>
 
     </div>
@@ -344,12 +390,7 @@
     
     
 
-    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
-<hr style="border:1px solid #a9a9a9;">
-<p>📣 在 Substack 开了个订阅号 (Newsletter)，主题会聚焦在对数据、技术和产品的思考。<br>
-可以通过邮件来阅读，欢迎点击订阅：<a target="_blank" rel="noopener" href="https://dongz.substack.com/" class="uri">https://dongz.substack.com/</a></p>
-</div>
-
+    <footer class="post-footer">
           
 
 <div class="post-copyright">

@@ -287,17 +287,32 @@
     <div class="post-body" itemprop="articleBody">
         <p>请看下面几行代码</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MyObject.h</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MyObject</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">   <span class="built_in">NSString</span> *name;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">retain</span>) <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// MyObject.m</span></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span></span></span><br><span class="line"><span class="keyword">@synthesize</span> name;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// MyObject.h</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MyObject</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">retain</span>) <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<p>第一个 interface 里面声明了一个 instance variable 名为 name，然后定义其为 property。 第二个 interface 里面直接定义了一个 property 名为 name。</p>
+<p>第一个 interface 里面声明了一个 instance variable 名为
+name，然后定义其为 property。 第二个 interface 里面直接定义了一个
+property 名为 name。</p>
 <p>第二个忘了声明 instance variable 吗?</p>
-<p>如果你使用的 Objective-C Runtime 版本高于 ios 3.x 或者高于 64bit Snow Leopard，那么第二个方法是正确的。</p>
-<p>声明一个 instance variable，要么在 interface 的大括号里面声明，或者使用 property，又或者全部都用，而如果用了 property，只有一个不同，那就是可以用 synthesize 来自动生成 setter/getter。</p>
+<p>如果你使用的 Objective-C Runtime 版本高于 ios 3.x 或者高于 64bit Snow
+Leopard，那么第二个方法是正确的。</p>
+<p>声明一个 instance variable，要么在 interface
+的大括号里面声明，或者使用 property，又或者全部都用，而如果用了
+property，只有一个不同，那就是可以用 synthesize 来自动生成
+setter/getter。</p>
 <p>那么到底该如何选择呢?</p>
-<p>之前有人说如果不在大括号中声明，只用 property，debug 时候会看不到这个变量，我在 Xcode 4 中测试了下，是可以看到的，所以这个不是问题。</p>
+<p>之前有人说如果不在大括号中声明，只用 property，debug
+时候会看不到这个变量，我在 Xcode 4
+中测试了下，是可以看到的，所以这个不是问题。</p>
 <p>So, feel free to use it.</p>
 <p>有这样的两个类</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Father</span> : <span class="title">NSObject</span></span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *father;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Child</span> : <span class="title">Father</span></span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> * child;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<p>Child 继承自 Father，如果我们需要往 Father 里面新加一个 instance variable，如果不重新编译 Child 的话，势必就影响了 Child，因为变量的访问是通过 offset 进行的，对于子类而言，实例化后父类是在子类中占据位置的，如果父类发生更改，那么 offset 值就会变化，这个时候，如果还是按之前的 offset 来访问的话，就很可能导致 crash。</p>
-<p>这在很多面向对象语言里面如 C++ 都是个问题，但是在 objc 里面已经不是问题，因为现代的 runtime 动态的对 offset 值进行更改，哪怕编译时得到的 offset 值是常量。</p>
+<p>Child 继承自 Father，如果我们需要往 Father 里面新加一个 instance
+variable，如果不重新编译 Child 的话，势必就影响了
+Child，因为变量的访问是通过 offset
+进行的，对于子类而言，实例化后父类是在子类中占据位置的，如果父类发生更改，那么
+offset 值就会变化，这个时候，如果还是按之前的 offset
+来访问的话，就很可能导致 crash。</p>
+<p>这在很多面向对象语言里面如 C++ 都是个问题，但是在 objc
+里面已经不是问题，因为现代的 runtime 动态的对 offset
+值进行更改，哪怕编译时得到的 offset 值是常量。</p>
 <p>所以可以动态地往父类里面加变量而又可以保持与子类的二进制兼容性。</p>
 <p>甚至都不需要更改父类的头文件，</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Father</span> ()</span></span><br><span class="line"><span class="keyword">@property</span> <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Father</span></span></span><br><span class="line"><span class="keyword">@synthesize</span> name;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
@@ -305,15 +320,22 @@
 <p>但是这样有一个问题，比如</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">BaseObject</span> : <span class="title">NSObject</span></span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *propertyOne;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">BaseObject</span></span></span><br><span class="line"><span class="keyword">@synthesize</span> propertyOne=myIvar;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">SubObject</span> : <span class="title">BaseObject</span></span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *propertyTwo;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">SubObject</span></span></span><br><span class="line"><span class="keyword">@synthesize</span> propertyTwo=myIvar;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
 <p>这样的 code 可以工作吗?</p>
-<p>如果父类和子类中有同名 instance variable，然后 synthesize，肿么办?</p>
-<p>实际上两个 myIvar 是不同的，有不同 offset 值，并且 synthesize 的 instance variable 总是 private 的，也就是说父类的这个同名变量对于子类而言是不可见的。</p>
-<p>不过要注意，不能将上述父子类代码放在一个文件中，会编译报错的，因为子类对于父类的 instance varaible 可见了。</p>
-<p>MVC 中，controller 通常会包含一些 IBOutlet，通常会采用 retain property，那么在删除的时候，可以这样</p>
+<p>如果父类和子类中有同名 instance variable，然后
+synthesize，肿么办?</p>
+<p>实际上两个 myIvar 是不同的，有不同 offset 值，并且 synthesize 的
+instance variable 总是 private
+的，也就是说父类的这个同名变量对于子类而言是不可见的。</p>
+<p>不过要注意，不能将上述父子类代码放在一个文件中，会编译报错的，因为子类对于父类的
+instance varaible 可见了。</p>
+<p>MVC 中，controller 通常会包含一些 IBOutlet，通常会采用 retain
+property，那么在删除的时候，可以这样</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span>.button = <span class="literal">nil</span>;</span><br></pre></td></tr></table></figure>
 <p>这样可以吗，没有用 [button release] 会 memory leak 吗?</p>
-<p>其实这样才是简洁的写法，因为其是 retained property，所以 synthesize 的 setter 大概如下</p>
+<p>其实这样才是简洁的写法，因为其是 retained property，所以 synthesize
+的 setter 大概如下</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)setButton:(<span class="built_in">UIButton</span> *)b</span><br><span class="line">&#123;</span><br><span class="line">    [button release];</span><br><span class="line">    button = b;</span><br><span class="line">    [button <span class="keyword">retain</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>所以 self.button 本身就执行了 [button release]，然后赋值为 nil，再 retain，是没有影响的。</p>
+<p>所以 self.button 本身就执行了 [button release]，然后赋值为 nil，再
+retain，是没有影响的。</p>
 
     </div>
 
@@ -321,12 +343,7 @@
     
     
 
-    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
-<hr style="border:1px solid #a9a9a9;">
-<p>📣 在 Substack 开了个订阅号 (Newsletter)，主题会聚焦在对数据、技术和产品的思考。<br>
-可以通过邮件来阅读，欢迎点击订阅：<a target="_blank" rel="noopener" href="https://dongz.substack.com/" class="uri">https://dongz.substack.com/</a></p>
-</div>
-
+    <footer class="post-footer">
           
 
 <div class="post-copyright">

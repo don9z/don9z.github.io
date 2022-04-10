@@ -287,11 +287,20 @@
     
     <div class="post-body" itemprop="articleBody">
         <h2 id="story">Story</h2>
-<p>We, programmers built Apps for people to use, sometimes, we could benefit from our users, too.</p>
-<p>We could collect anonymous data from users by recording their behaviors on using our App, then analyzing those data, we could find the most favorable features of our App for us to plan for future development, we could uncover some hidden needs of users for us to add new features or create new Apps, we could cluster the users and use different marketing strategy on each users group, etc.</p>
+<p>We, programmers built Apps for people to use, sometimes, we could
+benefit from our users, too.</p>
+<p>We could collect anonymous data from users by recording their
+behaviors on using our App, then analyzing those data, we could find the
+most favorable features of our App for us to plan for future
+development, we could uncover some hidden needs of users for us to add
+new features or create new Apps, we could cluster the users and use
+different marketing strategy on each users group, etc.</p>
 <p>This post will be an example of how I do user clustering.</p>
 <p>Imagine I have a music player app, which has 2 millions users.</p>
-<p>All data in my hand is how many times a user <code>played</code>, <code>downloaded</code>, <code>purchased</code>, and <code>shared</code> the songs as well as his <code>active days</code> (If a user opens the app one day, then the active days increment by one) as follows.</p>
+<p>All data in my hand is how many times a user <code>played</code>,
+<code>downloaded</code>, <code>purchased</code>, and <code>shared</code>
+the songs as well as his <code>active days</code> (If a user opens the
+app one day, then the active days increment by one) as follows.</p>
 <table>
 <tr>
 <th>
@@ -395,33 +404,57 @@ Active days
 </tr>
 </table>
 <h2 id="k-means-algorithms">k-means Algorithms</h2>
-<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/K-means_clustering">k-means</a> clustering aims to partition <code>n</code> observations into <code>k</code> clusters and each cluster is represented by its cluster center.</p>
-<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Euclidean_distance">Euclidean distance</a> can be used to represent the distance of each point.</p>
-<p>Given cluster centers, we can simply assign each point to its nearest center. Similarly, if we know the assignment of points to clusters, we can compute the centers by their <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Mean">means</a>.</p>
-<p>This introduces a <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Chicken_or_the_egg">chicken-and-egg problem</a>.</p>
-<p>The general computer science answer to chicken-and-egg problems is iteration. We will start with a guess of the cluster centers, for example, randomly choose <code>k</code> points as cluster centers. Based on that guess, we will assign each data point to its closest center. Then we can recompute the cluster centers on these new assignments.</p>
+<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/K-means_clustering">k-means</a>
+clustering aims to partition <code>n</code> observations into
+<code>k</code> clusters and each cluster is represented by its cluster
+center.</p>
+<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Euclidean_distance">Euclidean
+distance</a> can be used to represent the distance of each point.</p>
+<p>Given cluster centers, we can simply assign each point to its nearest
+center. Similarly, if we know the assignment of points to clusters, we
+can compute the centers by their <a
+target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Mean">means</a>.</p>
+<p>This introduces a <a
+target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Chicken_or_the_egg">chicken-and-egg
+problem</a>.</p>
+<p>The general computer science answer to chicken-and-egg problems is
+iteration. We will start with a guess of the cluster centers, for
+example, randomly choose <code>k</code> points as cluster centers. Based
+on that guess, we will assign each data point to its closest center.
+Then we can recompute the cluster centers on these new assignments.</p>
 <p>Repeat above process until clusters stop moving.</p>
-<p>If you want to know more, please <a target="_blank" rel="noopener" href="http://www.cs.uvm.edu/~xwu/kdd/Slides/Kmeans-ICDM06.pdf">click</a>.</p>
+<p>If you want to know more, please <a
+target="_blank" rel="noopener" href="http://www.cs.uvm.edu/~xwu/kdd/Slides/Kmeans-ICDM06.pdf">click</a>.</p>
 <h2 id="solution">Solution</h2>
 <h3 id="identify-the-features">Identify the features</h3>
-<p>From the data, there are five columns, "played", "downloaded", "purchased", "shared", and "active days".</p>
-<p>The first four are user behaviors, and we believe all are important, so those four will be our features.</p>
+<p>From the data, there are five columns, "played", "downloaded",
+"purchased", "shared", and "active days".</p>
+<p>The first four are user behaviors, and we believe all are important,
+so those four will be our features.</p>
 <h3 id="normalize-the-data">Normalize the data</h3>
-<p>But the data is not "balanced", some values are hundreds of times bigger than the others. Luckily, we have "active days", simply divide each feature value by its "active days", then the values are "balanced".</p>
+<p>But the data is not "balanced", some values are hundreds of times
+bigger than the others. Luckily, we have "active days", simply divide
+each feature value by its "active days", then the values are
+"balanced".</p>
 <h3 id="clustering">Clustering</h3>
-<p>We will use <a target="_blank" rel="noopener" href="http://www.scipy.org">scipy</a>, believe me, it's a great tool.</p>
+<p>We will use <a target="_blank" rel="noopener" href="http://www.scipy.org">scipy</a>, believe me,
+it's a great tool.</p>
 <p>First, import the packages and load the data.</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> scipy.cluster <span class="keyword">import</span> vq</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">data = np.loadtxt(<span class="string">&#x27;user_normalized_log&#x27;</span>, delimiter=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># The first column is userId, better ignore it</span></span><br><span class="line">subject = data[:,<span class="number">1</span>:]</span><br></pre></td></tr></table></figure>
 <p>Then trying <code>k = 4</code>,</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">centers, dist = vq.kmeans(subject, <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
 <p>and get the centers of each cluster.</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">array([[<span class="number">5.42879071e+00</span>, <span class="number">1.37091994e+00</span>, <span class="number">1.04975836e-01</span>, <span class="number">6.75508656e-02</span>],</span><br><span class="line">       [<span class="number">6.73032088e+01</span>, <span class="number">6.70227684e+00</span>, <span class="number">4.90761870e-01</span>, <span class="number">3.36144445e-01</span>],</span><br><span class="line">       [<span class="number">1.86167614e+01</span>, <span class="number">2.40616831e+00</span>, <span class="number">2.02231194e-01</span>, <span class="number">2.60513990e-01</span>],</span><br><span class="line">       [<span class="number">1.97979796e-01</span>, <span class="number">1.78638818e-01</span>, <span class="number">4.22213041e-02</span>, <span class="number">5.21060364e-02</span>]]</span><br><span class="line"></span><br><span class="line">=</span><br><span class="line"></span><br><span class="line">array([[<span class="number">5.42879071</span>, <span class="number">1.37091994</span>, <span class="number">0.104975836</span>, <span class="number">0.0675508656</span>],</span><br><span class="line">       [<span class="number">67.3032088</span>, <span class="number">6.70227684</span>, <span class="number">0.49076187</span>, <span class="number">0.336144445</span>],</span><br><span class="line">       [<span class="number">18.6167614</span>, <span class="number">2.40616831</span>, <span class="number">0.202231194</span>, <span class="number">0.26051399</span>],</span><br><span class="line">       [<span class="number">0.197979796</span>, <span class="number">0.178638818</span>, <span class="number">0.0422213041</span>, <span class="number">0.0521060364</span>]])</span><br></pre></td></tr></table></figure>
-<p>Below code will assign the code(cluster) to each subjects(observations).</p>
+<p>Below code will assign the code(cluster) to each
+subjects(observations).</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">code, distance = vq.vq(subject,centers)</span><br><span class="line">a = subject[code == <span class="number">0</span>]</span><br><span class="line">b = subject[code == <span class="number">1</span>]</span><br><span class="line">c = subject[code == <span class="number">2</span>]</span><br><span class="line">d = subject[code == <span class="number">3</span>]</span><br></pre></td></tr></table></figure>
 <p>And calculates each cluster size.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">In [266]: a.shape, b.shape, c.shape, d.shape</span><br><span class="line">Out[266]: ((393926, 8), (28301, 8), (208115, 8), (1855756, 8))</span><br></pre></td></tr></table></figure>
-<p>Then I cried, look at the biggest cluster, the fourth one, the number of songs played, downloaded, purchased, and shared per active day by users are all nearly 0.</p>
-<p>The final truth is although I have 2 million users, nearly all are zombie users.</p>
+<p>Then I cried, look at the biggest cluster, the fourth one, the number
+of songs played, downloaded, purchased, and shared per active day by
+users are all nearly 0.</p>
+<p>The final truth is although I have 2 million users, nearly all are
+zombie users.</p>
 <p>(Disclaimer, the data mentioned in this post is faked)</p>
 
     </div>
@@ -430,12 +463,7 @@ Active days
     
     
 
-    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
-<hr style="border:1px solid #a9a9a9;">
-<p>📣 在 Substack 开了个订阅号 (Newsletter)，主题会聚焦在对数据、技术和产品的思考。<br>
-可以通过邮件来阅读，欢迎点击订阅：<a target="_blank" rel="noopener" href="https://dongz.substack.com/" class="uri">https://dongz.substack.com/</a></p>
-</div>
-
+    <footer class="post-footer">
           
 
 <div class="post-copyright">

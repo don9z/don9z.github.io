@@ -287,34 +287,73 @@
     
     <div class="post-body" itemprop="articleBody">
         <h2 id="paging">Paging</h2>
-<p>Paging unit 用来将 linear address 转换为 physical address，为了高效，linear address 按照一定的长度被分为若干组，称为 pages，并且，内存也被分为各个定长的 page frame (physical pages)，page 和 page frame 的长度是一样的，前者表示一块数据，它可以储存在 page frame 或者硬盘中。</p>
-<p>在 paging unit 开始工作之前，kernel 先初始化 page tables，这是一个用来映射 linear address 到 physical address 的表。</p>
+<p>Paging unit 用来将 linear address 转换为 physical
+address，为了高效，linear address 按照一定的长度被分为若干组，称为
+pages，并且，内存也被分为各个定长的 page frame (physical pages)，page 和
+page frame 的长度是一样的，前者表示一块数据，它可以储存在 page frame
+或者硬盘中。</p>
+<p>在 paging unit 开始工作之前，kernel 先初始化 page
+tables，这是一个用来映射 linear address 到 physical address 的表。</p>
 <p>Linear address 由三部分组成：</p>
 <ul>
 <li>Directory，10 bits</li>
 <li>Table，10 bits</li>
 <li>Offset，12 bits</li>
 </ul>
-<p>地址的转换过程如下，首先从 <code>cr3</code> 寄存器中拿到 page directory 的物理地址，再从 page directory 第 Directory 个表项中得到 table 的物理地址，再在 page table 的第 Table 个表项中得到 page frame 的物理地址，取第 Offset 个表项值，即得到 physical address。</p>
-<p>Page directory 和 page table 采用相同的数据结构，表项包含如下 flag。</p>
+<p>地址的转换过程如下，首先从 <code>cr3</code> 寄存器中拿到 page
+directory 的物理地址，再从 page directory 第 Directory 个表项中得到
+table 的物理地址，再在 page table 的第 Table 个表项中得到 page frame
+的物理地址，取第 Offset 个表项值，即得到 physical address。</p>
+<p>Page directory 和 page table 采用相同的数据结构，表项包含如下
+flag。</p>
 <ul>
 <li>Present，1 则该 page 或者 page table 位于内存，反之则在硬盘中</li>
 <li>Accessed，当对该 page frame 进行访问（地址转换）时置 1</li>
-<li>Dirty，如果对该 page frame 进行写操作时置 1，只适用于 page table 表项</li>
+<li>Dirty，如果对该 page frame 进行写操作时置 1，只适用于 page table
+表项</li>
 <li>Read/Write，访问权限，0 则该 page table 或者 page 只读</li>
 <li>User/Supervisor，优先级，0 则只能被 kernel mode 的进程访问</li>
 <li>PCD，表示是否在访问 page frame 时使用 cache，linux 缺省使用(=0)</li>
-<li>PWT，表示写数据到 page frame 时，cache 机制采用 write-back (=0) 还是 write-through (=1)，Linux 使用前者 (write-back 表示只有当 cache 表项需要被更新时，改动才写回内存，write-throught 表示每一次写操作都同时作用在内存和 cache 中)</li>
-<li>Page Size，如果为 1，则相应表项对应 4MB page frame，只适用于 page directory</li>
+<li>PWT，表示写数据到 page frame 时，cache 机制采用 write-back (=0) 还是
+write-through (=1)，Linux 使用前者 (write-back 表示只有当 cache
+表项需要被更新时，改动才写回内存，write-throught
+表示每一次写操作都同时作用在内存和 cache 中)</li>
+<li>Page Size，如果为 1，则相应表项对应 4MB page frame，只适用于 page
+directory</li>
 </ul>
-<p>上述最后一项 page size flag 用来实现 extended paging，即不使用 page table，page directory 直接对应 4MB page frame，也就是说 directory 10bits，offset 22bits。</p>
-<p>众所周知，CPU 的速度远非 RAM 所能比拼的，系统采用 cache 来平衡两者速度不均衡的问题，基于局部性原则 (locality principle)：临近正在被访问数据的数据很有可能接下来被访问。</p>
-<p>硬件方面，在 intel 架构中，使用 line unit 来实现低速 DRAM 和高速 SRAM 之间的 caches。cache 被划分为若干 lines，内存和 cache 中的 line 一一对应被称为 direct map，即 line 在内存中的位置必须和 cache 中的位置一致，反之则是 fully associative，即内存中 line 可以储存在 cache 的任意位置，n-way associative，表示内存中的某一 line 在 cache 中有N个位置可以储存。</p>
-<p>这样，当系统对某一 linear address 进行取址时，因为 paging unit 和内存之间插入了 cache unit，每一次取址时，将先通过 cache controller 查找，如果 cache hit，则完成取址，如果 cache miss，则继续使用 paging unit 进行取址。当然，cache 不光用于 paging 过程，关于 cache，后面会有博文详细叙述。</p>
-<p>除了 cache 之外，系统还采用 translation lookaside buffers (TLB) 来加速 linear address 的转换，每当某一 physical address 被计算出来时，将其存入 TLB 中，从而使得下一次相同 linear address 的地址转换会有相当快的速度。</p>
-<p>前面所讲的 paging unit 采用的是两层模型，即 page directory –&gt;page table-&gt;offset，Linux 采用三层模型，将 page directory 分为两层：page global directory (10 bits)， page middle directory (10 bits)。如果是 64 位机，则 page 10 bits， offset 13 bits，即只使用地址前 43 位。如为 32 位机，则跟两层模型一样，page middle directory 设为 0 bit。</p>
-<p>在 Linear address 中，<code>0x00000000</code> 到 <code>PAGE_OFFSET</code> 用于 user mode 或者 kernel mode, <code>PAGE_OFFSET</code> 到 <code>0xffffffff</code> 只用于 kernel mode。</p>
-<p>在 physical address 中，kernel 的指令和数据都位于一组 reserved page frames 中，首地址位于 <code>0x00100000</code>，该组常驻内存，不能被动态 swap out。</p>
+<p>上述最后一项 page size flag 用来实现 extended paging，即不使用 page
+table，page directory 直接对应 4MB page frame，也就是说 directory
+10bits，offset 22bits。</p>
+<p>众所周知，CPU 的速度远非 RAM 所能比拼的，系统采用 cache
+来平衡两者速度不均衡的问题，基于局部性原则 (locality
+principle)：临近正在被访问数据的数据很有可能接下来被访问。</p>
+<p>硬件方面，在 intel 架构中，使用 line unit 来实现低速 DRAM 和高速 SRAM
+之间的 caches。cache 被划分为若干 lines，内存和 cache 中的 line
+一一对应被称为 direct map，即 line 在内存中的位置必须和 cache
+中的位置一致，反之则是 fully associative，即内存中 line 可以储存在 cache
+的任意位置，n-way associative，表示内存中的某一 line 在 cache
+中有N个位置可以储存。</p>
+<p>这样，当系统对某一 linear address 进行取址时，因为 paging unit
+和内存之间插入了 cache unit，每一次取址时，将先通过 cache controller
+查找，如果 cache hit，则完成取址，如果 cache miss，则继续使用 paging
+unit 进行取址。当然，cache 不光用于 paging 过程，关于
+cache，后面会有博文详细叙述。</p>
+<p>除了 cache 之外，系统还采用 translation lookaside buffers (TLB)
+来加速 linear address 的转换，每当某一 physical address
+被计算出来时，将其存入 TLB 中，从而使得下一次相同 linear address
+的地址转换会有相当快的速度。</p>
+<p>前面所讲的 paging unit 采用的是两层模型，即 page directory –&gt;page
+table-&gt;offset，Linux 采用三层模型，将 page directory 分为两层：page
+global directory (10 bits)， page middle directory (10 bits)。如果是 64
+位机，则 page 10 bits， offset 13 bits，即只使用地址前 43 位。如为 32
+位机，则跟两层模型一样，page middle directory 设为 0 bit。</p>
+<p>在 Linear address 中，<code>0x00000000</code> 到
+<code>PAGE_OFFSET</code> 用于 user mode 或者 kernel mode,
+<code>PAGE_OFFSET</code> 到 <code>0xffffffff</code> 只用于 kernel
+mode。</p>
+<p>在 physical address 中，kernel 的指令和数据都位于一组 reserved page
+frames 中，首地址位于 <code>0x00100000</code>，该组常驻内存，不能被动态
+swap out。</p>
 <p>下一篇，page frame management…</p>
 
     </div>
@@ -323,12 +362,7 @@
     
     
 
-    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
-<hr style="border:1px solid #a9a9a9;">
-<p>📣 在 Substack 开了个订阅号 (Newsletter)，主题会聚焦在对数据、技术和产品的思考。<br>
-可以通过邮件来阅读，欢迎点击订阅：<a target="_blank" rel="noopener" href="https://dongz.substack.com/" class="uri">https://dongz.substack.com/</a></p>
-</div>
-
+    <footer class="post-footer">
           
 
 <div class="post-copyright">

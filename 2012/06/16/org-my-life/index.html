@@ -286,37 +286,74 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p><a target="_blank" rel="noopener" href="http://orgmode.org/">org-mode</a> is an amazing tool, you can use it to write documents, make spreadsheets, track to-do list, generate agendas, etc. If you use Emacs a lot, you don't want to miss this unicorn.</p>
-<p>I mainly use it as my notebook, and <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Getting_Things_Done">GTD</a> tool.</p>
-<p>This post is about how I configured it to be my single daily use GTD tool.</p>
+        <p><a target="_blank" rel="noopener" href="http://orgmode.org/">org-mode</a> is an amazing tool, you
+can use it to write documents, make spreadsheets, track to-do list,
+generate agendas, etc. If you use Emacs a lot, you don't want to miss
+this unicorn.</p>
+<p>I mainly use it as my notebook, and <a
+target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Getting_Things_Done">GTD</a>
+tool.</p>
+<p>This post is about how I configured it to be my single daily use GTD
+tool.</p>
 <h2 id="customized-task">Customized Task</h2>
-<p>I use 5 different states of my task item. <code>WAITING</code> and <code>CANCELED</code> are abnormal cases, when switching to these states, <a target="_blank" rel="noopener" href="http://orgmode.org/guide/Tracking-TODO-state-changes.html#Tracking-TODO-state-changes">note of reason</a> should be added, as well as time-stamp, if task is done, it switches to DONE state, with a time-stamp, but no note needed.</p>
+<p>I use 5 different states of my task item. <code>WAITING</code> and
+<code>CANCELED</code> are abnormal cases, when switching to these
+states, <a
+target="_blank" rel="noopener" href="http://orgmode.org/guide/Tracking-TODO-state-changes.html#Tracking-TODO-state-changes">note
+of reason</a> should be added, as well as time-stamp, if task is done,
+it switches to DONE state, with a time-stamp, but no note needed.</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">setq</span> org-todo-keywords</span><br><span class="line">      (<span class="name"><span class="builtin-name">quote</span></span> ((<span class="name">sequence</span> <span class="string">&quot;TODO(t)&quot;</span> <span class="string">&quot;STARTED(s)&quot;</span> <span class="string">&quot;WAITING(w@/!)&quot;</span></span><br><span class="line">                        <span class="string">&quot;|&quot;</span> <span class="string">&quot;DONE(d!/!)&quot;</span> <span class="string">&quot;CANCELLED(c@/!)&quot;</span>))))</span><br></pre></td></tr></table></figure>
-<p>What are the meaning of the single characters such as <a target="_blank" rel="noopener" href="http://orgmode.org/manual/Fast-access-to-TODO-states.html#Fast-access-to-TODO-states">"t", "s", "w"</a>?</p>
-<p>They're the shortcuts to switch task state, <code>C-c C-t</code> and type "s", task is started, type "d", task done.</p>
+<p>What are the meaning of the single characters such as <a
+target="_blank" rel="noopener" href="http://orgmode.org/manual/Fast-access-to-TODO-states.html#Fast-access-to-TODO-states">"t",
+"s", "w"</a>?</p>
+<p>They're the shortcuts to switch task state, <code>C-c C-t</code> and
+type "s", task is started, type "d", task done.</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;; Enable task switching shortcuts</span></span><br><span class="line">(<span class="name">setq</span> org-use-fast-todo-selection t)</span><br></pre></td></tr></table></figure>
 <p>To make states look clear, I set some colors for each state.</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">setq</span> org-todo-keyword-faces</span><br><span class="line">      (<span class="name"><span class="builtin-name">quote</span></span> ((<span class="string">&quot;TODO&quot;</span> :foreground <span class="string">&quot;red&quot;</span> :weight bold)</span><br><span class="line">              (<span class="string">&quot;STARTED&quot;</span> :foreground <span class="string">&quot;blue&quot;</span> :weight bold)</span><br><span class="line">              (<span class="string">&quot;DONE&quot;</span> :foreground <span class="string">&quot;forest green&quot;</span> :weight bold)</span><br><span class="line">              (<span class="string">&quot;WAITING&quot;</span> :foreground <span class="string">&quot;orange&quot;</span> :weight bold)</span><br><span class="line">              (<span class="string">&quot;CANCELLED&quot;</span> :foreground <span class="string">&quot;forest green&quot;</span> :weight bold))))</span><br></pre></td></tr></table></figure>
-<p>Sometimes, tasks contain sub-tasks, it looks messy if I mark the task done, but some sub-tasks are in other states. I prefer task will be automatically mark as done only if all sub-tasks are done.</p>
+<p>Sometimes, tasks contain sub-tasks, it looks messy if I mark the task
+done, but some sub-tasks are in other states. I prefer task will be
+automatically mark as done only if all sub-tasks are done.</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;; Parent can&#x27;t be marked as done unless all children are done</span></span><br><span class="line">(<span class="name">setq</span> org-enforce-todo-dependencies t)</span><br><span class="line">(<span class="name">defun</span> org-summary-todo (<span class="name">n-done</span> n-not-done)</span><br><span class="line">  <span class="string">&quot;Switch entry to DONE when all subentries are done, to TODO otherwise.&quot;</span></span><br><span class="line">  (<span class="name"><span class="builtin-name">let</span></span> (<span class="name">org-log-done</span> org-log-states)   <span class="comment">; turn off logging</span></span><br><span class="line">    (<span class="name">org-todo</span> (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">=</span></span> n-not-done <span class="number">0</span>) <span class="string">&quot;DONE&quot;</span> <span class="string">&quot;TODO&quot;</span>))))</span><br></pre></td></tr></table></figure>
 <h2 id="handy-capture">Handy Capture</h2>
-<p>I store all my tasks in one single file named "work.org", it contains lots of task items, different categories, adding task directly to it is not an easy job.</p>
-<p>Org capture saves me, when I think something might need to do, just <code>C-c c</code>, then, select a capture template, and record it.</p>
-<p>Later, to move it to <code>work.org</code>, just type <code>C-c C-w</code>.</p>
-<p>I save all captures in <code>refile.org</code>, and <a target="_blank" rel="noopener" href="http://orgmode.org/guide/Capture-templates.html#Capture-templates">templates</a> as follow,</p>
+<p>I store all my tasks in one single file named "work.org", it contains
+lots of task items, different categories, adding task directly to it is
+not an easy job.</p>
+<p>Org capture saves me, when I think something might need to do, just
+<code>C-c c</code>, then, select a capture template, and record it.</p>
+<p>Later, to move it to <code>work.org</code>, just type
+<code>C-c C-w</code>.</p>
+<p>I save all captures in <code>refile.org</code>, and <a
+target="_blank" rel="noopener" href="http://orgmode.org/guide/Capture-templates.html#Capture-templates">templates</a>
+as follow,</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">setq</span> org-default-notes-file <span class="string">&quot;~/Dropbox/Documents/org/refile.org&quot;</span>)</span><br><span class="line">(<span class="name">setq</span> org-capture-templates</span><br><span class="line">      (<span class="name"><span class="builtin-name">quote</span></span> ((<span class="string">&quot;t&quot;</span> <span class="string">&quot;Todo&quot;</span> entry (<span class="name">file</span> <span class="string">&quot;~/Dropbox/Documents/org/refile.org&quot;</span>)</span><br><span class="line">               <span class="string">&quot;* TODO %?\n  OPENED: %U\n %i&quot;</span>)</span><br><span class="line">              (<span class="string">&quot;n&quot;</span> <span class="string">&quot;Note&quot;</span> entry (<span class="name">file</span> <span class="string">&quot;~/Dropbox/Documents/org/refile.org&quot;</span>)</span><br><span class="line">               <span class="string">&quot;* %?\n  OPENED: %U\n %i&quot;</span>)</span><br><span class="line">              (<span class="string">&quot;j&quot;</span> <span class="string">&quot;Journal&quot;</span> entry (<span class="name">file</span> <span class="string">&quot;~/Dropbox/Documents/org/refile.org&quot;</span>)</span><br><span class="line">               <span class="string">&quot;* %?\n  OPENED: %U\n %i&quot;</span>)</span><br><span class="line">              (<span class="string">&quot;h&quot;</span> <span class="string">&quot;Habit&quot;</span> entry (<span class="name">file</span> <span class="string">&quot;~/Dropbox/Documents/org/refile.org&quot;</span>)</span><br><span class="line">               <span class="string">&quot;* TODO %?\n  SCHEDULED: %t\n  OPENED: %U\n  :PROPERTIES:\n  :STYLE: habit\n  :END:\n  %i&quot;</span>))))</span><br></pre></td></tr></table></figure>
 <h2 id="come-to-the-cloud">Come to The Cloud</h2>
-<p>We live in a cloud era, services are weak if can't be accessed from anywhere, any device.</p>
-<p>I want to see my agendas, and tasks in my iPhone, lucky me, guys make <a target="_blank" rel="noopener" href="http://mobileorg.ncogni.to/">MobileOrg</a>, although it's not fully functional as a GTD tool, but it works.</p>
-<p>To use MobileOrg via <a target="_blank" rel="noopener" href="https://www.dropbox.com/">Dropbox</a>, accessing to Dropbox should be authorized, and a folder <code>MobileOrg</code> will be created after.</p>
+<p>We live in a cloud era, services are weak if can't be accessed from
+anywhere, any device.</p>
+<p>I want to see my agendas, and tasks in my iPhone, lucky me, guys make
+<a target="_blank" rel="noopener" href="http://mobileorg.ncogni.to/">MobileOrg</a>, although it's not
+fully functional as a GTD tool, but it works.</p>
+<p>To use MobileOrg via <a target="_blank" rel="noopener" href="https://www.dropbox.com/">Dropbox</a>,
+accessing to Dropbox should be authorized, and a folder
+<code>MobileOrg</code> will be created after.</p>
 <p>In Emacs, some configuration need to be added.</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">setq</span> org-mobile-directory <span class="string">&quot;~/Dropbox/MobileOrg&quot;</span>)</span><br><span class="line">(<span class="name">setq</span> org-directory <span class="string">&quot;~/Dropbox/Documents/org&quot;</span>)</span><br><span class="line">(<span class="name">setq</span> org-mobile-inbox-for-pull <span class="string">&quot;~/Dropbox/Documents/org/refile.org&quot;</span>)</span><br><span class="line">(<span class="name">setq</span> org-mobile-files(<span class="name"><span class="builtin-name">quote</span></span> (<span class="string">&quot;~/Dropbox/Documents/org/work.org&quot;</span>)))</span><br></pre></td></tr></table></figure>
-<p>Below settings tell org-mobile where to find captures, tasks and agendas, <code>org-mobile-push</code> will transfer them to <code>MobileOrg</code> folder, which will be synced to Dropbox.</p>
-<p>Grab an iPhone, open MobileOrg, tap sync, you get all your tasks and agendas.</p>
-<p>Everything you changed in iPhone, will be synced to Dropbox (don't worry, just diffs, small amount of data). <code>org-mobile-pull</code> will get the changes and apply it, for my example, the changes will be applied to <code>work.org</code> and <code>refile.org</code>.</p>
-<p>But manually do this is so inefficient, hooks can be added to pull everything in cloud during Emacs startup, and push every changes to cloud during quitting Emacs.</p>
+<p>Below settings tell org-mobile where to find captures, tasks and
+agendas, <code>org-mobile-push</code> will transfer them to
+<code>MobileOrg</code> folder, which will be synced to Dropbox.</p>
+<p>Grab an iPhone, open MobileOrg, tap sync, you get all your tasks and
+agendas.</p>
+<p>Everything you changed in iPhone, will be synced to Dropbox (don't
+worry, just diffs, small amount of data). <code>org-mobile-pull</code>
+will get the changes and apply it, for my example, the changes will be
+applied to <code>work.org</code> and <code>refile.org</code>.</p>
+<p>But manually do this is so inefficient, hooks can be added to pull
+everything in cloud during Emacs startup, and push every changes to
+cloud during quitting Emacs.</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">add-hook</span> <span class="symbol">&#x27;after-init-hook</span> <span class="symbol">&#x27;org-mobile-pull</span>)</span><br><span class="line">(<span class="name">add-hook</span> <span class="symbol">&#x27;kill-emacs-hook</span> <span class="symbol">&#x27;org-mobile-push</span>)</span><br></pre></td></tr></table></figure>
-<p>But this will slow down Emacs startup, I don't like it. So another way comes, automatically sync when you are idle in Emacs, like drinks coffee, or walks away.</p>
+<p>But this will slow down Emacs startup, I don't like it. So another
+way comes, automatically sync when you are idle in Emacs, like drinks
+coffee, or walks away.</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">defvar</span> org-mobile-sync-timer nil)</span><br><span class="line">(<span class="name">defvar</span> org-mobile-sync-idle-secs (<span class="name"><span class="builtin-name">*</span></span> <span class="number">60</span> <span class="number">10</span>))</span><br><span class="line">(<span class="name">defun</span> org-mobile-sync ()</span><br><span class="line">  (<span class="name">interactive</span>)</span><br><span class="line">  (<span class="name">org-mobile-pull</span>)</span><br><span class="line">  (<span class="name">org-mobile-push</span>))</span><br><span class="line">(<span class="name">defun</span> org-mobile-sync-enable ()</span><br><span class="line">  <span class="string">&quot;enable mobile org idle sync&quot;</span></span><br><span class="line">  (<span class="name">interactive</span>)</span><br><span class="line">  (<span class="name">setq</span> org-mobile-sync-timer</span><br><span class="line">        (<span class="name">run-with-idle-timer</span> org-mobile-sync-idle-secs t</span><br><span class="line">                             <span class="symbol">&#x27;org-mobile-sync</span>)))<span class="comment">;</span></span><br><span class="line">(<span class="name">defun</span> org-mobile-sync-disable ()</span><br><span class="line">  <span class="string">&quot;disable mobile org idle sync&quot;</span></span><br><span class="line">  (<span class="name">interactive</span>)</span><br><span class="line">  (<span class="name">cancel-timer</span> org-mobile-sync-timer))</span><br><span class="line">(<span class="name">org-mobile-sync-enable</span>)</span><br></pre></td></tr></table></figure>
 <p>This will pull, then push org files after 10 minutes idle time.</p>
 
@@ -326,12 +363,7 @@
     
     
 
-    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
-<hr style="border:1px solid #a9a9a9;">
-<p>📣 在 Substack 开了个订阅号 (Newsletter)，主题会聚焦在对数据、技术和产品的思考。<br>
-可以通过邮件来阅读，欢迎点击订阅：<a target="_blank" rel="noopener" href="https://dongz.substack.com/" class="uri">https://dongz.substack.com/</a></p>
-</div>
-
+    <footer class="post-footer">
           
 
 <div class="post-copyright">

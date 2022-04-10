@@ -286,28 +286,48 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>We have a legacy system, which is a web service, receives HTTP POST from clients, parses the data, then stores them in a file.</p>
-<p>The function of the system is simple, and people already done functional and performance test, it's stable. As time drifted away, the system was <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Copy_and_paste_programming">copy and paste</a> to some projects by only changing the data parsing logic.</p>
-<p>I had a similar requirement recently, then I delved into the legacy code to check if it works in order to not <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Reinventing_the_wheel">reinventing the wheel</a>.</p>
+        <p>We have a legacy system, which is a web service, receives HTTP POST
+from clients, parses the data, then stores them in a file.</p>
+<p>The function of the system is simple, and people already done
+functional and performance test, it's stable. As time drifted away, the
+system was <a
+target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Copy_and_paste_programming">copy and
+paste</a> to some projects by only changing the data parsing logic.</p>
+<p>I had a similar requirement recently, then I delved into the legacy
+code to check if it works in order to not <a
+target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Reinventing_the_wheel">reinventing
+the wheel</a>.</p>
 <h2 id="wtf">WTF</h2>
-<p>At first, I noticed below code in a <code>HttpServlet</code> class, it allocates more than 1M memory for each HTTP POST request.</p>
+<p>At first, I noticed below code in a <code>HttpServlet</code> class,
+it allocates more than 1M memory for each HTTP POST request.</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> MAX_CONTENT_LENGTH = <span class="number">1024</span> * <span class="number">1024</span>;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> BUFFER_SIZE = <span class="number">4096</span>;</span><br><span class="line"></span><br><span class="line">   ...</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span></span></span><br><span class="line"><span class="function">		<span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">       ...</span><br><span class="line"></span><br><span class="line">       <span class="keyword">int</span> requestContentBufSize = request.getContentLength() + MAX_CONTENT_LENGTH;</span><br><span class="line">       ByteBuffer requestContentBuf = ByteBuffer.allocate(requestContentBufSize);</span><br><span class="line">       <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[BUFFER_SIZE];</span><br><span class="line">       requestInputStream = <span class="keyword">new</span> DataInputStream(request.getInputStream());</span><br><span class="line">       <span class="keyword">int</span> readBytes = <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">int</span> totalReadBytes = <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">while</span> ((readBytes = requestInputStream.read(buffer)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">           requestContentBuf.put(buffer);</span><br><span class="line">    	totalReadBytes = totalReadBytes + readBytes;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">byte</span>[] requestContent = Arrays.copyOf(requestContentBuf.array(), totalReadBytes);</span><br><span class="line"></span><br><span class="line">       ...</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>It's insane, I believe the memory should be the same as each HTTP POST body size. Then I changed the code.</p>
+<p>It's insane, I believe the memory should be the same as each HTTP
+POST body size. Then I changed the code.</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> requestContentBufSize = request.getContentLength();</span><br></pre></td></tr></table></figure>
 <p>Deployed the service and sent one HTTP POST request to it.</p>
 <p><code>curl -d 'Hello, World' http://my.server.com:9000/log</code></p>
 <p>An <code>Exception</code> occurred.</p>
 <h2 id="the-bufferoverflowexception">The BufferOverflowException</h2>
-<p>After reducing the memory allocated for <code>ByteBuffer</code>, it overflows.</p>
+<p>After reducing the memory allocated for <code>ByteBuffer</code>, it
+overflows.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">java.nio.BufferOverflowException</span><br><span class="line">	at java.nio.HeapByteBuffer.put(HeapByteBuffer.java:183)</span><br><span class="line">	at java.nio.ByteBuffer.put(ByteBuffer.java:830)</span><br><span class="line">	at com.myproject.servlet.LogServer.doPost(LogServer.java:99)</span><br><span class="line">	at javax.servlet.http.HttpServlet.service(HttpServlet.java:643)</span><br><span class="line">	at javax.servlet.http.HttpServlet.service(HttpServlet.java:723)</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)</span><br><span class="line">	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)</span><br><span class="line">	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)</span><br><span class="line">	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:191)</span><br><span class="line">	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)</span><br><span class="line">	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:103)</span><br><span class="line">	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109)</span><br><span class="line">	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:293)</span><br><span class="line">	at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:861)</span><br><span class="line">	at org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:606)</span><br><span class="line">	at org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:489)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:701)</span><br></pre></td></tr></table></figure>
-<p>I thought I'd better dig into how does the servlet do to make <code>ByteBuffer</code> get its data?</p>
+<p>I thought I'd better dig into how does the servlet do to make
+<code>ByteBuffer</code> get its data?</p>
 <ol type="1">
-<li>It creates a small buffer occupied <code>BUFFER_SIZE</code> (4096) bytes.</li>
-<li>It iterates the HTTP request input stream, to put the data into the small buffer.</li>
-<li>It puts the small buffer to <code>ByteBuffer</code> and loop back to <code>1</code>.</li>
+<li>It creates a small buffer occupied <code>BUFFER_SIZE</code> (4096)
+bytes.</li>
+<li>It iterates the HTTP request input stream, to put the data into the
+small buffer.</li>
+<li>It puts the small buffer to <code>ByteBuffer</code> and loop back to
+<code>1</code>.</li>
 </ol>
-<p>Well, in the last loop, the data read from the HTTP request input stream might smaller than the <code>BUFFER_SIZE</code>, but the servlet still puts <code>BUFFER_SIZE</code> bytes to <code>ByteBuffer</code>.</p>
-<p>Then, to fix the <code>ExceptionBufferOverflowException</code>, I increased the capacity of previous <code>ByteBuffer</code> by <code>BUFFER_SIZE</code>.</p>
+<p>Well, in the last loop, the data read from the HTTP request input
+stream might smaller than the <code>BUFFER_SIZE</code>, but the servlet
+still puts <code>BUFFER_SIZE</code> bytes to
+<code>ByteBuffer</code>.</p>
+<p>Then, to fix the <code>ExceptionBufferOverflowException</code>, I
+increased the capacity of previous <code>ByteBuffer</code> by
+<code>BUFFER_SIZE</code>.</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> requestContentBufSize = request.getContentLength() + BUFFER_SIZE;</span><br></pre></td></tr></table></figure>
 <p>Deployed again, and</p>
 <p><code>curl -d 'Hello, World' http://my.server.com:9000/log</code></p>
@@ -317,42 +337,58 @@
 <p>When client posts huge data, what could happen?</p>
 <p>I created a String which is 7516 bytes, and sent to server.</p>
 <p><code>curl -d 'very very long string' http://my.server.com:9000/log</code></p>
-<p>Sometimes, the <code>java.nio.BufferOverflowException</code> occurred, and sometimes it didn't.</p>
+<p>Sometimes, the <code>java.nio.BufferOverflowException</code>
+occurred, and sometimes it didn't.</p>
 <p>What went wrong?</p>
-<p>To find the root cause, I added some logs to trace the <code>ByteBuffer</code>.</p>
+<p>To find the root cause, I added some logs to trace the
+<code>ByteBuffer</code>.</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">int</span> requestContentBufSize = request.getContentLength() + BUFFER_SIZE;</span><br><span class="line">  ByteBuffer requestContentBuf = ByteBuffer.allocate(requestContentBufSize);</span><br><span class="line">  <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[BUFFER_SIZE];</span><br><span class="line">  requestInputStream = <span class="keyword">new</span> DataInputStream(request.getInputStream());</span><br><span class="line">  <span class="keyword">int</span> readBytes = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">int</span> totalReadBytes = <span class="number">0</span>;</span><br><span class="line">  log.debug(<span class="string">&quot;1: ByteBuffer position: &quot;</span> + requestContentBuf.position() +</span><br><span class="line">          <span class="string">&quot;, buffer capacity: &quot;</span> + requestContentBuf.capacity() +</span><br><span class="line">          <span class="string">&quot;, buffer remaining: &quot;</span> + requestContentBuf.remaining());</span><br><span class="line">  <span class="keyword">while</span> ((readBytes = requestInputStream.read(buffer)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">requestContentBuf.put(buffer);</span><br><span class="line">totalReadBytes = totalReadBytes + readBytes;</span><br><span class="line">      log.debug(<span class="string">&quot;2. Bytes read: &quot;</span> + readBytes);</span><br><span class="line">      log.debug(<span class="string">&quot;1: ByteBuffer position: &quot;</span> + requestContentBuf.position() +</span><br><span class="line">              <span class="string">&quot;, buffer capacity: &quot;</span> + requestContentBuf.capacity() +</span><br><span class="line">              <span class="string">&quot;, buffer remaining: &quot;</span> + requestContentBuf.remaining());</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 <p>The log printed when no exception,</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- 1: ByteBuffer position: 0, buffer capacity: 11612, buffer remaining: 11612</span><br><span class="line">- 2. Bytes read: 4096</span><br><span class="line">- 1: ByteBuffer position: 4096, buffer capacity: 11612, buffer remaining: 7516</span><br><span class="line">- 2. Bytes read: 3420</span><br><span class="line">- 1: ByteBuffer position: 8192, buffer capacity: 11612, buffer remaining: 3420</span><br></pre></td></tr></table></figure>
 <p>The log printed when exception occurred,</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- 1: ByteBuffer position: 0, buffer capacity: 11612, buffer remaining: 11612</span><br><span class="line">- 2. Bytes read: 1356</span><br><span class="line">- 1: ByteBuffer position: 4096, buffer capacity: 11612, buffer remaining: 7516</span><br><span class="line">- 2. Bytes read: 1356</span><br><span class="line">- 1: ByteBuffer position: 8192, buffer capacity: 11612, buffer remaining: 3420</span><br></pre></td></tr></table></figure>
-<p>Now, it is easy to find out the root cause is in these lines of code.</p>
+<p>Now, it is easy to find out the root cause is in these lines of
+code.</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> ((readBytes = requestInputStream.read(buffer)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    requestContentBuf.put(buffer);</span><br></pre></td></tr></table></figure>
-<p>The <code>read</code> method call won't put data to the <code>buffer</code> fully which was specified as 4096 bytes even when the input stream still has data.</p>
-<p>And to fix it, just specify the offset and length of the small <code>buffer</code>.</p>
+<p>The <code>read</code> method call won't put data to the
+<code>buffer</code> fully which was specified as 4096 bytes even when
+the input stream still has data.</p>
+<p>And to fix it, just specify the offset and length of the small
+<code>buffer</code>.</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> ((readBytes = requestInputStream.read(buffer)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    requestContentBuf.put(buffer, <span class="number">0</span>, readBytes);</span><br></pre></td></tr></table></figure>
-<p>I had increased the capacity of the <code>ByteBuffer</code> by <code>BUFFER_SIZE</code>, this change should also be reverted.</p>
+<p>I had increased the capacity of the <code>ByteBuffer</code> by
+<code>BUFFER_SIZE</code>, this change should also be reverted.</p>
 <p>Now, the bug is fixed, and this is network programming.</p>
 <h2 id="questions">Questions</h2>
-<p>"The system works a long time, and it shouldn't have this problem or we knew it long ago"</p>
+<p>"The system works a long time, and it shouldn't have this problem or
+we knew it long ago"</p>
 <blockquote>
-<p>This is because the client seldom posts data more than 4096 bytes to server.</p>
+<p>This is because the client seldom posts data more than 4096 bytes to
+server.</p>
 </blockquote>
-<p>"I have read the Javadoc of <code>DataInputStream</code>, the <code>read</code> method will put data fully to the specified buffer"</p>
+<p>"I have read the Javadoc of <code>DataInputStream</code>, the
+<code>read</code> method will put data fully to the specified
+buffer"</p>
 <blockquote>
 <p>It didn't, please read it again.</p>
 </blockquote>
-<p>"I have tested the <code>read</code> method of <code>DataInputStream</code> on a file, it reads fully 4096 bytes in every iteration"</p>
+<p>"I have tested the <code>read</code> method of
+<code>DataInputStream</code> on a file, it reads fully 4096 bytes in
+every iteration"</p>
 <blockquote>
 <p>This is a web service, deploy it to a server and test.</p>
 </blockquote>
-<p>"I have tested it on my local machine as a web service, and it reads fully 4096 bytes in every iteration"</p>
+<p>"I have tested it on my local machine as a web service, and it reads
+fully 4096 bytes in every iteration"</p>
 <blockquote>
 <p>This is a web service, it should be in a network.</p>
 </blockquote>
 <h2 id="at-last">At Last</h2>
-<p>When a potential bug was reported, we do tests to make it happen again and find the root cause.</p>
+<p>When a potential bug was reported, we do tests to make it happen
+again and find the root cause.</p>
 <p>We do not stop listening and just look for reasons to reject it.</p>
-<p>When we find a bug, we do help others to make it reappear to collect information.</p>
+<p>When we find a bug, we do help others to make it reappear to collect
+information.</p>
 <p>We do not sit there and just blame on others for their mistakes.</p>
 
     </div>
@@ -361,12 +397,7 @@
     
     
 
-    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
-<hr style="border:1px solid #a9a9a9;">
-<p>📣 在 Substack 开了个订阅号 (Newsletter)，主题会聚焦在对数据、技术和产品的思考。<br>
-可以通过邮件来阅读，欢迎点击订阅：<a target="_blank" rel="noopener" href="https://dongz.substack.com/" class="uri">https://dongz.substack.com/</a></p>
-</div>
-
+    <footer class="post-footer">
           
 
 <div class="post-copyright">

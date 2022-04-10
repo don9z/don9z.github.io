@@ -287,34 +287,72 @@
     
     <div class="post-body" itemprop="articleBody">
         <p>Using Emacs is like an adventure.</p>
-<p>I found two very powerful extensions recently in Github. Yes, I’ve shared some powerful features/extensions last year by this <a href="/2011/03/31/emacs-features/">post</a>, but those two are not only powerful, but also handy, compared with align-regex, occur, anything, etc.</p>
+<p>I found two very powerful extensions recently in Github. Yes, I’ve
+shared some powerful features/extensions last year by this <a
+href="/2011/03/31/emacs-features/">post</a>, but those two are not only
+powerful, but also handy, compared with align-regex, occur, anything,
+etc.</p>
 <h2 id="mark-multiple.el">mark-multiple.el</h2>
-<p>I’ve used Eclipse, which has a good support for refactoring, but I want complain: Dialogs suck!</p>
-<p>So, when I need to rename one variable or a function which occurs many times in a file, what am I supposed to do?</p>
-<p>replace-string? It could, but it’s not good enough, since I am lazy, I don’t want to type the whole name, I use replace-regexp.</p>
+<p>I’ve used Eclipse, which has a good support for refactoring, but I
+want complain: Dialogs suck!</p>
+<p>So, when I need to rename one variable or a function which occurs
+many times in a file, what am I supposed to do?</p>
+<p>replace-string? It could, but it’s not good enough, since I am lazy,
+I don’t want to type the whole name, I use replace-regexp.</p>
 <p>I mean, before I saw the magic of mark-multiple.el.</p>
-<p>With it, I only need to mark the whole name, by two key stroke, <code>C-space M-f</code>, then use <code>C-.</code> to match all occurrences afterwards, and edit, all occurrences are being changed at the same time.</p>
-<p>Download it from <a target="_blank" rel="noopener" href="https://github.com/magnars/mark-multiple.el">here</a>, and my configuration:</p>
+<p>With it, I only need to mark the whole name, by two key stroke,
+<code>C-space M-f</code>, then use <code>C-.</code> to match all
+occurrences afterwards, and edit, all occurrences are being changed at
+the same time.</p>
+<p>Download it from <a
+target="_blank" rel="noopener" href="https://github.com/magnars/mark-multiple.el">here</a>, and my
+configuration:</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">add-to-list</span> <span class="symbol">&#x27;load-path</span> <span class="string">&quot;~/Dropbox/Emacs/emacs.d/mark-multiple&quot;</span>)</span><br><span class="line">(<span class="name"><span class="builtin-name">require</span></span> <span class="symbol">&#x27;inline-string-rectangle</span>)</span><br><span class="line">(<span class="name">global-set-key</span> (<span class="name">kbd</span> <span class="string">&quot;C-x r t&quot;</span>) <span class="symbol">&#x27;inline-string-rectangle</span>)</span><br><span class="line">(<span class="name"><span class="builtin-name">require</span></span> <span class="symbol">&#x27;mark-more-like-this</span>)</span><br><span class="line"><span class="comment">;; I don&#x27;t like C-&gt; and C-&lt; , not easy to type</span></span><br><span class="line">(<span class="name">global-set-key</span> (<span class="name">kbd</span> <span class="string">&quot;C-,&quot;</span>) <span class="symbol">&#x27;mark-previous-like-this</span>)</span><br><span class="line">(<span class="name">global-set-key</span> (<span class="name">kbd</span> <span class="string">&quot;C-.&quot;</span>) <span class="symbol">&#x27;mark-next-like-this</span>)</span><br></pre></td></tr></table></figure>
 <h2 id="expand-region.el">expand-region.el</h2>
 <p>Imagine how frequently you copy or move some words a day?</p>
-<p>I do it like always. Copy one word is easy, <code>C-space M-f</code>, one line is also easy, <code>C-a M-k</code>, but check code samples below, how can I mark <code>point-min</code> when my cursor is after “m”, <code>C-f C-f M-b M-b</code>?</p>
+<p>I do it like always. Copy one word is easy, <code>C-space M-f</code>,
+one line is also easy, <code>C-a M-k</code>, but check code samples
+below, how can I mark <code>point-min</code> when my cursor is after
+“m”, <code>C-f C-f M-b M-b</code>?</p>
 <p>Seems too many key strokes.</p>
-<p>Do we mark things like these: <code>in</code> from <code>point</code>, <code>to-char (po</code> from <code>(goto-char (point-min))</code>?</p>
-<p>I never do that. If cursor is after “m” of <code>point-min</code>, what I might want to mark are <code>min</code>, <code>point-min</code>, <code>(“point-min”)</code>, <code>goto-char (point-min)</code>, <code>(goto-char (point-min))</code>, those are meaningful.</p>
+<p>Do we mark things like these: <code>in</code> from
+<code>point</code>, <code>to-char (po</code> from
+<code>(goto-char (point-min))</code>?</p>
+<p>I never do that. If cursor is after “m” of <code>point-min</code>,
+what I might want to mark are <code>min</code>, <code>point-min</code>,
+<code>(“point-min”)</code>, <code>goto-char (point-min)</code>,
+<code>(goto-char (point-min))</code>, those are meaningful.</p>
 <p>They are semantic units.</p>
-<p>What expand-region does is to mark the semantic units one by one, inside out by each expand.</p>
-<p>Move cursor character by character is boring, and hurts finger, so, no more cursor move, just expand.</p>
-<p>Download it from <a target="_blank" rel="noopener" href="https://github.com/magnars/expand-region.el">here</a>.</p>
+<p>What expand-region does is to mark the semantic units one by one,
+inside out by each expand.</p>
+<p>Move cursor character by character is boring, and hurts finger, so,
+no more cursor move, just expand.</p>
+<p>Download it from <a
+target="_blank" rel="noopener" href="https://github.com/magnars/expand-region.el">here</a>.</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;; Convert a buffer from dos ^M end of lines to unix end of lines</span></span><br><span class="line">(<span class="name">defun</span> dos2unix ()</span><br><span class="line">  (<span class="name">interactive</span>)</span><br><span class="line">    (<span class="name">goto-char</span> (<span class="name">point-min</span>))</span><br><span class="line">      (<span class="name">while</span> (<span class="name">search-forward</span> <span class="string">&quot;\r&quot;</span> nil t) (<span class="name">replace-match</span> <span class="string">&quot;&quot;</span>)))</span><br><span class="line"><span class="comment">;; vice versa</span></span><br><span class="line">(<span class="name">defun</span> unix2dos ()</span><br><span class="line">  (<span class="name">interactive</span>)</span><br><span class="line">    (<span class="name">goto-char</span> (<span class="name">point-min</span>))</span><br><span class="line">      (<span class="name">while</span> (<span class="name">search-forward</span> <span class="string">&quot;\n&quot;</span> nil t) (<span class="name">replace-match</span> <span class="string">&quot;\r\n&quot;</span>)))</span><br></pre></td></tr></table></figure>
-<p>You can watch the demos of those two extensions in Emacs Rocks: <a href="1">mark-multiple</a> and <a href="2">expand-region</a></p>
+<p>You can watch the demos of those two extensions in Emacs Rocks: <a
+href="1">mark-multiple</a> and <a href="2">expand-region</a></p>
 <p>Some more things, maybe not very powerful, but interesting.</p>
 <h3 id="key-chord.el">key-chord.el</h3>
-<p>Tired of control and meta keys? Try <a target="_blank" rel="noopener" href="http://www.emacswiki.org/emacs/KeyChord">KeyChord</a>, by this extension, we can bind commands to two keys pressed simultaneous or a single key quickly pressed twice. For example, <code>hj</code> might never appears in one word, so I bind <code>ido-find-file</code> to <code>hj</code>, whenever I want to open another file, type <code>h</code> and <code>j</code> at the same time, quick and easy.</p>
+<p>Tired of control and meta keys? Try <a
+target="_blank" rel="noopener" href="http://www.emacswiki.org/emacs/KeyChord">KeyChord</a>, by this
+extension, we can bind commands to two keys pressed simultaneous or a
+single key quickly pressed twice. For example, <code>hj</code> might
+never appears in one word, so I bind <code>ido-find-file</code> to
+<code>hj</code>, whenever I want to open another file, type
+<code>h</code> and <code>j</code> at the same time, quick and easy.</p>
 <h3 id="highlight-indentation.el">highlight-indentation.el</h3>
-<p>I began to write python code, when a function is long, I feel it's hard to track which scope I am in by indentation, if block of indentation is highlighted by some color, it might be better. <a target="_blank" rel="noopener" href="http://www.emacswiki.org/emacs/HighlightIndentation">HighLightIndentation</a> makes my life easier.</p>
+<p>I began to write python code, when a function is long, I feel it's
+hard to track which scope I am in by indentation, if block of
+indentation is highlighted by some color, it might be better. <a
+target="_blank" rel="noopener" href="http://www.emacswiki.org/emacs/HighlightIndentation">HighLightIndentation</a>
+makes my life easier.</p>
 <h3 id="fill-column-indicator.el">fill-column-indicator.el</h3>
-<p>I think it's cool to have a grey dotted line in editor on column 80. I don't want to argue whether it's reasonable to restrict one line to less than 80 characters, I just believe if "keep it simple, stupid!", 80 characters is really enough, and I love to split windows horizontally.</p>
+<p>I think it's cool to have a grey dotted line in editor on column 80.
+I don't want to argue whether it's reasonable to restrict one line to
+less than 80 characters, I just believe if "keep it simple, stupid!", 80
+characters is really enough, and I love to split windows
+horizontally.</p>
 
     </div>
 
@@ -322,12 +360,7 @@
     
     
 
-    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
-<hr style="border:1px solid #a9a9a9;">
-<p>📣 在 Substack 开了个订阅号 (Newsletter)，主题会聚焦在对数据、技术和产品的思考。<br>
-可以通过邮件来阅读，欢迎点击订阅：<a target="_blank" rel="noopener" href="https://dongz.substack.com/" class="uri">https://dongz.substack.com/</a></p>
-</div>
-
+    <footer class="post-footer">
           
 
 <div class="post-copyright">

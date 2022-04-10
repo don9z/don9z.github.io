@@ -285,45 +285,75 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>Last week, a requirement came to me, that we needed to know how often some kind of actions users did in one of our products.</p>
-<p>It's temporal, I didn't want to write a mapreduce program, instead, I figured out an hive SQL which is a little complicated (joins 3 tables and a long where clause).</p>
-<p>It worked. I got the results, we knew how many times people did one kind of actions on their 1st day, 1st week, 2nd week and 3rd week.</p>
+        <p>Last week, a requirement came to me, that we needed to know how often
+some kind of actions users did in one of our products.</p>
+<p>It's temporal, I didn't want to write a mapreduce program, instead, I
+figured out an hive SQL which is a little complicated (joins 3 tables
+and a long where clause).</p>
+<p>It worked. I got the results, we knew how many times people did one
+kind of actions on their 1st day, 1st week, 2nd week and 3rd week.</p>
 <p>But in the 4th week, I got 0!</p>
 <p>It's weird.</p>
-<p>Then I counted the 5th week, a dramatic smaller number compared with the 3rd week.</p>
-<p>I could get an conclusion, that nearly all people comes to our product, at their 4th week, they left.</p>
+<p>Then I counted the 5th week, a dramatic smaller number compared with
+the 3rd week.</p>
+<p>I could get an conclusion, that nearly all people comes to our
+product, at their 4th week, they left.</p>
 <p>It's unbelievable.</p>
-<p>I asked a colleague of mine do those statistics by python again, the results of the first 3 weeks were the same, but the 4th and 5th week, his were much bigger than mine.</p>
+<p>I asked a colleague of mine do those statistics by python again, the
+results of the first 3 weeks were the same, but the 4th and 5th week,
+his were much bigger than mine.</p>
 <p>There might be something wrong with my hive SQL.</p>
 <p>Am I using too many <code>join</code>s?</p>
-<p>Am I mistakenly put <code>where</code> clause out of <code>join on</code> condition?</p>
+<p>Am I mistakenly put <code>where</code> clause out of
+<code>join on</code> condition?</p>
 <p>...</p>
 <p>Those questions plagued me for days, but none of them is true.</p>
-<p>Below <code>where</code> clause is what I used to extract the data in the 4th week.</p>
+<p>Below <code>where</code> clause is what I used to extract the data in
+the 4th week.</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">where action.occurtime &lt; user.persistedtime + 24*60*60*1000*21 and action.occurtime &lt; user.persistedtime + 24*60*60*1000*28</span><br></pre></td></tr></table></figure>
-<p>I noticed that my <code>persistedtime</code> column type is string, maybe string to int auto conversion went wrong during comparison. But if it went wrong, why only affected the 4th week. It's unreasonable.</p>
-<p>I made a test, created a test table, and changed the column type to bigint, same result.</p>
+<p>I noticed that my <code>persistedtime</code> column type is string,
+maybe string to int auto conversion went wrong during comparison. But if
+it went wrong, why only affected the 4th week. It's unreasonable.</p>
+<p>I made a test, created a test table, and changed the column type to
+bigint, same result.</p>
 <p>What changed in the whole SQL is the arithmetic operation,</p>
 <p><code>24*60*60*1000*7/14/21/28</code></p>
 <p>Int overflow?</p>
 <p>No! hive is not that stupid.</p>
-<p>The biggest int32 is <code>2147483647</code>, and <code>60*60*24*1000*28</code> equals to <code>2419200000</code>, if int overflows, the <code>where</code> clause will be "less than a smaller number and greater than a bigger number", which is ZERO for any data!</p>
-<p>I put <code>2419200000</code> to <code>where</code> clause to replace <code>60*60*24*1000*28</code>, and, I got the right result.</p>
-<p><strong>The multiplication operation converts its result to int32, the addition operation is not affected.</strong></p>
+<p>The biggest int32 is <code>2147483647</code>, and
+<code>60*60*24*1000*28</code> equals to <code>2419200000</code>, if int
+overflows, the <code>where</code> clause will be "less than a smaller
+number and greater than a bigger number", which is ZERO for any
+data!</p>
+<p>I put <code>2419200000</code> to <code>where</code> clause to replace
+<code>60*60*24*1000*28</code>, and, I got the right result.</p>
+<p><strong>The multiplication operation converts its result to int32,
+the addition operation is not affected.</strong></p>
 <p>We aren't gonna stop, are we?</p>
 <p>Dig deeper.</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hive-0.10.0/src/ql/src/java/org/apache/hadoop/hive/ql/udf/UDFOPMultiply.java</span></span><br><span class="line">**</span><br><span class="line">* UDFOPMultiply.</span><br><span class="line">*</span><br><span class="line">*/</span><br><span class="line">Description(name = <span class="string">&quot;*&quot;</span>, value = <span class="string">&quot;a _FUNC_ b - Multiplies a by b&quot;</span>)</span><br><span class="line">ublic <span class="class"><span class="keyword">class</span> <span class="title">UDFOPMultiply</span> <span class="keyword">extends</span> <span class="title">UDFBaseNumericOp</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="title">UDFOPMultiply</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> ...</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> IntWritable <span class="title">evaluate</span><span class="params">(IntWritable a, IntWritable b)</span> </span>&#123;</span><br><span class="line">   <span class="comment">// LOG.info(&quot;Get input &quot; + a.getClass() + &quot;:&quot; + a + &quot; &quot; + b.getClass() + &quot;:&quot;</span></span><br><span class="line">   <span class="comment">// + b);</span></span><br><span class="line">   <span class="keyword">if</span> ((a == <span class="keyword">null</span>) || (b == <span class="keyword">null</span>)) &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   intWritable.set((a.get() * b.get()));</span><br><span class="line">   <span class="keyword">return</span> intWritable;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> LongWritable <span class="title">evaluate</span><span class="params">(LongWritable a, LongWritable b)</span> </span>&#123;</span><br><span class="line">   <span class="comment">// LOG.info(&quot;Get input &quot; + a.getClass() + &quot;:&quot; + a + &quot; &quot; + b.getClass() + &quot;:&quot;</span></span><br><span class="line">   <span class="comment">// + b);</span></span><br><span class="line">   <span class="keyword">if</span> ((a == <span class="keyword">null</span>) || (b == <span class="keyword">null</span>)) &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   longWritable.set(a.get() * b.get());</span><br><span class="line">   <span class="keyword">return</span> longWritable;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> ...</span><br></pre></td></tr></table></figure>
-<p>From above code, we can see that hive multiplication operator (*) simply converts its result to the same type of its operands. In our case, (int, int) -&gt; (int).</p>
-<p>How to tell hive the number we typed in is a long type, I made a guess, <code>l</code>, failed, then tried <code>L</code>, bingo!</p>
-<p>So if you want to use multiplication operator (*) in hive SQL, better to add <code>L</code> to one of the operands if the result might be bigger than the maximum value of int32.</p>
+<p>From above code, we can see that hive multiplication operator (*)
+simply converts its result to the same type of its operands. In our
+case, (int, int) -&gt; (int).</p>
+<p>How to tell hive the number we typed in is a long type, I made a
+guess, <code>l</code>, failed, then tried <code>L</code>, bingo!</p>
+<p>So if you want to use multiplication operator (*) in hive SQL, better
+to add <code>L</code> to one of the operands if the result might be
+bigger than the maximum value of int32.</p>
 <p>Why the addition operator does not have that problem?</p>
 <p>Because in our case the left operand is already bigint.</p>
 <p>At last, should I blame Hive?</p>
-<p>Absolutely not! Because I didn't <a target="_blank" rel="noopener" href="https://cwiki.apache.org/confluence/display/Hive/Tutorial#Tutorial-BuiltInOperatorsandFunctions">RTFM</a> :(</p>
+<p>Absolutely not! Because I didn't <a
+target="_blank" rel="noopener" href="https://cwiki.apache.org/confluence/display/Hive/Tutorial#Tutorial-BuiltInOperatorsandFunctions">RTFM</a>
+:(</p>
 <blockquote>
 <p>A * B</p>
 <p>all number types</p>
-<p>Gives the result of multiplying A and B. The type of the result is the same as the common parent(in the type hierarchy) of the types of the operands. Note that if the multiplication causing overflow, you will have to cast one of the operators to a type higher in the type hierarchy.</p>
+<p>Gives the result of multiplying A and B. The type of the result is
+the same as the common parent(in the type hierarchy) of the types of the
+operands. Note that if the multiplication causing overflow, you will
+have to cast one of the operators to a type higher in the type
+hierarchy.</p>
 </blockquote>
 
     </div>
@@ -332,12 +362,7 @@
     
     
 
-    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
-<hr style="border:1px solid #a9a9a9;">
-<p>📣 在 Substack 开了个订阅号 (Newsletter)，主题会聚焦在对数据、技术和产品的思考。<br>
-可以通过邮件来阅读，欢迎点击订阅：<a target="_blank" rel="noopener" href="https://dongz.substack.com/" class="uri">https://dongz.substack.com/</a></p>
-</div>
-
+    <footer class="post-footer">
           
 
 <div class="post-copyright">

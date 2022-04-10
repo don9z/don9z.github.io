@@ -179,7 +179,8 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#cookie"><span class="nav-number">1.</span> <span class="nav-text">Cookie</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#entropy"><span class="nav-number">2.</span> <span class="nav-text">Entropy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#browser-fingerprinting-algorithm"><span class="nav-number">3.</span> <span class="nav-text">Browser Fingerprinting Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#the-mobile-internet-era"><span class="nav-number">4.</span> <span class="nav-text">The Mobile Internet Era</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#cookie"><span class="nav-number">1.</span> <span class="nav-text">Cookie</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#entropy"><span class="nav-number">2.</span> <span class="nav-text">Entropy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#browser-fingerprinting-algorithm"><span class="nav-number">3.</span> <span class="nav-text">Browser Fingerprinting
+Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#the-mobile-internet-era"><span class="nav-number">4.</span> <span class="nav-text">The Mobile Internet Era</span></a></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -288,39 +289,101 @@
     <div class="post-body" itemprop="articleBody">
         <h2 id="cookie">Cookie</h2>
 <blockquote>
-<p>A cookie, also known as an HTTP cookie, web cookie, or browser cookie, is a small piece of data sent from a website and stored in a user's web browser while a user is browsing a website. When the user browses the same website in the future, the data stored in the cookie can be retrieved by the website to notify the website of the user's previous activity. (<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/HTTP_cookie">refer</a>)</p>
+<p>A cookie, also known as an HTTP cookie, web cookie, or browser
+cookie, is a small piece of data sent from a website and stored in a
+user's web browser while a user is browsing a website. When the user
+browses the same website in the future, the data stored in the cookie
+can be retrieved by the website to notify the website of the user's
+previous activity. (<a
+target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/HTTP_cookie">refer</a>)</p>
 </blockquote>
-<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a> is a stateless protocol, which does not require the HTTP server to retain information or status about each visit for the duration of multiple requests, when a HTTP server receives multiple requests, it can't recognize whether those requests are coming from one single browser or not.</p>
-<p>HTTP cookie is designed to be a reliable mechanism for websites to remember the state of the website or activity the user had taken in the past. When a user visits a website, cookies are sent by user's browser to the HTTP server inside HTTP header fields, the HTTP server can set cookies for its own purposes and sent them back to the user, e.g., set values to identify the user.</p>
-<p>With cookie, the website recognizes its users, on the one hand, users don't need to set language preferences or login, etc. every time when they visit the site again, on the other hand, the website could provide their users customized contents or services.</p>
-<p>But business is business, although some sites provide free services, they need revenue, so, they insert ads to web pages, with cookie, they can customize the ads to suit the users' needs, those ads could be less bothered and probably has better <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Click-through_rate">CTR</a> when their users see the ads.</p>
-<p>Since cookies are isolated by domains, different sites can't share cookies, it's more like a compromise between convenience and privacy, as my point of view, it's a win-win situation.</p>
-<p>Some advertising companies build systems, which can "share" cookies across multiple domains. When a user visits a website, it sets a user track cookie not only on its domain, but also on the domain of an advertising company, when the user visits another site which also use the system of that advertising company, the company recognizes him and displays ads according to the user's previous activities.</p>
-<p>Imaging, if the two sites are Google and Amazon, then one day you searched some porn stuff on Google, and some days later, you visit Amazon, it shows porn video recommendations on the top page directly.</p>
-<p>This is called <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/HTTP_cookie#Privacy_and_third-party_cookies">Third-party cookies</a>, which goes too far, no longer a win-win situation.</p>
-<p>Luckily, nearly all modern web browsers allow to disable third-party cookies, current version of <a target="_blank" rel="noopener" href="http://www.apple.com/safari/">Safari</a> even disable it by default.</p>
+<p><a
+target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a>
+is a stateless protocol, which does not require the HTTP server to
+retain information or status about each visit for the duration of
+multiple requests, when a HTTP server receives multiple requests, it
+can't recognize whether those requests are coming from one single
+browser or not.</p>
+<p>HTTP cookie is designed to be a reliable mechanism for websites to
+remember the state of the website or activity the user had taken in the
+past. When a user visits a website, cookies are sent by user's browser
+to the HTTP server inside HTTP header fields, the HTTP server can set
+cookies for its own purposes and sent them back to the user, e.g., set
+values to identify the user.</p>
+<p>With cookie, the website recognizes its users, on the one hand, users
+don't need to set language preferences or login, etc. every time when
+they visit the site again, on the other hand, the website could provide
+their users customized contents or services.</p>
+<p>But business is business, although some sites provide free services,
+they need revenue, so, they insert ads to web pages, with cookie, they
+can customize the ads to suit the users' needs, those ads could be less
+bothered and probably has better <a
+target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Click-through_rate">CTR</a> when
+their users see the ads.</p>
+<p>Since cookies are isolated by domains, different sites can't share
+cookies, it's more like a compromise between convenience and privacy, as
+my point of view, it's a win-win situation.</p>
+<p>Some advertising companies build systems, which can "share" cookies
+across multiple domains. When a user visits a website, it sets a user
+track cookie not only on its domain, but also on the domain of an
+advertising company, when the user visits another site which also use
+the system of that advertising company, the company recognizes him and
+displays ads according to the user's previous activities.</p>
+<p>Imaging, if the two sites are Google and Amazon, then one day you
+searched some porn stuff on Google, and some days later, you visit
+Amazon, it shows porn video recommendations on the top page
+directly.</p>
+<p>This is called <a
+target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/HTTP_cookie#Privacy_and_third-party_cookies">Third-party
+cookies</a>, which goes too far, no longer a win-win situation.</p>
+<p>Luckily, nearly all modern web browsers allow to disable third-party
+cookies, current version of <a
+target="_blank" rel="noopener" href="http://www.apple.com/safari/">Safari</a> even disable it by
+default.</p>
 <p>I strongly recommend to disable it.</p>
-<p>There might be some people are madly concern about their privacy, disable all cookies to forbid any website to track them, but doing this might make them more easier to be tracked by other ways.</p>
+<p>There might be some people are madly concern about their privacy,
+disable all cookies to forbid any website to track them, but doing this
+might make them more easier to be tracked by other ways.</p>
 <h2 id="entropy">Entropy</h2>
 <blockquote>
-<p>Entropy is a measure of unpredictability or information content. (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Entropy_(information_theory)">refer</a>)</p>
+<p>Entropy is a measure of unpredictability or information content. (<a
+target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Entropy_(information_theory)">refer</a>)</p>
 </blockquote>
-<p>For a random <span class="math display">\[X\]</span> with <span class="math display">\[n\]</span> outcomes <span class="math display">\[\{x_1, ... x_n\}\]</span>, the entropy denoted by <span class="math display">\[H(X)\]</span>, is defined as</p>
+<p>For a random <span class="math display">\[X\]</span> with <span
+class="math display">\[n\]</span> outcomes <span
+class="math display">\[\{x_1, ... x_n\}\]</span>, the entropy denoted by
+<span class="math display">\[H(X)\]</span>, is defined as</p>
 <p><span class="math display">\[
     H(X) = -\sum_{i=1}^{n} p(x_i) log_b p(x_i)
 \]</span></p>
-<p><span class="math display">\[b\]</span> is the base of logarithm used, normally, it's <span class="math display">\[2\]</span>.</p>
-<p>If there is a set of <span class="math display">\[n\]</span> possible events <span class="math display">\[\{x_1, ... x_n\}\]</span> with equal probability <span class="math display">\[p(x_i)=1/n\]</span>, the entropy of it would be</p>
+<p><span class="math display">\[b\]</span> is the base of logarithm
+used, normally, it's <span class="math display">\[2\]</span>.</p>
+<p>If there is a set of <span class="math display">\[n\]</span> possible
+events <span class="math display">\[\{x_1, ... x_n\}\]</span> with equal
+probability <span class="math display">\[p(x_i)=1/n\]</span>, the
+entropy of it would be</p>
 <p><span class="math display">\[
-    H(X) = -\sum_{i=1}^{n} p(x_i) log_b p(x_i)=-n\frac{1}{n} log_2 \frac{1}{n}=log_2 n
+    H(X) = -\sum_{i=1}^{n} p(x_i) log_b p(x_i)=-n\frac{1}{n} log_2
+\frac{1}{n}=log_2 n
 \]</span></p>
-<p>Easily, we can conclude that the entropy is the number of bits needed to specify all the events.</p>
-<p>If there is another set of <span class="math display">\[m\]</span> possible events <span class="math display">\[\{y_1, ... y_m\}\]</span> with equal probability <span class="math display">\[p(y_i)=1/m\]</span>, the two sets are independent, then the entropy would be</p>
+<p>Easily, we can conclude that the entropy is the number of bits needed
+to specify all the events.</p>
+<p>If there is another set of <span class="math display">\[m\]</span>
+possible events <span class="math display">\[\{y_1, ... y_m\}\]</span>
+with equal probability <span class="math display">\[p(y_i)=1/m\]</span>,
+the two sets are independent, then the entropy would be</p>
 <p><span class="math display">\[
-    H(X)=-\sum_{i,j} p(x_i,y_j) log_b p(x_i,y_j)=-nm \frac{1}{nm} log_2 \frac{1}{nm}=log_2 n+log_2 m
+    H(X)=-\sum_{i,j} p(x_i,y_j) log_b p(x_i,y_j)=-nm \frac{1}{nm} log_2
+\frac{1}{nm}=log_2 n+log_2 m
 \]</span></p>
-<p>Thus, we can conclude that if we add sources of uncertainty, the overall uncertainty should be the sum of the individual uncertainties.</p>
-<p>We could design a browser fingerprinting algorithm <span class="math display">\[f(x)\]</span> which gives an ID to every browser that visits, follows <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Probability_distribution#Discrete_probability_distribution">discrete probability distribution</a></p>
+<p>Thus, we can conclude that if we add sources of uncertainty, the
+overall uncertainty should be the sum of the individual
+uncertainties.</p>
+<p>We could design a browser fingerprinting algorithm <span
+class="math display">\[f(x)\]</span> which gives an ID to every browser
+that visits, follows <a
+target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Probability_distribution#Discrete_probability_distribution">discrete
+probability distribution</a></p>
 <p><span class="math display">\[
     P(f_i)=\sum_i P(f(x)=i)=1
 \]</span></p>
@@ -328,15 +391,28 @@
 <p><span class="math display">\[
     H(F)=-\sum_{x=0}^{N} p(f_x) log_2(p(f_x))
 \]</span></p>
-<p>Given <span class="math display">\[X\]</span> different browsers, each has equal probability of visiting the website, its entropy is <span class="math display">\[log_2 X\]</span>.</p>
+<p>Given <span class="math display">\[X\]</span> different browsers,
+each has equal probability of visiting the website, its entropy is <span
+class="math display">\[log_2 X\]</span>.</p>
 <blockquote>
-<p>The uniform distribution on the interval [a,b] is the maximum entropy distribution among all continuous distributions which are supported in the interval [a, b] (which means that the probability density is 0 outside of the interval. (<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Maximum_entropy_probability_distribution">refer</a>)</p>
+<p>The uniform distribution on the interval [a,b] is the maximum entropy
+distribution among all continuous distributions which are supported in
+the interval [a, b] (which means that the probability density is 0
+outside of the interval. (<a
+target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Maximum_entropy_probability_distribution">refer</a>)</p>
 </blockquote>
-<p>Then if the entropy of the browser fingerprinting algorithm is at least <span class="math display">\[log_2 X\]</span>, the browsers are uniquely recognizable.</p>
-<h2 id="browser-fingerprinting-algorithm">Browser Fingerprinting Algorithm</h2>
-<p>According to this <a target="_blank" rel="noopener" href="http://www.mendeley.com/catalog/unique-web-browser-2/">paper</a>,</p>
+<p>Then if the entropy of the browser fingerprinting algorithm is at
+least <span class="math display">\[log_2 X\]</span>, the browsers are
+uniquely recognizable.</p>
+<h2 id="browser-fingerprinting-algorithm">Browser Fingerprinting
+Algorithm</h2>
+<p>According to this <a
+target="_blank" rel="noopener" href="http://www.mendeley.com/catalog/unique-web-browser-2/">paper</a>,</p>
 <blockquote>
-<p>In particular, a fingerprint that carries no more than 15-20 bits of identifying information will in almost all cases be sufficient to uniquely identify a particular browser, given its IP address, its subnet, or even just its Autonomous System Number.</p>
+<p>In particular, a fingerprint that carries no more than 15-20 bits of
+identifying information will in almost all cases be sufficient to
+uniquely identify a particular browser, given its IP address, its
+subnet, or even just its Autonomous System Number.</p>
 </blockquote>
 <p>Below are the metrics it used to do browser fingerprinting:</p>
 <ul>
@@ -348,22 +424,51 @@
 <li>Browser plugins, plugin versions, and MIME types</li>
 <li>System fonts</li>
 </ul>
-<p>Those metrics could be easily obtained by simple scripts running on the user's browser. And here comes the pretty good results,</p>
+<p>Those metrics could be easily obtained by simple scripts running on
+the user's browser. And here comes the pretty good results,</p>
 <blockquote>
-<p>In general, modern desktop browsers fare very poorly, and around 90% of these are unique. The least unique desktop browsers often have JavaScript disabled (perhaps via NoScript). iPhone and Android browsers are significantly more uniform and harder to fingerprint than desktop browsers.</p>
+<p>In general, modern desktop browsers fare very poorly, and around 90%
+of these are unique. The least unique desktop browsers often have
+JavaScript disabled (perhaps via NoScript). iPhone and Android browsers
+are significantly more uniform and harder to fingerprint than desktop
+browsers.</p>
 </blockquote>
 <p>How to defend the fingerprinting algorithms?</p>
-<p>There are two ways. First, hide the browser information, e.g., disable JavaScript. Second, make the browser similar to other browsers so that fingerprinting algorithm might misrecognize it.</p>
-<p>But, hide information of the browser will make it less common, make it common will disclose its information. It's a paradox.</p>
+<p>There are two ways. First, hide the browser information, e.g.,
+disable JavaScript. Second, make the browser similar to other browsers
+so that fingerprinting algorithm might misrecognize it.</p>
+<p>But, hide information of the browser will make it less common, make
+it common will disclose its information. It's a paradox.</p>
 <h2 id="the-mobile-internet-era">The Mobile Internet Era</h2>
-<p>Smart phones, Apps are all around us, when privacy could be violated, the consequences might be worse than the internet browsers.</p>
+<p>Smart phones, Apps are all around us, when privacy could be violated,
+the consequences might be worse than the internet browsers.</p>
 <p>How do Apps track the device identity?</p>
-<p>In iOS, UDID could be used to identify devices, luckily, it was banned by Apple, but after iOS 6, Apple provides the <a target="_blank" rel="noopener" href="https://developer.apple.com/news/?id=3212013a">Advertising identifiers</a> similar to UDID, except it can be switched off by user. Also, MAC address can be used too.</p>
-<p>In Android, <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/International_Mobile_Station_Equipment_Identity">IMEI</a>, Android device ID, and MAC address all can be used to identify the devices.</p>
-<p>Those identifiers are different from cookies, since all cookies can be deleted, disabled, but MAC addresses, IMEIs, etc. can't be changed, and there is no way to prohibit Apps for getting those information.</p>
-<p>Apps can share your device ID between each other, here's how do some mobile App marketing systems work:</p>
-<p>An App displays some ads of other Apps from a marketing system, when a user taps on one ad to install the App, it would send a request to the marketing system with your device ID, when the user opens the newly installed App, that App would send another request to the marketing system with the same device ID, then the marketing system knows the click and activation rates of an ad.</p>
-<p>And, there are some mobile analytics systems require their SDK to be embedded into target Apps, e.g., <a target="_blank" rel="noopener" href="http://www.google.com/analytics/features/mobile-app-analytics.html">Google Analytics</a>. If all Apps are using the SDK, and the system has the ability and motivation to analyze all the data it has collected, activities of every user across all Apps could be monitored.</p>
+<p>In iOS, UDID could be used to identify devices, luckily, it was
+banned by Apple, but after iOS 6, Apple provides the <a
+target="_blank" rel="noopener" href="https://developer.apple.com/news/?id=3212013a">Advertising
+identifiers</a> similar to UDID, except it can be switched off by user.
+Also, MAC address can be used too.</p>
+<p>In Android, <a
+target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/International_Mobile_Station_Equipment_Identity">IMEI</a>,
+Android device ID, and MAC address all can be used to identify the
+devices.</p>
+<p>Those identifiers are different from cookies, since all cookies can
+be deleted, disabled, but MAC addresses, IMEIs, etc. can't be changed,
+and there is no way to prohibit Apps for getting those information.</p>
+<p>Apps can share your device ID between each other, here's how do some
+mobile App marketing systems work:</p>
+<p>An App displays some ads of other Apps from a marketing system, when
+a user taps on one ad to install the App, it would send a request to the
+marketing system with your device ID, when the user opens the newly
+installed App, that App would send another request to the marketing
+system with the same device ID, then the marketing system knows the
+click and activation rates of an ad.</p>
+<p>And, there are some mobile analytics systems require their SDK to be
+embedded into target Apps, e.g., <a
+target="_blank" rel="noopener" href="http://www.google.com/analytics/features/mobile-app-analytics.html">Google
+Analytics</a>. If all Apps are using the SDK, and the system has the
+ability and motivation to analyze all the data it has collected,
+activities of every user across all Apps could be monitored.</p>
 <p>How to defend those privacy threats?</p>
 <p>We just can't.</p>
 
@@ -373,12 +478,7 @@
     
     
 
-    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
-<hr style="border:1px solid #a9a9a9;">
-<p>📣 在 Substack 开了个订阅号 (Newsletter)，主题会聚焦在对数据、技术和产品的思考。<br>
-可以通过邮件来阅读，欢迎点击订阅：<a target="_blank" rel="noopener" href="https://dongz.substack.com/" class="uri">https://dongz.substack.com/</a></p>
-</div>
-
+    <footer class="post-footer">
           
 
 <div class="post-copyright">

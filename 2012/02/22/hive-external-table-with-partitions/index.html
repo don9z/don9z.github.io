@@ -291,38 +291,64 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">  userId <span class="built_in">BIGINT</span>,</span><br><span class="line">  <span class="keyword">type</span> <span class="built_in">INT</span>,</span><br><span class="line">  <span class="keyword">level</span> <span class="built_in">TINYINT</span>,</span><br><span class="line">  <span class="built_in">date</span> <span class="keyword">String</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">COMMENT</span> <span class="string">&#x27;User Infomation&#x27;</span></span><br></pre></td></tr></table></figure>
 <p>It's empty, util we load some data into it, it's useless.</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">LOAD</span> INPATH <span class="string">&#x27;/user/chris/data/testdata&#x27;</span> OVERWRITE <span class="keyword">INTO</span> <span class="keyword">TABLE</span> <span class="keyword">user</span></span><br></pre></td></tr></table></figure>
-<p>By default, when data file is loaded, <code>/user/$&#123;USER&#125;/warehouse/user</code> is created automatically.</p>
-<p>For me, it's <code>/user/chris/warehouse/user</code>, <code>user</code> is the table name, data files of <code>user</code> table are all located in this folder.</p>
+<p>By default, when data file is loaded,
+<code>/user/$&#123;USER&#125;/warehouse/user</code> is created automatically.</p>
+<p>For me, it's <code>/user/chris/warehouse/user</code>,
+<code>user</code> is the table name, data files of <code>user</code>
+table are all located in this folder.</p>
 <p>Now, we can freely to use SQLs to analyze the data.</p>
 <h2 id="what-if">What if</h2>
-<p>What if we want to process the data by some <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Extract,_transform,_load">ETL</a> programs, and load the result data to hive, but we don't want to load them manually?</p>
-<p>What if the data is not only used by hive, but also some other applications, maybe it still need to be MapReduced?</p>
-<p>External table comes to save us by creating table using following syntax,</p>
+<p>What if we want to process the data by some <a
+target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Extract,_transform,_load">ETL</a>
+programs, and load the result data to hive, but we don't want to load
+them manually?</p>
+<p>What if the data is not only used by hive, but also some other
+applications, maybe it still need to be MapReduced?</p>
+<p>External table comes to save us by creating table using following
+syntax,</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">  userId <span class="built_in">BIGINT</span>,</span><br><span class="line">  <span class="keyword">type</span> <span class="built_in">INT</span>,</span><br><span class="line">  <span class="keyword">level</span> <span class="built_in">TINYINT</span>,</span><br><span class="line">  <span class="built_in">date</span> <span class="keyword">String</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">COMMENT</span> <span class="string">&#x27;User Infomation&#x27;</span></span><br><span class="line">LOCATION <span class="string">&#x27;/user/chris/datastore/user/&#x27;</span>;</span><br></pre></td></tr></table></figure>
-<p>The location is where we put the data files in, name of the folder must be the same as the table name (like normal table). In this example, table name is <code>user</code>.</p>
-<p>Then, we can put any file which satisfy the pattern declared by <code>user</code> table inside <code>user</code> folder.</p>
+<p>The location is where we put the data files in, name of the folder
+must be the same as the table name (like normal table). In this example,
+table name is <code>user</code>.</p>
+<p>Then, we can put any file which satisfy the pattern declared by
+<code>user</code> table inside <code>user</code> folder.</p>
 <p>All data can be accessed by hive SQLs right away.</p>
 <h2 id="something-not-cool">Something not cool</h2>
-<p>When the data files become huge (number and size), we might need to use <code>Partition</code> to improved the efficiency of data processing.</p>
+<p>When the data files become huge (number and size), we might need to
+use <code>Partition</code> to improved the efficiency of data
+processing.</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">  userId <span class="built_in">BIGINT</span>,</span><br><span class="line">  <span class="keyword">type</span> <span class="built_in">INT</span>,</span><br><span class="line">  <span class="keyword">level</span> <span class="built_in">TINYINT</span>,</span><br><span class="line">)</span><br><span class="line"><span class="keyword">COMMENT</span> <span class="string">&#x27;User Infomation&#x27;</span></span><br><span class="line">PARTITIONED <span class="keyword">BY</span> (<span class="built_in">date</span> <span class="keyword">String</span>)</span><br></pre></td></tr></table></figure>
-<p><code>data String</code> is moved to <code>PARTITIONED BY</code>, when we need to load data into hive, partition must be assigned.</p>
+<p><code>data String</code> is moved to <code>PARTITIONED BY</code>,
+when we need to load data into hive, partition must be assigned.</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">LOAD</span> INPATH <span class="string">&#x27;/user/chris/data/testdata&#x27;</span> OVERWRITE <span class="keyword">INTO</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> <span class="keyword">PARTITION</span> (<span class="built_in">date</span>=<span class="string">&#x27;2012-02-22&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>After data is loaded, we can see a new folder named <code>date=2010-02-22</code> is create inside <code>/user/chris/warehouse/user/</code></p>
+<p>After data is loaded, we can see a new folder named
+<code>date=2010-02-22</code> is create inside
+<code>/user/chris/warehouse/user/</code></p>
 <p>So, how can we do it using external table?</p>
-<p>Same as before, first declare the external table <code>user</code>, and assign the location.</p>
+<p>Same as before, first declare the external table <code>user</code>,
+and assign the location.</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">  userId <span class="built_in">BIGINT</span>,</span><br><span class="line">  <span class="keyword">type</span> <span class="built_in">INT</span>,</span><br><span class="line">  <span class="keyword">level</span> <span class="built_in">TINYINT</span>,</span><br><span class="line">  <span class="built_in">date</span> <span class="keyword">String</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">COMMENT</span> <span class="string">&#x27;User Infomation&#x27;</span></span><br><span class="line">PARTITIONED <span class="keyword">BY</span> (<span class="built_in">date</span> <span class="keyword">String</span>)</span><br><span class="line">LOCATION <span class="string">&#x27;/user/chris/datastore/user/&#x27;</span>;</span><br></pre></td></tr></table></figure>
-<p>Then, create the folder <code>date=2010-02-22</code> inside <code>/user/chris/datastore/user/</code></p>
-<p>At last, put the data files of date 2010-02-22 into the folder, done.</p>
+<p>Then, create the folder <code>date=2010-02-22</code> inside
+<code>/user/chris/datastore/user/</code></p>
+<p>At last, put the data files of date 2010-02-22 into the folder,
+done.</p>
 <p>But,</p>
-<p>When we executes <code>select * from user;</code> nothing appears.</p>
+<p>When we executes <code>select * from user;</code> nothing
+appears.</p>
 <p>Why?</p>
 <p>I spent a long time searching for an answer.</p>
 <p>Finally, solved.</p>
-<p>Because when external table is declared, default table path is changed to specified location in hive metadata which contains in metastore, but about partition, nothing is changed, so, we must manually add those metadata.</p>
+<p>Because when external table is declared, default table path is
+changed to specified location in hive metadata which contains in
+metastore, but about partition, nothing is changed, so, we must manually
+add those metadata.</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> <span class="keyword">ADD</span> <span class="keyword">PARTITION</span>(<span class="built_in">date</span>=<span class="string">&#x27;2010-02-22&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<p>Every time a new <code>data=...</code> folder (partition) is created, we must manually alter the table to add partition information.</p>
+<p>Every time a new <code>data=...</code> folder (partition) is created,
+we must manually alter the table to add partition information.</p>
 <p>That is really not cool!</p>
-<p>But luckily, we have Hive JDBC/Thrift, let <a target="_blank" rel="noopener" href="https://github.com/don9z/hadoop-tools/blob/master/hive/addpartition.py">script</a> do that.</p>
+<p>But luckily, we have Hive JDBC/Thrift, let <a
+target="_blank" rel="noopener" href="https://github.com/don9z/hadoop-tools/blob/master/hive/addpartition.py">script</a>
+do that.</p>
 
     </div>
 
@@ -330,12 +356,7 @@
     
     
 
-    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
-<hr style="border:1px solid #a9a9a9;">
-<p>📣 在 Substack 开了个订阅号 (Newsletter)，主题会聚焦在对数据、技术和产品的思考。<br>
-可以通过邮件来阅读，欢迎点击订阅：<a target="_blank" rel="noopener" href="https://dongz.substack.com/" class="uri">https://dongz.substack.com/</a></p>
-</div>
-
+    <footer class="post-footer">
           
 
 <div class="post-copyright">

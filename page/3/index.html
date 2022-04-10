@@ -281,11 +281,15 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>最近在看 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Michael_Stonebraker">Stonebraker</a> 的 <a target="_blank" rel="noopener" href="http://www.redbook.io">“Readings in Database Systems”</a>, 发觉开拓了很多思路。</p>
+          <p>最近在看 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Michael_Stonebraker">Stonebraker</a>
+的 <a target="_blank" rel="noopener" href="http://www.redbook.io">“Readings in Database Systems”</a>,
+发觉开拓了很多思路。</p>
 <p>这么多年自己一直在从事大数据方面的工作，但除了翻过数据挖掘算法和分布式系统设计方面的论文外，完全没想过去翻翻数据库相关的论文看。现在想想，其实大数据和数据库两者很多需求和场景是一致的，要解决的问题，没准学术界很多年前就已经有方案了。</p>
 <p>这篇文章主要是 "Interactive Analytics" 相关部分。</p>
-<h2 id="what-is-interactive-analytics">What is Interactive Analytics</h2>
-<p>假如你是一家电商公司的分析师，如果有 100 万用户原始交易数据打印出来摆在你面前，让你去分析这些数据的意义，你会怎么做？</p>
+<h2 id="what-is-interactive-analytics">What is Interactive
+Analytics</h2>
+<p>假如你是一家电商公司的分析师，如果有 100
+万用户原始交易数据打印出来摆在你面前，让你去分析这些数据的意义，你会怎么做？</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2016/08/08/readings-in-database-systems-interactive-analytics/#more" rel="contents">
@@ -357,11 +361,18 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>We have a legacy system, which is a web service, receives HTTP POST from clients, parses the data, then stores them in a file.</p>
-<p>The function of the system is simple, and people already done functional and performance test, it's stable. As time drifted away, the system was <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Copy_and_paste_programming">copy and paste</a> to some projects by only changing the data parsing logic.</p>
-<p>I had a similar requirement recently, then I delved into the legacy code to check if it works in order to not <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Reinventing_the_wheel">reinventing the wheel</a>.</p>
+          <p>We have a legacy system, which is a web service, receives HTTP POST
+from clients, parses the data, then stores them in a file.</p>
+<p>The function of the system is simple, and people already done
+functional and performance test, it's stable. As time drifted away, the
+system was <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Copy_and_paste_programming">copy and
+paste</a> to some projects by only changing the data parsing logic.</p>
+<p>I had a similar requirement recently, then I delved into the legacy
+code to check if it works in order to not <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Reinventing_the_wheel">reinventing
+the wheel</a>.</p>
 <h2 id="wtf">WTF</h2>
-<p>At first, I noticed below code in a <code>HttpServlet</code> class, it allocates more than 1M memory for each HTTP POST request.</p>
+<p>At first, I noticed below code in a <code>HttpServlet</code> class,
+it allocates more than 1M memory for each HTTP POST request.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2014/06/20/a-bug-in-a-java-servlet/#more" rel="contents">
@@ -433,8 +444,12 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>Long long ago, I wrote a post about <a href="/2011/01/16/tdd-using-objective-c">how to do TDD using Objective-C</a>, since <a target="_blank" rel="noopener" href="http://www.apple.com/apple-events/june-2014/">Apple WWDC 2014</a>, <a target="_blank" rel="noopener" href="https://developer.apple.com/swift/">Swift</a> is really eye-catching, I think I should write a new one to follow the trend.</p>
-<p><a target="_blank" rel="noopener" href="https://developer.apple.com/library/ios/documentation/ToolsLanguages/Conceptual/Xcode_Overview/UnitTestYourApp/UnitTestYourApp.html">XCTest</a> is used as the unit test framework, and Xcode 6 is needed.</p>
+          <p>Long long ago, I wrote a post about <a href="/2011/01/16/tdd-using-objective-c">how to do TDD using
+Objective-C</a>, since <a target="_blank" rel="noopener" href="http://www.apple.com/apple-events/june-2014/">Apple WWDC 2014</a>,
+<a target="_blank" rel="noopener" href="https://developer.apple.com/swift/">Swift</a> is really
+eye-catching, I think I should write a new one to follow the trend.</p>
+<p><a target="_blank" rel="noopener" href="https://developer.apple.com/library/ios/documentation/ToolsLanguages/Conceptual/Xcode_Overview/UnitTestYourApp/UnitTestYourApp.html">XCTest</a>
+is used as the unit test framework, and Xcode 6 is needed.</p>
 <h2 id="tdd-work-flow">TDD Work-flow</h2>
 <ol type="1">
 <li>Add a test for a user case or a user story</li>
@@ -445,7 +460,12 @@
 <li>Refactor the test code</li>
 <li>Return to 1, and repeat</li>
 </ol>
-<p>The <code>5</code> and <code>6</code> are optional, do them only if needed, but be sure that DO NOT do them at the same time. That is, when you refactor production code, you can't change the test code, until all the test cases are passed, then you are confident that your production code refactoring is perfect, then, you can refactor the test code, and this time, you can't change the production code.</p>
+<p>The <code>5</code> and <code>6</code> are optional, do them only if
+needed, but be sure that DO NOT do them at the same time. That is, when
+you refactor production code, you can't change the test code, until all
+the test cases are passed, then you are confident that your production
+code refactoring is perfect, then, you can refactor the test code, and
+this time, you can't change the production code.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2014/06/16/tdd-on-swift/#more" rel="contents">
@@ -517,8 +537,12 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p><a><img src="/images/2014/niubeimountain1.jpg" width="560"></a> <a><img src="/images/2014/niubeimountain2.jpg" width="560"></a> <a><img src="/images/2014/niubeimountain3.jpg" width="560"></a> <a><img src="/images/2014/niubeimountain4.jpg" width="560"></a></p>
-<p>-- Taken on April 12, 2014 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157644027815816">flickr</a>)</p>
+          <p><a><img src="/images/2014/niubeimountain1.jpg" width="560"></a>
+<a><img src="/images/2014/niubeimountain2.jpg" width="560"></a>
+<a><img src="/images/2014/niubeimountain3.jpg" width="560"></a>
+<a><img src="/images/2014/niubeimountain4.jpg" width="560"></a></p>
+<p>-- Taken on April 12, 2014 (<a
+target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157644027815816">flickr</a>)</p>
 
       
     </div>
@@ -583,9 +607,16 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>In <a href="/2014/02/25/the-hadoop-2-dot-x-running-a-yarn-job-1/">last blog post</a>, The job <code>Client</code> has been created and initialized.</p>
-<p>This post will discuss on how does <code>Client</code> do to deploy the job to hadoop cluster.</p>
-<p>Code snippets will be full of this post, to not confuse you, all comments added by me begin with <code>//**</code> instead of <code>//</code> or <code>/*</code> and the code can be cloned from <a target="_blank" rel="noopener" href="http://git.apache.org/hadoop-common.git/">Apache Git Repository</a>, commit id is <code>2e01e27e5ba4ece19650484f646fac42596250ce</code>.</p>
+          <p>In <a href="/2014/02/25/the-hadoop-2-dot-x-running-a-yarn-job-1/">last blog
+post</a>, The job <code>Client</code> has been created and
+initialized.</p>
+<p>This post will discuss on how does <code>Client</code> do to deploy
+the job to hadoop cluster.</p>
+<p>Code snippets will be full of this post, to not confuse you, all
+comments added by me begin with <code>//**</code> instead of
+<code>//</code> or <code>/*</code> and the code can be cloned from <a target="_blank" rel="noopener" href="http://git.apache.org/hadoop-common.git/">Apache Git
+Repository</a>, commit id is
+<code>2e01e27e5ba4ece19650484f646fac42596250ce</code>.</p>
 <h2 id="the-resource-manager-proxy">The Resource Manager Proxy</h2>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//** org.apache.hadoop.yarn.applications.distributedshell.Client.java L330</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">run</span><span class="params">()</span> <span class="keyword">throws</span> IOException, YarnException </span>&#123;</span><br><span class="line"></span><br><span class="line">  LOG.info(<span class="string">&quot;Running Client&quot;</span>);</span><br><span class="line">  yarnClient.start();</span><br><span class="line"></span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
           <!--noindex-->
@@ -659,11 +690,22 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>In last <a href="/2014/02/20/the-hadoop-2-dot-x-introduction-to-yarn/">blog post</a>, a hadoop distribution is built to run a YARN job.</p>
+          <p>In last <a href="/2014/02/20/the-hadoop-2-dot-x-introduction-to-yarn/">blog
+post</a>, a hadoop distribution is built to run a YARN job.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ bin/hadoop jar share/hadoop/yarn/hadoop-yarn-applications-distributedshell-2.2.0.jar \</span><br><span class="line">    org.apache.hadoop.yarn.applications.distributedshell.Client -jar \</span><br><span class="line">    share/hadoop/yarn/hadoop-yarn-applications-distributedshell-2.2.0.jar \</span><br><span class="line">    -shell_command <span class="string">&#x27;date&#x27;</span> -shell_args <span class="string">&quot;-u&quot;</span> -num_containers 2</span><br></pre></td></tr></table></figure>
-<p>The <code>date -u</code> command is executed in Hadoop cluster by above script, we might conclude that there exists a dispatcher named <code>Client</code> in "hadoop-yarn-applications-distributedshell-2.2.0.jar", responsible for deploying a jar to cluster with parameters, such as shell command and args, and notify the cluster to execute the shell command.</p>
-<p>To see what's in the rabbit hole, let's step into the <code>Client</code> source code.</p>
-<p>Code snippets will be full of this post, to not confuse you, all comments added by me begin with <code>//**</code> instead of <code>//</code> or <code>/*</code> and the code can be cloned from <a target="_blank" rel="noopener" href="http://git.apache.org/hadoop-common.git/">Apache Git Repository</a>, commit id is <code>2e01e27e5ba4ece19650484f646fac42596250ce</code>.</p>
+<p>The <code>date -u</code> command is executed in Hadoop cluster by
+above script, we might conclude that there exists a dispatcher named
+<code>Client</code> in
+"hadoop-yarn-applications-distributedshell-2.2.0.jar", responsible for
+deploying a jar to cluster with parameters, such as shell command and
+args, and notify the cluster to execute the shell command.</p>
+<p>To see what's in the rabbit hole, let's step into the
+<code>Client</code> source code.</p>
+<p>Code snippets will be full of this post, to not confuse you, all
+comments added by me begin with <code>//**</code> instead of
+<code>//</code> or <code>/*</code> and the code can be cloned from <a target="_blank" rel="noopener" href="http://git.apache.org/hadoop-common.git/">Apache Git
+Repository</a>, commit id is
+<code>2e01e27e5ba4ece19650484f646fac42596250ce</code>.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2014/02/25/the-hadoop-2-dot-x-running-a-yarn-job-1/#more" rel="contents">
@@ -736,10 +778,15 @@
     
     <div class="post-body" itemprop="articleBody">
           <h2 id="the-old-mapreduce">The Old MapReduce</h2>
-<p>The Hadoop 0.x MapReduce system composed of JobTracker and TaskTrackers.</p>
+<p>The Hadoop 0.x MapReduce system composed of JobTracker and
+TaskTrackers.</p>
 <p><img src="/images/2014/introtoyarn-jt.png" width="560"></p>
-<p>The JobTracker is responsible for resource management, tracking resource usage and job life-cycle management, e.g. scheduling job tasks, tracking progress, providing fault-tolerance for tasks.</p>
-<p>The TaskTracker is the per-node slave for JobTracker, takes orders from the JobTracker to launch or tear-down tasks, and provides task status information to the JobTracker periodically.</p>
+<p>The JobTracker is responsible for resource management, tracking
+resource usage and job life-cycle management, e.g. scheduling job tasks,
+tracking progress, providing fault-tolerance for tasks.</p>
+<p>The TaskTracker is the per-node slave for JobTracker, takes orders
+from the JobTracker to launch or tear-down tasks, and provides task
+status information to the JobTracker periodically.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2014/02/20/the-hadoop-2-dot-x-introduction-to-yarn/#more" rel="contents">
@@ -811,9 +858,13 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <a><img src="/images/2013/colorfulseason1.jpg" width="560"></a> <a><img src="/images/2013/colorfulseason2.jpg" width="560"></a> <a><img src="/images/2013/colorfulseason3.jpg" width="560"></a> <a><img src="/images/2013/colorfulseason4.jpg" width="560"></a>
+          <a><img src="/images/2013/colorfulseason1.jpg" width="560"></a>
+<a><img src="/images/2013/colorfulseason2.jpg" width="560"></a>
+<a><img src="/images/2013/colorfulseason3.jpg" width="560"></a>
+<a><img src="/images/2013/colorfulseason4.jpg" width="560"></a>
 <center>
-<img src="/images/2013/colorfulseason5.jpg" width="280" style="display: inline;"> <img src="/images/2013/colorfulseason6.jpg" width="280" style="display: inline;">
+<img src="/images/2013/colorfulseason5.jpg" width="280" style="display: inline;">
+<img src="/images/2013/colorfulseason6.jpg" width="280" style="display: inline;">
 </center>
           <!--noindex-->
             <div class="post-button">
@@ -887,8 +938,14 @@
     
     <div class="post-body" itemprop="articleBody">
           <h2 id="story">Story</h2>
-<p>We, programmers built Apps for people to use, sometimes, we could benefit from our users, too.</p>
-<p>We could collect anonymous data from users by recording their behaviors on using our App, then analyzing those data, we could find the most favorable features of our App for us to plan for future development, we could uncover some hidden needs of users for us to add new features or create new Apps, we could cluster the users and use different marketing strategy on each users group, etc.</p>
+<p>We, programmers built Apps for people to use, sometimes, we could
+benefit from our users, too.</p>
+<p>We could collect anonymous data from users by recording their
+behaviors on using our App, then analyzing those data, we could find the
+most favorable features of our App for us to plan for future
+development, we could uncover some hidden needs of users for us to add
+new features or create new Apps, we could cluster the users and use
+different marketing strategy on each users group, etc.</p>
 <p>This post will be an example of how I do user clustering.</p>
 <p>Imagine I have a music player app, which has 2 millions users.</p>
           <!--noindex-->
@@ -962,9 +1019,13 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>Last week, a requirement came to me, that we needed to know how often some kind of actions users did in one of our products.</p>
-<p>It's temporal, I didn't want to write a mapreduce program, instead, I figured out an hive SQL which is a little complicated (joins 3 tables and a long where clause).</p>
-<p>It worked. I got the results, we knew how many times people did one kind of actions on their 1st day, 1st week, 2nd week and 3rd week.</p>
+          <p>Last week, a requirement came to me, that we needed to know how often
+some kind of actions users did in one of our products.</p>
+<p>It's temporal, I didn't want to write a mapreduce program, instead, I
+figured out an hive SQL which is a little complicated (joins 3 tables
+and a long where clause).</p>
+<p>It worked. I got the results, we knew how many times people did one
+kind of actions on their 1st day, 1st week, 2nd week and 3rd week.</p>
 <p>But in the 4th week, I got 0!</p>
 <p>It's weird.</p>
           <!--noindex-->

@@ -285,18 +285,38 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>之前学 elisp 的时候一直感觉思维转不过来很纠结，看了 <a target="_blank" rel="noopener" href="http://www.defmacro.org/ramblings/lisp.html">The Nature of Lisp</a>，原来正如 <a target="_blank" rel="noopener" href="http://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670">Code Complete</a> - Laying the Foundation 章节讲的那样，我们认识新事物总是会借鉴思维里面已有的 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Metaphor">Metaphor</a>, 我只用过 C, C++, Java，Python, Objective-C, 也就意味着我基本只有这些语言的 metaphor，都跟 Lisp 差异很大，也难怪了。但也正因为如此，才需要不断的克服自身的排斥心理，去接触更多的新事物。</p>
+        <p>之前学 elisp 的时候一直感觉思维转不过来很纠结，看了 <a
+target="_blank" rel="noopener" href="http://www.defmacro.org/ramblings/lisp.html">The Nature of
+Lisp</a>，原来正如 <a
+target="_blank" rel="noopener" href="http://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670">Code
+Complete</a> - Laying the Foundation
+章节讲的那样，我们认识新事物总是会借鉴思维里面已有的 <a
+target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Metaphor">Metaphor</a>, 我只用过 C,
+C++, Java，Python, Objective-C, 也就意味着我基本只有这些语言的
+metaphor，都跟 Lisp
+差异很大，也难怪了。但也正因为如此，才需要不断的克服自身的排斥心理，去接触更多的新事物。</p>
 <p>正如书中所云:</p>
 <blockquote>
-<p>A software metaphor is more like a searchlight than a road map. It doesn’t tell you where to find the answer, it tells you how to look for it. A metaphor serves more as a heuristic than it does as an algorithm.</p>
+<p>A software metaphor is more like a searchlight than a road map. It
+doesn’t tell you where to find the answer, it tells you how to look for
+it. A metaphor serves more as a heuristic than it does as an
+algorithm.</p>
 </blockquote>
-<p>接触的新事物越多，积攒起来的 metaphor 就越多，“本能” 的触类旁通便也会越频繁，很多科学上的新发现都是把不相干的事物触类旁通的引用到自身领域而突然使人茅塞顿开的。</p>
+<p>接触的新事物越多，积攒起来的 metaphor 就越多，“本能”
+的触类旁通便也会越频繁，很多科学上的新发现都是把不相干的事物触类旁通的引用到自身领域而突然使人茅塞顿开的。</p>
 <p>该文章从 XML 着手，对于这样一个函数</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> arg1, <span class="keyword">int</span> arg2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> arg1 + arg2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以将其表示成 XML 格式</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">define-function</span> <span class="attr">return-type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;add&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">arguments</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">argument</span> <span class="attr">type</span>=<span class="string">&quot;int&quot;</span>&gt;</span>arg1<span class="tag">&lt;/<span class="name">argument</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">argument</span> <span class="attr">type</span>=<span class="string">&quot;int&quot;</span>&gt;</span>arg2<span class="tag">&lt;/<span class="name">argument</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">arguments</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">return</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">add</span> <span class="attr">value1</span>=<span class="string">&quot;arg1&quot;</span> <span class="attr">value2</span>=<span class="string">&quot;arg2&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">return</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">define</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>可以看到，我们能够把任何源代码转为 XML 格式的文档，然后再转为源代码，这就意味着，对于一些语法相近的编程语言来说，可以借助 XML 文档将一种语言写的源代码翻译成另一种，比如 C++ 翻译成 Java。</p>
-<p>对于上面的 add 函数，在 XML 文档中，add 到底代表的是 data 还是 code？一方面，它只是位于 XML 文档里的一个单词，没有任何明显的方法去调用它，可以将它解析到 XML 节点树中，并进行一系列的变换，这一点上，它是 data。但另一方面，XML 文档在解析成语法树后被送入编译器，便可以去执行它，或者可以将 XML 文档翻译成 Java 或者 C++ 代码，并且运行它，这是 code。</p>
+<p>可以看到，我们能够把任何源代码转为 XML
+格式的文档，然后再转为源代码，这就意味着，对于一些语法相近的编程语言来说，可以借助
+XML 文档将一种语言写的源代码翻译成另一种，比如 C++ 翻译成 Java。</p>
+<p>对于上面的 add 函数，在 XML 文档中，add 到底代表的是 data 还是
+code？一方面，它只是位于 XML
+文档里的一个单词，没有任何明显的方法去调用它，可以将它解析到 XML
+节点树中，并进行一系列的变换，这一点上，它是 data。但另一方面，XML
+文档在解析成语法树后被送入编译器，便可以去执行它，或者可以将 XML
+文档翻译成 Java 或者 C++ 代码，并且运行它，这是 code。</p>
 <p>这意味着 "Code is always data!"，反之亦然。</p>
 <p>Lisp 的 symbol 不正如此!</p>
 <p>另一个例子，用 XML 描述的 copy 功能以及 Java 实现</p>
@@ -304,16 +324,22 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CopyTask copy = <span class="keyword">new</span> CopyTask();</span><br><span class="line">Fileset fileset = <span class="keyword">new</span> Fileset();</span><br><span class="line"></span><br><span class="line">fileset.setDir(<span class="string">&quot;src_dir&quot;</span>);</span><br><span class="line">copy.setToDir(<span class="string">&quot;../new/dir&quot;</span>);</span><br><span class="line">copy.setFileset(fileset);</span><br><span class="line"></span><br><span class="line">copy.execute();</span><br></pre></td></tr></table></figure>
 <p>有了 XML 文档的表述之后，我们更想这样去实现 copy 函数</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">copy(<span class="string">&quot;../new/dir&quot;</span>)</span><br><span class="line">&#123;</span><br><span class="line">    fileset(<span class="string">&quot;src_dir&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>正如 if 和 for 一样，我们实现了一个新的标识符 copy，用来完成 copy 的功能，Java 被扩展了。</p>
-<p>然而我们能吗? 我们确实能，可以去 hack 编译器，无非是对抽象语法树和相关功能实现的修改。</p>
-<p>如果我们能够很方便的对其抽象语法树进行修改，便可以非常容易的定制特定领域的程序设计语言，即 "Domain Specific Languages"。</p>
+<p>正如 if 和 for 一样，我们实现了一个新的标识符 copy，用来完成 copy
+的功能，Java 被扩展了。</p>
+<p>然而我们能吗? 我们确实能，可以去 hack
+编译器，无非是对抽象语法树和相关功能实现的修改。</p>
+<p>如果我们能够很方便的对其抽象语法树进行修改，便可以非常容易的定制特定领域的程序设计语言，即
+"Domain Specific Languages"。</p>
 <p>将之前的 XML 文档简化</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">copy</span> <span class="attr">todir</span>=<span class="string">&quot;../new/dir&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">fileset</span> <span class="attr">dir</span>=<span class="string">&quot;src_dir&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">copy</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">copy</span></span><br><span class="line">    (<span class="name">todir</span> <span class="string">&quot;../new/dir&quot;</span>)</span><br><span class="line">    (<span class="name">fileset</span> (<span class="name">dir</span> <span class="string">&quot;src_dir&quot;</span>)))</span><br></pre></td></tr></table></figure>
 <p>这是什么?</p>
 <p>Lisp!</p>
-<p>该文章还举了 Ant 的例子来加深对代码和 XML 文档转化的理解，并讨论了 "how to write a program that writes programs", 比较了 C macro 和 lisp macro 的实现，最后列举了一系列 Lisp 的基本概念。</p>
-<p><a target="_blank" rel="noopener" href="http://www.defmacro.org/ramblings/lisp.html">原文链接</a></p>
+<p>该文章还举了 Ant 的例子来加深对代码和 XML 文档转化的理解，并讨论了
+"how to write a program that writes programs", 比较了 C macro 和 lisp
+macro 的实现，最后列举了一系列 Lisp 的基本概念。</p>
+<p><a
+target="_blank" rel="noopener" href="http://www.defmacro.org/ramblings/lisp.html">原文链接</a></p>
 
     </div>
 
@@ -321,12 +347,7 @@
     
     
 
-    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
-<hr style="border:1px solid #a9a9a9;">
-<p>📣 在 Substack 开了个订阅号 (Newsletter)，主题会聚焦在对数据、技术和产品的思考。<br>
-可以通过邮件来阅读，欢迎点击订阅：<a target="_blank" rel="noopener" href="https://dongz.substack.com/" class="uri">https://dongz.substack.com/</a></p>
-</div>
-
+    <footer class="post-footer">
           
 
 <div class="post-copyright">

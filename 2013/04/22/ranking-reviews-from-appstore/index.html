@@ -287,25 +287,35 @@
     
     <div class="post-body" itemprop="articleBody">
         <h2 id="ranking">Ranking</h2>
-<p>App ranking informations can be get from <a target="_blank" rel="noopener" href="http://itunes.apple.com/rss">iTunes RSS feeds</a> provided by Apple, currently, at most Top 300 are listed in each feed.</p>
-<p>For example, if I want the top 300 grossing apps in "Games" category, after input my requirements, I get the feed URL as follows:</p>
+<p>App ranking informations can be get from <a
+target="_blank" rel="noopener" href="http://itunes.apple.com/rss">iTunes RSS feeds</a> provided by
+Apple, currently, at most Top 300 are listed in each feed.</p>
+<p>For example, if I want the top 300 grossing apps in "Games" category,
+after input my requirements, I get the feed URL as follows:</p>
 <p><code>https://itunes.apple.com/us/rss/topgrossingapplications/limit=300/genre=6014/xml</code></p>
-<p>Using python, I chose <a target="_blank" rel="noopener" href="https://pypi.python.org/pypi/feedparser/">feedparser</a> as an RSS parser.</p>
+<p>Using python, I chose <a
+target="_blank" rel="noopener" href="https://pypi.python.org/pypi/feedparser/">feedparser</a> as an RSS
+parser.</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">feed = feedparser.parse(</span><br><span class="line">    <span class="string">&#x27;https://itunes.apple.com/us/rss/topgrossingapplications/limit=300/genre=6014/xml&#x27;</span>)</span><br><span class="line">rank = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> entry <span class="keyword">in</span> feed.entries:</span><br><span class="line">    rank+=<span class="number">1</span></span><br><span class="line">    <span class="built_in">print</span> <span class="built_in">str</span>(rank), entry[<span class="string">&#x27;title&#x27;</span>]</span><br></pre></td></tr></table></figure>
 <p>Then, we get the ranking list:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1 Candy Crush Saga ® - King.com Limited</span><br><span class="line">2 Clash of Clans - Supercell</span><br><span class="line">3 MARVEL War of Heroes - Mobage, Inc.</span><br><span class="line">4 Hay Day - Supercell</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">297 Overkill 2 - Craneballs Studios LLC</span><br><span class="line">298 Earn to Die - Not Doppler</span><br><span class="line">299 Extreme Road Trip 2 - Roofdog Games</span><br><span class="line">300 Lords &amp; Knights - Medieval Strategy MMO - XYRALITY GmbH</span><br></pre></td></tr></table></figure>
 <h2 id="reviews">Reviews</h2>
-<p>In the iTunes RSS feeds, we can't find how to get the App reviews, but actually, it has, someone made a little guess.</p>
-<p>For example, one could get App's most recent reviews from below feed, by specifying the App ID (535886823) and store country:</p>
+<p>In the iTunes RSS feeds, we can't find how to get the App reviews,
+but actually, it has, someone made a little guess.</p>
+<p>For example, one could get App's most recent reviews from below feed,
+by specifying the App ID (535886823) and store country:</p>
 <p><code>https://itunes.apple.com/us/rss/customerreviews/id=535886823/sortBy=mostRecent/xml</code></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">feed = feedparser.parse(</span><br><span class="line">    <span class="string">&#x27;https://itunes.apple.com/us/rss/customerreviews/id=535886823/sortBy=mostRecent/xml&#x27;</span>)</span><br><span class="line">rank = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> entry <span class="keyword">in</span> feed.entries[<span class="number">1</span>:]:</span><br><span class="line">    rank += <span class="number">1</span></span><br><span class="line">    <span class="built_in">print</span> <span class="string">&#x27;****** review %d ******&#x27;</span> % rank</span><br><span class="line">    <span class="built_in">print</span> <span class="string">&#x27;title: %s&#x27;</span> % entry[<span class="string">&#x27;title&#x27;</span>]</span><br><span class="line">    <span class="built_in">print</span> <span class="string">&#x27;content: %s&#x27;</span> % entry[<span class="string">&#x27;content&#x27;</span>][<span class="number">0</span>][<span class="string">&#x27;value&#x27;</span>]</span><br><span class="line">    <span class="built_in">print</span> <span class="string">&#x27;author: %s&#x27;</span> % entry[<span class="string">&#x27;author&#x27;</span>]</span><br><span class="line">    <span class="built_in">print</span> <span class="string">&#x27;rating: %s&#x27;</span> % entry[<span class="string">&#x27;im_rating&#x27;</span>]</span><br></pre></td></tr></table></figure>
-<p>Pay attention, the first entry of this feed is the App description, not reviews.</p>
+<p>Pay attention, the first entry of this feed is the App description,
+not reviews.</p>
 <p>Result:</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">****** review 1 ******</span><br><span class="line">title: Ahhhhhh</span><br><span class="line">content: Ahhhhhh</span><br><span class="line">author: Andrew288195Az</span><br><span class="line">rating: 1</span><br><span class="line">****** review 2 ******</span><br><span class="line">title: Perfect except</span><br><span class="line">content: I still have to switch to safari to &quot;Ctrl+F&quot; a web page.</span><br><span class="line"></span><br><span class="line">Seriously?</span><br><span class="line">author: SarahTimmins</span><br><span class="line">rating: 1</span><br><span class="line">****** review 3 ******</span><br><span class="line">title: Crashes too much</span><br><span class="line">content: Title pretty much says it all.</span><br><span class="line">author: RoboWarriorSr</span><br><span class="line">rating: 2</span><br><span class="line">****** review 4 ******</span><br><span class="line">title: My penis is big</span><br><span class="line">content: I have a penis of 1 feet</span><br><span class="line">author: Jiackfabri</span><br><span class="line">rating: 5</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">****** review 49 ******</span><br><span class="line">title: Works great!</span><br><span class="line">content: I was skeptical but I actually really like this browser. Good job Googlé.</span><br><span class="line">author: eSquish</span><br><span class="line">rating: 5</span><br><span class="line">****** review 50 ******</span><br><span class="line">title: Amazing</span><br><span class="line">content: This app/browser is fantastic! It runs fast, and efficient it has shown me the awesomeness that is google and convinced me to buy a chromebook</span><br><span class="line">author: Seandog247</span><br><span class="line">rating: 5</span><br></pre></td></tr></table></figure>
-<p>We can only get 50 reviews, but the feeds updated more frequently than the ranking feeds.</p>
+<p>We can only get 50 reviews, but the feeds updated more frequently
+than the ranking feeds.</p>
 <p>There are four types of reviews list,</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Most Recent</span><br><span class="line">https:&#x2F;&#x2F;itunes.apple.com&#x2F;us&#x2F;rss&#x2F;customerreviews&#x2F;id&#x3D;535886823&#x2F;sortBy&#x3D;mostRecent&#x2F;xml</span><br><span class="line"></span><br><span class="line">Most Helpful</span><br><span class="line">https:&#x2F;&#x2F;itunes.apple.com&#x2F;us&#x2F;rss&#x2F;customerreviews&#x2F;id&#x3D;535886823&#x2F;sortBy&#x3D;mostHelpful&#x2F;xml</span><br><span class="line"></span><br><span class="line">Most Favorable</span><br><span class="line">Most Critical</span><br></pre></td></tr></table></figure>
-<p>I couldn't figure out what the feeds URL are of last two types, if anyone knows, please leave a comment, and I'll update this post.</p>
+<p>I couldn't figure out what the feeds URL are of last two types, if
+anyone knows, please leave a comment, and I'll update this post.</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/don9z/appstore">Code</a></p>
 
     </div>
@@ -314,12 +324,7 @@
     
     
 
-    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
-<hr style="border:1px solid #a9a9a9;">
-<p>📣 在 Substack 开了个订阅号 (Newsletter)，主题会聚焦在对数据、技术和产品的思考。<br>
-可以通过邮件来阅读，欢迎点击订阅：<a target="_blank" rel="noopener" href="https://dongz.substack.com/" class="uri">https://dongz.substack.com/</a></p>
-</div>
-
+    <footer class="post-footer">
           
 
 <div class="post-copyright">

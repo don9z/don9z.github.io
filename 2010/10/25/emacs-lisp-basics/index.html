@@ -286,37 +286,62 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>使用 Emacs 大概也有大半年了，越用越觉得它的强大，始终都有惊喜，每次看到一个功能，心中想：Emacs 可以吗？答案真的往往会是 Yes!</p>
+        <p>使用 Emacs
+大概也有大半年了，越用越觉得它的强大，始终都有惊喜，每次看到一个功能，心中想：Emacs
+可以吗？答案真的往往会是 Yes!</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">defun</span> factorial (<span class="name">n</span>)</span><br><span class="line">   (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&lt;=</span></span> n <span class="number">1</span>)</span><br><span class="line">       <span class="number">1</span></span><br><span class="line">       (<span class="name"><span class="builtin-name">*</span></span> n (<span class="name">factorial</span> (<span class="name"><span class="builtin-name">-</span></span> n <span class="number">1</span>)))))</span><br></pre></td></tr></table></figure>
-<p>上面这种充满括号的奇怪的语言叫 Lisp，它是仅次于 Fortran 的最老的高级程序设计语言，名称来源于 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Lisp_(programming_language)">LISt Processing</a>，它有两个方言，分别是 Common Lisp 和 Scheme。 Emacs lisp (elisp) 来源于 Common Lisp。使用 Emacs，如果不能自己打造适合自己的功能，虽然仍然可以享受 Emacs 带来的流畅和便利，但却会与另一种乐趣失之交臂，这篇文章简要叙述 elisp 的基本概念和语法。</p>
+<p>上面这种充满括号的奇怪的语言叫 Lisp，它是仅次于 Fortran
+的最老的高级程序设计语言，名称来源于 <a
+target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Lisp_(programming_language)">LISt
+Processing</a>，它有两个方言，分别是 Common Lisp 和 Scheme。 Emacs lisp
+(elisp) 来源于 Common Lisp。使用
+Emacs，如果不能自己打造适合自己的功能，虽然仍然可以享受 Emacs
+带来的流畅和便利，但却会与另一种乐趣失之交臂，这篇文章简要叙述 elisp
+的基本概念和语法。</p>
 <h2 id="hello-world">Hello World</h2>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">message</span> <span class="string">&quot;Hello, World!&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p>使用 C-x C-e 执行，便可以从 minibuffer 中看到这段代码的输出，简单吧？</p>
+<p>使用 C-x C-e 执行，便可以从 minibuffer
+中看到这段代码的输出，简单吧？</p>
 <h2 id="变量">变量</h2>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">set</span> <span class="symbol">&#x27;numstr</span> <span class="symbol">&#x27;nine</span>)</span><br><span class="line">(<span class="name">setq</span> numstr <span class="symbol">&#x27;nine</span>)</span><br></pre></td></tr></table></figure>
 <p>set 和 setq 用来对变量赋值，变量不需要事先声明，而且都是全局的。</p>
-<p>在 C 中，<code>int x = 3;</code> 表示将 3 赋值给 x，我们不能直接再使用 x 这个 symbol，因为它已经代表了整型 3 或者代表之后重新赋的新值，如果需要使用 x，那就只能重新定义 <code>char c = ‘x’</code>，而在 elisp 中，我们针对的就是 symbol，也就是说可以同时使用 x 和 x 所代表的值。比如上面代码，<code>set</code> 语句中 number 和 nine 前面都有一个 <code>'</code> (quote) 符号，这个符号到底做什么用呢？</p>
-<p>它告诉 Lisp 解释器不要去执行这个 symbol，而是直接使用。比如在 L1 执行完后，numstr 代表的是 nine，而 <code>'numstr</code> 仍然指的是 numstr. 为了书写方便，<code>setq</code> 免去了 <code>'</code>，作用同 <code>set</code>。</p>
+<p>在 C 中，<code>int x = 3;</code> 表示将 3 赋值给
+x，我们不能直接再使用 x 这个 symbol，因为它已经代表了整型 3
+或者代表之后重新赋的新值，如果需要使用 x，那就只能重新定义
+<code>char c = ‘x’</code>，而在 elisp 中，我们针对的就是
+symbol，也就是说可以同时使用 x 和 x
+所代表的值。比如上面代码，<code>set</code> 语句中 number 和 nine
+前面都有一个 <code>'</code> (quote) 符号，这个符号到底做什么用呢？</p>
+<p>它告诉 Lisp 解释器不要去执行这个 symbol，而是直接使用。比如在 L1
+执行完后，numstr 代表的是 nine，而 <code>'numstr</code> 仍然指的是
+numstr. 为了书写方便，<code>setq</code> 免去了 <code>'</code>，作用同
+<code>set</code>。</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">let</span></span> ((<span class="name">name</span> <span class="symbol">&#x27;Chris</span>)</span><br><span class="line">      (<span class="name">age</span> <span class="symbol">&#x27;26</span>))</span><br><span class="line">  (<span class="name">message</span> <span class="string">&quot;Name is %s, %d years old&quot;</span> name age))</span><br></pre></td></tr></table></figure>
 <p>let 用来定义在特定区域中的局部变量，还有两一种形式，如下</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">let</span></span> (<span class="name">name</span> age)</span><br><span class="line">  (<span class="name">setq</span> name <span class="symbol">&#x27;Chris</span>)</span><br><span class="line">  (<span class="name">setq</span> age <span class="symbol">&#x27;26</span>)</span><br><span class="line">  (<span class="name">message</span> <span class="string">&quot;Name is %s, %d years old&quot;</span> name age))</span><br></pre></td></tr></table></figure>
 <h2 id="运算">运算</h2>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">+</span></span> <span class="number">1</span> <span class="number">2</span>)        <span class="comment">; = 3</span></span><br><span class="line">(<span class="name"><span class="builtin-name">+</span></span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span>)      <span class="comment">; = 6</span></span><br><span class="line">(<span class="name"><span class="builtin-name">-</span></span> <span class="number">8</span> <span class="number">5</span>)        <span class="comment">; = 3</span></span><br><span class="line">(<span class="name"><span class="builtin-name">*</span></span> <span class="number">2</span> <span class="number">3</span>)        <span class="comment">; = 6</span></span><br><span class="line">(<span class="name"><span class="builtin-name">/</span></span> <span class="number">7</span> <span class="number">2</span>)        <span class="comment">; = 3</span></span><br><span class="line">(<span class="name"><span class="builtin-name">/</span></span> <span class="number">7</span> <span class="number">2.0</span>)      <span class="comment">; = 3.5</span></span><br><span class="line">(<span class="name">%</span> <span class="number">9</span> <span class="number">4</span>)        <span class="comment">; = 1</span></span><br><span class="line">(<span class="name"><span class="builtin-name">expt</span></span> <span class="number">2</span> <span class="number">3</span>)     <span class="comment">; = 8</span></span><br></pre></td></tr></table></figure>
-<p>这里需要强调的是如果需要输入浮点数时，需要在数字后面加 <code>.0</code>，否则还是会被当整型处理的。如 L5 &amp; L6。</p>
+<p>这里需要强调的是如果需要输入浮点数时，需要在数字后面加
+<code>.0</code>，否则还是会被当整型处理的。如 L5 &amp; L6。</p>
 <h2 id="比较">比较</h2>
-<p>在 elisp 中，false 用 nil 来表示，空列表也用 nil 来表示，其余的都是 true，也就是说 0 和 空字符串也是 true。</p>
+<p>在 elisp 中，false 用 nil 来表示，空列表也用 nil 来表示，其余的都是
+true，也就是说 0 和 空字符串也是 true。</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">&lt;</span></span> <span class="number">2</span> <span class="number">3</span>)                 <span class="comment">; = t</span></span><br><span class="line">(<span class="name"><span class="builtin-name">&gt;</span></span> <span class="number">2</span> <span class="number">3</span>)                 <span class="comment">; = nil</span></span><br><span class="line">(<span class="name"><span class="builtin-name">&lt;=</span></span> <span class="number">2</span> <span class="number">2</span>)                <span class="comment">; = t</span></span><br><span class="line">(<span class="name"><span class="builtin-name">&gt;=</span></span> <span class="number">2</span> <span class="number">3</span>)                <span class="comment">; = nil</span></span><br><span class="line">(<span class="name"><span class="builtin-name">=</span></span> <span class="number">2</span> <span class="number">3</span>)                 <span class="comment">; = nil</span></span><br><span class="line">(<span class="name">string=</span> <span class="string">&quot;he&quot;</span> <span class="string">&quot;he&quot;</span>)     <span class="comment">; = t</span></span><br><span class="line">(<span class="name">string&lt;</span> <span class="string">&quot;he&quot;</span> <span class="string">&quot;ie&quot;</span>)     <span class="comment">; = t</span></span><br><span class="line">(<span class="name"><span class="builtin-name">not</span></span> (<span class="name"><span class="builtin-name">&lt;</span></span> <span class="number">3</span> <span class="number">2</span>))           <span class="comment">; = t</span></span><br><span class="line">(<span class="name"><span class="builtin-name">or</span></span> (<span class="name"><span class="builtin-name">&lt;</span></span> <span class="number">3</span> <span class="number">2</span>) (<span class="name"><span class="builtin-name">&lt;</span></span> <span class="number">2</span> <span class="number">3</span>))    <span class="comment">; = t</span></span><br><span class="line">(<span class="name"><span class="builtin-name">and</span></span> (<span class="name"><span class="builtin-name">&lt;</span></span> <span class="number">3</span> <span class="number">2</span>) (<span class="name"><span class="builtin-name">&lt;</span></span> <span class="number">2</span> <span class="number">3</span>))   <span class="comment">; = nil</span></span><br></pre></td></tr></table></figure>
 <p>string&lt; 比较的是字符串的字典顺序，没有 string&gt;。</p>
 <h2 id="表达式">表达式</h2>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&lt;</span></span> <span class="number">3</span> <span class="number">2</span>)</span><br><span class="line">    (<span class="name">message</span> <span class="string">&quot;3 &lt; 2&quot;</span>)</span><br><span class="line">  (<span class="name">message</span> <span class="string">&quot;3 &gt; 2&quot;</span>))</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">when</span></span> (<span class="name"><span class="builtin-name">&lt;</span></span> <span class="number">2</span> <span class="number">3</span>)</span><br><span class="line">  (<span class="name">setq</span> x <span class="number">2</span>)</span><br><span class="line">  (<span class="name">setq</span> y <span class="number">3</span>)</span><br><span class="line">  (<span class="name">message</span> <span class="string">&quot;%d &lt; %d&quot;</span> x y))</span><br><span class="line"></span><br><span class="line">(<span class="name">setq</span> x <span class="number">0</span>)</span><br><span class="line">(<span class="name">while</span> (<span class="name"><span class="builtin-name">&lt;</span></span> x <span class="number">4</span>)</span><br><span class="line">  (<span class="name">print</span> <span class="string">&quot;hit &quot;</span>)</span><br><span class="line">  (<span class="name">setq</span> x (<span class="name">1+</span> x)))</span><br><span class="line"></span><br><span class="line">(<span class="name">progn</span></span><br><span class="line">  (<span class="name">setq</span> x <span class="number">2</span>)</span><br><span class="line">  (<span class="name">setq</span> y <span class="number">3</span>)</span><br><span class="line">  (<span class="name">setq</span> z (<span class="name"><span class="builtin-name">+</span></span> x y)))</span><br></pre></td></tr></table></figure>
-<p>条件判断 if，t 则执行下一句 L2，nil 则执行第三句 L3，when 表示如符合条件，就执行所有语句，while 为循环语句，L10 打印出 4 个 hit，progn 表示一个代码块，返回最后一个语句的返回值。</p>
+<p>条件判断 if，t 则执行下一句 L2，nil 则执行第三句 L3，when
+表示如符合条件，就执行所有语句，while 为循环语句，L10 打印出 4 个
+hit，progn 表示一个代码块，返回最后一个语句的返回值。</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">setq</span> x <span class="number">9</span>)</span><br><span class="line">(<span class="name"><span class="builtin-name">cond</span></span></span><br><span class="line"> ((<span class="name"><span class="builtin-name">&lt;=</span></span> x <span class="number">0</span>) <span class="number">0</span>)</span><br><span class="line"> ((<span class="name"><span class="builtin-name">=</span></span> x <span class="number">1</span>) <span class="number">1</span>)</span><br><span class="line"> ((<span class="name"><span class="builtin-name">&gt;</span></span> x <span class="number">1</span>)</span><br><span class="line">  (<span class="name"><span class="builtin-name">+</span></span> x <span class="number">1</span>)))</span><br></pre></td></tr></table></figure>
-<p>cond 用来列出一系列条件，以及满足该条件时的动作，上面代码表示当 x&lt;=0 时，返回 0，当 x=1 时返回 1，当 x&gt;1 时，返回 x+1 的值。</p>
+<p>cond 用来列出一系列条件，以及满足该条件时的动作，上面代码表示当
+x&lt;=0 时，返回 0，当 x=1 时返回 1，当 x&gt;1 时，返回 x+1 的值。</p>
 <h2 id="函数">函数</h2>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">defun</span> show (<span class="name">type</span>)</span><br><span class="line">  (<span class="name">message</span> <span class="string">&quot;This is a my first %s function&quot;</span> type))</span><br><span class="line">(<span class="name">show</span> <span class="symbol">&#x27;demo</span>)</span><br></pre></td></tr></table></figure>
 <p>如果想要在 Emacs 中使用 M-x 调用的话，需要加 (interactive)</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">defun</span> yeah ()</span><br><span class="line">  (<span class="name">interactive</span>)</span><br><span class="line">  (<span class="name">message</span> <span class="string">&quot;yeah!&quot;</span>))</span><br></pre></td></tr></table></figure>
-<p>interactive 可以带很多参数，具体请<a target="_blank" rel="noopener" href="http://www.rattlesnake.com/intro/Interactive-Options.html">参考</a>。</p>
+<p>interactive 可以带很多参数，具体请<a
+target="_blank" rel="noopener" href="http://www.rattlesnake.com/intro/Interactive-Options.html">参考</a>。</p>
 <p>lambda 用来定义匿名函数</p>
 <figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((<span class="name"><span class="builtin-name">lambda</span></span> (number) (<span class="name"><span class="builtin-name">*</span></span> <span class="number">7</span> number)) <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
 <p>在函数定义后加参数就可以调用该匿名函数了。</p>
@@ -327,12 +352,7 @@
     
     
 
-    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
-<hr style="border:1px solid #a9a9a9;">
-<p>📣 在 Substack 开了个订阅号 (Newsletter)，主题会聚焦在对数据、技术和产品的思考。<br>
-可以通过邮件来阅读，欢迎点击订阅：<a target="_blank" rel="noopener" href="https://dongz.substack.com/" class="uri">https://dongz.substack.com/</a></p>
-</div>
-
+    <footer class="post-footer">
           
 
 <div class="post-copyright">

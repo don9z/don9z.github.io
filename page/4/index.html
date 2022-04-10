@@ -281,8 +281,12 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>I have written about <a href="/2013/07/12/using-ios-android-libraries-cocos2dx/">how to use iOS and Android Libraries in Cocos2d-x</a>, in mobile game industry, there is another cross platform framework named <a target="_blank" rel="noopener" href="http://unity3d.com">unity3d</a>, which is more elegant, powerful, and, super expensive!</p>
-<p>This post will show how to enable the App using unity3d framework to use native libraries of iOS and Android.</p>
+          <p>I have written about <a href="/2013/07/12/using-ios-android-libraries-cocos2dx/">how to use iOS
+and Android Libraries in Cocos2d-x</a>, in mobile game industry, there
+is another cross platform framework named <a target="_blank" rel="noopener" href="http://unity3d.com">unity3d</a>, which is more elegant, powerful,
+and, super expensive!</p>
+<p>This post will show how to enable the App using unity3d framework to
+use native libraries of iOS and Android.</p>
 <h2 id="unity3d-plugin-mechanism">Unity3d Plugin Mechanism</h2>
 <p>Unity3d supports plugins well, compared with <a target="_blank" rel="noopener" href="http://www.cocos2d-x.org">Cocos2D-X</a>.</p>
 <p>In order to use a plugin in unity3d, two things have to be done.</p>
@@ -357,11 +361,22 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>When I began to learn Objective C, I often heard of people talking about "sending message", I was curious, come on, it's just calling a method.</p>
-<p>Then I recalled that I had that same feelings when functions become to methods as I began to touch C++.</p>
-<p>To support polymorphism, C++ object model has a <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Virtual_method_table">vtable</a> inside every object which stores instance methods addresses, by which, C++ has a little dynamic characteristic.</p>
-<p>But those dynamic are settled after compiling to machine code, unlike ruby or python, which has a <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Virtual_machine">virtual machine</a> to dynamically interpreter the behaviors of a program, you might know, the <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Duck_typing">duck typing</a>.</p>
-<p>Like C++, Objective C is also compiled to machine code, it supports polymiorphism, but also, to another level, it supports duck typing, you can send messages to any objects even the <code>nil</code>.</p>
+          <p>When I began to learn Objective C, I often heard of people talking
+about "sending message", I was curious, come on, it's just calling a
+method.</p>
+<p>Then I recalled that I had that same feelings when functions become
+to methods as I began to touch C++.</p>
+<p>To support polymorphism, C++ object model has a <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Virtual_method_table">vtable</a>
+inside every object which stores instance methods addresses, by which,
+C++ has a little dynamic characteristic.</p>
+<p>But those dynamic are settled after compiling to machine code, unlike
+ruby or python, which has a <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Virtual_machine">virtual machine</a>
+to dynamically interpreter the behaviors of a program, you might know,
+the <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Duck_typing">duck
+typing</a>.</p>
+<p>Like C++, Objective C is also compiled to machine code, it supports
+polymiorphism, but also, to another level, it supports duck typing, you
+can send messages to any objects even the <code>nil</code>.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/07/18/a-look-under-the-hood-of-objc-msgsend/#more" rel="contents">
@@ -433,11 +448,17 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>Been working on some libs on both iOS and Android platforms for a long time, recently needed to support <a target="_blank" rel="noopener" href="http://www.cocos2d-x.org">Cocos2d-x</a> framework, I have no interest to write a whole new lib based on C++, nightmare for maintenance, So I worked on to integrate both libs to Cocos2d-x framework.</p>
+          <p>Been working on some libs on both iOS and Android platforms for a
+long time, recently needed to support <a target="_blank" rel="noopener" href="http://www.cocos2d-x.org">Cocos2d-x</a> framework, I have no
+interest to write a whole new lib based on C++, nightmare for
+maintenance, So I worked on to integrate both libs to Cocos2d-x
+framework.</p>
 <h2 id="ios">iOS</h2>
-<p>Imagine my lib name is <code>libHumbleAssistant.a</code>, with a header file <code>HumbleAssistant.h</code>.</p>
+<p>Imagine my lib name is <code>libHumbleAssistant.a</code>, with a
+header file <code>HumbleAssistant.h</code>.</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">HumbleAssistant</span> : <span class="title">NSObject</span></span></span><br><span class="line">+ (<span class="keyword">void</span>)doSomething:(<span class="built_in">NSString</span> *)order;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<p>Lucky me, Objective C belongs to C family, which could integrate with C and C++ seamlessly.</p>
+<p>Lucky me, Objective C belongs to C family, which could integrate with
+C and C++ seamlessly.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/07/12/using-ios-android-libraries-cocos2dx/#more" rel="contents">
@@ -510,14 +531,17 @@
     
     <div class="post-body" itemprop="articleBody">
           <center>
-<img src="/images/2013/xitang1.jpg" width="280" style="display: inline;"> <img src="/images/2013/xitang2.jpg" width="280" style="display: inline;">
+<img src="/images/2013/xitang1.jpg" width="280" style="display: inline;">
+<img src="/images/2013/xitang2.jpg" width="280" style="display: inline;">
 </center>
 <center>
-<img src="/images/2013/xitang3.jpg" width="226" style="display: inline;"> <img src="/images/2013/xitang4.jpg" width="334" style="display: inline;">
+<img src="/images/2013/xitang3.jpg" width="226" style="display: inline;">
+<img src="/images/2013/xitang4.jpg" width="334" style="display: inline;">
 </center>
 <p><a><img src="/images/2013/xitang5.jpg" width="560"></a></p>
 <center>
-<img src="/images/2013/xitang6.jpg" width="280" style="display: inline;"> <img src="/images/2013/xitang7.jpg" width="280" style="display: inline;">
+<img src="/images/2013/xitang6.jpg" width="280" style="display: inline;">
+<img src="/images/2013/xitang7.jpg" width="280" style="display: inline;">
 </center>
 <p>-- Taken on June 13 ~ 14, 2013 (<a target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157634136179541">flickr</a>)</p>
           <!--noindex-->
@@ -593,11 +617,29 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="cookie">Cookie</h2>
 <blockquote>
-<p>A cookie, also known as an HTTP cookie, web cookie, or browser cookie, is a small piece of data sent from a website and stored in a user's web browser while a user is browsing a website. When the user browses the same website in the future, the data stored in the cookie can be retrieved by the website to notify the website of the user's previous activity. (<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/HTTP_cookie">refer</a>)</p>
+<p>A cookie, also known as an HTTP cookie, web cookie, or browser
+cookie, is a small piece of data sent from a website and stored in a
+user's web browser while a user is browsing a website. When the user
+browses the same website in the future, the data stored in the cookie
+can be retrieved by the website to notify the website of the user's
+previous activity. (<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/HTTP_cookie">refer</a>)</p>
 </blockquote>
-<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a> is a stateless protocol, which does not require the HTTP server to retain information or status about each visit for the duration of multiple requests, when a HTTP server receives multiple requests, it can't recognize whether those requests are coming from one single browser or not.</p>
-<p>HTTP cookie is designed to be a reliable mechanism for websites to remember the state of the website or activity the user had taken in the past. When a user visits a website, cookies are sent by user's browser to the HTTP server inside HTTP header fields, the HTTP server can set cookies for its own purposes and sent them back to the user, e.g., set values to identify the user.</p>
-<p>With cookie, the website recognizes its users, on the one hand, users don't need to set language preferences or login, etc. every time when they visit the site again, on the other hand, the website could provide their users customized contents or services.</p>
+<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a>
+is a stateless protocol, which does not require the HTTP server to
+retain information or status about each visit for the duration of
+multiple requests, when a HTTP server receives multiple requests, it
+can't recognize whether those requests are coming from one single
+browser or not.</p>
+<p>HTTP cookie is designed to be a reliable mechanism for websites to
+remember the state of the website or activity the user had taken in the
+past. When a user visits a website, cookies are sent by user's browser
+to the HTTP server inside HTTP header fields, the HTTP server can set
+cookies for its own purposes and sent them back to the user, e.g., set
+values to identify the user.</p>
+<p>With cookie, the website recognizes its users, on the one hand, users
+don't need to set language preferences or login, etc. every time when
+they visit the site again, on the other hand, the website could provide
+their users customized contents or services.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/05/20/http-cookie-browser-identity-privacy/#more" rel="contents">
@@ -670,10 +712,13 @@
     
     <div class="post-body" itemprop="articleBody">
           <h2 id="ranking">Ranking</h2>
-<p>App ranking informations can be get from <a target="_blank" rel="noopener" href="http://itunes.apple.com/rss">iTunes RSS feeds</a> provided by Apple, currently, at most Top 300 are listed in each feed.</p>
-<p>For example, if I want the top 300 grossing apps in "Games" category, after input my requirements, I get the feed URL as follows:</p>
+<p>App ranking informations can be get from <a target="_blank" rel="noopener" href="http://itunes.apple.com/rss">iTunes RSS feeds</a> provided by
+Apple, currently, at most Top 300 are listed in each feed.</p>
+<p>For example, if I want the top 300 grossing apps in "Games" category,
+after input my requirements, I get the feed URL as follows:</p>
 <p><code>https://itunes.apple.com/us/rss/topgrossingapplications/limit=300/genre=6014/xml</code></p>
-<p>Using python, I chose <a target="_blank" rel="noopener" href="https://pypi.python.org/pypi/feedparser/">feedparser</a> as an RSS parser.</p>
+<p>Using python, I chose <a target="_blank" rel="noopener" href="https://pypi.python.org/pypi/feedparser/">feedparser</a> as an RSS
+parser.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/04/22/ranking-reviews-from-appstore/#more" rel="contents">
@@ -747,11 +792,13 @@
     <div class="post-body" itemprop="articleBody">
           <a><img src="/images/2013/hangzhouinsnow1.jpg" width="560"></a>
 <center>
-<img src="/images/2013/hangzhouinsnow2.jpg" width="280" style="display: inline;"> <img src="/images/2013/hangzhouinsnow3.jpg" width="280" style="display: inline;">
+<img src="/images/2013/hangzhouinsnow2.jpg" width="280" style="display: inline;">
+<img src="/images/2013/hangzhouinsnow3.jpg" width="280" style="display: inline;">
 </center>
 <a><img src="/images/2013/hangzhouinsnow4.jpg" width="560"></a>
 <center>
-<img src="/images/2013/hangzhouinsnow5.jpg" width="280" style="display: inline;"> <img src="/images/2013/hangzhouinsnow6.jpg" width="280" style="display: inline;">
+<img src="/images/2013/hangzhouinsnow5.jpg" width="280" style="display: inline;">
+<img src="/images/2013/hangzhouinsnow6.jpg" width="280" style="display: inline;">
 </center>
 <p><a><img src="/images/2013/hangzhouinsnow7.jpg" width="560"></a></p>
           <!--noindex-->
@@ -825,11 +872,21 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>I was working on a mobile app analytics system recent months, how well the system works relies on the app usage data captured on the users' devices.</p>
-<p>This post is about technically how I did it in both iOS and Android operating systems.</p>
+          <p>I was working on a mobile app analytics system recent months, how
+well the system works relies on the app usage data captured on the
+users' devices.</p>
+<p>This post is about technically how I did it in both iOS and Android
+operating systems.</p>
 <h2 id="making-thread">Making Thread</h2>
-<p>When a user opens an app, an open session event needs to be captured, when a user tap the home button, app transitions to the background, the session needs to be marked as closed, when a user view an important page, or click a fancy button, counters need to be increased. Those needs must be handled in background threads since I don't want my app UI freezing by some time-consuming "needs".</p>
-<p>In iOS, <a target="_blank" rel="noopener" href="https://developer.apple.com/library/mac/#documentation/Performance/Reference/GCD_libdispatch_Ref/Reference/reference.html">Grand Central Dispatch (GCD)</a> is amazing, create a serial dispatch queue, and a background thread is alive.</p>
+<p>When a user opens an app, an open session event needs to be captured,
+when a user tap the home button, app transitions to the background, the
+session needs to be marked as closed, when a user view an important
+page, or click a fancy button, counters need to be increased. Those
+needs must be handled in background threads since I don't want my app UI
+freezing by some time-consuming "needs".</p>
+<p>In iOS, <a target="_blank" rel="noopener" href="https://developer.apple.com/library/mac/#documentation/Performance/Reference/GCD_libdispatch_Ref/Reference/reference.html">Grand
+Central Dispatch (GCD)</a> is amazing, create a serial dispatch queue,
+and a background thread is alive.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/01/18/app-lifetime-measurement-ios-android/#more" rel="contents">
@@ -901,11 +958,20 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>Last week, I read the old book <a target="_blank" rel="noopener" href="http://www.amazon.com/Getting-Things-Done-Stress-Free-Productivity/dp/0142000280">Get Things Done</a> again, it did make me think. I read it first two years ago, at that time, I didn't feel the benefits since I could manage all stuff in my mind. But now, I can't, I do forget things, I do procrastinate things. During my reread, I kept asking me, why I just missed this treasure, so silly I was.</p>
+          <p>Last week, I read the old book <a target="_blank" rel="noopener" href="http://www.amazon.com/Getting-Things-Done-Stress-Free-Productivity/dp/0142000280">Get
+Things Done</a> again, it did make me think. I read it first two years
+ago, at that time, I didn't feel the benefits since I could manage all
+stuff in my mind. But now, I can't, I do forget things, I do
+procrastinate things. During my reread, I kept asking me, why I just
+missed this treasure, so silly I was.</p>
 <p>Below are my reading notes.</p>
 <hr>
-<p><strong>Stuff</strong>: anything you have allowed into your psychological or physical world that doesn’t belong where it is, but for which you haven’t yet determined the desired outcome and the next action step.</p>
-<p>We need to transform all the “stuff” we’re trying to organize into <strong>actionable</strong> stuff we need to do.</p>
+<p><strong>Stuff</strong>: anything you have allowed into your
+psychological or physical world that doesn’t belong where it is, but for
+which you haven’t yet determined the desired outcome and the next action
+step.</p>
+<p>We need to transform all the “stuff” we’re trying to organize into
+<strong>actionable</strong> stuff we need to do.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/01/16/sharing-my-gtd-notes/#more" rel="contents">
@@ -977,16 +1043,24 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>I just can't believe displaying <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/LaTeX">LaTeX</a> math formula in Octopress could be this easy.</p>
+          <p>I just can't believe displaying <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/LaTeX">LaTeX</a> math formula in
+Octopress could be this easy.</p>
 <ol type="1">
-<li>Add <code>gem 'kramdown'</code> to "GemFile", then run <code>bundle install</code>.</li>
-<li>Edit "_config.yml", replace <code>markdown: rdiscount</code> to <code>markdown: kramdown</code>, <a target="_blank" rel="noopener" href="http://kramdown.rubyforge.org">kramdown</a> is a fast, pure-Ruby Markdown-superset converter.</li>
-<li>Open "source/_includes/custom/head.html", and add below scripts to use <a target="_blank" rel="noopener" href="http://www.mathjax.org">MathJax</a>, a decent js display engine for mathematics.</li>
+<li>Add <code>gem 'kramdown'</code> to "GemFile", then run
+<code>bundle install</code>.</li>
+<li>Edit "_config.yml", replace <code>markdown: rdiscount</code> to
+<code>markdown: kramdown</code>, <a target="_blank" rel="noopener" href="http://kramdown.rubyforge.org">kramdown</a> is a fast, pure-Ruby
+Markdown-superset converter.</li>
+<li>Open "source/_includes/custom/head.html", and add below scripts to
+use <a target="_blank" rel="noopener" href="http://www.mathjax.org">MathJax</a>, a decent js display
+engine for mathematics.</li>
 </ol>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- MathJax --&gt;</span><br><span class="line">&lt;script type=<span class="string">&quot;text/x-mathjax-config&quot;</span>&gt;</span><br><span class="line">  MathJax.Hub.Config(&#123;</span><br><span class="line">    tex2jax: &#123;</span><br><span class="line">      inlineMath: [ [<span class="string">&#x27;$&#x27;</span>,<span class="string">&#x27;$&#x27;</span>], [<span class="string">&quot;\\(&quot;</span>,<span class="string">&quot;\\)&quot;</span>] ],</span><br><span class="line">      processEscapes: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type=<span class="string">&quot;text/x-mathjax-config&quot;</span>&gt;</span><br><span class="line">    MathJax.Hub.Config(&#123;</span><br><span class="line">      tex2jax: &#123;</span><br><span class="line">        skipTags: [<span class="string">&#x27;script&#x27;</span>, <span class="string">&#x27;noscript&#x27;</span>, <span class="string">&#x27;style&#x27;</span>, <span class="string">&#x27;textarea&#x27;</span>, <span class="string">&#x27;pre&#x27;</span>, <span class="string">&#x27;code&#x27;</span>]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type=<span class="string">&quot;text/x-mathjax-config&quot;</span>&gt;</span><br><span class="line">    MathJax.Hub.Queue(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> all = MathJax.Hub.getAllJax(), i;</span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>; i &lt; all.length; i += <span class="number">1</span>) &#123;</span><br><span class="line">            all[i].SourceElement().parentNode.className += <span class="string">&#x27; has-jax&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type=<span class="string">&quot;text/javascript&quot;</span></span><br><span class="line">   src=<span class="string">&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;</span>&gt;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>Now, let's enjoy the beauty of <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Normal_distribution">Gaussian Distribution</a></p>
+<p>Now, let's enjoy the beauty of <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Normal_distribution">Gaussian
+Distribution</a></p>
 <p><span class="math display">\[
-f(x;\mu,\sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}
+f(x;\mu,\sigma^2) =
+\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}
 \]</span></p>
           <!--noindex-->
             <div class="post-button">

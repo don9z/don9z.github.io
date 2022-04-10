@@ -285,26 +285,39 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>长久以来，我都有这样一个观念，比如 pack(4)，就代表着所有数据都是以 4 字节对齐的，直到我有了 64 位机，并且看到下面这个例子：</p>
+        <p>长久以来，我都有这样一个观念，比如 pack(4)，就代表着所有数据都是以 4
+字节对齐的，直到我有了 64 位机，并且看到下面这个例子：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">One</span> &#123;</span></span><br><span class="line">    <span class="keyword">double</span> d;</span><br><span class="line">    <span class="keyword">char</span> c;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Two</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> c;</span><br><span class="line">    <span class="keyword">double</span> d;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>如果按 4 字节对齐的话，按我的观点，结构体中每一个成员都应该以 4 字节对齐，那么两个都是 4+8+4=16, 结果是对的。</p>
+<p>如果按 4 字节对齐的话，按我的观点，结构体中每一个成员都应该以 4
+字节对齐，那么两个都是 4+8+4=16, 结果是对的。</p>
 <p>那么如果按 8 字节对齐的话，结果是不是应该是 8+8+8＝24？</p>
 <p>可是错了。</p>
-<p>正确的结果应该是 <code>sizeof(struct One) = 16</code>, <code>sizeof(struct Two) = 24</code></p>
+<p>正确的结果应该是 <code>sizeof(struct One) = 16</code>,
+<code>sizeof(struct Two) = 24</code></p>
 <p>为什么不一样呢？</p>
-<p><code>pragma pack(n)</code> 它指定了结构成员按 n（1,2,4,8,16）字节对齐，但它并不是指结构体中的每个成员都要按 n 对齐，而是按照每个成员的大小（align 值）和 n 相比较小的值对齐。</p>
-<p>结构体还有另外一个需求，就是其大小必须是其成员 align 值最大者的整数倍。</p>
+<p><code>pragma pack(n)</code> 它指定了结构成员按
+n（1,2,4,8,16）字节对齐，但它并不是指结构体中的每个成员都要按 n
+对齐，而是按照每个成员的大小（align 值）和 n 相比较小的值对齐。</p>
+<p>结构体还有另外一个需求，就是其大小必须是其成员 align
+值最大者的整数倍。</p>
 <p>那么上面的两个不同就很好解释了：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">One</span> &#123;</span></span><br><span class="line">    <span class="keyword">double</span> d; <span class="comment">// 8 字节对齐占第 0-7 字节</span></span><br><span class="line">    <span class="keyword">char</span> c;   <span class="comment">// 1 字节对齐占第 8 字节，另外 9-11 字节用于下面 int 对齐</span></span><br><span class="line">    <span class="keyword">int</span> i;    <span class="comment">// 4 字节对齐占第 12-15 字节，16 是 8 的倍数，不需要 padding</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Two</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> c;   <span class="comment">// 1 字节对齐占第 0 字节，另外 1-7 字节用于下面 double 对齐</span></span><br><span class="line">    <span class="keyword">double</span> d; <span class="comment">// 8 字节对齐占 8-15 字节</span></span><br><span class="line">    <span class="keyword">int</span> i;    <span class="comment">// 4 字节对齐占 16-19 字节，20 不是 8 的倍数，需要加 4 个字节 padding</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>各种类型变量的 align 值可参考 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Data_structure_alignment">Data Structure Alignment</a></p>
+<p>各种类型变量的 align 值可参考 <a
+target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Data_structure_alignment">Data
+Structure Alignment</a></p>
 <p>再举一个结构体嵌套的例子：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Four</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">short</span> s;</span><br><span class="line">    <span class="keyword">long</span> l;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Five</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">char</span> c;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Four</span> <span class="title">four</span>;</span></span><br><span class="line">    <span class="keyword">short</span> s;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p><code>sizeof(struct Four)</code> 和 <code>sizeof(struct Five)</code> 在 4 字节对齐和 8 字节对齐时分别是多少呢？</p>
+<p><code>sizeof(struct Four)</code> 和 <code>sizeof(struct Five)</code>
+在 4 字节对齐和 8 字节对齐时分别是多少呢？</p>
 <p>我们以 8 字节对齐为例：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Four</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">short</span> s; <span class="comment">// 2 字节对齐占第 0-1 字节，另外 2-7 字节用于下面 long 对齐</span></span><br><span class="line">    <span class="keyword">long</span> l;  <span class="comment">// 8 字节对齐占第 8-15 字节</span></span><br><span class="line">&#125;; <span class="comment">// sizeof(struct Four) ＝ 16</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Five</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">char</span> c;            <span class="comment">// 1 字节对齐占第 0 字节，另外 1-7 字节用于下面 four 对齐</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Four</span> <span class="title">four</span>;</span>  <span class="comment">// 8 字节对齐，占第 8-23 字节，结构体以其成员最大 align 值对齐</span></span><br><span class="line">    <span class="keyword">short</span> s;           <span class="comment">// 2 字节对齐，占第 24-25 字节，26 不是 8 的倍数，需外加 6 字节</span></span><br><span class="line">&#125;; <span class="comment">// sizeof(struct Five) ＝ 32</span></span><br></pre></td></tr></table></figure>
-<p>如果在 32 位机中，struct Four 中，long 长度为 4, 于是 <code>sizeof(struct Four) = 8</code>, 并且最大 align 值是 4.</p>
-<p>于是在 struct Five 中，four 是按 4 字节对齐的，虽然是 pack(8)，但 4&lt;8, 所以选 4 作为 align 值，<code>sizeof(struct Five) = 16</code>.</p>
-<p>以上所有实验结果来自 x86_64 GNU/Linux，gcc (GCC) 4.1.2 20080704 (Red Hat 4.1.2-48)。</p>
+<p>如果在 32 位机中，struct Four 中，long 长度为 4, 于是
+<code>sizeof(struct Four) = 8</code>, 并且最大 align 值是 4.</p>
+<p>于是在 struct Five 中，four 是按 4 字节对齐的，虽然是 pack(8)，但
+4&lt;8, 所以选 4 作为 align
+值，<code>sizeof(struct Five) = 16</code>.</p>
+<p>以上所有实验结果来自 x86_64 GNU/Linux，gcc (GCC) 4.1.2 20080704 (Red
+Hat 4.1.2-48)。</p>
 
     </div>
 
@@ -312,12 +325,7 @@
     
     
 
-    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
-<hr style="border:1px solid #a9a9a9;">
-<p>📣 在 Substack 开了个订阅号 (Newsletter)，主题会聚焦在对数据、技术和产品的思考。<br>
-可以通过邮件来阅读，欢迎点击订阅：<a target="_blank" rel="noopener" href="https://dongz.substack.com/" class="uri">https://dongz.substack.com/</a></p>
-</div>
-
+    <footer class="post-footer">
           
 
 <div class="post-copyright">
