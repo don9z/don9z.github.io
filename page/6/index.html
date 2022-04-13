@@ -188,7 +188,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-count">86</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -235,6 +235,91 @@
       
 
       
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2012/04/09/clustering-with-lucene-example/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/04/09/clustering-with-lucene-example/" class="post-title-link" itemprop="url">Clustering with Lucene: Example</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2012-04-09 22:57:00" itemprop="dateCreated datePublished" datetime="2012-04-09T22:57:00+08:00">2012-04-09</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Recently, I needed to do some analysis on lots of short messages like
+tweets. To be accurate, I had to remove the duplicated messages.</p>
+<p>String compare is not enough, what I wanted is to remove all the
+similar messages.</p>
+<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Cluster_analysis">Clustering</a>
+works, but I don't want to write a whole <a target="_blank" rel="noopener" href="http://maya.cs.depaul.edu/classes/ds575/single-pass.html">Single
+Pass Algorithm</a>, a colleague suggested me to consider <a target="_blank" rel="noopener" href="http://lucene.apache.org/">Lucene</a>.</p>
+<p>I've never used Lucene before, so I searched and read some documents
+of it. At first, I thought I could put all short messages into Lucene
+index, then search by each message content, set a hit score threshold,
+collect all the hit docs, and remove all docs beyond the threshold.</p>
+<p>But when it came to implementation, it's not easy to extract
+important words in message content as keywords used for "search by each
+message content".</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2012/04/09/clustering-with-lucene-example/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
     
 
 
@@ -949,87 +1034,6 @@ namenode 的 kerberos principal)</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/10/26/kerberos-principal-name-parsing-in-hadoop/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/10/20/install-hadoop-with-kerberos-in-ubuntu/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Zheng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Extra Cookies">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2011/10/20/install-hadoop-with-kerberos-in-ubuntu/" class="post-title-link" itemprop="url">Ubuntu 安装 Hadoop 和 Kerberos</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2011-10-20 21:59:00" itemprop="dateCreated datePublished" datetime="2011-10-20T21:59:00+08:00">2011-10-20</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>花了两天多时间，终于让 Hadoop 可以安安稳稳的跑几个 MapReduce
-的程序了，安装的过程很折腾，但我觉得应该用不着花这么长时间的。</p>
-<p>很久以前就深知 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/RTFM">RTFM</a>
-的重要性，但很多时候第一反应仍然是去 Google，而不是去官网找
-Documentation，诚然，有些东西的文档的确很烂，但其实 Google 出来的 Blog
-转载来转载去也就那么几份，很多里面都存在问题，毕竟需求是不一样的，态度也是不一样的。</p>
-<p>这篇文章内容大部分参照自官方文档，并且包含若干我的配置错误，以及解决方法。</p>
-<p>这个安装过程适用于配置 <strong>Kerberos V5 1.8.4</strong> to
-<strong>Cloudera CDH3</strong> on <strong>Ubuntu 11.04</strong></p>
-<h2 id="安装-jdk-6">安装 JDK 6</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2011/10/20/install-hadoop-with-kerberos-in-ubuntu/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>

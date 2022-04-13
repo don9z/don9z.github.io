@@ -188,7 +188,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-count">86</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -235,6 +235,90 @@
       
 
       
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2010/10/25/emacs-lisp-basics/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2010/10/25/emacs-lisp-basics/" class="post-title-link" itemprop="url">Emacs lisp 基础</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2010-10-25 20:52:00" itemprop="dateCreated datePublished" datetime="2010-10-25T20:52:00+08:00">2010-10-25</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>使用 Emacs
+大概也有大半年了，越用越觉得它的强大，始终都有惊喜，每次看到一个功能，心中想：Emacs
+可以吗？答案真的往往会是 Yes!</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">defun</span> factorial (<span class="name">n</span>)</span><br><span class="line">   (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&lt;=</span></span> n <span class="number">1</span>)</span><br><span class="line">       <span class="number">1</span></span><br><span class="line">       (<span class="name"><span class="builtin-name">*</span></span> n (<span class="name">factorial</span> (<span class="name"><span class="builtin-name">-</span></span> n <span class="number">1</span>)))))</span><br></pre></td></tr></table></figure>
+<p>上面这种充满括号的奇怪的语言叫 Lisp，它是仅次于 Fortran
+的最老的高级程序设计语言，名称来源于 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Lisp_(programming_language)">LISt
+Processing</a>，它有两个方言，分别是 Common Lisp 和 Scheme。 Emacs lisp
+(elisp) 来源于 Common Lisp。使用
+Emacs，如果不能自己打造适合自己的功能，虽然仍然可以享受 Emacs
+带来的流畅和便利，但却会与另一种乐趣失之交臂，这篇文章简要叙述 elisp
+的基本概念和语法。</p>
+<h2 id="hello-world">Hello World</h2>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">message</span> <span class="string">&quot;Hello, World!&quot;</span>)</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2010/10/25/emacs-lisp-basics/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
     
 
 

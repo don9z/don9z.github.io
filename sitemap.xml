@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.zhengdong.me/2022/04/13/know-your-customer-build-sustainable-data-product/</loc>
+    
+    <lastmod>2022-04-13</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.zhengdong.me/2022/03/12/four-types-of-data-products/</loc>
     
     <lastmod>2022-03-12</lastmod>
@@ -599,7 +606,7 @@
 
   <url>
     <loc>http://blog.zhengdong.me/</loc>
-    <lastmod>2022-04-10</lastmod>
+    <lastmod>2022-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
