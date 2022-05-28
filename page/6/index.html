@@ -188,7 +188,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-count">88</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -235,6 +235,92 @@
       
 
       
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2012/05/10/hello-world-by-thrift-using-java/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/05/10/hello-world-by-thrift-using-java/" class="post-title-link" itemprop="url">Hello World by Thrift using Java</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2012-05-10 20:24:00" itemprop="dateCreated datePublished" datetime="2012-05-10T20:24:00+08:00">2012-05-10</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>I have an application runs perfectly on single machine, it was
+designed to be used this way, but things got changed, now, at least
+three copies have deployed, and is continue increasing.</p>
+<p>The main job of the application is to collect data, and then do
+analysis, being used by three products means deploy it to three
+machines.</p>
+<p>It always runs background with three processes, so I need to keep an
+eye on every processes, trace logs and set nearly the same
+configurations to each copy on every machine, as well as some product
+specific settings. It's chaos.</p>
+<p>I plan to make it distributed, with one server do the product
+specific analysis, and some clients collecting data. Server dispatches
+clients, gives clients job to do, sets configurations per client, and
+gets running status of all clients.</p>
+<p>Hope this can relieve me. :)</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2012/05/10/hello-world-by-thrift-using-java/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
     
 
 
@@ -943,86 +1029,6 @@ so, let’s look at <code>Writable</code> first.</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/12/27/hadoop-rpc-client-1/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/12/13/hadoop-rpc-dynami-proxy/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Zheng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Extra Cookies">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2011/12/13/hadoop-rpc-dynami-proxy/" class="post-title-link" itemprop="url">Hadoop RPC – Dynamic Proxy</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2011-12-13 01:18:00" itemprop="dateCreated datePublished" datetime="2011-12-13T01:18:00+08:00">2011-12-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>This will be the first article of a series of blogs I am about to
-post, which are all about what I learned from reading the <a target="_blank" rel="noopener" href="http://hadoop.apache.org/">Hadoop</a> source code (<a target="_blank" rel="noopener" href="http://archive.cloudera.com/cdh/3/hadoop-0.20.2-cdh3u2/">cdh3u2</a>).</p>
-<p>Code snippets will be full of those posts, to not confuse you, all
-comments added by me begin with <code>//**</code> instead of
-<code>//</code> or <code>/*</code>.</p>
-<h2 id="an-easy-example-of-java-dynamic-proxy">An Easy Example of Java
-Dynamic Proxy</h2>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyTester</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Hello</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RealHello</span> <span class="keyword">implements</span> <span class="title">Hello</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;Hello, World&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FakeHello</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> Object agent;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">FakeHello</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.agent = obj;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//** Hijacking real method invocation</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;Hello Hadoop first&quot;</span>);</span><br><span class="line">            <span class="comment">//** Real method invocation happens here</span></span><br><span class="line">            Object result = method.invoke(agent, args);</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        RealHello realHello = <span class="keyword">new</span> RealHello();</span><br><span class="line">        FakeHello fakeHello = <span class="keyword">new</span> FakeHello(realHello);</span><br><span class="line">        <span class="comment">//** &quot;hello&quot; will be a proxy,</span></span><br><span class="line">        <span class="comment">//** whose method invocation will be dispatched to &quot;fakeHello&quot;.</span></span><br><span class="line">        Hello hello = (Hello) Proxy.newProxyInstance(</span><br><span class="line">            Hello.class.getClassLoader(), <span class="keyword">new</span> Class[] &#123;Hello.class&#125;, fakeHello);</span><br><span class="line">        hello.sayHello();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ProxyTester proxyTester = <span class="keyword">new</span> ProxyTester();</span><br><span class="line">        proxyTester.test();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>The results:</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2011/12/13/hadoop-rpc-dynami-proxy/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/e-favicon-512x512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/e-favicon-512x512.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/e-favicon-32x32.png">
+  <link rel="mask-icon" href="/images/e-favicon.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Serif:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.zhengdong.me","root":"/","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":null}},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+
+  <meta name="description" content="书中内容分三大部分，第一部分从宏观上讲了供应链管理是什么，如何做；第二部分聚焦在供应商管理，如何选择合适的供应商，如何把它们管好；第三部分探讨采购管理，五个阶段，以及“小采购”和“大采购”的区别。 内容比较多，有比较明显的集合作者多篇独立文章而成的痕迹，偏重于实践和案例，对外行入门而言，理解门槛较低，但需要有自己的判断，尤其里面的案例。 供应链的全局观 什么是供应链管理？ 横向：供应链是从客户的客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="读「采购与供应链管理：一个实践者的角度」">
+<meta property="og:url" content="http://blog.zhengdong.me/2022/05/28/a-supply-chain-management-book-reading/index.html">
+<meta property="og:site_name" content="Extra Cookies">
+<meta property="og:description" content="书中内容分三大部分，第一部分从宏观上讲了供应链管理是什么，如何做；第二部分聚焦在供应商管理，如何选择合适的供应商，如何把它们管好；第三部分探讨采购管理，五个阶段，以及“小采购”和“大采购”的区别。 内容比较多，有比较明显的集合作者多篇独立文章而成的痕迹，偏重于实践和案例，对外行入门而言，理解门槛较低，但需要有自己的判断，尤其里面的案例。 供应链的全局观 什么是供应链管理？ 横向：供应链是从客户的客">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-05-28T11:57:48.000Z">
+<meta property="article:modified_time" content="2022-05-28T12:08:08.386Z">
+<meta property="article:author" content="Dong Zheng">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://blog.zhengdong.me/2022/05/28/a-supply-chain-management-book-reading/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>读「采购与供应链管理：一个实践者的角度」 | Extra Cookies</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-17531526-2"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-17531526-2');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Extra Cookies" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Extra Cookies</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">By Dong ZHENG</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%9B%E5%BA%94%E9%93%BE%E7%9A%84%E5%85%A8%E5%B1%80%E8%A7%82"><span class="nav-number">1.</span> <span class="nav-text">供应链的全局观</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%A1%E5%A5%BD%E4%BE%9B%E5%BA%94%E5%95%86%E6%89%8D%E8%83%BD%E7%AE%A1%E5%A5%BD%E4%BE%9B%E5%BA%94%E9%93%BE"><span class="nav-number">2.</span> <span class="nav-text">管好供应商，才能管好供应链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E5%B0%8F%E9%87%87%E8%B4%AD%E5%88%B0%E5%A4%A7%E9%87%87%E8%B4%AD%E5%BD%B1%E5%93%8D%E6%80%BB%E6%88%90%E6%9C%AC"><span class="nav-number">3.</span> <span class="nav-text">从“小采购”到“大采购”，影响总成本</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dong Zheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="http://zhengdong.me/" title="About → http:&#x2F;&#x2F;zhengdong.me" rel="noopener" target="_blank"><i class="fa fa-user fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:chrisdcheng+blog@gmail.com" title="E-Mail → mailto:chrisdcheng+blog@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2022/05/28/a-supply-chain-management-book-reading/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          读「采购与供应链管理：一个实践者的角度」
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-05-28 19:57:48" itemprop="dateCreated datePublished" datetime="2022-05-28T19:57:48+08:00">2022-05-28</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>书中内容分三大部分，第一部分从宏观上讲了供应链管理是什么，如何做；第二部分聚焦在供应商管理，如何选择合适的供应商，如何把它们管好；第三部分探讨采购管理，五个阶段，以及“小采购”和“大采购”的区别。</p>
+<p>内容比较多，有比较明显的集合作者多篇独立文章而成的痕迹，偏重于实践和案例，对外行入门而言，理解门槛较低，但需要有自己的判断，尤其里面的案例。</p>
+<h2 id="供应链的全局观">供应链的全局观</h2>
+<p><strong>什么是供应链管理？</strong></p>
+<p>横向：供应链是从客户的客户到供应商的供应商，供应链管理是对贯穿其中的产品流、信息流和资金流的集成管理，以最大化给客户的价值、最小化供应链的成本。它是一个综合管理、全局优化的思想，以摆脱单个公司、单个职能层面的局部优化，实现供应链条的全局优化为目标。</p>
+<blockquote>
+<p>产品流从供应商向客户流动，是供应链的实物流（如果是从客户向供应商方向的话，则称为逆向物流）；资金流是从客户流向供应商，是供应链的血液；而信息流则是双向流通，构成供应链的神经系统。</p>
+</blockquote>
+<blockquote>
+<p>产品流是产品的物理流动，涉及采购、生产、仓储、运输等。其管理重点是以最经济、有效的方式采购、制造、运输和销售产品。例如对零售业巨头沃尔玛而言，在哪里选择供应商，在哪里设置一级配送中心、二级配送中心，在哪里开门店，都得考虑生产、仓储、运输、销售的综合成本是否最低。</p>
+</blockquote>
+<blockquote>
+<p>信息流与产品流、资金流结伴而行，可以说是供应链的神经系统，支配着产品流和资金流。举个简单的例子：你要寄一个包裹，包裹的流动形成产品流，填写的表格则形成信息流。对一个多重的复杂供应链，信息的有效流动非常重要，也往往比产品流更难管理。例如你问有经验的进出口人员，他们八成会说，单据比产品更难对付（单据构成信息流）。如果出问题，八成是单据出了问题，要么是单据丢失，要么是与实际货量不符，要么是地址有问题，要么是格式不符合海关要求等。</p>
+</blockquote>
+<blockquote>
+<p>资金流看上去没有产品流、信息流重要，却是盘活供应链的关键。相信有些人对20世纪90年代的“三角债”还记忆犹新：公司甲欠乙的钱，乙欠丙的钱，丙欠甲的钱，形成一个死循环。这其实是供应链的资金流出现问题。资金流中断，导致很多行业整体陷入困境。</p>
+</blockquote>
+<p>纵向：在实践操作中，供应链管理由三大块构成：供应管理（寻源）、运营管理（加工）和物流管理（交付），跨越企业管理中的供、产、销三大块。</p>
+<blockquote>
+<p>简单地说，就是采购把东西买进来，生产来加工增值，物流来配送给客户。这三大块是执行职能，由计划驱动——也可以说计划是供应链的第四大领域。计划是供应链的引擎。</p>
+</blockquote>
+<p>广义上，供应链集成的目标有三个：开发一个好产品，制定同一套需求预测，围绕订单给客户更快、更可靠的交付。</p>
+<blockquote>
+<p>这是三个不同层面的集成，难度不同，在业界的实施水平也是各不相同。由同一个预测来驱动不同职能，是企业供应链管理能力的一大标志；在企业主干流程上，这就是销售与运营协调流程（S&amp;OP）。</p>
+</blockquote>
+<p><strong>什么是牛鞭效应？</strong></p>
+<p>在供应链上，需求的微小变化，会从零售商到制造商、供应商逐级放大，这种现象就叫牛鞭效应。</p>
+<blockquote>
+<p>牛鞭效应根深蒂固，是影响供应链的一个根本性问题，在供应链设计和管理上要特别关注。举个例子。假定全球消费者对计算机的需求预测轻微增长2%，传递到联想（制造商）时就可能成了5%，传递到英特尔（一级供应商）时则可能是10%，而到了英特尔的设备商（次级供应商）时则可能变为20%。简言之，越是处于供应链的后端，需求变化幅度越大。这像西部牛仔挥舞的牛鞭，手腕轻轻一抖，鞭梢便会大幅度抖动，划出一道美丽的圆弧，这也是“牛鞭效应”名称的来历。</p>
+</blockquote>
+<p>牛鞭效应成因</p>
+<ol type="1">
+<li>多重需求预测</li>
+<li>批量生产、采购</li>
+<li>价格浮动和促销</li>
+<li>理性预期</li>
+</ol>
+<p>对付牛鞭效的三种措施</p>
+<ul>
+<li>跨入多个行业，期待不同行业的周期相互抵消；</li>
+<li>推行外包，把随业务变化剧烈的职能外包给供应商；</li>
+<li>信息共享，消除信息不对称，以及不对称带来的不确定性，拿信息换库存。如协同计划、预测和补货（CPFR）。</li>
+</ul>
+<p><strong>如何降低库存？</strong></p>
+<p>库存跟成本、交付问题如影随形，是供应链管理没法回避的话题。造成库存的原因，也造成成本上升、交付下降；如果能系统降低库存，成本也可随之降低，交付也往往会改善。</p>
+<p>库存的总类和根源</p>
+<ol type="1">
+<li><p>周转库存，即维持正常运转的库存，比如从供应商到公司的生产线到销售渠道，总得维持一定的库存量，以维持正常运营。这类库存的根源是周转周期。比如生产周期是4个星期，那就意味着有4个星期的在制库存；运输过程是2个星期，那注定就有2个星期的在途库存。</p>
+<blockquote>
+<p>措施：通过缩短周转周期来降低。</p>
+</blockquote></li>
+<li><p>安全库存，为应对不确定因素而存在，比如需求波动、补货延误、质量问题等。这类库存的根源是不确定性，以及对有货率（库存达成率）的要求。安全库存是供应链对不确定性的自然应对，在ERP系统里是没有需求的，由安全库存计划水位来驱动供应。</p>
+<blockquote>
+<p>措施：通过商务手段，比如合约，绩效指标等，解决供应链伙伴之间不愿共享信息的问题；通过技术手段，如IT信息系统，更容易、更有效地共享问题；</p>
+</blockquote></li>
+<li><p>多余库存，既不是支持正常运转，也不是用来应对不确定性。多余库存源自组织行为，比如订单取消、设计变更、预测失败等造成的呆滞库存，批量采购、批量生产、策略采购等造成的额外库存。在ERP系统里，这些库存既没有需求（如订单、预测），也没有库存计划水位，是多余的。</p>
+<blockquote>
+<p>措施：改善需求管理，提高预测准确度。</p>
+</blockquote></li>
+</ol>
+<p><strong>如何降低成本？</strong></p>
+<p>供应链管理的一个核心目标是降低成本。供应链降本的三个台阶：谈判降价、流程优化、设计优化。</p>
+<ol type="1">
+<li>第一个台阶：通过谈判来降低价格。相对而言，这是我们最为熟悉的、最拿手的，也是最被过度使用的。价格谈判真正能影响的产品成本有限，大概影响产品成本的10%。</li>
+<li>第二个台阶：流程改进，即通过精益生产来改善生产流程，降低生产成本；通过电子商务来改善交易流程，降低交易成本。就降本潜力而言，该阶段大致影响产品成本的20%。</li>
+<li>第三个台阶：设计优化（价值工程/价值分析），也是降本的最大潜力所在，因为产品成本的百分之七八十取决于设计，比如材料选型、技术规范、公差等级等决定了产品的成本。</li>
+</ol>
+<h2 id="管好供应商才能管好供应链">管好供应商，才能管好供应链</h2>
+<p>对供应商要有选择、有管理：选择到合适的供应商，把它管好，并让它变得更好。</p>
+<p><strong>三大误区</strong></p>
+<ol type="1">
+<li>多权分立，供应商成了“公共草地”，对供应商作为一个整体，反倒没人从组织上负责。公司大了，没人负责的事情是注定做不好的。</li>
+<li>有订单管理流程，没有供应商的选择和管理流程，导致供应商要么选不好，要么管不好，“有教训，没经验”，供应商绩效不保。</li>
+<li>有料号、项目层面的小优化，没有供应商层面的大优化，一直在找新供应商，供应商越来越多，规模效益不断丧失。</li>
+</ol>
+<p><strong>三件事</strong></p>
+<ol type="1">
+<li>选择合适的供应商，也叫战略寻源，相当于生下一个健康的宝宝。</li>
+<li>管好供应商绩效，也叫供应商的后评估，相当于对孩子的后天教育。</li>
+<li>督促、帮助供应商，让供应商绩效更上一层楼，这是让孩子真正成才。</li>
+</ol>
+<p><strong>五步流程</strong></p>
+<blockquote>
+<p>选择合适的供应商 - 寻源</p>
+</blockquote>
+<ol type="1">
+<li>供应商分类：对供应商分类分级、区别对待。</li>
+<li>供应商评估：供应商评估就是通过分析供应商的历史绩效（如果已经在跟公司做生意）、财务状况，以及质量、生产和物料管理体系，判断其好坏，为下一步的供应商选择做准备，也作为后续改进的基础，制定进一步的供应商改进方案，以成为我们的合格供应商。</li>
+<li>供应商选择：在供应商评估的基础上，选择合适的供应商，作为未来的合作伙伴。选择的标准是既能满足今天的需求，也能满足明天的需求。</li>
+</ol>
+<blockquote>
+<p>把它们管好、管的更好</p>
+</blockquote>
+<ol start="4" type="1">
+<li><p>供应商绩效管理：供应商绩效管理，统计、管理并改善供应商的绩效，确保供应商能够满足公司的需要。</p>
+<blockquote>
+<p>供应商绩效可以概括为七个方面：成本 (Cost)、质量 (Quality)、交货/交付
+(Delivery)、服务 (Service)、技术 (Techonology)、资产管理
+(Assets)、员工/流程 (Process)。</p>
+</blockquote></li>
+<li><p>供应商集成：对于关键的供应商，让它们早期介入设计，把它们与公司的系统、流程对接，以便进一步降低成本、提高速度，改善供应链的绩效。</p>
+<blockquote>
+<p>设计阶段，这意味着让关键供应商早期介入产品开发；在量产阶段，就是通过JIT、VMI等简化与供应商的产品流、信息流和资金流；在交易过程中，就是通过电子商务等信息化手段，更加有效地传递信息，促进协作。</p>
+</blockquote></li>
+</ol>
+<h2
+id="从小采购到大采购影响总成本">从“小采购”到“大采购”，影响总成本</h2>
+<p>哈克特集团（The Hackett
+Group）有一个采购管理的发展模型，把采购分为五个发展阶段，也代表了从“小采购”到“大采购”的发展路径。</p>
+<ul>
+<li>确保供料、最低价、总成本、需求管理、全面增值。</li>
+</ul>
+<p>“大采购”与“小采购”的区别：</p>
+<ul>
+<li>“小采购”围绕订单转，“大采购”聚焦供应商；</li>
+<li>“小采购”是供应导向，“大采购”是需求导向；</li>
+<li>“小采购”是行政文秘，“大采购”是战略职能。</li>
+</ul>
+<p>在从“小采购”转变为“大采购”的过程中，我们要解决总部与分部、职能与职能之间的职责划分，形成合力，选好和管好供应商。同时，要人才先行，提高采购管理能力。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
+<hr style="border:1px solid #a9a9a9;">
+<p>📣 你可以通过邮件地址联系到我 | You can contact me by e-mail: chrisdcheng<b>[at]</b>gmail.com</p>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Dong Zheng
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="http://blog.zhengdong.me/2022/05/28/a-supply-chain-management-book-reading/" title="读「采购与供应链管理：一个实践者的角度」">http://blog.zhengdong.me/2022/05/28/a-supply-chain-management-book-reading/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/05/21/thoughts-on-bigdata-tob-product-and-org/" rel="prev" title="对大数据 To B 产品和组织的思考">
+                  <i class="fa fa-chevron-left"></i> 对大数据 To B 产品和组织的思考
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2010 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a target="_blank" rel="noopener" href="http://zhengdong.me">Dong Zheng</a></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

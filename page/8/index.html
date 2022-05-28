@@ -188,7 +188,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-count">88</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -235,6 +235,83 @@
       
 
       
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/04/21/legacy-code-and-domain-model/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/04/21/legacy-code-and-domain-model/" class="post-title-link" itemprop="url">QCon 北京 - 遗留系统 & 领域模型</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-04-21 23:57:00" itemprop="dateCreated datePublished" datetime="2011-04-21T23:57:00+08:00">2011-04-21</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="eric-evans---domain-driven-design-strategies-dealing-with-legacy-system">Eric
+Evans - Domain-Driven Design Strategies Dealing with Legacy System</h2>
+<p>首先从两个耦合关系很大的遗留系统开始，当我们需要增加新功能时，往往涉及到两个遗留系统的更改，那势必会又增加这两个系统之间的耦合关系。</p>
+<p>当问题多到一定程度，遗留系统之间藕断丝连的关系层出不穷，每一个新功能的添加都变得像噩梦，便有念头说要不干脆重写整个系统。</p>
+<p>假设整个新系统是一个金字塔结构，新功能的添加相当于塔顶部分，跟业务功能关系不大的基础设施则相当于塔底部分，然后中间层是业务逻辑。</p>
+<p>我们计划第一年，先完成基础设施功能的实现，因为它跟业务无关，所以遗留系统仍然继续维护；第二年，完成业务逻辑层的实现，这一层，将会慢慢的将旧的遗留系统中的功能模块迁移到新系统中；第三年，添加新功能到塔顶。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2011/04/21/legacy-code-and-domain-model/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
     
 
 
@@ -953,87 +1030,6 @@ lists，分别为 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112,
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2010/11/28/stl-code-digest-creation-3/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2010/11/24/stl-code-digest-creation-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Zheng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Extra Cookies">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2010/11/24/stl-code-digest-creation-2/" class="post-title-link" itemprop="url">STL 源码分析-A.万物起源-2</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2010-11-24 00:59:00" itemprop="dateCreated datePublished" datetime="2010-11-24T00:59:00+08:00">2010-11-24</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>在分析了对象的构建和析构之后，我们接着看对象构建所基于的内存空间是如何分配和释放的。这一功能是由
-<code>stl_alloc</code> 提供的。<a href="/2010/10/20/stl-code-digest-creation-1/">之前</a>提到过
-allocate，在 SGI STL 中是不使用的，因为其只是对 new 和 delete
-进行了简单的封装，并且加上了这段代码</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set_new_handler(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
-<p>这个函数用来指定如果内存分配失败时的 callback 函数，定义如下</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(*new_handler)</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function">new_handler <span class="title">set_new_handler</span><span class="params">(new_handler p)</span> <span class="title">throw</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
-<p>使用时参数传入 NULL(0) 则表示卸除
-<code>new_handler</code>，也就意味着如果 <code>::operator new</code>
-分配内存失败，则会抛出 <code>std::bad_alloc</code> 类型的异常。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2010/11/24/stl-code-digest-creation-2/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
