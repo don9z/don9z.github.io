@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/e-favicon-512x512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/e-favicon-512x512.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/e-favicon-32x32.png">
+  <link rel="mask-icon" href="/images/e-favicon.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Serif:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.zhengdong.me","root":"/","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":null}},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+
+  <meta name="description" content="「事实」这本书，讲述了人的十种情绪化本能，以及每种本能该如何有效控制。很适合现如今的信息环境，越来越极端化，热门推荐充斥着让人不由产生愤怒、悲观、焦虑或恐惧情绪的信息。 书中内容可以帮助我们用「事实」思考，建立实事求是世界观，让乐观，希望，理性的情绪回来。当然，反向操作，也可以成为打造10万+热门文章的流量密码。 十种情绪化本能分别是：一分为二、负面思维、直线思维、恐惧本能、规模错觉、以偏概全、命">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用「事实」思考">
+<meta property="og:url" content="http://blog.zhengdong.me/2022/06/28/the-book-factfulness/index.html">
+<meta property="og:site_name" content="Extra Cookies">
+<meta property="og:description" content="「事实」这本书，讲述了人的十种情绪化本能，以及每种本能该如何有效控制。很适合现如今的信息环境，越来越极端化，热门推荐充斥着让人不由产生愤怒、悲观、焦虑或恐惧情绪的信息。 书中内容可以帮助我们用「事实」思考，建立实事求是世界观，让乐观，希望，理性的情绪回来。当然，反向操作，也可以成为打造10万+热门文章的流量密码。 十种情绪化本能分别是：一分为二、负面思维、直线思维、恐惧本能、规模错觉、以偏概全、命">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-06-28T14:45:30.000Z">
+<meta property="article:modified_time" content="2022-06-28T14:57:16.264Z">
+<meta property="article:author" content="Dong Zheng">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://blog.zhengdong.me/2022/06/28/the-book-factfulness/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>用「事实」思考 | Extra Cookies</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-17531526-2"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-17531526-2');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Extra Cookies" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Extra Cookies</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">By Dong ZHENG</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E5%88%86%E4%B8%BA%E4%BA%8C---the-gap-instinct"><span class="nav-number">1.</span> <span class="nav-text">一分为二 - The Gap Instinct</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B4%9F%E9%9D%A2%E6%83%85%E7%BB%AA---the-negativity-instinct"><span class="nav-number">2.</span> <span class="nav-text">负面情绪 - The Negativity
+Instinct</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B4%E7%BA%BF%E6%80%9D%E7%BB%B4---the-straight-line-instinct"><span class="nav-number">3.</span> <span class="nav-text">直线思维 - The Straight
+Line Instinct</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%81%90%E6%83%A7%E6%9C%AC%E8%83%BD---the-fear-instinct"><span class="nav-number">4.</span> <span class="nav-text">恐惧本能 - The Fear Instinct</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%84%E6%A8%A1%E9%94%99%E8%A7%89---the-size-instinct"><span class="nav-number">5.</span> <span class="nav-text">规模错觉 - The Size Instinct</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A5%E5%81%8F%E6%A6%82%E5%85%A8---the-generalization-instinct"><span class="nav-number">6.</span> <span class="nav-text">以偏概全 - The
+Generalization Instinct</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E4%B8%AD%E6%B3%A8%E5%AE%9A---the-destiny-instinct"><span class="nav-number">7.</span> <span class="nav-text">命中注定 - The Destiny
+Instinct</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E4%B8%80%E8%A7%86%E8%A7%92---the-single-perspective-instinct"><span class="nav-number">8.</span> <span class="nav-text">单一视角 - The
+Single Perspective Instinct</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%92%E5%92%8E%E4%BB%96%E4%BA%BA---the-blame-instinct"><span class="nav-number">9.</span> <span class="nav-text">归咎他人 - The Blame
+Instinct</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%83%85%E6%80%A5%E7%94%9F%E4%B9%B1---the-urgency-instinct"><span class="nav-number">10.</span> <span class="nav-text">情急生乱 - The Urgency
+Instinct</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dong Zheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">89</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="http://zhengdong.me/" title="About → http:&#x2F;&#x2F;zhengdong.me" rel="noopener" target="_blank"><i class="fa fa-user fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:chrisdcheng+blog@gmail.com" title="E-Mail → mailto:chrisdcheng+blog@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2022/06/28/the-book-factfulness/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          用「事实」思考
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-06-28 22:45:30" itemprop="dateCreated datePublished" datetime="2022-06-28T22:45:30+08:00">2022-06-28</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>「事实」这本书，讲述了人的十种情绪化本能，以及每种本能该如何有效控制。很适合现如今的信息环境，越来越极端化，热门推荐充斥着让人不由产生愤怒、悲观、焦虑或恐惧情绪的信息。</p>
+<p>书中内容可以帮助我们用「事实」思考，建立实事求是世界观，让乐观，希望，理性的情绪回来。当然，反向操作，也可以成为打造10万+热门文章的流量密码。</p>
+<p>十种情绪化本能分别是：一分为二、负面思维、直线思维、恐惧本能、规模错觉、以偏概全、命中注定、单一视角、归咎他人、情急生乱。</p>
+<h2 id="一分为二---the-gap-instinct">一分为二 - The Gap Instinct</h2>
+<p>第一个情绪化本能是人们习惯把事情一分为二，比如好的和坏的，英雄和恶棍。</p>
+<p>作者举了对世界所有国家二分分类的例子，“发展中国家”和“发达国家”，通常我们会理解为“贫穷的国家”和“富裕的国家”。</p>
+<p>为了展现两种分类之间的鸿沟，作者做了张气泡图，用妇女的生育次数和儿童存活率作为X、Y轴，每个国际的人口数量作为气泡大小。</p>
+<p>从气泡图里，能看到两类国家间有明显的鸿沟存在，印证了这个二分分类的合理性，然后作者说这是1965年的数据。</p>
+<p>在用2017年的数据展现的气泡图里已经看不到鸿沟存在，现如今这样一分为二的分类方式已经不适用了。社会在发展，今天世界上绝大多数人（75%的人口）生活在中等收入国家中，不是穷国，也不是富国，而是介于两者之间。</p>
+<p><strong>一分为二的本能会误导我们，把平滑过渡当作两极分化，把求同存异当作矛盾对立。</strong></p>
+<p><strong>如何有效控制我们一分为二的错误本能？</strong></p>
+<ol type="1">
+<li>警惕只比较平均数的做法，平均数之外，我们还要注意数据的实际分布。</li>
+<li>警惕只比较极端情况的做法，也许大多数仍然分布在中间状态，不存在鸿沟。</li>
+<li>警惕高高在上俯视的做法，会带来错觉，比如你是一个很富有的人，那么其他不那么富有的群体对你来说，收入水平差不多。</li>
+</ol>
+<h2 id="负面情绪---the-negativity-instinct">负面情绪 - The Negativity
+Instinct</h2>
+<p>我们总是更容易注意到坏的事情，而不是好的事情。这种本能体现在下面三个方面。</p>
+<ol type="1">
+<li>很多上年纪的人会说现在很多事情已经没有当年那么美好了（但事实上，很多被认为现在不好的事情，以前更差）。</li>
+<li>现在新闻在持续告诉我们世界各地发生的坏的事情，让我们产生世界越来越坏的错觉。</li>
+<li>感性的认为只要有坏的事情发生，就不应该认为世界在变好。</li>
+</ol>
+<p><strong>如何控制负面情绪的本能？</strong></p>
+<ol type="1">
+<li>学会区分状态和趋势，事情可以是不好的，但也是在变得更好的。</li>
+<li>好消息不是新闻，所以我总是听到坏消息。更多的坏消息并不意味着这个世界在变的更坏，有时仅仅是因为我们的信息获取变得更容易，对坏事情的关注度和监控能力提高了。</li>
+<li>循序渐进的进步不是新闻，比如一件在持续变好的事情，我们会更容易注意到当中产生的小的低谷，而不是整体变好的趋势。</li>
+<li>要知道人们经常会刻意的美化自己的历史，国家也会刻意美化自己的历史。</li>
+</ol>
+<h2 id="直线思维---the-straight-line-instinct">直线思维 - The Straight
+Line Instinct</h2>
+<p>当我们观察一副曲线图的时候，会很自然地想象出曲线的末端按照一条直线自然延长。比如看到人口增长曲线图，会用曲线末端延伸的一条直线来假设未来的人口增长，然后就会感到很焦虑。</p>
+<p><strong>如何控制直线思维的本能？</strong></p>
+<p>要认识到不是所有的事物都是遵循直线规律发展的，还有很多其他规律，比如
+S
+形曲线、滑梯曲线、驼峰曲线或者倍增曲线，反而直线发展的事物在现实中是很少见的。</p>
+<h2 id="恐惧本能---the-fear-instinct">恐惧本能 - The Fear Instinct</h2>
+<p>当我们恐惧的时候，我们的大脑就没有空间来思索事实了。</p>
+<p>作者举了他在瑞典医院急诊室做助理医师时的例子。一天医院接收了个因飞机坠毁受伤的飞行员，当时所有资深医师都去吃饭了，他手忙脚乱想方设法给担架上的飞行员脱外衣，突然看到地板上流了很多血，一下子很紧张，大喊，问飞行员你哪里受伤了，对方回答模糊不清，听起来像是俄语，他用俄语和飞行员说，“冷静，同志，这里是瑞典的医院”。看到飞行员眼中充满了恐惧，他突然被无边的恐惧吞没了，这一定是苏联的空军飞行员，在瑞典领空被击落，这意味着苏联在进攻我们，第三次世界大战爆发了！</p>
+<p>突然，护士长回来了，冲他说，不要把连体服弄坏了，这可是瑞典空军的专业制服，另外，你踩到了救生颜料，所以把红色的颜料洒满了地板。</p>
+<p><strong>如何控制我们的恐惧本能？</strong></p>
+<ol type="1">
+<li>要知道我们感受到的世界比真实的世界更可怕，因为我们注意到的信息是媒体刻意选择的，目标是尽可能吸引我们的注意力。</li>
+<li>恐惧和危险是两个不同的概念，可怕的事情仅仅给了我们一种更危险的感觉，比如自然灾害、飞机坠毁、恐怖主义等，但我们面临的真实风险只取决于危险的程度和发生的概率。只关注可怕而不是真实风险，我们就是把自己宝贵的注意力放在了错误的方向。</li>
+<li>不要在恐惧中做决定，先让自己冷静下来，因为在恐惧中的你会看到一个完全不同的世界。</li>
+</ol>
+<h2 id="规模错觉---the-size-instinct">规模错觉 - The Size Instinct</h2>
+<p>人们总是容易注意局部而忽略整体。这是我们的本能之一。</p>
+<p>世界上有多少人口基本生活需要得到了满足？人们普遍会回答，只有20%，而事实上，这个数字接近80%。有多少儿童得到了疫苗注射呢？88%，多少适龄女孩能够上小学呢？答案是90%。</p>
+<p>媒体和慈善组织总是习惯于宣传一些看起来很大的数字，并且给我们看一些受苦难的人的照片，使得我们在印象中系统性地低估了真正的比例和世界上发生的进步。</p>
+<p><strong>如何控制规模错觉？</strong></p>
+<ol type="1">
+<li>记得做对比。大的数字看起来很大，容易误导我们，所以看到单一数字的时候，一定记得做对比，比如对比去年如何。</li>
+<li>要关注比例。理解一个很大的数字的真实含义，最好把它除以一个总数，比如人均xxx。当我们在不同大小组别之间做对比的时候，比例和数字可能代表着完全不同的含义。</li>
+<li>使用二八原则。当面临很长的清单，先排序，找到最大的几项并且做深入分析，然后聚焦在这些事情上，通常这几件事的重要性远远超过了其他所有事情的总和。</li>
+</ol>
+<h2 id="以偏概全---the-generalization-instinct">以偏概全 - The
+Generalization Instinct</h2>
+<p>每个人都会在头脑中自动地进行演绎和归纳，这是下意识的行为。</p>
+<p>如果我们将看到的所有事物都认为是单独一类的话，我们将无法有效地用语言来描述整个世界，所以归纳法对我们来说绝对是必要的。</p>
+<p>但同时，归纳法有时候会使我们错误地把非常不同的人、事物或者国家划分到同一个组，忽视它们的不同，以我们看到的很少数的非正常案例来给整个群体下结论，这就是以偏概全的错误。</p>
+<p><strong>如何控制住以偏概全的本能？</strong></p>
+<ol type="1">
+<li>我们要经常质疑自己的分类方法。
+<ul>
+<li>在同一类别中寻找不同：特别是当一个类别非常巨大时，要找到方法来将其分的更小、更准确。</li>
+<li>在不同类别中寻找相同：如果不同类别之间存在巨大的相似性，那么要考虑分类方法可能是不正确的。</li>
+<li>在不同类别中寻找不同：不要假定在一个类别中使用的规则可以在其他类别中同样适用，比如收入水平第四级的人不要假定其他级别的人也适用同样的生活规则。</li>
+</ul></li>
+<li>注意“大多数”。大多数仅仅意味着超过一半，可到底是51%还是99%呢？我们应当具体区分。</li>
+<li>注意极端案例，它们往往给我们留下深刻印象，但可能仅仅只代表极端情况，而不是普通现象。</li>
+<li>当发现一些奇怪现象的时候，要保持好奇心和谦卑之心，不要首先就假设别人是傻瓜，要去探究背后的道理。</li>
+</ol>
+<h2 id="命中注定---the-destiny-instinct">命中注定 - The Destiny
+Instinct</h2>
+<p>我们认为一些事情内在的属性将决定其命运，无论是人民、国家、宗教还是文化的决定论，这就是命中注定本能。</p>
+<p>比如，非洲只是个破箩筐，永远不可能追上欧洲。比如，信仰伊斯兰教的妇女将会生育更多的孩子。</p>
+<p><strong>如何控制命中注定的本能？</strong></p>
+<ol type="1">
+<li>要记住缓慢的改变也是改变。很多事情如人民、国际、宗教和文化，看起来似乎保持不变，仅仅是因为改变发生的很缓慢。每年小的改变可以在几十年后积累巨大的改变。</li>
+<li>要持续关注新的数据，并且随时更新我们的知识，避免过时知识和观点带来的认知固化。</li>
+<li>比较自己的价值观和父母、祖父母的价值观，或是子女、孙辈的价值观，将帮助我们理解价值观不是一成不变的。关注和收集文化改变的案例，我们也将发现文化不是不可改变的。</li>
+</ol>
+<h2 id="单一视角---the-single-perspective-instinct">单一视角 - The
+Single Perspective Instinct</h2>
+<p>人们总是倾向于认为所有的问题都有单一的原因和单一的解决方案，这样的话，所有的事情都变得简单了，我们会非常开心。这就是单一视角本能。</p>
+<p>“你给你的孩子一把锤子，他就会把所有的东西都看作钉子”。当你拥有某种专长，你总是希望能够有机会使用它，比如气候变化者到处宣扬太阳能的重要性，医生则总会宣扬医药治疗的重要性等等。</p>
+<p><strong>如何控制单一视角的本能？</strong></p>
+<ol type="1">
+<li>要更多与那些持有不同意见的人讨论，发现自己想法的不足之处，不要仅仅专注于那些能够证明自己想法的正确案例。</li>
+<li>对自己未知的领域要保持谦逊，不要认为我们在自己的专业之外有什么真知灼见，即使专家也有他们的局限性。</li>
+<li>如果我们总是习惯于使用“锤子”的话，那要多和习惯使用“改锥”、“扳手”和“卷尺”的人打交道。如果我们花了太多时间专注于某一个问题的时候，很可能会夸大这个问题以及解决方案的重要性。</li>
+<li>关注数字，但更要专注于发现数字背后的真实世界。</li>
+<li>当心简单的想法和简单的解决方案，我们要认识到事物的复杂性，在具体情况具体分析的基础上来解决问题。</li>
+</ol>
+<h2 id="归咎他人---the-blame-instinct">归咎他人 - The Blame
+Instinct</h2>
+<p>当坏事情发生的时候，我们总是试图找到一个清晰而简单的理由去责怪其他人，这就是归咎于人的本能。</p>
+<p>归咎于人的本能驱使我们去找寻被责怪对象，当我们找到了替罪羊的时候，就停止思考了。也许本身事实很复杂，存在系统性的原因，于是我们忽略了对这个世界真相的理解。</p>
+<p><strong>如何控制归咎他人的本能？</strong></p>
+<ol type="1">
+<li>停止寻找坏人，努力去寻找并理解这一事情发生背后的系统性原因。</li>
+<li>停止寻找英雄，如果有人号称自己做了什么伟大业绩的时候，问问自己，如果没有他，这件事情是否仍然会发生。通常是整个系统的有效运行使得好的事情发生，去找寻它。</li>
+</ol>
+<h2 id="情急生乱---the-urgency-instinct">情急生乱 - The Urgency
+Instinct</h2>
+<p>情急生乱的本能让我们在感知到危险的时候，立即采取行动。</p>
+<p>如果人们看到一头狮子在远处的草丛中，他们应当立即逃跑，而不是做很多分析工作，这是人类的祖先必须具备的本能。</p>
+<p>但在现代社会，我们所面临的真正紧急的危险已经不多了，我们要面对更多复杂和抽象的问题，情急生乱的本能会驱使我们做出错误的决定。</p>
+<p><strong>如何控制情急生乱的本能？</strong></p>
+<ol type="1">
+<li>当情急生乱的本能被唤醒的时候，深呼吸，给自己一点时间和更多信息，绝大多数情况下，不需要我们立刻采取行动，以后仍然有机会。</li>
+<li>如果一件事是紧急且很重要的，我们必须对它进行持续观测，过程中要筛除那些虽然相关但不准确的数据，或者那些虽然准确但并不相关的数据。</li>
+<li>警惕带有偏见的预言家。任何对未来的预测都是具有不确定性的，不要只看最佳或最差情形。</li>
+<li>小心过激的行动，要尽可能了解激烈行动的后果和副作用。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
+<hr style="border:1px solid #a9a9a9;">
+<p>📣 你可以通过邮件地址联系到我 | You can contact me by e-mail: chrisdcheng<b>[at]</b>gmail.com</p>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Dong Zheng
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="http://blog.zhengdong.me/2022/06/28/the-book-factfulness/" title="用「事实」思考">http://blog.zhengdong.me/2022/06/28/the-book-factfulness/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/05/28/a-supply-chain-management-book-reading/" rel="prev" title="读「采购与供应链管理：一个实践者的角度」">
+                  <i class="fa fa-chevron-left"></i> 读「采购与供应链管理：一个实践者的角度」
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2010 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a target="_blank" rel="noopener" href="http://zhengdong.me">Dong Zheng</a></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

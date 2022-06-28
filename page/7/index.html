@@ -188,7 +188,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-count">89</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -235,6 +235,90 @@
       
 
       
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/12/27/hadoop-rpc-client-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/12/27/hadoop-rpc-client-1/" class="post-title-link" itemprop="url">Hadoop RPC – Client (1)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2011-12-27 22:27:00" itemprop="dateCreated datePublished" datetime="2011-12-27T22:27:00+08:00">2011-12-27</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>In last post, I metioned that all RPC client calls will be dispatched
+to <code>Invoker.invoke()</code> method by the dynamic proxy, mainly
+work of method <code>invoke</code> are done by
+<code>client.call</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//** org.apache.hadoop.ipc.RPC.java L218</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span></span></span><br><span class="line"><span class="function">  <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="keyword">boolean</span> logDebug = LOG.isDebugEnabled();</span><br><span class="line">  <span class="keyword">long</span> startTime = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (logDebug) &#123;</span><br><span class="line">    startTime = System.currentTimeMillis();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//** Request comes to &quot;invoke&quot;,</span></span><br><span class="line">  <span class="comment">//** then it calls &quot;client.call&quot;,</span></span><br><span class="line">  <span class="comment">//** and get the result &quot;value&quot;,</span></span><br><span class="line">  <span class="comment">//** then return it back by &quot;value.get&quot;.</span></span><br><span class="line">  <span class="comment">//** The first parameter is an instance of &quot;Invocation&quot;</span></span><br><span class="line">  ObjectWritable value = (ObjectWritable)</span><br><span class="line">    client.call(<span class="keyword">new</span> Invocation(method, args), remoteId);</span><br><span class="line">  <span class="keyword">if</span> (logDebug) &#123;</span><br><span class="line">    <span class="keyword">long</span> callTime = System.currentTimeMillis() - startTime;</span><br><span class="line">    LOG.debug(<span class="string">&quot;Call: &quot;</span> + method.getName() + <span class="string">&quot; &quot;</span> + callTime);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> value.get();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>There are two parameters in method <code>client.call</code>, the
+first one is an instance of <code>Invocation</code>, the second one is
+remoteId, which is easy to guess that it might be used to represent the
+connection between client and server.</p>
+<p>Before step into <code>client.call</code> to see what are done there,
+it’s better to know what the <code>Invocation</code> is.</p>
+<p><code>Invocation</code> implements <code>Writable</code> interface,
+so, let’s look at <code>Writable</code> first.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2011/12/27/hadoop-rpc-client-1/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
     
 
 
@@ -944,89 +1028,6 @@ Leopard，那么第二个方法是正确的。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2011/04/29/autumn-and-sprint-of-westlake/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2011/04/26/ceylon-next-generation-java/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Zheng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Extra Cookies">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2011/04/26/ceylon-next-generation-java/" class="post-title-link" itemprop="url">QCon 北京 - Ceylon, 下一代 Java ?</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2011-04-26 21:42:00" itemprop="dateCreated datePublished" datetime="2011-04-26T21:42:00+08:00">2011-04-26</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Hibernate 的创建者 Gavin King 发明的新语言，Ceylon，基于 Java
-虚拟机，并且认为这个语言是 Java Killer，完全针对他对 Java
-不爽的地方改进的。</p>
-<p>下面是当时的 slides，第一个是初衷和新语言设计，第二个是 Ceylon
-的类型系统，包括闭包，泛型等。</p>
-<p>因为 QCon 是 Oracle 等公司赞助的，一身型男打扮的 Gavin
-King，身后是大大的 Oracle Logo，然后型男不停吐槽
-Java，真是别有一番滋味。</p>
-<p>Gavin King 觉得用动作语言实现 DSL (Domain Specific Language)
-很危险，会不知道什么该做，什么不该做，因为没有限制，比如类型等。</p>
-<p>被问道和 Scala 的对比时，他说他不怎么了解，但认为 Scala
-可读性很差，另外他觉得没有 IDE 来做 refactoring 是不可接受的。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2011/04/26/ceylon-next-generation-java/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
