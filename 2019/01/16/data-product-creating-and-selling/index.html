@@ -385,6 +385,13 @@ SaaS 服务的数据，会是不可或缺的能力。</p>
 
 
       
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -469,6 +476,27 @@ SaaS 服务的数据，会是不可或缺的能力。</p>
   
 
   
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.zhengdong.me/2019/01/16/data-product-creating-and-selling/";
+    this.page.identifier = "2019/01/16/data-product-creating-and-selling/";
+    this.page.title = "谈谈数据产品的商业化";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://extracookies.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
 
 </body>
 </html>

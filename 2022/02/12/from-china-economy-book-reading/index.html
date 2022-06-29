@@ -515,6 +515,13 @@ id="中国经济进入全面调整期要做的三件事">中国经济进入全�
 
 
       
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -599,6 +606,27 @@ id="中国经济进入全面调整期要做的三件事">中国经济进入全�
   
 
   
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.zhengdong.me/2022/02/12/from-china-economy-book-reading/";
+    this.page.identifier = "2022/02/12/from-china-economy-book-reading/";
+    this.page.title = "读「中国经济的未来：热点、难点和增长点」";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://extracookies.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
 
 </body>
 </html>

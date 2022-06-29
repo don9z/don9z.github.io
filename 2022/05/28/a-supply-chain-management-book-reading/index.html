@@ -459,6 +459,13 @@ Group）有一个采购管理的发展模型，把采购分为五个发展阶段
 
 
       
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -543,6 +550,27 @@ Group）有一个采购管理的发展模型，把采购分为五个发展阶段
   
 
   
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.zhengdong.me/2022/05/28/a-supply-chain-management-book-reading/";
+    this.page.identifier = "2022/05/28/a-supply-chain-management-book-reading/";
+    this.page.title = "读「采购与供应链管理：一个实践者的角度」";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://extracookies.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
 
 </body>
 </html>

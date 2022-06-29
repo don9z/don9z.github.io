@@ -388,6 +388,13 @@ instance(hostname) 为 <code>_HOST</code>，重启，问题解决！</p>
 
 
       
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -472,6 +479,27 @@ instance(hostname) 为 <code>_HOST</code>，重启，问题解决！</p>
   
 
   
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.zhengdong.me/2011/10/26/kerberos-principal-name-parsing-in-hadoop/";
+    this.page.identifier = "2011/10/26/kerberos-principal-name-parsing-in-hadoop/";
+    this.page.title = "Kerberos principal 主机名解析问题";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://extracookies.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
 
 </body>
 </html>

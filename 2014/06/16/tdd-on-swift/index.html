@@ -465,6 +465,13 @@ Hansson</a>.</p>
 
 
       
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -549,6 +556,27 @@ Hansson</a>.</p>
   
 
   
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.zhengdong.me/2014/06/16/tdd-on-swift/";
+    this.page.identifier = "2014/06/16/tdd-on-swift/";
+    this.page.title = "TDD on Swift";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://extracookies.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
 
 </body>
 </html>

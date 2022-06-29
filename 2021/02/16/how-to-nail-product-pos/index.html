@@ -435,6 +435,13 @@ buy-in，才能被用在品牌传播，营销活动，销售策略，产品决�
 
 
       
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -519,6 +526,27 @@ buy-in，才能被用在品牌传播，营销活动，销售策略，产品决�
   
 
   
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.zhengdong.me/2021/02/16/how-to-nail-product-pos/";
+    this.page.identifier = "2021/02/16/how-to-nail-product-pos/";
+    this.page.title = "如何做产品定位 - 「Obvious Awesome - How to nail product pos」";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://extracookies.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
 
 </body>
 </html>

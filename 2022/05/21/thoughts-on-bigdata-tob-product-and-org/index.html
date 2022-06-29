@@ -405,6 +405,13 @@ API 实现产品的 PAAS 化，联合和孵化生态企业，做客户定制需�
 
 
       
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -489,6 +496,27 @@ API 实现产品的 PAAS 化，联合和孵化生态企业，做客户定制需�
   
 
   
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.zhengdong.me/2022/05/21/thoughts-on-bigdata-tob-product-and-org/";
+    this.page.identifier = "2022/05/21/thoughts-on-bigdata-tob-product-and-org/";
+    this.page.title = "对大数据 To B 产品和组织的思考";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://extracookies.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
 
 </body>
 </html>
