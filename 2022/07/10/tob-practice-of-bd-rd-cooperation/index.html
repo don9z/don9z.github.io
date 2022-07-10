@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/e-favicon-512x512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/e-favicon-512x512.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/e-favicon-32x32.png">
+  <link rel="mask-icon" href="/images/e-favicon.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Serif:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.zhengdong.me","root":"/","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":null}},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+
+  <meta name="description" content="To B 人，很多可能都听到过销售、售前团队这么抱怨产品团队。 抱怨基本上会集中在产品这需求那需求不支持，研发的交付太慢，系统不稳定三个方面。在 To B 领域，这个问题很常见，不用过分紧张。 问题的症结也是 To B 相比 To C 的一个显著不同：To B 的链条太长了。 从客户反馈，到产品设计、实现，或者从产品功能发布，到客户升级、使用，时间可能已经过去 3 个月了。产研团队很难去判断销售、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="产品太拖后腿了">
+<meta property="og:url" content="http://blog.zhengdong.me/2022/07/10/tob-practice-of-bd-rd-cooperation/index.html">
+<meta property="og:site_name" content="Extra Cookies">
+<meta property="og:description" content="To B 人，很多可能都听到过销售、售前团队这么抱怨产品团队。 抱怨基本上会集中在产品这需求那需求不支持，研发的交付太慢，系统不稳定三个方面。在 To B 领域，这个问题很常见，不用过分紧张。 问题的症结也是 To B 相比 To C 的一个显著不同：To B 的链条太长了。 从客户反馈，到产品设计、实现，或者从产品功能发布，到客户升级、使用，时间可能已经过去 3 个月了。产研团队很难去判断销售、">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-07-10T14:55:10.000Z">
+<meta property="article:modified_time" content="2022-07-10T14:55:41.078Z">
+<meta property="article:author" content="Dong Zheng">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://blog.zhengdong.me/2022/07/10/tob-practice-of-bd-rd-cooperation/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>产品太拖后腿了 | Extra Cookies</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-17531526-2"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-17531526-2');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Extra Cookies" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Extra Cookies</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">By Dong ZHENG</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dong Zheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="http://zhengdong.me/" title="About → http:&#x2F;&#x2F;zhengdong.me" rel="noopener" target="_blank"><i class="fa fa-user fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:chrisdcheng+blog@gmail.com" title="E-Mail → mailto:chrisdcheng+blog@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2022/07/10/tob-practice-of-bd-rd-cooperation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          产品太拖后腿了
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-07-10 22:55:10" itemprop="dateCreated datePublished" datetime="2022-07-10T22:55:10+08:00">2022-07-10</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>To B 人，很多可能都听到过销售、售前团队这么抱怨产品团队。</p>
+<p>抱怨基本上会集中在产品这需求那需求不支持，研发的交付太慢，系统不稳定三个方面。在
+To B 领域，这个问题很常见，不用过分紧张。</p>
+<p>问题的症结也是 To B 相比 To C 的一个显著不同：To B 的链条太长了。</p>
+<p>从客户反馈，到产品设计、实现，或者从产品功能发布，到客户升级、使用，时间可能已经过去
+3
+个月了。产研团队很难去判断销售、售前口里的客户需求，到底是真的客户需求，还是只是为了商务关系给客户夸下的海口，也很难持续跟进需求在客户侧的落地情况，客户使用的时候，产研团队可能已经在忙其他需求了。</p>
+<hr />
+<p>说下我曾经的解法，我当时负责一款产品的研发和商业化工作。</p>
+<p>我们的售前团队又称解决方案团队，负责客户的前期需求沟通和方案设计工作，打单竞标过程是重点参与的，售前团队承担着和产研提需求，沟通排期交付时间，推动
+PoC 及反馈客户意见的职责。</p>
+<p>当面临和产研，主要是跟产品团队的冲突时，我的做法是”相信售前，但坚定站产品“。</p>
+<p>我做了三件事。</p>
+<p>首先，和售前 leader
+建立彼此的信任。告诉他自己知道产品现在的能力还不够，但希望产品团队能保持对产品的控制力，面对你们俩的冲突我会站产品，你可能会觉得委屈，但你可以找我对话，我也会帮你担责。</p>
+<p>第二，我会记录售前提的但被拒掉的需求，当一段时间有多个类似的需求提过来，或者某个需求从生意的角度来看很重要，我会去推动产品，调整研发节奏，做需求插队。</p>
+<p>第三，销售不直接跟产品经理提需求，客户需求沟通需要售前参与，需求由售前统一收口后提给产研团队。</p>
+<p>这里要明确一个背景，因为当时是我们商业化起步的前几年，重点还是在建设和完善产品的能力，不希望为了做营收，产品团队丧失对产品的控制力和判断力，被大客户的需求拖着鼻子走。To
+B
+起步阶段如果唯一目标就是做营收，会很危险，一个大客户几百万的单子，很可能就把一个创业团队拖死了。</p>
+<p>为什么由售前统一收口客户需求，要回到建立售前团队的另一个初衷，避免销售过度承诺给产研挖坑。这倒不是怪销售，销售很辛苦，尤其产品还没有太多业界口碑的时候，但偏短期业绩导向的激励模式使得这个问题不可避免。所以我一直坚持售前团队归属于产研线，而不是销售线，但他需要和销售共背一些目标。</p>
+<p>最终我们形成的产品迭代策略是这样的：</p>
+<ol type="1">
+<li>只做在产品 pipeline 里的需求，按 Q（季度）发版本，我们称为 LTS
+版本（Long Term Support / 长期维护版本），销售侧只能提前卖下一个 Q
+规划的能力。</li>
+<li>客户需求如果在产品的长期规划中，经评估后，可以酌情做插队处理。</li>
+<li>每月会发布迭代版本，如果某些 feature
+会影响到成单，可以提前给客户交付，但大的 bug-fix
+或改动，不会基于迭代版本做，需要升级至 LTS 版本。</li>
+<li>产品的 SaaS 版按月度迭代版本全量更新。</li>
+</ol>
+<p>关于客户的定制需求，我们一开始是坚决不做的，只提供和客户内部系统集成相关的开发支持，比如和企业内员工系统的对接。在产品的不断稳定和客户拓展到一些行业纵向后，会考虑做有限的定制开发支持，两个策略：</p>
+<ol type="1">
+<li>通过合作方来做，产品要建设一定的开放能力，让第三方可以基于 API
+做定制开发。</li>
+<li>自建定制化开发团队，我们是先放在交付实施团队。这里有一个原则是定制需求一定不是产品的主线需求，主线需求只会由产品的产研团队承接，如果出现某个客户的定制需求被验证具备可复制可能，要移交产研团队加到产品主线版本。</li>
+</ol>
+<p>以上是第一种方法。</p>
+<hr />
+<p>第二种方法是我从海外一家厂商学来的。</p>
+<p>该厂商为了解决销售、售前、产品脱节的问题，内部研发了一个需求 ticket
+系统，销售和售前都可以在系统里录入客户需求，所有该产品的销售、售前可以在系统里给某个需求
+ticket 点赞，系统会根据点赞数做需求 ticket 的排名。</p>
+<p>产研侧承诺每个迭代周期会留出固定的人力投入，对点赞数靠前的需求做评估，优先实现。</p>
+<hr />
+<p>第三种方法，是一种岗位职责上的重塑。</p>
+<p>既然售前/解决方案岗位最接近客户，也直面市场挑战，那索性客户问题到产品需求抽象的职责交由售前/解决方案团队承接。</p>
+<p>具体分工是这样的，售前/解决方案团队对接客户，收集和分析市场需求，做需求抽象后转交产研团队。产研团队针对这些抽象需求，做高质量的产品设计，以及开发实现。</p>
+<p>这个方法其实是把长长的链条从中砍断，产研团队只对产品实现和交付质量负责，产品的规划和发展由售前/解决方案团队负责。</p>
+<hr />
+<p>最后，关于销售、售前和产研的关系我有两个观点：</p>
+<p>第一，双方存在良性对抗不是问题，反而代表着一种比较健康的状态。</p>
+<p>第二，服务好客户、帮客户解决好TA面临的问题是 To B
+生意能持续做下去的决定因素，但如果前线团队动辄用「客户第一」名义，高举高打喊口号来胁迫产研，生意能持续做下去的几率很低。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
+<hr style="border:1px solid #a9a9a9;">
+<p>📣 你可以通过邮件地址联系到我 | You can contact me by e-mail: chrisdcheng<b>[at]</b>gmail.com</p>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Dong Zheng
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="http://blog.zhengdong.me/2022/07/10/tob-practice-of-bd-rd-cooperation/" title="产品太拖后腿了">http://blog.zhengdong.me/2022/07/10/tob-practice-of-bd-rd-cooperation/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/06/28/the-book-factfulness/" rel="prev" title="用「事实」思考">
+                  <i class="fa fa-chevron-left"></i> 用「事实」思考
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2010 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a target="_blank" rel="noopener" href="http://zhengdong.me">Dong Zheng</a></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.zhengdong.me/2022/07/10/tob-practice-of-bd-rd-cooperation/";
+    this.page.identifier = "2022/07/10/tob-practice-of-bd-rd-cooperation/";
+    this.page.title = "产品太拖后腿了";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://extracookies.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>
