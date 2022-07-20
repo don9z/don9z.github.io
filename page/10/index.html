@@ -26,27 +26,27 @@
 
   <meta property="og:type" content="website">
 <meta property="og:title" content="Extra Cookies">
-<meta property="og:url" content="http://blog.zhengdong.me/archives/2021/02/index.html">
+<meta property="og:url" content="http://blog.zhengdong.me/page/10/index.html">
 <meta property="og:site_name" content="Extra Cookies">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="Dong Zheng">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://blog.zhengdong.me/archives/2021/02/">
+<link rel="canonical" href="http://blog.zhengdong.me/page/10/">
 
 
 <script class="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : false,
+    isHome : true,
     isPost : false,
     lang   : 'en'
   };
 </script>
 
-  <title>Archive | Extra Cookies</title>
+  <title>Extra Cookies</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-17531526-2"></script>
     <script>
@@ -231,54 +231,99 @@
 </noscript>
 
 
-    <div class="main-inner archive posts-collapse">
+    <div class="main-inner index posts-expand">
       
 
       
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2010/07/20/linux-memory-management-addressing-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2010/07/20/linux-memory-management-addressing-1/" class="post-title-link" itemprop="url">Linux 内存管理-A.寻址-1</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2010-07-20 00:32:00" itemprop="dateCreated datePublished" datetime="2010-07-20T00:32:00+08:00">2010-07-20</time>
+    </span>
 
   
-  
-  
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>这一个系列将会详细的介绍 Linux kernel 内存管理机制。</p>
+<p>使用特定内存地址就可以访问某一块内存单元，为了实现有效的寻址，操作系统将一系列繁琐的操作隐藏了起来，内存地址按照不同的抽象层次分为如下三种：</p>
+<ol type="1">
+<li>Logical address: 标识运算符或者程序指令的地址，由段号 (segment
+selector) 和偏移量 (offset) 组成。</li>
+<li>Linear address:
+32位的无符号整型数，可以用来表示最大4GB地址空间。</li>
+<li>Physical address：内存物理单元的地址。</li>
+</ol>
+<p>CPU 控制单元通过 Segmentation Unit 将 Logical address 转换为 Linear
+address，而后，再通过 paging unit 将 linear address 转换为 physical
+address，至此，特定地址的访问行为完成。</p>
+<h2 id="segmentation-unit">Segmentation Unit</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2010/07/20/linux-memory-management-addressing-1/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
         
-        <span class="collection-header">Good! 91 posts in total. Keep on posting.</span>
-      </div>
-
       
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-02-16T15:51:23+08:00"
-              content="2021-02-16">
-          02-16
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/02/16/how-to-nail-product-pos/" itemprop="url">
-            <span itemprop="name">如何做产品定位 - 「Obvious Awesome - How to nail product pos」</span>
-          </a>
-      </div>
-
+    <footer class="post-footer">
+        <div class="post-eof"></div>
       
-    </header>
+    </footer>
   </article>
+</div>
 
 
-    </div>
-  </div>
-  
-  
-  
+
+
 
   
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span>
+  </nav>
 
 
 

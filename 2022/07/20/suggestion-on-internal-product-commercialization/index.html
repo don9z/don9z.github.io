@@ -24,20 +24,20 @@
     var CONFIG = {"hostname":"blog.zhengdong.me","root":"/","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":null}},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 
-  <meta name="description" content="最近看了一些关于 DataOps 的书和文章，对自己的理解做个总结。 DataOps 要解决什么问题？ 两个价值点，第一是提高数据生产到价值产出全链路的效率，第二是用数据来持续优化整个数据链路的可用性和价值。 DataOps 是什么？ 下面是 Gartner 对 DataOps 的定义。">
+  <meta name="description" content="越来越多的互联网企业进入 To B 领域。 一种形式是企业在 To C 领域面临增长瓶颈，进入 To B 领域探索第二发展曲线。 另一种形式是企业对内的技术产品，对外部开放，做商业化，探索增长机会。 两种形式是相互交织的，第一种是自上而下的战略，有很多优秀的对内技术产品能对外开放，是竞争力的体现。第二种是自下而上的推动，没有企业的战略方向指引，就只是小打小闹，做不大。 这篇内容，主要是从第二种形式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="对 DataOps 的一些理解">
-<meta property="og:url" content="http://blog.zhengdong.me/2021/03/10/about-dataops/index.html">
+<meta property="og:title" content="关于企业内部技术产品对外商业化的具体建议">
+<meta property="og:url" content="http://blog.zhengdong.me/2022/07/20/suggestion-on-internal-product-commercialization/index.html">
 <meta property="og:site_name" content="Extra Cookies">
-<meta property="og:description" content="最近看了一些关于 DataOps 的书和文章，对自己的理解做个总结。 DataOps 要解决什么问题？ 两个价值点，第一是提高数据生产到价值产出全链路的效率，第二是用数据来持续优化整个数据链路的可用性和价值。 DataOps 是什么？ 下面是 Gartner 对 DataOps 的定义。">
+<meta property="og:description" content="越来越多的互联网企业进入 To B 领域。 一种形式是企业在 To C 领域面临增长瓶颈，进入 To B 领域探索第二发展曲线。 另一种形式是企业对内的技术产品，对外部开放，做商业化，探索增长机会。 两种形式是相互交织的，第一种是自上而下的战略，有很多优秀的对内技术产品能对外开放，是竞争力的体现。第二种是自下而上的推动，没有企业的战略方向指引，就只是小打小闹，做不大。 这篇内容，主要是从第二种形式">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-03-10T03:50:11.000Z">
-<meta property="article:modified_time" content="2021-03-13T07:50:10.038Z">
+<meta property="article:published_time" content="2022-07-20T15:47:09.000Z">
+<meta property="article:modified_time" content="2022-07-20T15:53:18.210Z">
 <meta property="article:author" content="Dong Zheng">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://blog.zhengdong.me/2021/03/10/about-dataops/">
+<link rel="canonical" href="http://blog.zhengdong.me/2022/07/20/suggestion-on-internal-product-commercialization/">
 
 
 <script class="page-configurations">
@@ -50,7 +50,7 @@
   };
 </script>
 
-  <title>对 DataOps 的一些理解 | Extra Cookies</title>
+  <title>关于企业内部技术产品对外商业化的具体建议 | Extra Cookies</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-17531526-2"></script>
     <script>
@@ -166,7 +166,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+    <div class="sidebar-inner sidebar-overview-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -179,7 +179,6 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#dataops-%E8%A6%81%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">DataOps 要解决什么问题？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dataops-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.</span> <span class="nav-text">DataOps 是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%9D%A5%E8%90%BD%E5%9C%B0-dataops"><span class="nav-number">3.</span> <span class="nav-text">如何来落地 DataOps？</span></a></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -249,7 +248,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2021/03/10/about-dataops/">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2022/07/20/suggestion-on-internal-product-commercialization/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -262,7 +261,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          对 DataOps 的一些理解
+          关于企业内部技术产品对外商业化的具体建议
         </h1>
 
         <div class="post-meta-container">
@@ -273,7 +272,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2021-03-10 11:50:11" itemprop="dateCreated datePublished" datetime="2021-03-10T11:50:11+08:00">2021-03-10</time>
+      <time title="Created: 2022-07-20 23:47:09" itemprop="dateCreated datePublished" datetime="2022-07-20T23:47:09+08:00">2022-07-20</time>
     </span>
 
   
@@ -286,106 +285,54 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>最近看了一些关于 DataOps 的书和文章，对自己的理解做个总结。</p>
-<h2 id="dataops-要解决什么问题">DataOps 要解决什么问题？</h2>
-<p>两个价值点，第一是<strong>提高数据生产到价值产出全链路的效率</strong>，第二是<strong>用数据来持续优化整个数据链路的可用性和价值</strong>。</p>
-<h2 id="dataops-是什么">DataOps 是什么？</h2>
-<p>下面是 Gartner 对 DataOps 的<a
-target="_blank" rel="noopener" href="https://www.gartner.com/en/information-technology/glossary/dataops">定义</a>。</p>
-<blockquote>
-<p>DataOps is a collaborative data management practice focused on
-improving the communication, integration and automation of data flows
-between data managers and data consumers across an organization.</p>
-</blockquote>
-<p>这里包含三份信息：</p>
-<ol type="1">
-<li>DataOps
-是包括人，流程和技术的一组体系和实践，用来管理代码，工具，基础架构和数据本身，</li>
-<li>它针对的是数据生产者和数据消费者间的整个数据流（价值链路），</li>
-<li>它持续优化链路上参与方的协作，集成和自动化能力。</li>
-</ol>
-<p>接下来的描述，指出了 DataOps 理念的的三个支柱：</p>
-<blockquote>
-<p>The goal of DataOps is to deliver value faster by creating
-predictable delivery and change management of data, data models and
-related artifacts.</p>
-</blockquote>
-<p>敏捷，</p>
-<blockquote>
-<p>DataOps uses technology to automate the design, deployment and
-management of data delivery with appropriate levels of governance,</p>
-</blockquote>
-<p>自动化，</p>
-<blockquote>
-<p>and it uses metadata to improve the usability and value of data in a
-dynamic environment.</p>
-</blockquote>
-<p>和持续优化。</p>
-<p>基于这些支柱，DataOps 构建和持续优化两个工作流。一个是 “<strong>The
-Value
-Pipeline</strong>”，覆盖数据接入，ETL、建模、可视化/报表整个流程，我认为可以抽象成“<strong>建好数据</strong>”。第二是
-“<strong>The Innovation
-Pipeline</strong>”，流程包括从想法、到研发、再到生产验证，我认为可以抽象为“<strong>用好数据</strong>”。</p>
-<p>DataOps
-对“建好数据”流程进行全链路提效，以及通过数据反向优化进一步提高效率和质量。为“用好数据”流程提供高效的开发和试验工具，以及多环境支持（Sandbox或预发、测试环境），高效试验不影响线上。</p>
-<h2 id="如何来落地-dataops">如何来落地 DataOps？</h2>
-<p>从人、流程和技术的三方面来看。</p>
-<p><strong>DataOps 的客户是谁？</strong></p>
-<p>是整个数据团队，包括了产品经理，数据研发，工程开发，测试，运维，数据科学，数据分析师等人员。</p>
-<p><strong>数据生产者到数据消费者的流程包括哪些环节？</strong></p>
-<p>1）开发阶段，目标是持续集成；2）部署阶段，目标是持续部署；3）编排阶段，是解决工作流自动化和调度问题；4）测试阶段，建立监控和告警机制，目标是提升数据的质量。</p>
-<p><strong>涉及到的数据技术有哪些？</strong></p>
-<p>1）数据采集：采集和整合异构数据；2）数据存储：基于计算基础设施之上的数仓或数据湖；3）数据生产：数据开发、优化、测试等技术；4）数据管理：元数据管理和数据治理技术；5）数据分析：数据报表，可视化，数据科学工具等技术。</p>
-<p>基于以上技术，在敏捷、自动化和持续优化的加持下，要建立四个能力：数据工程（处理和加工数据的能力），数据集成（多样、异构数据的整合能力），数据安全（端到端的数据安全和隐私管控能力）和数据质量（数据的一致性、准确性、及时性等数据质量保障能力）。</p>
-<p>摘抄 <a target="_blank" rel="noopener" href="https://datakitchen.io/the-dataops-cookbook/">The
-DataOps Cookbook</a> 书中的一些内容：</p>
-<blockquote>
-<p>The Seven Steps to Implement DataOps</p>
-<ol type="1">
-<li>Add data and logical tests</li>
-<li>Use a version control system</li>
-<li>Branch and merge</li>
-<li>Use multiple environments</li>
-<li>Reuse and containerize</li>
-<li>Parameter your processing</li>
-<li>Working without fear or heroism</li>
-</ol>
-</blockquote>
-<p>总结起来，就是将数据纳入测试，提供分支和多环境能力，自动化执行，且便于复用。</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.dataopsmanifesto.org">The DataOps
-Manifesto</a></p>
-<ol type="1">
-<li>Continuously satisfy your customer</li>
-<li>Value working analytics</li>
-<li>Embrace change</li>
-<li>It’s a team sport</li>
-<li>Daily interactions</li>
-<li>Self-organize</li>
-<li>Reduce heroism</li>
-<li>Reflect</li>
-<li>Analytics is code</li>
-<li>Orchestrate</li>
-<li>Make it reproducible</li>
-<li>Disposable environments</li>
-<li>Simplicity</li>
-<li>Analytics is manufacturing</li>
-<li>Quality is paramount</li>
-<li>Monitor quality and performance</li>
-<li>Reuse</li>
-<li>Improve cycle times</li>
-</ol>
-</blockquote>
-<p><strong>书中关于作为CDO如何让数据的价值被CEO认可和信任，这其实就是数据人的目标：</strong></p>
-<blockquote>
-<p>CAOs and CDOs: Earn the Trust of your CEO</p>
-<ol type="1">
-<li>Earn trust by delivering a journey of value</li>
-<li>Earn trust by delivering quickly</li>
-<li>Earn trust by delivering accurately</li>
-</ol>
-</blockquote>
-<p><strong>获得信任，首先要做到数据是有价值的，并且做到快速交付，高质量交付。</strong></p>
+        <p>越来越多的互联网企业进入 To B 领域。</p>
+<p>一种形式是企业在 To C 领域面临增长瓶颈，进入 To B
+领域探索第二发展曲线。</p>
+<p>另一种形式是企业对内的技术产品，对外部开放，做商业化，探索增长机会。</p>
+<p>两种形式是相互交织的，第一种是自上而下的战略，有很多优秀的对内技术产品能对外开放，是竞争力的体现。第二种是自下而上的推动，没有企业的战略方向指引，就只是小打小闹，做不大。</p>
+<p>这篇内容，主要是从第二种形式出发，谈谈一些想法。</p>
+<hr />
+<p><strong>为什么企业里做对内技术产品的产研团队，要自发走向对外？</strong></p>
+<p>个人理解有两个触发因素：</p>
+<p>一是人力成本。对内服务往往是成本中心，当产品进入稳态后，便很难获得大的投入，毕竟产品的能力建设到能解决内部客户问题即可。通过对外商业化获得营收，从成本中心到自负盈亏，产品业务会更健康，也能有更大发展空间。</p>
+<p>二是员工发展。对内产品的技术挑战在产品 0-1
+后，会趋向降低，技术、产品人员会觉得做对内没前途，能力成长和发展受限。通过对外开放服务更多客户，产品规模得以扩大，也会带来更大的挑战，更大的成长机会。</p>
+<p>上面是好的方面，这样的对外开放，也可能出现不太理想的情况。</p>
+<p>对外商业化的转型，会带来产品定位和目标的巨大变化，不可避免的出现内外需求优先级和产品定位不同意见间的摩擦。随着营收压力的增大，产品可能被迫分割，对内一条线，对外一条线，各自独立发展。这样其实远离了初衷，但挺常见。</p>
+<hr />
+<p><strong>对内技术产品成为商业化产品的转型，有几件事情要重视。</strong></p>
+<p>首先，要明确，卖的是产品，不是告诉客户说，我有哪几个技术卖给你。</p>
+<p>只有可规模化重复售卖才叫产品，卖产品，需要有产品
+demo，并且可以由销售人员演示。</p>
+<p>其次，重视产品的文案和架构，多些业务，少些技术。</p>
+<p>产品文案要“说人话”，不能全是技术术语，要向行业术语转变。</p>
+<p>产品的功能模块，不要依据所属技术类别来组织，而是按照用户角色及其工作流来组织。要让用户在产品内感受到TA所在行业的业务流程，而不仅仅是产品的系统流程。</p>
+<p>第三，不仅要把核心能力做透，还要面向场景提供解决方案。</p>
+<p>产品不仅仅只是技术，更是为了解决客户需求。</p>
+<p>拿数据分析产品举个例子，用户使用时每次需要依赖其他数据源，都要去连接、配置某个云上的服务，那你的产品是不是可以把对接各种云服务的事情做掉，让用户更容易去对接。</p>
+<p>或者用户需要手工录入很多信息，然后导入到产品里才能做分析，那你的产品是不是可以提供数据采集、填报能力，让用户不用做这些重复劳动。</p>
+<p>或者用户需要做大量的数据处理工作，那产品是不是可以提供 ETL
+的能力，或者和其他数据处理产品合作，用对接的方式让这个事情变得更简单。</p>
+<hr />
+<p><strong>对内技术产品的商业化，有两个最容易出现的误区。</strong></p>
+<p>第一，直接贩卖技术，认为只要自己的技术牛，就会成功。</p>
+<p>在大的互联网公司，基本都有成体系的基础设施和中间件，所以对内的技术产品往往会依赖很多其他组件和技术。这些组件、技术在大公司可能比较齐备，在小公司要落地，就需要先得把这些依赖补齐，成本可能就高很多，最终的后果就是产品在客户那里很难落地。</p>
+<p>第二，自我炫耀，产品对外开放的出发点就是为了满足“技术厉害”、“架构优美”的虚荣心。</p>
+<p>技术要和客户的需求相匹配，不能仅仅只是炫耀技术牛、架构优美，而要关注市场。一味炫耀，反倒容易引起客户反感。</p>
+<p>我曾经和一个银行地区负责人聊，他提到某公司的售前，说：“天天说自己这牛逼那牛逼，可是，我可以不买呀。”</p>
+<p>所以，一切要回到客户视角，思考这个产品的用户角色有哪些，他们是如何用这个产品的，这个产品如何帮助他们解决所面临的问题。</p>
+<hr />
+<p><strong>技术产品的商业化，如何寻找第二增长曲线？</strong></p>
+<p>产品的商业化营收，以年费模式举例，重点关注的指标是客户流失率、续费率，要营收增长，就要降低客户流失率，提升续费率。</p>
+<p>但企业的预算在一类技术产品上都是有上限的，要扩大营收，另一个方式是通过多款产品的交叉销售来实现，就是增大客户的钱包份额占比。</p>
+<p>在主打产品有比较大的规模后，就要开始思考营收的第二增长曲线在哪里。</p>
+<p>一个比较有用的方法：找到已服务的企业，按行业、规模等归个类，从中找出几个典型企业。针对这些企业，去抽象企业的业务节点，并画出来。</p>
+<p>纵向，围绕一个节点做深，比如从做数据分析，深入到做数据治理。</p>
+<p>横向，围绕业务流程的前后节点做覆盖，比如从做数据分析，延展到做营销自动化。</p>
+<p>在探索第二增长曲线的过程中，有几个点要特别注意：</p>
+<p>1、不要盲目寻找新机会，要判断和现有业务的绑定和互补关系，以能延续现有的技术和产品能力为最优。</p>
+<p>2、要分清是你自身的需求和还是市场的需求，过于按照自己企业的情况构建新产品，和外部企业不一定匹配。</p>
+<p>3、新产品早期不要做头部客户，最好是能找到行业里的“天使客户”，即那些对稳定性要求不高，愿意一起共同探索和推演行业解决方案，甚至愿意投人进来共同研发的客户。头部客户对稳定性要求更高，且需求更强势，不利于新产品的快速迭代试错，也不一定具有市场的普适性。</p>
 
     </div>
 
@@ -407,7 +354,7 @@ Manifesto</a></p>
   </li>
   <li class="post-copyright-link">
       <strong>Post link: </strong>
-      <a href="http://blog.zhengdong.me/2021/03/10/about-dataops/" title="对 DataOps 的一些理解">http://blog.zhengdong.me/2021/03/10/about-dataops/</a>
+      <a href="http://blog.zhengdong.me/2022/07/20/suggestion-on-internal-product-commercialization/" title="关于企业内部技术产品对外商业化的具体建议">http://blog.zhengdong.me/2022/07/20/suggestion-on-internal-product-commercialization/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
@@ -420,14 +367,11 @@ Manifesto</a></p>
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2021/02/16/how-to-nail-product-pos/" rel="prev" title="如何做产品定位 - 「Obvious Awesome - How to nail product pos」">
-                  <i class="fa fa-chevron-left"></i> 如何做产品定位 - 「Obvious Awesome - How to nail product pos」
+                <a href="/2022/07/10/tob-practice-of-bd-rd-cooperation/" rel="prev" title="产品太拖后腿了">
+                  <i class="fa fa-chevron-left"></i> 产品太拖后腿了
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2021/04/11/situational-leader-and-insensitivity-power/" rel="next" title="读情境领导者和钝感力">
-                  读情境领导者和钝感力 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
@@ -534,9 +478,9 @@ Manifesto</a></p>
 
 <script>
   var disqus_config = function() {
-    this.page.url = "http://blog.zhengdong.me/2021/03/10/about-dataops/";
-    this.page.identifier = "2021/03/10/about-dataops/";
-    this.page.title = "对 DataOps 的一些理解";
+    this.page.url = "http://blog.zhengdong.me/2022/07/20/suggestion-on-internal-product-commercialization/";
+    this.page.identifier = "2022/07/20/suggestion-on-internal-product-commercialization/";
+    this.page.title = "关于企业内部技术产品对外商业化的具体建议";
     };
   NexT.utils.loadComments('#disqus_thread', () => {
     if (window.DISQUS) {
