@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://blog.zhengdong.me/2022/07/20/suggestion-on-internal-product-commercialization/</loc>
+    <loc>http://blog.zhengdong.me/2022/07/10/tob-practice-of-bd-rd-cooperation/</loc>
     
-    <lastmod>2022-07-20</lastmod>
+    <lastmod>2022-08-17</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.zhengdong.me/2022/07/10/tob-practice-of-bd-rd-cooperation/</loc>
+    <loc>http://blog.zhengdong.me/2022/08/17/aarrr-on-tob-customer-success/</loc>
     
-    <lastmod>2022-07-10</lastmod>
+    <lastmod>2022-08-17</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.zhengdong.me/2022/07/20/suggestion-on-internal-product-commercialization/</loc>
+    
+    <lastmod>2022-07-20</lastmod>
     
   </url>
   
@@ -641,7 +648,7 @@
 
   <url>
     <loc>http://blog.zhengdong.me/</loc>
-    <lastmod>2022-07-20</lastmod>
+    <lastmod>2022-08-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>

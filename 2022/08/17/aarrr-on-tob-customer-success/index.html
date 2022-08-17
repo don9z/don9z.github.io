@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/e-favicon-512x512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/e-favicon-512x512.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/e-favicon-32x32.png">
+  <link rel="mask-icon" href="/images/e-favicon.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Serif:300,300italic,400,400italic,700,700italic|Old+Standard+TT:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.zhengdong.me","root":"/","scheme":"Gemini","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":null}},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+
+  <meta name="description" content="To B 行业近来流行一种增长策略：PLG（Product-led Growth），即产品驱动增长，区别于以往的 SLG（Sales-led Growth）销售驱动增长策略。 PLG 策略是对 To C 企业增长策略的学习，侧重于用产品吸引用户，可以理解为是“拉”的方式：我把产品先给你用，当你试用后觉得产品不错，自愿付费，或反向推动企业付费。SLG 策略则更侧重销售及服务，可以理解为是“推”的方式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用 AARRR 框架做 To B 客户成功运营">
+<meta property="og:url" content="http://blog.zhengdong.me/2022/08/17/aarrr-on-tob-customer-success/index.html">
+<meta property="og:site_name" content="Extra Cookies">
+<meta property="og:description" content="To B 行业近来流行一种增长策略：PLG（Product-led Growth），即产品驱动增长，区别于以往的 SLG（Sales-led Growth）销售驱动增长策略。 PLG 策略是对 To C 企业增长策略的学习，侧重于用产品吸引用户，可以理解为是“拉”的方式：我把产品先给你用，当你试用后觉得产品不错，自愿付费，或反向推动企业付费。SLG 策略则更侧重销售及服务，可以理解为是“推”的方式">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-08-17T13:21:53.000Z">
+<meta property="article:modified_time" content="2022-08-17T13:36:58.285Z">
+<meta property="article:author" content="Dong Zheng">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://blog.zhengdong.me/2022/08/17/aarrr-on-tob-customer-success/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>用 AARRR 框架做 To B 客户成功运营 | Extra Cookies</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-17531526-2"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-17531526-2');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Extra Cookies" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Extra Cookies</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">By Dong ZHENG</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dong Zheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">92</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="http://zhengdong.me/" title="About → http:&#x2F;&#x2F;zhengdong.me" rel="noopener" target="_blank"><i class="fa fa-user fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:chrisdcheng+blog@gmail.com" title="E-Mail → mailto:chrisdcheng+blog@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://feeds.feedburner.com/ExtraCookies" title="RSS → http:&#x2F;&#x2F;feeds.feedburner.com&#x2F;ExtraCookies" rel="noopener" target="_blank"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2022/08/17/aarrr-on-tob-customer-success/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          用 AARRR 框架做 To B 客户成功运营
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-08-17 21:21:53" itemprop="dateCreated datePublished" datetime="2022-08-17T21:21:53+08:00">2022-08-17</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>To B 行业近来流行一种增长策略：PLG（Product-led
+Growth），即产品驱动增长，区别于以往的 SLG（Sales-led
+Growth）销售驱动增长策略。</p>
+<p>PLG 策略是对 To C
+企业增长策略的学习，侧重于用产品吸引用户，可以理解为是“拉”的方式：我把产品先给你用，当你试用后觉得产品不错，自愿付费，或反向推动企业付费。SLG
+策略则更侧重销售及服务，可以理解为是“推”的方式：销售主动跟进客户，通过产品和方案介绍，吸引客户购买产品。</p>
+<p>在PLG
+策略下，产品本身成为获取流量、转化商机、留存用户的核心动力，企业获客成本更低，增长速度也更快，而且因为加大了和用户的连接，PLG
+策略下的产品也更受用户喜爱。</p>
+<p>这么多优点，那是不是所有的 To B 产品都可以尝试下 PLG 策略？</p>
+<p>当然不是，因为不是所有产品都适合，可以说大部分 To B
+产品都不适合。这种策略更适合 To B 产品里的偏 C
+端产品，比如钉钉、飞书、石墨文档、Notion
+等，这些产品都有一个共同的引入路径：个人使用，到小组使用，到公司使用。</p>
+<p>但在客户成功这件事上，倒是可以借鉴下，因为不论采用的是 PLG 还是 SLG
+策略，客户成功都需要偏 C 端去做用户运营。</p>
+<hr />
+<p><strong>客户成功团队主要做什么工作？</strong></p>
+<p>1、维护客户关系。</p>
+<p>2、推动产品在客户侧落地和长期持续使用。</p>
+<p>3、解决客户在使用过程中的问题。</p>
+<p>可以看出来，相比很多企业里常见的客户服务或技术支持团队不同的是第 2
+点，即除了做好客户关系维系，跟进解决客户问题外，重点目标是推动产品在客户侧落地和长期持续使用。</p>
+<hr />
+<p><strong>客户成功为什么要偏 C 端去做用户运营？</strong></p>
+<p>要做一个成功的 To B
+产品，一个很重要的观念是要分清你的客户和用户。</p>
+<p>客户是产品的购买者，用户是产品的实际使用者，产品的价值是通过用户的使用，帮助客户实现其业务价值。</p>
+<p>客户可以是这家企业的老板，或是决策买单的组织，或是某个部门的负责人。对做产品而言，通常会概念化这个人或组织，抽象理解为“这个客户”，然后问自己，我们可以帮助这个客户解决哪些问题。</p>
+<p>但在做客户成功的时候，这种抽象方式却存在比较大的问题。比如有时候，销售或技术支持会反馈某个客户很难搞，但仔细想想，这个客户究竟指的是谁？我们需要找到具体的人才能应对，如果这个客户里面的某某很难搞，那有没有其他谁是好沟通的？</p>
+<p>产品要做抽象，不能将某个人的需求理解为这个企业的共性需求，但做客户成功一定要到人，是去运营具体的人，而不是企业。要知道，那些人的利益动机可能跟企业本身不一样，甚至包括
+CEO。</p>
+<hr />
+<p>下面内容是 AARRR 框架在 To B
+客户成功运营上应用的一些方法，这些方法不一定可复用，重要的用这个分析框架来思考运营方案。</p>
+<p>首先介绍下什么是 AARRR 增长框架（海盗模型）：</p>
+<p>AARRR
+其实是用户生命周期的模型，包括五个重要指标：Acquisition（获客）、Activation（激活）、Retention（留存）、Revenue（收入）、Refer（自传播）。落地到产品运营流程就是先拉新，再促活，接着提高留存，然后获取收入，最后实现自转播。</p>
+<p><strong>1、获客和自传播</strong></p>
+<p>尽可能打通产品账号和企业账号的连接，让用户登陆企业账号即可以使用，实现“开箱”即用。</p>
+<p>产品上关注分享能力的建设，比如消息推送，某某在使用xx产品的xx功能。同时营造分享氛围，设立一些激励机制，推动用户在企业内传播产品。</p>
+<p><strong>2、激活</strong></p>
+<p>做好产品的落地引导。推荐采用任务式引导的方式，真不推荐使用界面新功能提示引导。</p>
+<p>做好产品的帮助文档。不要按产品功能来组织文档，要结合用户的使用流程来组织，用户上手更快。</p>
+<p>做好最佳实践的总结和分享。可以是行业实践，也可以是企业内实践，建议重点放在企业内实践，目的是帮助新人用户快速熟悉起产品。</p>
+<p>比如用户可以看到其他用户的使用案例，拿数据产品举例，可以看到其他用户建了哪些看板，是如何做分析的。业务系统的话，用户可以共享产品配置，分享产品应用案例。</p>
+<p>用户主动分享自己的实践案例，也能让自传播更好发生。</p>
+<p><strong>3、留存</strong></p>
+<p>做好产品价值的透出。比如在产品首页显示对多数人都有价值的信息。举研发效能产品的例子，在首页显示人员的分布，项目的投入以及进度预警，bug率等，让大家养成每天来看的习惯。</p>
+<p>营销社区感。比如通过提供一些机制，如公共空间，让用户可以看到其他人在干什么，同时用户在使用过程的产物也可以很方便的分享出来，并能获得被消费的情况。这样逐步让产品融入到企业的工作文化中，用户才会对产品更有粘性。</p>
+<p><strong>4、收入</strong></p>
+<p>激励消耗，比如在数据分析 SaaS
+产品里提供创建报表数、访问报表数的排行榜，通过对这些行为的激励，提高对
+SaaS 资源的消耗。</p>
+<p>新产品默认给老客户开通试用权限，并推动客户自助试用，不用销售介入，用产品和客户成功运营推动客户的钱包份额提升。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer"><div style="text-align:center;color:#696969;font-size:14px;">
+<hr style="border:1px solid #a9a9a9;">
+<p>📣 你可以通过邮件地址联系到我 | You can contact me by e-mail: chrisdcheng<b>[at]</b>gmail.com</p>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Dong Zheng
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="http://blog.zhengdong.me/2022/08/17/aarrr-on-tob-customer-success/" title="用 AARRR 框架做 To B 客户成功运营">http://blog.zhengdong.me/2022/08/17/aarrr-on-tob-customer-success/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/07/20/suggestion-on-internal-product-commercialization/" rel="prev" title="关于企业内部技术产品对外商业化的具体建议">
+                  <i class="fa fa-chevron-left"></i> 关于企业内部技术产品对外商业化的具体建议
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 2010 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a target="_blank" rel="noopener" href="http://zhengdong.me">Dong Zheng</a></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://blog.zhengdong.me/2022/08/17/aarrr-on-tob-customer-success/";
+    this.page.identifier = "2022/08/17/aarrr-on-tob-customer-success/";
+    this.page.title = "用 AARRR 框架做 To B 客户成功运营";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://extracookies.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

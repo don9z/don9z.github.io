@@ -188,7 +188,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-count">92</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -235,6 +235,88 @@
       
 
       
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2012/10/09/porting-code/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Zheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Extra Cookies">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/10/09/porting-code/" class="post-title-link" itemprop="url">Porting Code</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2012-10-09 17:20:00" itemprop="dateCreated datePublished" datetime="2012-10-09T17:20:00+08:00">2012-10-09</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Deleting my unused Google data, accidentally saw one post I wrote in
+early 2010 on blogger, it still interests me, so, copy and paste
+here.</p>
+<blockquote>
+<p>Code refactoring is like living in your own house, you need to clean
+up the garbage.</p>
+<p>Porting code is like living in others' house, you know it's messy,
+but can't decide which are garbage to abandon, which are useful things
+to keep.</p>
+<p>After a period, you have your stuff which are easy for you to decide
+whether to abandon, and few old legacy stuff are abandoned since no
+use.</p>
+<p>But suddenly, you find out you can't differentiate which are your
+stuff, which are the legacy stuff.</p>
+<p>You may say, well, forget the mess, it's not mine, I'm not sure it's
+useless or not, but, the truth is, it's yours.</p>
+<p>Some day, you can't stand the messy house, you buy a new one.</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
     
 
 
@@ -941,95 +1023,6 @@ do so, then, turns out it can, just by some packages.</p>
 <p>-- Taken on November 27, 2011 (<a
 target="_blank" rel="noopener" href="https://www.flickr.com/photos/don9z/albums/72157633620906465">flickr</a>)</p>
 
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://blog.zhengdong.me/2012/02/12/start-blogging-with-octopress/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Zheng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Extra Cookies">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2012/02/12/start-blogging-with-octopress/" class="post-title-link" itemprop="url">Start Blogging With Octopress</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2012-02-12 17:23:00" itemprop="dateCreated datePublished" datetime="2012-02-12T17:23:00+08:00">2012-02-12</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="old-days">Old days</h2>
-<p>All files of <a target="_blank" rel="noopener" href="http://wordpress.org">Wordpress</a> were in
-server side, whenever I want to make changes, I had to <code>ssh</code>
-to my remote machine.</p>
-<p>I use a <a target="_blank" rel="noopener" href="http://www.linode.com">Linode VPS</a> shared by some
-friends, sometimes, tragedies like "failed to start-up after reboot",
-"system needs to be re-installed" happened. I didn't want to lose any
-file, so, I relied on <a target="_blank" rel="noopener" href="http://git-scm.com">git</a>, after
-changes were made directly on server, <code>git pull</code> on my
-Macbook Pro would get all things backed up locally.</p>
-<p>To write posts, I used Wordpress editor at first, but it sucked, I
-like leaving one blank line between every paragraph, it couldn't.</p>
-<p>I tried <code>org-mode</code> by using "org2blog" package, since I
-use <a target="_blank" rel="noopener" href="http://www.gnu.org/software/emacs/">Emacs</a> a lot, it was
-an amazing writing experience. But when my blog post became long, and
-with lots of code snippets, problem occurred, Emacs ate up all CPU
-resources making system hung during <code>org2blog-post-buffer</code>
-occasionally.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2012/02/12/start-blogging-with-octopress/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
